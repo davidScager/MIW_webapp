@@ -1,12 +1,14 @@
 package com.example.cryptobank.model;
 
+import org.springframework.stereotype.Component;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 // for now only made to match to mailsender
 
-
+@Component
 public class Client {
     private String firstName;
     private String infix;
