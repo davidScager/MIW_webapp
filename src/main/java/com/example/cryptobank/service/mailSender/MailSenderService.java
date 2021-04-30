@@ -1,17 +1,20 @@
 package com.example.cryptobank.service.mailSender;
 
 import com.example.cryptobank.model.Client;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class mailSenderService {
-    private EmailConfiguration emailConfiguration;
+public class MailSenderService {
+    private EmailConfig emailConfiguration;
     private Client client; //TODO HvS: als ik client wil toevoegen in constructor, dan wil Spring iets... uitzoeken
 
-    public mailSenderService(EmailConfiguration emailConfiguration) {
+    @Autowired
+    public MailSenderService(EmailConfig emailConfiguration, Client client) {
         this.emailConfiguration = emailConfiguration;
+        this.client = client;
     }
 
     public void sendMail() {
