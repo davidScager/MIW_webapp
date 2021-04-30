@@ -30,13 +30,13 @@ ENGINE = InnoDB;
 -- Table `BitBankDB`.`Role`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `BitBankDB`.`Role` (
-  `role` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`role`))
-ENGINE = InnoDB;
+                                                  `role` VARCHAR(45) NOT NULL,
+                                                  PRIMARY KEY (`role`))
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `BitBankDB`.`User`
+-- Table `BitBankDB`.`Actor`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `BitBankDB`.`User` (
   `userId` INT NOT NULL,
@@ -53,7 +53,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `BitBankDB`.`Client`
+-- Table `BitBankDB`.`User`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `BitBankDB`.`Client` (
   `BSN` INT NOT NULL,
@@ -194,3 +194,4 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 DROP USER IF EXISTS 'admin'@'localhost';
 CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
 GRANT ALL PRIVILEGES ON bitbankdb.* TO 'admin'@'localhost';
+
