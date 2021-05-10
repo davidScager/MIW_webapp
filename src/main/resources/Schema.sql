@@ -50,11 +50,11 @@ CREATE TABLE IF NOT EXISTS Conversion (
     asset2 VARCHAR(45) NOT NULL,
     conversionValue DOUBLE NOT NULL,
     FOREIGN KEY (asset1)
-    REFERENCES Asset (naam)
+    REFERENCES Asset (name)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
     FOREIGN KEY (asset2)
-    REFERENCES Asset (naam)
+    REFERENCES Asset (name)
     ON DELETE RESTRICT
     ON UPDATE CASCADE);
 
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS AssetPortfolio (
     amount DOUBLE NOT NULL,
     PRIMARY KEY (assetName, portfolioId),
     FOREIGN KEY (assetName)
-    REFERENCES Asset (naam)
+    REFERENCES Asset (name)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
     FOREIGN KEY (portfolioId)
