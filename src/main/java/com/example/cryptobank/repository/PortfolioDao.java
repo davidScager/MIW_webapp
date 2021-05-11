@@ -1,8 +1,11 @@
 package com.example.cryptobank.repository;
 
+import com.example.cryptobank.domain.Actor;
 import com.example.cryptobank.domain.Portfolio;
+import com.example.cryptobank.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -13,17 +16,17 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.MissingResourceException;
 import java.util.Optional;
 
 /*TODO
 * in actor een check of je niet de role van beheerder hebt zo nee maak meteen een portfolio aan.
+* actordao inplementeren
 * */
 
 
 @Repository
 public class PortfolioDao implements Dao {
-
-
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -32,19 +35,23 @@ public class PortfolioDao implements Dao {
         super();
         this.jdbcTemplate = jdbcTemplate;
     }
+    RowMapper<Portfolio> portfolioRowMapper = (resultSet, rownumber) -> {Portfolio portfolio = new Portfolio();
+        portfolio.setPortfolioId(resultSet.getInt("portfolioId"));
+        /*Actor actor = actorDao.get(resultSet.getInt("user"));
+        portfolio.setActor(actor);*/
+        return portfolio;
+    };
 
     private PreparedStatement insertPortfolioStatement(Portfolio portfolio, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("Insert INTO Portfolio (user) values (?)", Statement.RETURN_GENERATED_KEYS);
-        preparedStatement.setLong(1, portfolio.getUser().getId());
+        preparedStatement.setLong(1, portfolio.getActor().getUserId());
         return preparedStatement;
     }
 
 
     @Override
     public List list() {
-        ArrayList<Portfolio> portfolioList = null;
-        //portfolioList = jdbcTemplate.execute(statement -> "Select * from Portfolio");
-        return portfolioList;
+        return jdbcTemplate.query("Select * from Portfolio", portfolioRowMapper);
     }
 
     @Override
@@ -57,10 +64,12 @@ public class PortfolioDao implements Dao {
     }
 
     @Override
-    public Optional<Portfolio> get(int id) {
-        Portfolio portfolio = null;
-        //portfolio= jdbcTemplate.query("Select * from Portfolio where portfolioId = ?", id);
-        return Optional.of(portfolio);
+    public Optional<Portfolio> get(int id) throws MissingResourceException {
+        List<Portfolio> portfolioList = jdbcTemplate.query("Select * from Portfolio where portfolioId = ?", portfolioRowMapper,id);
+        if (portfolioList.size() == 1) {
+            return Optional.of(portfolioList.get(0));
+        }
+        throw new MissingResourceException("No such Portfolio", "Portfolio", String.valueOf(id));
     }
 
     @Override

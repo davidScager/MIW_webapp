@@ -3,12 +3,16 @@ package com.example.cryptobank.domain;
 public class Portfolio {
 
     private int portfolioId;
-    private final User user;
+    private Actor actor;
 
-    public Portfolio(User user) {
+    public Portfolio(Actor user) {
         super();
-        this.user = user;
+        this.actor = user;
         this.portfolioId = 0;
+    }
+
+    public Portfolio() {
+        this.actor = null;
     }
 
     public int getPortfolioId() {
@@ -19,7 +23,11 @@ public class Portfolio {
         this.portfolioId = portfolioId;
     }
 
-    public User getUser() {
-        return user;
+    public Actor getActor() {
+        return actor;
+    }
+
+    public void setActor(Actor actor) {
+        this.actor = actor;
     }
 }
