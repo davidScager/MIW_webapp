@@ -1,4 +1,4 @@
-package com.example.cryptobank.model;
+package com.example.cryptobank.domain;
 
 //todo HvS: Still needs the right constructor. Abbreviation and description don't get filled now.
 public class Asset {

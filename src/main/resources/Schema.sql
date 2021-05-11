@@ -24,12 +24,12 @@ CREATE TABLE IF NOT EXISTS User (
     userId INT NOT NULL ,
     firstName VARCHAR(45) NOT NULL,
     infix VARCHAR(45) NULL,
-    lastName VARCHAR(45) NOT NULL,
+    surname VARCHAR(45) NOT NULL,
     dateOfBirth DATE NOT NULL,
     address VARCHAR(45) NOT NULL,
     email VARCHAR(45) NOT NULL,
     username VARCHAR(45) NOT NULL,
-    PRIMARY KEY (BSN, userId),
+    PRIMARY KEY (BSN),
     FOREIGN KEY (username)
     REFERENCES LoginAccount (username)
     ON DELETE CASCADE

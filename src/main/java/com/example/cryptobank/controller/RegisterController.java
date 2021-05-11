@@ -23,7 +23,7 @@ public class RegisterController {
     public User registrationHandler(
             @RequestParam int BSN,
             @RequestParam String firstName,
-            @RequestParam String infix,
+            @RequestParam(required = false) String infix,
             @RequestParam String surname,
             @RequestParam String dateOfBirth,
             @RequestParam String address,
