@@ -1,6 +1,6 @@
 package com.example.cryptobank.service;
 
-import com.example.cryptobank.model.Asset;
+import com.example.cryptobank.domain.Asset;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;

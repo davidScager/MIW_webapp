@@ -38,7 +38,7 @@ public class UserDao implements Dao<User> {
     @Override
     public void create(User user) {
         String sql = "insert into user(bsn, userid, firstname, infix, surname, dateofbirth, address, email, username) values(?,?,?,?,?,?,?,?,?)";
-        int insert = jdbcTemplate.update(sql, user.getBSN(), user.getId(), user.getFirstName(), user.getInfix(), user.getSurname(), user.getDateOfBirth(), user.getAddress(), user.getEmail(), user.getUsername());
+        jdbcTemplate.update(sql, user.getBSN(), user.getId(), user.getFirstName(), user.getInfix(), user.getSurname(), user.getDateOfBirth(), user.getAddress(), user.getEmail(), user.getUsername());
     }
 
     @Override
