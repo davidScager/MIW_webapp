@@ -64,6 +64,13 @@ public class AssetDao implements Dao<Asset> {
         return tempAssetList;
     }
 
+    public Asset getOneByName(String name) {
+        String query = "SELECT * FROM asset WHERE name = ?";
+        Asset tempAsset = jdbcTemplate.queryForObject( query, new Object[] { name }, new AssetRowMapper());
+
+        return tempAsset;
+    }
+
     public class AssetRowMapper implements RowMapper<Asset> {
         @Override
         public Asset mapRow(ResultSet rs, int rowNum) throws SQLException {
