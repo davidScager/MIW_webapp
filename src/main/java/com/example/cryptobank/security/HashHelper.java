@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * Utility class for Hashing passwords using SHA-256
- * @author David_Scager
+ * @author David_Scager, Reyndert_Mehrer, Huib_van_Straten
  */
 public class HashHelper {
     private static final Logger LOGGER = LoggerFactory.getLogger(SaltMaker.class);

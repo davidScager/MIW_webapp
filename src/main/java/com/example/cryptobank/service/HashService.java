@@ -13,7 +13,7 @@ import de.mkammerer.argon2.*;
  * Service that provides hashed passwords and generated salts, pepper included
  * Allows use of SHA-256 with key stretching or Argon2id for hashing
  * Use setters to update number of rounds or Argon2 arguments
- * @author David_Scager
+ * @author David_Scager (Argon2id implementation), Reyndert_Mehrer, Huib_van_Straten
  */
 @Service
 public class HashService {

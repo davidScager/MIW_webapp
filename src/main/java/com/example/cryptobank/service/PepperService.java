@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * Temporary utility class for pepper storage
- * @author David_Scager
+ * @author David_Scager, Reyndert_Mehrer, Huib_van_Straten
  */
 @Service
 public class PepperService {

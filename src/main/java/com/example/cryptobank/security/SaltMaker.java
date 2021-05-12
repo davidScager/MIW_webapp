@@ -9,7 +9,7 @@ import java.util.Base64;
 /**
  * Generates SecureRandom byte array of either provided length or default length
  * Salt length can only be even, not odd.
- * @author David_Scager
+ * @author David_Scager, Reyndert_Mehrer, Huib_van_Straten
  */
 public class SaltMaker {
     private Logger logger = LoggerFactory.getLogger(SaltMaker.class);
