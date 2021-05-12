@@ -1,5 +1,7 @@
 package com.example.cryptobank.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.Email;
@@ -10,6 +12,9 @@ import java.util.Date;
 
 @Component
 public class User {
+
+    private final Logger logger = LoggerFactory.getLogger(User.class);
+
     private int BSN;
     private long id;
     private String firstName;
@@ -33,6 +38,7 @@ public class User {
         this.email = email;
         this.username = username;
         this.id = 0;
+        logger.info("New User");
     }
 
     public User() {
