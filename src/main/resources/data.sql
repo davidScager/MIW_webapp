@@ -20,3 +20,6 @@ INSERT INTO Asset (name, abbreviation, description) Values ('Monero', 'MON' ,'cr
 INSERT INTO Asset (name, abbreviation, description) Values ('NEO', 'NEO' ,'cryptoootje');
 INSERT INTO Asset (name, abbreviation, description) Values ('Terra', 'TER' ,'cryptoootje');
 
+INSERT INTO role VALUE ('administrator');
+INSERT INTO role VALUE ('bank');
+INSERT INTO role VALUE ('client');

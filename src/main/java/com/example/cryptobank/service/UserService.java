@@ -1,5 +1,6 @@
 package com.example.cryptobank.service;
 
+import com.example.cryptobank.domain.Role;
 import com.example.cryptobank.domain.User;
 import com.example.cryptobank.repository.RootRepository;
 import com.example.cryptobank.repository.UserDao;
@@ -18,9 +19,9 @@ public class UserService {
         this.rootRepository = rootRepository;
     }
 
-    public User register(int BSN, String firstName, String infix, String surname, String dateOfBirth, String address, String email, String username){
+    public User register(int BSN, String firstName, String infix, String surname, String dateOfBirth, String address, String email, String username, Role role){
         User user = new User (BSN, firstName, infix, surname, dateOfBirth, address, email, username);
-        rootRepository.saveUser(user);
+        rootRepository.saveUser(user, role);
         return user;
     }
 
