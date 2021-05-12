@@ -4,7 +4,6 @@ import com.example.cryptobank.domain.User;
 import com.example.cryptobank.service.TokenService;
 import com.example.cryptobank.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +21,7 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public ResponseEntity<User> loginUser (
+    public User loginUser (
             @RequestParam String username,
             @RequestParam String password
     ) {
@@ -30,8 +29,6 @@ public class LoginController {
         while (user == null) {
             user = userService.verifyUser(username, password);
         }
-        String token = tokenService.getToken();
-        System.out.println(token);
-        return ResponseEntity.ok().header("Authorization", token).body(user);
+        return user;
     }
 }
