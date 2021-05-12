@@ -22,4 +22,10 @@ public class UserService {
         rootRepository.saveUser(user);
         return user;
     }
+
+    public User verifyUser(String username, String password) {
+        //User user = David's securitycheck
+        //if user does not exist, return null
+        return null;
+    }
 }
