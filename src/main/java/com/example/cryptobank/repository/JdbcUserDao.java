@@ -4,19 +4,23 @@ import com.example.cryptobank.domain.User;
 import com.example.cryptobank.repository.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Optional;
-@Component
-public class JdbcUserDao implements Dao<User> {
+@Repository
+public class JdbcUserDao implements UserDao {
 
     private final Logger logger = LoggerFactory.getLogger(JdbcUserDao.class);
 
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
     public JdbcUserDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         logger.info("New JdbcUserDao");
