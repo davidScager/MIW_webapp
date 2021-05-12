@@ -1,18 +1,23 @@
 package com.example.cryptobank.repository;
 
+import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.domain.Portfolio;
 import com.example.cryptobank.domain.User;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class RootRepository {
 
     private final UserDao userDao;
     private final PortfolioDao portfolioDao;
+    private final AssetDao assetDao;
 
-    public RootRepository(UserDao userDao, PortfolioDao portfolioDao) {
+    public RootRepository(UserDao userDao, PortfolioDao portfolioDao, AssetDao assetDao) {
         this.userDao = userDao;
         this.portfolioDao = portfolioDao;
+        this.assetDao = assetDao;
     }
 
     public void saveUser(User user){
@@ -22,4 +27,8 @@ public class RootRepository {
     public void savePortfolio(Portfolio portfolio){//te gebruiken in actor check staat in portfolio dao
         portfolioDao.create(portfolio);
     }
+
+    public void saveAsset(Asset asset) { assetDao.create(asset); }
+
+    public List<Asset> showAssetOverview() { return assetDao.getAssetOverview();}
 }

@@ -26,8 +26,8 @@ public class CurrencyCollector {
                 temp.add(currencyWithValue.getValue());
             }
             Asset asset = new Asset();
-            asset.setValueUSD(temp.get(0));
-            asset.setValueEUR(temp.get(1));
+//            asset.setValueUSD(temp.get(0));
+//            asset.setValueEUR(temp.get(1));
             asset.setName(coin);
             listOfCryptoAssets.add(asset);
             temp.clear();

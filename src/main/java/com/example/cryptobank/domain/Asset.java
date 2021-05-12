@@ -1,22 +1,34 @@
 package com.example.cryptobank.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 //todo HvS: Still needs the right constructor. Abbreviation and description don't get filled now.
 public class Asset {
     private String name;
     private String abbreviation;
     private String description;
-    private Number valueUSD;
-    private Number valueEUR;
+    public int assetId;
 
-    public Asset(String name, String abbreviation, String description, Number valueUSD, Number valueEUR) {
+    private final Logger logger = LoggerFactory.getLogger(Asset.class);
+
+    public Asset(String name, String abbreviation, String description) {
         this.name = name;
         this.abbreviation = abbreviation;
         this.description = description;
-        this.valueUSD = valueUSD;
-        this.valueEUR = valueEUR;
+        logger.info("New Asset created");
+    }
+
+    public Asset(String name) {
+        this();
+        this.name = name;
+        this.abbreviation = null;
+        this.description = null;
+        logger.info("New Asset created");
     }
 
     public Asset() {
+        logger.info("New Asset created");
     }
 
     public String getName() {
@@ -43,20 +55,12 @@ public class Asset {
         this.description = description;
     }
 
-    public Number getValueUSD() {
-        return valueUSD;
+    public int getAssetId() {
+        return assetId;
     }
 
-    public void setValueUSD(Number valueUSD) {
-        this.valueUSD = valueUSD;
-    }
-
-    public Number getValueEUR() {
-        return valueEUR;
-    }
-
-    public void setValueEUR(Number valueEUR) {
-        this.valueEUR = valueEUR;
+    public void setAssetId(int assetId) {
+        this.assetId = assetId;
     }
 
     @Override
@@ -65,8 +69,6 @@ public class Asset {
                 "name='" + name + '\'' +
                 ", abbreviation='" + abbreviation + '\'' +
                 ", description='" + description + '\'' +
-                ", valueUSD=" + valueUSD +
-                ", valueEUR=" + valueEUR +
                 '}';
     }
 }
