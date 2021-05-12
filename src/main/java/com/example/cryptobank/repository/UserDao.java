@@ -58,6 +58,7 @@ public class UserDao implements Dao<User> {
         String sql = "update bitbankdb.user set bsn = ?, userid = ?, firstname = ?, infix = ?, surname = ?, dateofbirth = ?, address = ?, email = ?, username = ? where bsn = ?";
         jdbcTemplate.update(sql, user.getBSN(), user.getId(), user.getFirstName(), user.getInfix(), user.getSurname(), user.getDateOfBirth(), user.getAddress(), user.getEmail(), user.getUsername());
     }
+
     @Override
     public void delete(int bsn) {
         jdbcTemplate.update("delete from bitbankdb.user where bsn = ?",bsn);
