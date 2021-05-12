@@ -2,103 +2,130 @@ DROP SCHEMA IF EXISTS BitBankDB;
 CREATE SCHEMA BitBankDB;
 use BitBankDB;
 
-CREATE TABLE IF NOT EXISTS LoginAccount (
+CREATE TABLE IF NOT EXISTS LoginAccount
+(
     username VARCHAR(45) NOT NULL PRIMARY KEY,
     password VARCHAR(45) NOT NULL,
-    salt VARCHAR(45) NOT NULL);
+    salt     VARCHAR(45) NOT NULL
+);
 
-CREATE TABLE IF NOT EXISTS Role (
-    role VARCHAR(45) NOT NULL PRIMARY KEY);
+CREATE TABLE IF NOT EXISTS Role
+(
+    role VARCHAR(45) NOT NULL PRIMARY KEY
+);
 
-CREATE TABLE IF NOT EXISTS Actor (
-    userId INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS Actor
+(
+    userId          INT         NOT NULL PRIMARY KEY AUTO_INCREMENT,
     checkingAccount VARCHAR(45) NULL,
-    role VARCHAR(45) NOT NULL,
+    role            VARCHAR(45) NOT NULL,
     FOREIGN KEY (role)
-    REFERENCES Role (role)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE);
+        REFERENCES Role (role)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+);
 
-CREATE TABLE IF NOT EXISTS User (
-    BSN INT NOT NULL,
-    userId INT NOT NULL ,
-    firstName VARCHAR(45) NOT NULL,
-    infix VARCHAR(45) NULL,
-    surname VARCHAR(45) NOT NULL,
-    dateOfBirth DATE NOT NULL,
-    address VARCHAR(45) NOT NULL,
-    email VARCHAR(45) NOT NULL,
-    username VARCHAR(45) NOT NULL,
+CREATE TABLE IF NOT EXISTS User
+(
+    BSN         INT         NOT NULL,
+    userId      INT         NOT NULL,
+    firstName   VARCHAR(45) NOT NULL,
+    infix       VARCHAR(45) NULL,
+    surname     VARCHAR(45) NOT NULL,
+    dateOfBirth DATE        NOT NULL,
+    address     VARCHAR(45) NOT NULL,
+    email       VARCHAR(45) NOT NULL,
+    username    VARCHAR(45) NOT NULL,
     PRIMARY KEY (BSN),
 #     FOREIGN KEY (username)
 #     REFERENCES LoginAccount (username)
 #     ON DELETE CASCADE
 #     ON UPDATE CASCADE,
     FOREIGN KEY (userId)
-    REFERENCES Actor (userId)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
+        REFERENCES Actor (userId)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
 
-CREATE TABLE IF NOT EXISTS Asset (
-  name VARCHAR(45) NOT NULL PRIMARY KEY ,
-  abbreviation VARCHAR(45) NOT NULL,
-  description VARCHAR(45) NOT NULL);
+CREATE TABLE IF NOT EXISTS Asset
+(
+    `name`             VARCHAR(45) NOT NULL,
+    `abbreviation`     VARCHAR(45) NOT NULL,
+    `description`      VARCHAR(45) NOT NULL,
+    `valueInUsd`       DOUBLE      NOT NULL,
+    `adjustmentFactor` DOUBLE      NOT NULL,
+    PRIMARY KEY (`name`)
+);
 
-CREATE TABLE IF NOT EXISTS Conversion (
-    rate VARCHAR(45) NOT NULL PRIMARY KEY ,
-    asset1 VARCHAR(45) NOT NULL,
-    asset2 VARCHAR(45) NOT NULL,
-    conversionValue DOUBLE NOT NULL,
-    FOREIGN KEY (asset1)
-    REFERENCES Asset (name)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-    FOREIGN KEY (asset2)
-    REFERENCES Asset (name)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE);
+CREATE TABLE IF NOT EXISTS Transaction
+(
+    `transactionId`   INT         NOT NULL AUTO_INCREMENT,
+    `timestamp`       DATETIME    NOT NULL,
+    `seller`          INT         NOT NULL,
+    `buyer`           INT         NOT NULL,
+    `numberOfAssets`  DOUBLE      NOT NULL,
+    `transactionCost` DOUBLE      NOT NULL,
+    `assetSold`       VARCHAR(45) NOT NULL,
+    `assetBought`     VARCHAR(45) NOT NULL,
+    PRIMARY KEY (`transactionId`),
+    FOREIGN KEY (`seller`)
+        REFERENCES `BitBankDB`.`Actor` (`userId`)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION,
+    FOREIGN KEY (`buyer`)
+        REFERENCES `BitBankDB`.`Actor` (`userId`)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION,
+    FOREIGN KEY (`assetSold`)
+        REFERENCES `BitBankDB`.`Asset` (`name`)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION,
+    FOREIGN KEY (`assetBought`)
+        REFERENCES `BitBankDB`.`Asset` (`name`)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+);
 
-CREATE TABLE IF NOT EXISTS Transaction (
-    transactionId INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-    rate VARCHAR(45) NOT NULL,
-    date DATETIME NOT NULL,
-    amount DOUBLE NOT NULL,
-    seller INT NOT NULL,
-    buyer INT NOT NULL,
-    FOREIGN KEY (rate)
-    REFERENCES Conversion (rate)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-    FOREIGN KEY (seller)
-    REFERENCES Actor (userId)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-    FOREIGN KEY (buyer)
-    REFERENCES Actor (userId)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
-
-CREATE TABLE IF NOT EXISTS Portfolio (
-   `portfolioId` INT NOT NULL PRIMARY KEY ,
-   `user` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS Portfolio
+(
+    `portfolioId` INT NOT NULL PRIMARY KEY,
+    `user`        INT NOT NULL,
     FOREIGN KEY (`user`)
-    REFERENCES Actor (userId)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
+        REFERENCES Actor (userId)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
 
-CREATE TABLE IF NOT EXISTS AssetPortfolio (
-    assetName VARCHAR(45) NOT NULL,
-    portfolioId INT NOT NULL,
-    amount DOUBLE NOT NULL,
+CREATE TABLE IF NOT EXISTS AssetPortfolio
+(
+    assetName   VARCHAR(45) NOT NULL,
+    portfolioId INT         NOT NULL,
+    amount      DOUBLE      NOT NULL,
     PRIMARY KEY (assetName, portfolioId),
     FOREIGN KEY (assetName)
-    REFERENCES Asset (name)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
+        REFERENCES Asset (name)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     FOREIGN KEY (portfolioId)
-    REFERENCES Portfolio (portfolioId)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
+        REFERENCES Portfolio (portfolioId)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS `BitBankDB`.`Log`
+(
+    `transactionId`               INT    NOT NULL,
+    `soldAssetTransactionRate`    DOUBLE NOT NULL,
+    `boughtAssetTransactionRate`  DOUBLE NOT NULL,
+    `soldAssetAdjustmentFactor`   DOUBLE NOT NULL,
+    `boughtAssetAdjustmentFactor` DOUBLE NOT NULL,
+    `amount`                      DOUBLE NOT NULL,
+    PRIMARY KEY (`transactionId`),
+    FOREIGN KEY (`transactionId`)
+        REFERENCES `BitBankDB`.`Transaction` (`transactionId`)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+);
 
 DROP USER IF EXISTS 'admin'@'localhost';
 CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
