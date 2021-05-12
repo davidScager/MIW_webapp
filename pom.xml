@@ -106,6 +106,7 @@
 			<artifactId>argon2-jvm</artifactId>
 			<version>2.5</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>
