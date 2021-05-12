@@ -1,8 +1,13 @@
 package com.example.cryptobank.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Actor {
 
-    private final int userId;
+    private final Logger logger = LoggerFactory.getLogger(Actor.class);
+
+    private long userId;
     private String checkingaccount;
     private Role role;
 
@@ -11,6 +16,7 @@ public class Actor {
         this.userId = userId;
         this.checkingaccount = checkingaccount;
         this.role = role;
+        logger.info("New Actor");
     }
 
     private Actor(int userId, Role role) {
@@ -21,7 +27,18 @@ public class Actor {
         this(0, role);
     }
 
-    public int getUserId() {
+    @Override
+    public String toString() {
+        return "Actor{" +
+                "userId=" + userId +
+                ", checkingaccount='" + checkingaccount + '\'' +
+                ", role=" + role +
+                '}';
+    }
+
+    public Actor(){}
+
+    public long getUserId() {
         return userId;
     }
 
@@ -39,5 +56,9 @@ public class Actor {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 }

@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS Role (
     role VARCHAR(45) NOT NULL PRIMARY KEY);
 
 CREATE TABLE IF NOT EXISTS Actor (
-    userId INT NOT NULL PRIMARY KEY,
+    userId INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     checkingAccount VARCHAR(45) NULL,
     role VARCHAR(45) NOT NULL,
     FOREIGN KEY (role)
@@ -30,10 +30,10 @@ CREATE TABLE IF NOT EXISTS User (
     email VARCHAR(45) NOT NULL,
     username VARCHAR(45) NOT NULL,
     PRIMARY KEY (BSN),
-    FOREIGN KEY (username)
-    REFERENCES LoginAccount (username)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
+#     FOREIGN KEY (username)
+#     REFERENCES LoginAccount (username)
+#     ON DELETE CASCADE
+#     ON UPDATE CASCADE,
     FOREIGN KEY (userId)
     REFERENCES Actor (userId)
     ON DELETE CASCADE
