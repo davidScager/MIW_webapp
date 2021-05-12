@@ -74,7 +74,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>2.0.5</version>
+			<version>LATEST</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -101,8 +101,12 @@
             <artifactId>spring-web</artifactId>
             <version>5.3.6</version>
         </dependency>
-
-    </dependencies>
+		<dependency>
+			<groupId>de.mkammerer</groupId>
+			<artifactId>argon2-jvm</artifactId>
+			<version>2.5</version>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>

@@ -31,13 +31,13 @@ public class UserDao implements Dao<User> {
     };
     @Override
     public List<User> list() {
-        String sql = "select * from user";
+        String sql = "select * from bitbankdb.user";
         return jdbcTemplate.query(sql,rowMapper);
     }
 
     @Override
     public void create(User user) {
-        String sql = "insert into user(bsn, userid, firstname, infix, surname, dateofbirth, address, email, username) values(?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into bitbankdb.user(bsn, userid, firstname, infix, surname, dateofbirth, address, email, username) values(?,?,?,?,?,?,?,?,?)";
         jdbcTemplate.update(sql, user.getBSN(), user.getId(), user.getFirstName(), user.getInfix(), user.getSurname(), user.getDateOfBirth(), user.getAddress(), user.getEmail(), user.getUsername());
     }
 
@@ -55,11 +55,11 @@ public class UserDao implements Dao<User> {
 
     @Override
     public void update(User user, int bsn) {
-        String sql = "update user set bsn = ?, userid = ?, firstname = ?, infix = ?, surname = ?, dateofbirth = ?, address = ?, email = ?, username = ? where bsn = ?";
+        String sql = "update bitbankdb.user set bsn = ?, userid = ?, firstname = ?, infix = ?, surname = ?, dateofbirth = ?, address = ?, email = ?, username = ? where bsn = ?";
         jdbcTemplate.update(sql, user.getBSN(), user.getId(), user.getFirstName(), user.getInfix(), user.getSurname(), user.getDateOfBirth(), user.getAddress(), user.getEmail(), user.getUsername());
     }
     @Override
     public void delete(int bsn) {
-        jdbcTemplate.update("delete from user where bsn = ?",bsn);
+        jdbcTemplate.update("delete from bitbankdb.user where bsn = ?",bsn);
     }
 }
