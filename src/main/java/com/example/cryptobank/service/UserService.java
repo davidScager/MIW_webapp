@@ -2,6 +2,7 @@ package com.example.cryptobank.service;
 
 import com.example.cryptobank.domain.User;
 import com.example.cryptobank.repository.RootRepository;
+import com.example.cryptobank.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,6 @@ public class UserService {
     public User verifyUser(String username, String password) {
         //User user = David's securitycheck
         //if user does not exist, return null
-        return null;
+        return new User();
     }
 }

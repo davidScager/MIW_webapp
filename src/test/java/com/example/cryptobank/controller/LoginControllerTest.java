@@ -7,6 +7,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
+import static org.hamcrest.MatcherAssert.assertThat;
+
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -30,11 +34,36 @@ class LoginControllerTest {
         Mockito.when(mockTokenService.getToken()).thenReturn("DitIsEenToken");
     }
 
+//    @Test //test is TDD geschreven. Na slagen test is methode veranderd.
+//    void loginUser() {
+//        User user = loginController.loginUser("huib", "biuh");
+//        int expectedBSN = 13167;
+//        int actualBSN = user.getBSN();
+//        assertEquals(expectedBSN, actualBSN);
+//    }
+
+//    @Test //test is TDD geschreven. Na slagen test is methode veranderd.
+//    void getToken() {
+//        String actualToken = loginController.loginUser("huib", "biuh");
+//        String expectedToken = "DitIsEenToken";
+//        assertEquals(expectedToken, actualToken);
+//    }
+
     @Test
-    void loginUser() {
-        User user = loginController.loginUser("huib", "biuh");
-        int expectedBSN = 13167;
-        int actualBSN = user.getBSN();
-        assertEquals(expectedBSN, actualBSN);
+    void responseEntityIsNotNull() {
+        ResponseEntity<User> actualEntity = loginController.loginUser("huib", "biuh");
+        assertNotNull(actualEntity);
     }
+
+    @Test
+    void responseEntityIs200() {
+        ResponseEntity<User> actualEntity = loginController.loginUser("huib", "biuh");
+        assertTrue(actualEntity.getStatusCode().is2xxSuccessful());
+    }
+
+//    @Test
+//    void responseEntityContainsKey() {
+//        assertTrue(loginController.loginUser("huib", "biuh").getHeaders(). // sth ..);
+//    }
+
 }

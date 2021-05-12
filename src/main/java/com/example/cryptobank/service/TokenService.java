@@ -19,7 +19,7 @@ import java.util.Base64;
 public class TokenService {
 
     private Instant now = Instant.now();
-    private byte[] secret = Base64.getDecoder().decode("wf397i3th324m94j32832m+=");
+    private byte[] secret = Base64.getDecoder().decode("wf397i3th324m94j32832miuvuiububzduvabiovasrvnesonoe7632bfvn");
 
     public TokenService() {
         super();
@@ -27,7 +27,7 @@ public class TokenService {
 
     public String getToken() {
         String jwt = Jwts.builder()
-                .setSubject("")
+                .setSubject("authentication")
                 .setAudience("djvbd")
                 .setIssuedAt(Date.from(now))
                 .setExpiration(Date.from(now.plus(1, ChronoUnit.HOURS)))
@@ -43,5 +43,6 @@ public class TokenService {
                 .setAllowedClockSkewSeconds(10)
                 .setSigningKey(Keys.hmacShaKeyFor(secret))
                 .build().parseClaimsJws(token);
+
     }
 }
