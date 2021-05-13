@@ -8,7 +8,8 @@ public class Asset {
     private String name;
     private String abbreviation;
     private String description;
-    public int assetId;
+    private double valueInUsd;
+    private double adjustmentFactor;
 
     private final Logger logger = LoggerFactory.getLogger(Asset.class);
 
@@ -16,6 +17,8 @@ public class Asset {
         this.name = name;
         this.abbreviation = abbreviation;
         this.description = description;
+        this.valueInUsd = 0;
+        this.adjustmentFactor = 1;
         logger.info("New Asset created");
     }
 
@@ -24,6 +27,8 @@ public class Asset {
         this.name = name;
         this.abbreviation = null;
         this.description = null;
+        this.valueInUsd = 0;
+        this.adjustmentFactor = 1;
         logger.info("New Asset created");
     }
 
@@ -55,20 +60,30 @@ public class Asset {
         this.description = description;
     }
 
-    public int getAssetId() {
-        return assetId;
+    public double getValueInUsd() {
+        return valueInUsd;
     }
 
-    public void setAssetId(int assetId) {
-        this.assetId = assetId;
+    public void setValueInUsd(double valueInUsd) {
+        this.valueInUsd = valueInUsd;
+    }
+
+    public double getAdjustmentFactor() {
+        return adjustmentFactor;
+    }
+
+    public void setAdjustmentFactor(double adjustmentFactor) {
+        this.adjustmentFactor = adjustmentFactor;
     }
 
     @Override
     public String toString() {
         return "Asset{" +
                 "name='" + name + '\'' +
-                ", abbreviation='" + abbreviation + '\'' +
-                ", description='" + description + '\'' +
+                ", abbreviation ='" + abbreviation + '\'' +
+                ", description ='" + description + '\'' +
+                ", value (in USD) = " + valueInUsd +
+                ", the adjustment for trading activity = " + adjustmentFactor +
                 '}';
     }
 }
