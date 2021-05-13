@@ -50,7 +50,7 @@ class HashServiceTest {
 
     @Test
     void argonHash(){
-        String actual = hashService.argonHash(password).getHash();
+        String actual = hashService.argon2idHash(password).getHash();
         assertTrue(hashService.argon2idVerify(actual, password));
     }
 

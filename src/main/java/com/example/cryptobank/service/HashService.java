@@ -72,7 +72,7 @@ public class HashService {
      * @param password (String)
      * @return (HashAndSalt) Argon2 hash and generated salt
      */
-    public HashAndSalt argonHash(String password){
+    public HashAndSalt argon2idHash(String password){
         String pepperedPw = pepperService.getPepper() + password;
         String hash = argon2.hash(iterations, memSize, parallelDeg, pepperedPw);
         String[] hashArgs = hash.split("\\$");

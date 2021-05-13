@@ -4,8 +4,8 @@ use BitBankDB;
 
 CREATE TABLE IF NOT EXISTS LoginAccount
 (
-    username VARCHAR(45) NOT NULL PRIMARY KEY,
-    password VARCHAR(45) NOT NULL,
+    username VARCHAR(100) NOT NULL PRIMARY KEY,
+    password VARCHAR(100) NOT NULL,
     salt     VARCHAR(45) NOT NULL
 );
 
@@ -88,9 +88,10 @@ CREATE TABLE IF NOT EXISTS Transaction
 
 CREATE TABLE IF NOT EXISTS Portfolio
 (
-    `portfolioId` INT NOT NULL PRIMARY KEY,
-    `user`        INT NOT NULL,
-    FOREIGN KEY (`user`)
+    `portfolioId` INT NOT NULL AUTO_INCREMENT,
+    `actor`        INT NOT NULL,
+    PRIMARY KEY (`portfolioId`),
+    FOREIGN KEY (`actor`)
         REFERENCES Actor (userId)
         ON DELETE CASCADE
         ON UPDATE CASCADE

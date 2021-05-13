@@ -12,9 +12,7 @@ import java.util.Date;
 
 @Component
 public class User {
-
     private final Logger logger = LoggerFactory.getLogger(User.class);
-
     private int BSN;
     private long id;
     private String firstName;

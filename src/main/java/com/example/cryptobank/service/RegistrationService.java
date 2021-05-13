@@ -1,6 +1,6 @@
 package com.example.cryptobank.service;
 
-import com.example.cryptobank.domain.Actor;
+import com.example.cryptobank.domain.Role;
 import com.example.cryptobank.domain.User;
 import com.example.cryptobank.repository.RootRepository;
 import com.example.cryptobank.security.HashAndSalt;
@@ -9,6 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service for registering new users
+ * @author David_Scager
+ */
 @Service
 public class RegistrationService {
     private Logger logger = LoggerFactory.getLogger(SaltMaker.class);
@@ -22,15 +26,33 @@ public class RegistrationService {
         this.hashService = hashService;
     }
 
+    /**
+     * Check that user is not yet registered,
+     * register user, hash password and store login account
+     * Relay result message back to client
+     * @param bsn (int)
+     * @param firstname (String)
+     * @param infix (String)
+     * @param surname (String)
+     * @param dateofbirth (String)
+     * @param address (String)
+     * @param email (String)
+     * @param password (String)
+     * @param username (String)
+     * @param role (Role)
+     * @return (String) message for client
+     */
     public String register(int bsn, String firstname, String infix, String surname,
-                           String dateofbirth, String address, String email, String password, String username){
-        User user = new User(bsn, firstname, infix, surname, dateofbirth, address, email, username);
-        HashAndSalt hashAndSalt = hashService.hash(password);
-        if (rootRepository.saveLogin(user, hashAndSalt)){
-
+                           String dateofbirth, String address, String email, String password, String username, Role role){
+        User user = new User(bsn, firstname, infix, surname,
+                dateofbirth, address, email, username);
+        if (rootRepository.registerUser(user, role)){
+            HashAndSalt hashAndSalt = hashService.argon2idHash(password);
+            rootRepository.registerLogin(user, hashAndSalt);
+            return "New user registered. You can now login to your new account.";
+        } else {
+            return "You are already registered.";
         }
-        //Actor actor = new Actor();
-        return "I see what you did there...";
     }
 
 }

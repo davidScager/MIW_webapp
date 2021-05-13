@@ -4,8 +4,12 @@ import com.example.cryptobank.domain.User;
 import com.example.cryptobank.security.HashAndSalt;
 import org.springframework.stereotype.Repository;
 
-public interface LoginDAO {
+/**
+ * Interface for Database Access of entity loginAccount
+ * @author David_Scager
+ */
+public interface LoginDao {
     boolean isRegistered(User user);
-    boolean register(User user, HashAndSalt hashAndSalt);
-    boolean login(User user, String password);
+    void create(User user, HashAndSalt hashAndSalt);
+    HashAndSalt login(User user, String password);
 }

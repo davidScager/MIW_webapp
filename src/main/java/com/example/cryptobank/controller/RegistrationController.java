@@ -11,17 +11,35 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class RegisterController {
+public class RegistrationController {
 
     private final UserService userService;
     private RegistrationService registrationService;
 
     @Autowired
-    public RegisterController(UserService userService, RegistrationService registrationService) {
+    public RegistrationController(UserService userService, RegistrationService registrationService) {
         this.userService = userService;
         this.registrationService = registrationService;
     }
 
+    /**
+     * For initial test purposes
+     * takes arguments from Postman request
+     * inserts all information into the right tables
+     * and relays message to client.
+     * @param bsn (int)
+     * @param firstname (String)
+     * @param infix (String)
+     * @param surname (String)
+     * @param dateofbirth (String)
+     * @param address (String)
+     * @param email (String)
+     * @param password (String)
+     * @param username (String)
+     * @return (String) Relay message
+     *
+     * @author David_Scager
+     */
     @GetMapping("/registertest")
     public String registrationTestHandler(
             @RequestParam int bsn,
@@ -33,7 +51,7 @@ public class RegisterController {
             @RequestParam String email,
             @RequestParam String password,
             @RequestParam String username){
-        return registrationService.register(bsn, firstname, infix, surname, dateofbirth, address, email, password, username);
+        return registrationService.register(bsn, firstname, infix, surname, dateofbirth, address, email, password, username, Role.CLIENT);
     }
 
     @GetMapping("/registerClient")

@@ -5,9 +5,10 @@ public class Portfolio {
     private int portfolioId;
     private Actor actor;
 
-    public Portfolio(Actor user) {
+    //changed user to actor -David
+    public Portfolio(Actor actor) {
         super();
-        this.actor = user;
+        this.actor = actor;
         this.portfolioId = 0;
     }
 

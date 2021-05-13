@@ -21,7 +21,7 @@ public class UserService {
 
     public User register(int BSN, String firstName, String infix, String surname, String dateOfBirth, String address, String email, String username, Role role){
         User user = new User (BSN, firstName, infix, surname, dateOfBirth, address, email, username);
-        rootRepository.saveUser(user, role);
+        rootRepository.registerUser(user, role);
         return user;
     }
 

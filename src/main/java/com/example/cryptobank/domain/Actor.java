@@ -2,11 +2,11 @@ package com.example.cryptobank.domain;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Actor {
-
     private final Logger logger = LoggerFactory.getLogger(Actor.class);
-
     private long userId;
     private String checkingaccount;
     private Role role;
@@ -19,12 +19,9 @@ public class Actor {
         logger.info("New Actor");
     }
 
-    private Actor(int userId, Role role) {
-        this(userId, null, role);
-    }
-
+    //provided simple account number. Eventually to be SecureRNG. -David
     public Actor(Role role) {
-        this(0, role);
+        this(0, "NL88 BITB 1234 1234 12", role);
     }
 
     @Override

@@ -15,9 +15,7 @@ import java.util.List;
 import java.util.Optional;
 @Repository
 public class JdbcUserDao implements UserDao {
-
     private final Logger logger = LoggerFactory.getLogger(JdbcUserDao.class);
-
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -39,6 +37,7 @@ public class JdbcUserDao implements UserDao {
 
         return user;
     };
+
     @Override
     public List<User> list() {
         logger.debug("JdbcUserDao.list aangeroepen");
@@ -54,17 +53,17 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-        public Optional<User> get(int bsn){
+    public Optional<User> get(int bsn){
         logger.debug("JdbcUserDao.get aangeroepen voor user " + bsn);
         List<User> users = jdbcTemplate.query(
-                    "select * from bitbankdb.user where bsn = ?",
-                    rowMapper, bsn);
-            if (users.size() != 1){
-                return Optional.empty();
-            } else {
-                return Optional.of(users.get(0));
-            }
+                "select * from bitbankdb.user where bsn = ?",
+                rowMapper, bsn);
+        if (users.size() != 1){
+            return Optional.empty();
+        } else {
+            return Optional.of(users.get(0));
         }
+    }
 
     @Override
     public void update(User user, int bsn) {
@@ -72,6 +71,7 @@ public class JdbcUserDao implements UserDao {
         String sql = "update user set bsn = ?, userid = ?, firstname = ?, infix = ?, surname = ?, dateofbirth = ?, address = ?, email = ?, username = ? where bsn = ?";
         jdbcTemplate.update(sql, user.getBSN(), user.getId(), user.getFirstName(), user.getInfix(), user.getSurname(), user.getDateOfBirth(), user.getAddress(), user.getEmail(), user.getUsername());
     }
+
     @Override
     public void delete(int bsn) {
         logger.debug("JdbcUserDao.delete aangeroepen voor user " + bsn);

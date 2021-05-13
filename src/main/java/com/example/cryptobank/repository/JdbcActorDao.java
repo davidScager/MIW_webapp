@@ -58,9 +58,11 @@ public class JdbcActorDao implements ActorDao {
         logger.debug("De userId van de actor is " + actor.getUserId());
     }
 
+    //added checkingAccount insert -David
     private PreparedStatement insertActorStatement(Actor actor, Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("insert into actor (role) values (?)", Statement.RETURN_GENERATED_KEYS);
-        ps.setString(1, actor.getRole().toString());
+        PreparedStatement ps = connection.prepareStatement("insert into actor (checkingAccount, role) values (?, ?)", Statement.RETURN_GENERATED_KEYS);
+        ps.setString(1, actor.getCheckingaccount());
+        ps.setString(2, actor.getRole().toString());
         return ps;
     }
 

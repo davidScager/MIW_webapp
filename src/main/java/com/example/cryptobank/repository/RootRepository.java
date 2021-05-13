@@ -15,19 +15,20 @@ import java.util.List;
 
 import java.util.Optional;
 
+/**
+ * Root for all repository functionalities
+ */
 @Repository
 public class RootRepository {
-
     private final Logger logger = LoggerFactory.getLogger(RootRepository.class);
-
     private final UserDao userDao;
     private final PortfolioDao portfolioDao;
     private final ConversionDao conversionDao;
     private final AssetDao assetDao;
-    private final LoginDAO loginDAO;
+    private final LoginDao loginDAO;
     private final ActorDao actorDao;
 
-    public RootRepository(UserDao userDao, PortfolioDao portfolioDao, ConversionDao conversionDao, AssetDao assetDao, ActorDao actorDao, LoginDAO loginDAO) {
+    public RootRepository(UserDao userDao, PortfolioDao portfolioDao, ConversionDao conversionDao, AssetDao assetDao, ActorDao actorDao, LoginDao loginDAO) {
         logger.info("New RootRepository");
         this.userDao = userDao;
         this.portfolioDao = portfolioDao;
@@ -37,23 +38,38 @@ public class RootRepository {
         this.actorDao = actorDao;
     }
 
-    public boolean saveLogin(User user, HashAndSalt hashAndSalt){
-        if (!loginDAO.isRegistered(user)) {
-            loginDAO.register(user, hashAndSalt);
+    /**
+     * Register new user if that user is not yet registered and does not
+     * already have a login account.
+     * @param user (User)
+     * @param role (Role)
+     * @return (boolean) true if registration succesfull, false if already registered
+     *
+     * @author David_Scager
+     */
+    public boolean registerUser(User user, Role role){
+        logger.debug("RootRepository.registerUser aangeroepen voor user " + user.getBSN());
+        if (!loginDAO.isRegistered(user) && userDao.get(user.getBSN()).isEmpty()){
+            Actor newActor = new Actor(role);
+            actorDao.create(newActor);
+            savePortfolio(new Portfolio(newActor));
+            user.setId(newActor.getUserId());
+            userDao.create(user);
+            //still need to add starting amount in EUR to portfolio
             return true;
         }
         return false;
     }
 
-    public void saveActor(User user){
-    }
-
-    public void saveUser(User user, Role role){
-        logger.debug("RootRepository.save aangeroepen voor user " + user.getBSN());
-        Actor actor = new Actor(role);
-        actorDao.create(actor);
-        user.setId(actor.getUserId());
-        userDao.create(user);
+    /**
+     * Register new login account
+     * @param user (User)
+     * @param hashAndSalt (HashAndSalt)
+     *
+     * @author David_Scager
+     */
+    public void registerLogin(User user, HashAndSalt hashAndSalt){
+        loginDAO.create(user, hashAndSalt);
     }
 
     public Actor getActor(long userId){
