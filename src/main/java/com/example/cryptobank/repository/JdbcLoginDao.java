@@ -20,7 +20,7 @@ import java.util.List;
 @Repository
 public class JdbcLoginDao implements LoginDao {
     private final Logger logger = LoggerFactory.getLogger(JdbcActorDao.class);
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public JdbcLoginDao(JdbcTemplate jdbcTemplate){
         logger.info("New JdbcLoginDao");

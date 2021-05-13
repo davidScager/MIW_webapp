@@ -42,7 +42,7 @@ public class PortfolioDao implements Dao {
         return portfolio;
     };
 
-    //updated schema to auto_increment portfolioId and actor is called actor in the database -David
+    //updated schema to auto_increment portfolioId and actor is now called actor in the database -David
     private PreparedStatement insertPortfolioStatement(Portfolio portfolio, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("Insert INTO Portfolio (actor) values (?)", Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setLong(1, portfolio.getActor().getUserId());
