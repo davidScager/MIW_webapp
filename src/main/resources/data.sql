@@ -7,7 +7,7 @@ INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor) Values ('Dogecoin', 'DOGE','Mooie munt' ,'0.5','1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor) Values ('XRP','XRP','Mooie munt' ,'1.28','1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor) Values ('Polkadot', 'DOT','Mooie munt' ,'37.12','1');
-INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor) Values ('INternet Computer', 'ICP','Mooie munt' ,'208.92','1');
+INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor) Values ('Internet Computer', 'ICP','Mooie munt' ,'208.92','1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor) Values ('Bitcoin Cash', 'BCH','Mooie munt' ,'1002','1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor) Values ('Litecoin', 'LTC','Mooie munt' ,'261.18','1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor) Values ('Stellar', 'XLM','Mooie munt' ,'0.6','1');
@@ -18,7 +18,7 @@ INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor) Values ('TRON', 'TRX','Mooie munt' ,'0.105','1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor) Values ('Filecoin', 'FIL','Mooie munt' ,'93.85','1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor) Values ('Monero', 'XMR','Mooie munt' ,'328.79','1');
-INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor) Values ('NEo', 'NEO','Mooie munt' ,'81.19','1');
+INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor) Values ('Neo', 'NEO','Mooie munt' ,'81.19','1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor) Values ('DASH', 'DASH','Mooie munt' ,'200.1','1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor) Values ('Dollar', 'USD' ,'valutaatje', 1, 1);
 
