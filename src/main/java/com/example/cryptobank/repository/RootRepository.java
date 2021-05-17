@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Optional;
@@ -27,8 +28,11 @@ public class RootRepository {
     private final AssetDao assetDao;
     private final LoginDao loginDAO;
     private final ActorDao actorDao;
+    private final AssetPortfolioDao assetPortfolioDao;
+    private final TransactionDao transactionDao;
+    private final LogDao logDao;
 
-    public RootRepository(UserDao userDao, PortfolioDao portfolioDao, ConversionDao conversionDao, AssetDao assetDao, ActorDao actorDao, LoginDao loginDAO) {
+    public RootRepository(UserDao userDao, PortfolioDao portfolioDao, ConversionDao conversionDao, AssetDao assetDao, ActorDao actorDao, LoginDao loginDAO, AssetPortfolioDao assetPortfolioDao, TransactionDao transactionDao, LogDao logDao) {
         logger.info("New RootRepository");
         this.userDao = userDao;
         this.portfolioDao = portfolioDao;
@@ -36,6 +40,9 @@ public class RootRepository {
         this.assetDao = assetDao;
         this.loginDAO = loginDAO;
         this.actorDao = actorDao;
+        this.assetPortfolioDao = assetPortfolioDao;
+        this.transactionDao = transactionDao;
+        this.logDao = logDao;
     }
 
     /**
@@ -96,4 +103,33 @@ public class RootRepository {
     public void saveAsset(Asset asset) { assetDao.create(asset); }
 
     public List<Asset> showAssetOverview() { return assetDao.getAssetOverview();}
+
+    public int getPortfolioIdByUserId(int userId) { return portfolioDao.getPortfolioIdByUserId(userId);}
+
+    public List<String> showPortfolioOverview(int portfolioId) {
+        List<Asset> tempPortfolioOverview = assetPortfolioDao.getAssetOverview(portfolioId);
+        List<String> tempAssetOverview = new ArrayList();
+        tempAssetOverview.add("Portefeuille-overzicht voor portfolio " + portfolioId + ": ");
+        for (Asset asset : tempPortfolioOverview ) {
+            double tempAmount = assetPortfolioDao.getAmountByAssetName(asset.getName(), portfolioId);
+            int tempTransactionId = transactionDao.getTransactionIdMostRecentTrade(asset.getName());
+            double tradedRate = logDao.getTradedRateByTransactionId(tempTransactionId);
+            double stijgingDaling = Math.round( (asset.getValueInUsd() / tradedRate - 1 ) * 100);
+            tempAssetOverview.add("Asset: /" + asset.getName() + ", huidige koers (in USD): " + asset.getValueInUsd() + ", aantal in portefeuille: " + tempAmount +
+                    ". De waarde van deze positie is: " + Math.round(asset.getValueInUsd() * tempAmount * 100) / 100 +
+                    " USD. Sinds uw laatste aankoop is deze positie met " + stijgingDaling + " % gestegen.");
+        }
+        return tempAssetOverview; }
+
+    public String showPortfolioValue(int portfolioId) {
+        List<Asset> tempPortfolioValue = assetPortfolioDao.getAssetOverview(portfolioId);
+        List<String> tempAssetOverview = new ArrayList();
+        double tempTotalPortfolioValue = 0;
+        tempAssetOverview.add("Portefeuille-overzicht voor portfolio " + portfolioId + ": ");
+        for (Asset asset : tempPortfolioValue ) {
+            double tempAmount = assetPortfolioDao.getAmountByAssetName(asset.getName(), portfolioId);
+            tempTotalPortfolioValue = tempTotalPortfolioValue + Math.round(asset.getValueInUsd() * tempAmount);
+        }
+        String portfolioValueOutput = "De waarde van uw portefeuille is momenteel " + tempTotalPortfolioValue + " dollar.";
+        return portfolioValueOutput; }
 }
