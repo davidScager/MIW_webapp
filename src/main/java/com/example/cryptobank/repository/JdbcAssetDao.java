@@ -41,11 +41,16 @@ public class JdbcAssetDao implements AssetDao {
 
     private PreparedStatement insertMemberStatement(Asset asset, Connection connection) throws SQLException {
         PreparedStatement ps = connection.prepareStatement(
-                "insert into asset (name, abbreviation, description) values (?, ?, ?)",
+                "insert into asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, ValueLastMonth) values (?, ?, ?, ?, ?, ?, ?, ?)",
                 Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, asset.getName());
         ps.setString(2, asset.getAbbreviation());
         ps.setString(3, asset.getDescription());
+        ps.setDouble(4, asset.getValueInUsd());
+        ps.setDouble(5, asset.getAdjustmentFactor());
+        ps.setDouble(6, asset.getValueYesterday());
+        ps.setDouble(7, asset.getValueLastWeek());
+        ps.setDouble(8, asset.getValueLastMonth());
         return ps;
     }
 
