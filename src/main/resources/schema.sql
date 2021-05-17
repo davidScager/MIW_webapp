@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS LoginAccount
 (
     username VARCHAR(100) NOT NULL PRIMARY KEY,
     password VARCHAR(100) NOT NULL,
-    salt     VARCHAR(45) NOT NULL
+    salt     VARCHAR(45)  NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Role
@@ -37,10 +37,10 @@ CREATE TABLE IF NOT EXISTS User
     email       VARCHAR(45) NOT NULL,
     username    VARCHAR(45) NOT NULL,
     PRIMARY KEY (BSN),
-#     FOREIGN KEY (username)
-#     REFERENCES LoginAccount (username)
-#     ON DELETE CASCADE
-#     ON UPDATE CASCADE,
+    FOREIGN KEY (username)
+    REFERENCES LoginAccount (username)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
     FOREIGN KEY (userId)
         REFERENCES Actor (userId)
         ON DELETE CASCADE
@@ -49,12 +49,15 @@ CREATE TABLE IF NOT EXISTS User
 
 CREATE TABLE IF NOT EXISTS Asset
 (
-    `name`             VARCHAR(45) NOT NULL,
     `abbreviation`     VARCHAR(45) NOT NULL,
+    `name`             VARCHAR(45) NOT NULL,
     `description`      VARCHAR(45) NOT NULL,
     `valueInUsd`       DOUBLE      NOT NULL,
     `adjustmentFactor` DOUBLE      NOT NULL,
-    PRIMARY KEY (`name`)
+    `valueYesterday`   DOUBLE      NOT NULL,
+    `valueLastWeek`    DOUBLE      NOT NULL,
+    `valueLastMonth`   DOUBLE      NOT NULL,
+    PRIMARY KEY (`abbreviation`)
 );
 
 CREATE TABLE IF NOT EXISTS Transaction
@@ -89,7 +92,7 @@ CREATE TABLE IF NOT EXISTS Transaction
 CREATE TABLE IF NOT EXISTS Portfolio
 (
     `portfolioId` INT NOT NULL AUTO_INCREMENT,
-    `actor`        INT NOT NULL,
+    `actor`       INT NOT NULL,
     PRIMARY KEY (`portfolioId`),
     FOREIGN KEY (`actor`)
         REFERENCES Actor (userId)
