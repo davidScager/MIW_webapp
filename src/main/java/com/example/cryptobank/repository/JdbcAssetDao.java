@@ -61,7 +61,7 @@ public class JdbcAssetDao implements AssetDao {
 
     @Override
     public Asset getOneByName(String name) {
-        String query = "SELECT * FROM asset WHERE name = ?";
+        String query = "SELECT * FROM asset WHERE abbreviation = ?";
         Asset tempAsset = jdbcTemplate.queryForObject( query, new Object[] { name }, new AssetRowMapper());
 
         return tempAsset;

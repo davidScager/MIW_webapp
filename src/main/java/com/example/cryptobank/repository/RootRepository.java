@@ -112,8 +112,8 @@ public class RootRepository {
         List<String> tempAssetOverview = new ArrayList();
         tempAssetOverview.add("Portefeuille-overzicht voor portfolio " + portfolioId + ": ");
         for (Asset asset : tempPortfolioOverview ) {
-            double tempAmount = assetPortfolioDao.getAmountByAssetName(asset.getName(), portfolioId);
-            int tempTransactionId = transactionDao.getTransactionIdMostRecentTrade(asset.getName());
+            double tempAmount = assetPortfolioDao.getAmountByAssetName(asset.getAbbreviation(), portfolioId);
+            int tempTransactionId = transactionDao.getTransactionIdMostRecentTrade(asset.getAbbreviation());
             double tradedRate = logDao.getTradedRateByTransactionId(tempTransactionId);
             double stijgingDaling = Math.round( (asset.getValueInUsd() / tradedRate - 1 ) * 100);
             tempAssetOverview.add("Asset: /" + asset.getName() + ", huidige koers (in USD): " + asset.getValueInUsd() + ", aantal in portefeuille: " + tempAmount +
@@ -126,10 +126,12 @@ public class RootRepository {
         List<Asset> tempPortfolioValue = assetPortfolioDao.getAssetOverview(portfolioId);
         List<String> tempAssetOverview = new ArrayList();
         double tempTotalPortfolioValue = 0;
+        double tempTotalHistoricPortfolioValue = 0;
         tempAssetOverview.add("Portefeuille-overzicht voor portfolio " + portfolioId + ": ");
         for (Asset asset : tempPortfolioValue ) {
-            double tempAmount = assetPortfolioDao.getAmountByAssetName(asset.getName(), portfolioId);
+            double tempAmount = assetPortfolioDao.getAmountByAssetName(asset.getAbbreviation(), portfolioId);
             tempTotalPortfolioValue = tempTotalPortfolioValue + Math.round(asset.getValueInUsd() * tempAmount);
+//            tempTotalHistoricPortfolioValue = tempTotalHistoricPortfolioValue + Math.round(asset.getValueLAstMonth * tempAmount);
         }
         String portfolioValueOutput = "De waarde van uw portefeuille is momenteel " + tempTotalPortfolioValue + " dollar.";
         return portfolioValueOutput; }
