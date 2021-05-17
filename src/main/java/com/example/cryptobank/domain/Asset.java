@@ -10,6 +10,9 @@ public class Asset {
     private String description;
     private double valueInUsd;
     private double adjustmentFactor;
+    private double valueYesterday;
+    private double valueLastWeek;
+    private double valueLastMonth;
 
     private final Logger logger = LoggerFactory.getLogger(Asset.class);
 
@@ -22,6 +25,18 @@ public class Asset {
         logger.info("New Asset created");
     }
 
+    public Asset(String name, String abbreviation, String description, double valueInUsd/*, double adjustmentFactor*/, double valueYesterday, double valueLastWeek, double valueLastMonth) {
+        this.name = name;
+        this.abbreviation = abbreviation;
+        this.description = description;
+        this.valueInUsd = valueInUsd;
+        /*this.adjustmentFactor = adjustmentFactor;*/
+        this.valueYesterday = valueYesterday;
+        this.valueLastWeek = valueLastWeek;
+        this.valueLastMonth = valueLastMonth;
+        logger.info("New Asset created");
+    }
+
     public Asset(String name) {
         this();
         this.name = name;
@@ -30,6 +45,30 @@ public class Asset {
         this.valueInUsd = 0;
         this.adjustmentFactor = 1;
         logger.info("New Asset created");
+    }
+
+    public double getValueYesterday() {
+        return valueYesterday;
+    }
+
+    public void setValueYesterday(double valueYesterday) {
+        this.valueYesterday = valueYesterday;
+    }
+
+    public double getValueLastWeek() {
+        return valueLastWeek;
+    }
+
+    public void setValueLastWeek(double valueLastWeek) {
+        this.valueLastWeek = valueLastWeek;
+    }
+
+    public double getValueLastMonth() {
+        return valueLastMonth;
+    }
+
+    public void setValueLastMonth(double valueLastMonth) {
+        this.valueLastMonth = valueLastMonth;
     }
 
     public Asset() {
