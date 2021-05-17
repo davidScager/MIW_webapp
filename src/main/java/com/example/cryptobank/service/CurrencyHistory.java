@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Locale;
 import java.util.Map;
 
 @Service
@@ -25,7 +26,7 @@ public class CurrencyHistory {
 
         public Double historyValuefrom(String date, String cryptocoin) throws IOException{
                 objectMapper = new ObjectMapper();
-                String url = adress + cryptocoin + finishadress + date;
+                String url = adress + getStringForApi(cryptocoin) + finishadress + date;
                 Map<String, Object> coinwithcurrency = objectMapper.readValue(new URL(url), Map.class);
                 String stringtoSplit = String.valueOf(coinwithcurrency.get("market_data"));//dit moet map zijn
                 /*Map<String, Object> marketData = coinwithcurrency.get("market_data");*/
@@ -37,6 +38,18 @@ public class CurrencyHistory {
                         }
                 }
                 return null;
+        }
+
+        private String getStringForApi(String crytocoin){
+                if (crytocoin.equals("Bitcoin") || crytocoin.equals("Binance Coin") || crytocoin.equals("Cardano") || crytocoin.equals("DASH") ||
+                crytocoin.equals("Dogecoin") || crytocoin.equals("EOS") || crytocoin.equals("Ethereum") || crytocoin.equals("Filecoin") ||
+                crytocoin.equals("Litecoin") || crytocoin.equals("Monero") || crytocoin.equals("Neo") || crytocoin.equals("Polkadot") || crytocoin.equals("Stellar") ||
+                crytocoin.equals("TRON") || crytocoin.equals("Vechain")) return crytocoin.toLowerCase(Locale.ROOT);
+                else if (crytocoin.equals("Bitcoin Cash") || crytocoin.equals("Ethereum Classic") || crytocoin.equals("Internet Computer"))
+                        return crytocoin.toLowerCase(Locale.ROOT).replace(" ", "-");
+                else if (crytocoin.equals("XRP")) return "erp-classic";
+                else if (crytocoin.equals("THETA")) return "theta-token";
+                else return "dollars";
         }
 
         public String dateYesterday(){
