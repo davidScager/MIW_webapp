@@ -1,7 +1,6 @@
 package com.example.cryptobank.repository;
 
 import com.example.cryptobank.domain.Asset;
-import com.example.cryptobank.domain.Conversion;
 import com.example.cryptobank.domain.Actor;
 import com.example.cryptobank.domain.Portfolio;
 import com.example.cryptobank.domain.Role;
@@ -24,7 +23,6 @@ public class RootRepository {
     private final Logger logger = LoggerFactory.getLogger(RootRepository.class);
     private final UserDao userDao;
     private final PortfolioDao portfolioDao;
-    private final ConversionDao conversionDao;
     private final AssetDao assetDao;
     private final LoginDao loginDAO;
     private final ActorDao actorDao;
@@ -32,11 +30,10 @@ public class RootRepository {
     private final TransactionDao transactionDao;
     private final LogDao logDao;
 
-    public RootRepository(UserDao userDao, PortfolioDao portfolioDao, ConversionDao conversionDao, AssetDao assetDao, ActorDao actorDao, LoginDao loginDAO, AssetPortfolioDao assetPortfolioDao, TransactionDao transactionDao, LogDao logDao) {
+    public RootRepository(UserDao userDao, PortfolioDao portfolioDao, AssetDao assetDao, ActorDao actorDao, LoginDao loginDAO, AssetPortfolioDao assetPortfolioDao, TransactionDao transactionDao, LogDao logDao) {
         logger.info("New RootRepository");
         this.userDao = userDao;
         this.portfolioDao = portfolioDao;
-        this.conversionDao = conversionDao;
         this.assetDao = assetDao;
         this.loginDAO = loginDAO;
         this.actorDao = actorDao;
@@ -97,9 +94,6 @@ public class RootRepository {
         portfolioDao.create(portfolio);
     }
 
-    public void saveConversion(Conversion conversion){
-        conversionDao.create(conversion);
-    }
 
     public void saveAsset(Asset asset) { assetDao.create(asset); }
 
