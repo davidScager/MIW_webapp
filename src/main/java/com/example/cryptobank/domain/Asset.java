@@ -30,7 +30,7 @@ public class Asset {
         this.abbreviation = abbreviation;
         this.description = description;
         this.valueInUsd = valueInUsd;
-        /*this.adjustmentFactor = adjustmentFactor;*/
+        this.adjustmentFactor = 1;
         this.valueYesterday = valueYesterday;
         this.valueLastWeek = valueLastWeek;
         this.valueLastMonth = valueLastMonth;
