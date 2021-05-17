@@ -1,6 +1,8 @@
 package com.example.cryptobank.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -10,9 +12,16 @@ import java.util.Map;
 
 @Service
 public class CurrencyHistory {
+        private final Logger logger = LoggerFactory.getLogger(CurrencyHistory.class);
+
         private ObjectMapper objectMapper;
         private String adress = "https://api.coingecko.com/api/v3/coins/";
         private String finishadress = "/history?date=";
+
+        public CurrencyHistory() {
+                super();
+                logger.info("New Currencyhistory");
+        }
 
         public Double historyValuefrom(String date, String cryptocoin) throws IOException{
                 objectMapper = new ObjectMapper();
