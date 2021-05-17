@@ -38,9 +38,9 @@ CREATE TABLE IF NOT EXISTS User
     username    VARCHAR(45) NOT NULL,
     PRIMARY KEY (BSN),
     FOREIGN KEY (username)
-    REFERENCES LoginAccount (username)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
+        REFERENCES LoginAccount (username)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     FOREIGN KEY (userId)
         REFERENCES Actor (userId)
         ON DELETE CASCADE
@@ -71,22 +71,30 @@ CREATE TABLE IF NOT EXISTS Transaction
     `assetSold`       VARCHAR(45) NOT NULL,
     `assetBought`     VARCHAR(45) NOT NULL,
     PRIMARY KEY (`transactionId`),
-    FOREIGN KEY (`seller`)
-        REFERENCES `BitBankDB`.`Actor` (`userId`)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
-    FOREIGN KEY (`buyer`)
-        REFERENCES `BitBankDB`.`Actor` (`userId`)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
-    FOREIGN KEY (`assetSold`)
-        REFERENCES `BitBankDB`.`Asset` (`name`)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
-    FOREIGN KEY (`assetBought`)
-        REFERENCES `BitBankDB`.`Asset` (`name`)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+    INDEX `verzinzelf3_idx` (`seller` ASC) VISIBLE,
+    INDEX `verzinzelf4_idx` (`buyer` ASC) VISIBLE,
+    INDEX `verzinzelf5_idx` (`assetSold` ASC) VISIBLE,
+    INDEX `verzinzelf7_idx` (`assetBought` ASC) VISIBLE,
+    CONSTRAINT `verzinzelf3`
+        FOREIGN KEY (`seller`)
+            REFERENCES `BitBankDB`.`Actor` (`userId`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
+    CONSTRAINT `verzinzelf4`
+        FOREIGN KEY (`buyer`)
+            REFERENCES `BitBankDB`.`Actor` (`userId`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
+    CONSTRAINT `verzinzelf5`
+        FOREIGN KEY (`assetSold`)
+            REFERENCES `BitBankDB`.`Asset` (`abbreviation`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
+    CONSTRAINT `verzinzelf7`
+        FOREIGN KEY (`assetBought`)
+            REFERENCES `BitBankDB`.`Asset` (`abbreviation`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 );
 
 CREATE TABLE IF NOT EXISTS Portfolio
@@ -102,18 +110,22 @@ CREATE TABLE IF NOT EXISTS Portfolio
 
 CREATE TABLE IF NOT EXISTS AssetPortfolio
 (
-    assetName   VARCHAR(45) NOT NULL,
-    portfolioId INT         NOT NULL,
-    amount      DOUBLE      NOT NULL,
-    PRIMARY KEY (assetName, portfolioId),
-    FOREIGN KEY (assetName)
-        REFERENCES Asset (name)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (portfolioId)
-        REFERENCES Portfolio (portfolioId)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+    `assetName`   VARCHAR(45) NOT NULL,
+    `portfolioId` INT         NOT NULL,
+    `amount`      DOUBLE      NOT NULL,
+    PRIMARY KEY (`assetName`, `portfolioId`),
+    INDEX `verzinzelf11_idx` (`portfolioId` ASC) VISIBLE,
+    INDEX `verzinzelf10_idx` (`assetName` ASC) VISIBLE,
+    CONSTRAINT `verzinzelf11`
+        FOREIGN KEY (`portfolioId`)
+            REFERENCES `BitBankDB`.`Portfolio` (`portfolioId`)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
+    CONSTRAINT `verzinzelf10`
+        FOREIGN KEY (`assetName`)
+            REFERENCES `BitBankDB`.`Asset` (`abbreviation`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 );
 
 CREATE TABLE IF NOT EXISTS `BitBankDB`.`Log`

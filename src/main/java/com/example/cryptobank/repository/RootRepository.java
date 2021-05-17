@@ -60,6 +60,7 @@ public class RootRepository {
             Actor newActor = new Actor(role);
             actorDao.create(newActor);
             savePortfolio(new Portfolio(newActor));
+
             user.setId(newActor.getUserId());
             userDao.create(user);
             //still need to add starting amount in EUR to portfolio
