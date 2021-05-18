@@ -42,21 +42,21 @@ INSERT INTO portfolio (portfolioId, actor) Values (104,4);
 INSERT INTO portfolio (portfolioId, actor) Values (105,5);
 
 # Testdata voor tijdelijk gebruik
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BTC',101,0.67);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ETH',102,0.45);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('FIL',101,2);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('XMR',102,6);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ADA',104,31);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('TRX',104,26);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('Bitcoin',101,0.67);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('Etherium',102,0.45);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('Filecoin',101,2);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('Monero',102,6);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('Cordano',104,31);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('TRON',104,26);
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('THETA',104,7);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('TRX',105,6321);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('VET',103,11);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('TRON',105,6321);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('VeChain',103,11);
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('DASH',103,986);
 
 # Testdata voor tijdelijk gebruik
-INSERT INTO transaction (transactionId, timestamp, seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought) Values (2001,'2021-02-16',6,2,1,10.2,'USD','ETH');
-INSERT INTO transaction (transactionId, timestamp, seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought) Values (2002,'2021-03-26',2,6,0.55,5.01,'ETH','USD');
-INSERT INTO transaction (transactionId, timestamp, seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought) Values (2003,'2021-04-03',6,2,6,6.45,'USD','XMR');
+INSERT INTO transaction (transactionId, timestamp, seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought) Values (2001,'2021-02-16',6,2,1,10.2,'Dollar','Etherium');
+INSERT INTO transaction (transactionId, timestamp, seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought) Values (2002,'2021-03-26',2,6,0.55,5.01,'Etherium','Dollar');
+INSERT INTO transaction (transactionId, timestamp, seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought) Values (2003,'2021-04-03',6,2,6,6.45,'Dollar','Monero');
 
 # Testdata voor tijdelijk gebruik
 INSERT INTO log (transactionId, soldAssetTransactionRate, boughtAssetTransactionRate, soldAssetAdjustmentFactor, boughtAssetAdjustmentFactor,amount) Values (2001,1,3201.2,1,1,3201.2);
