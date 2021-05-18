@@ -28,9 +28,9 @@ public class UserService {
     public User verifyUser(String username, String password) {
         LoginAccount loginAccount = rootRepository.getLoginByUsername(username);
         if (loginAccount != null) {
+            logger.info("LoginAccount contains " + loginAccount);
             String hash = loginAccount.getHash();
-            String pepperedPassword = pepperService.getPepper() + password;
-            if (hashService.argon2idVerify(hash, pepperedPassword)) {
+            if (hashService.argon2idVerify(hash, password)) {
                 logger.info("Login verified");
                 return rootRepository.getUserByUsername(username);
             }

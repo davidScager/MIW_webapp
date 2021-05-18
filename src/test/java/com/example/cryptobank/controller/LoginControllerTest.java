@@ -64,6 +64,7 @@ class LoginControllerTest {
 //        assertEquals(expectedToken, actualToken);
 //    }
 
+/*
     @Test
     void responseEntityIsNotNull() {
         ResponseEntity<User> actualEntity = loginController.loginUser("huib", "biuh");
@@ -75,6 +76,7 @@ class LoginControllerTest {
         ResponseEntity<User> actualEntity = loginController.loginUser("huib", "biuh");
         assertTrue(actualEntity.getStatusCode().is2xxSuccessful());
     }
+*/
 
 //    @Test
 //    void responseEntityContainsKey() {

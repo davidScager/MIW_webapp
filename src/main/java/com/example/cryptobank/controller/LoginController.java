@@ -30,8 +30,8 @@ public class LoginController {
             @RequestParam String username,
             @RequestParam String password
     ) {
+        logger.info("Login request received from client");
         User user = userService.verifyUser(username, password);
-        logger.info("Login request received from user " + user);
         if (user != null) {
             String token = tokenService.getToken();
             return ResponseEntity.ok().header("Authorization", token).body(user);

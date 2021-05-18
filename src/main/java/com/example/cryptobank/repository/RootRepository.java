@@ -65,7 +65,7 @@ public class RootRepository {
         userDao.create(user);
         Portfolio portfolio = new Portfolio(newActor);
         savePortfolio(portfolio);
-        jdbcAssetPortfolioDao.update(jdbcAssetDao.getOneByName("EUR"), portfolio, STARTKAPITAAL);
+        //jdbcAssetPortfolioDao.update(jdbcAssetDao.getOneByName("EUR"), portfolio, STARTKAPITAAL);
     }
 
     public User getUserByUsername(String username) {
