@@ -43,8 +43,8 @@ class LoginControllerTest {
 
     @BeforeAll
     public static void setUp() {
-        Mockito.when(mockUserService.verifyUser("huib", "biuh")).thenReturn(
-                new User(13167, "huib", "van", "Straten", "29-01-1982", "van lierdreef", "huibvanstraten@gmail.com", "huib"));
+        Mockito.when(mockUserService.verifyUser("huibvanstraten@gmail.com", "biuh")).thenReturn(
+                new User(13167, "huib", "van", "Straten", "29-01-1982", "van lierdreef", "huibvanstraten@gmail.com"));
         Mockito.when(mockTokenService.getToken()).thenReturn("DitIsEenToken");
 
     }

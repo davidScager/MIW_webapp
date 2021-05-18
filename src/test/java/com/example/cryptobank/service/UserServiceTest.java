@@ -21,7 +21,7 @@ class UserServiceTest {
 
     @BeforeAll
     public static void setUp() {
-        User huib = new User(13167, "huib", "van", "Straten", "29-01-1982", "van lierdreef", "huibvanstraten@gmail.com", "huib");
+        User huib = new User(13167, "huib", "van", "Straten", "29-01-1982", "van lierdreef", "huibvanstraten@gmail.com");
     }
 
     @Test

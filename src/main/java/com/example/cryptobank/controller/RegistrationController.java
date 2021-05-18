@@ -37,9 +37,8 @@ public class RegistrationController {
      * @param surname (String)
      * @param dateofbirth (String)
      * @param address (String)
-     * @param email (String)
+     * @param email (String) also used as username
      * @param password (String)
-     * @param username (String)
      * @return (String) Relay message
      *
      * @author David_Scager
@@ -53,9 +52,8 @@ public class RegistrationController {
             @RequestParam String dateofbirth,
             @RequestParam String address,
             @RequestParam String email,
-            @RequestParam String password,
-            @RequestParam String username){
-        return registrationService.register(bsn, firstname, infix, surname, dateofbirth, address, email, password, username, Role.CLIENT);
+            @RequestParam String password){
+        return registrationService.register(bsn, firstname, infix, surname, dateofbirth, address, email, password, Role.CLIENT);
     }
 
     @GetMapping("/registerAdministrator")
@@ -69,7 +67,7 @@ public class RegistrationController {
             @RequestParam String email,
             @RequestParam String password,
             @RequestParam String username) {
-        return registrationService.register(bsn, firstname, infix, surname, dateofbirth, address, email, password, username, Role.CLIENT);
+        return registrationService.register(bsn, firstname, infix, surname, dateofbirth, address, email, password, Role.CLIENT);
     }
 
 }

@@ -14,14 +14,12 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private Logger logger = LoggerFactory.getLogger(SaltMaker.class);
     private final RootRepository rootRepository;
-    private final PepperService pepperService;
     private final HashService hashService;
 
     @Autowired
-    public UserService(RootRepository rootRepository, PepperService pepperService, HashService hashService) {
+    public UserService(RootRepository rootRepository, HashService hashService) {
         logger.info("New UserService");
         this.rootRepository = rootRepository;
-        this.pepperService = pepperService;
         this.hashService = hashService;
     }
 
