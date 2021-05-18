@@ -3,7 +3,6 @@ package com.example.cryptobank.domain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//todo HvS: Still needs the right constructor. Abbreviation and description don't get filled now.
 public class Asset {
     private String name;
     private String abbreviation;

@@ -6,32 +6,40 @@ import com.example.cryptobank.service.UserService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
-import static org.hamcrest.MatcherAssert.assertThat;
-
+import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
-    @Auth HvS
+ @Auth HvS
  **/
 
+@WebMvcTest(LoginController.class)
 class LoginControllerTest {
+
+    private MockMvc mockMvc;
+    private static LoginController loginController;
 
     @MockBean
     private static UserService mockUserService = Mockito.mock(UserService.class);
     @MockBean
     private static TokenService mockTokenService = Mockito.mock(TokenService.class);
 
-    public LoginController loginController = new LoginController(mockUserService, mockTokenService);
-
+    @Autowired
+    public LoginControllerTest(MockMvc mockMvc) {
+        this.mockMvc = mockMvc;
+    }
 
     @BeforeAll
     public static void setUp() {
         Mockito.when(mockUserService.verifyUser("huib", "biuh")).thenReturn(
                 new User(13167, "huib", "van", "Straten", "29-01-1982", "van lierdreef", "huibvanstraten@gmail.com", "huib"));
         Mockito.when(mockTokenService.getToken()).thenReturn("DitIsEenToken");
+        loginController = new LoginController(mockUserService, mockTokenService);
     }
 
 //    @Test //test is TDD geschreven. Na slagen test is methode veranderd.
