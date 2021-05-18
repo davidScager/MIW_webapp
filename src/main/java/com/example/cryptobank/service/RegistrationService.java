@@ -42,13 +42,12 @@ public class RegistrationService {
      * @param role (Role)
      * @return (String) message for client
      */
-    public String register(int bsn, String firstname, String infix, String surname,
-                           String dateofbirth, String address, String email, String password, String username, Role role){
-        User user = new User(bsn, firstname, infix, surname,
-                dateofbirth, address, email, username);
-        if (rootRepository.registerUser(user, role)){
+    public String register(int bsn, String firstname, String infix, String surname, String dateofbirth, String address, String email, String password, Role role){
+        if (rootRepository.getLoginByUsername(email) == null && rootRepository.getUserByBsn(bsn) == null){
+            User user = new User(bsn, firstname, infix, surname, dateofbirth, address, email);
             HashAndSalt hashAndSalt = hashService.argon2idHash(password);
             rootRepository.registerLogin(user, hashAndSalt);
+            rootRepository.registerUser(user, role);
             return "New user registered. You can now login to your new account.";
         } else {
             return "You are already registered.";

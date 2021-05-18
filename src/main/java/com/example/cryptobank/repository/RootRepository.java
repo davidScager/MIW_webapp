@@ -1,10 +1,6 @@
 package com.example.cryptobank.repository;
 
-import com.example.cryptobank.domain.Asset;
-import com.example.cryptobank.domain.Actor;
-import com.example.cryptobank.domain.Portfolio;
-import com.example.cryptobank.domain.Role;
-import com.example.cryptobank.domain.User;
+import com.example.cryptobank.domain.*;
 import com.example.cryptobank.security.HashAndSalt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +43,11 @@ public class RootRepository {
         this.logDao = logDao;
     }
 
+    public void saveUser(User user){
+        userDao.create(user);
+    }
+
+
     /**
      * Register new user if that user is not yet registered and does not
      * already have a login account.
@@ -56,23 +57,27 @@ public class RootRepository {
      *
      * @author David_Scager
      */
-    public boolean registerUser(User user, Role role){
+    public void registerUser(User user, Role role){
         logger.debug("RootRepository.registerUser aangeroepen voor user " + user.getBSN());
-        if (!loginDAO.isRegistered(user) && userDao.get(user.getUsername()) != null){
-            Actor newActor = new Actor(role);
-            actorDao.create(newActor);
-            user.setId(newActor.getUserId());
-            userDao.create(user);
-            Portfolio portfolio = new Portfolio(newActor);
-            savePortfolio(portfolio);
-            jdbcAssetPortfolioDao.update(jdbcAssetDao.getOneByName("EUR"), portfolio, STARTKAPITAAL);
-            return true;
-        }
-        return false;
+        Actor newActor = new Actor(role);
+        actorDao.create(newActor);
+        user.setId(newActor.getUserId());
+        userDao.create(user);
+        Portfolio portfolio = new Portfolio(newActor);
+        savePortfolio(portfolio);
+        //jdbcAssetPortfolioDao.update(jdbcAssetDao.getOneByName("EUR"), portfolio, STARTKAPITAAL);
     }
 
     public User getUserByUsername(String username) {
         return userDao.get(username);
+    }
+
+    public User getUserByBsn(int bsn){
+        return userDao.list().stream().filter(u -> u.getBSN() == bsn).findFirst().orElse(null);
+    }
+
+    public LoginAccount getLoginByUsername(String username) {
+        return loginDAO.get(username).orElse(null);
     }
 
     /**
@@ -83,7 +88,11 @@ public class RootRepository {
      * @author David_Scager
      */
     public void registerLogin(User user, HashAndSalt hashAndSalt){
-        loginDAO.create(user, hashAndSalt);
+        loginDAO.create(user.getEmail(), hashAndSalt);
+    }
+
+    public void saveActor(Actor actor){
+        actorDao.create(actor);
     }
 
     public Actor getActor(long userId){
@@ -107,6 +116,10 @@ public class RootRepository {
     public void saveAsset(Asset asset) { assetDao.create(asset); }
 
     public List<Asset> showAssetOverview() { return assetDao.getAssetOverview();}
+
+    public void updateAsset(Asset asset){
+        assetDao.update(asset);
+    }
 
     public int getPortfolioIdByUserId(int userId) { return portfolioDao.getPortfolioIdByUserId(userId);}
 

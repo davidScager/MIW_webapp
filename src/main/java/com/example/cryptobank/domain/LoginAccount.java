@@ -22,6 +22,15 @@ public class LoginAccount {
         this.salt = salt;
     }
 
+    @Override
+    public String toString() {
+        return "LoginAccount{" +
+                "username='" + username + '\'' +
+                ", hash='" + hash + '\'' +
+                ", salt='" + salt + '\'' +
+                '}';
+    }
+
     public String getUsername() {
         return username;
     }

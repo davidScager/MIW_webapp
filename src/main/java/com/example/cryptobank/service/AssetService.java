@@ -40,4 +40,8 @@ public class AssetService {
         List<Asset> assetList = rootReposistory.showAssetOverview();
         return assetList;
     }
+
+    public void update (Asset asset){
+        rootReposistory.updateAsset(asset);
+    }
 }

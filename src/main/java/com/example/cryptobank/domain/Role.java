@@ -1,7 +1,7 @@
 package com.example.cryptobank.domain;
 
 public enum Role {
-    ADMINISTRATOR,
+    ADMINISTRATOR ,
     BANK,
     CLIENT;
 
