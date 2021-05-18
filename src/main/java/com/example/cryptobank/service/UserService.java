@@ -1,22 +1,24 @@
 package com.example.cryptobank.service;
 
+import com.example.cryptobank.domain.LoginAccount;
 import com.example.cryptobank.domain.Role;
 import com.example.cryptobank.domain.User;
 import com.example.cryptobank.repository.RootRepository;
-import com.example.cryptobank.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.sql.Date;
 
 @Service
 public class UserService {
 
     private final RootRepository rootRepository;
+    private final PepperService pepperService;
+    private final HashService hashService;
 
     @Autowired
-    public UserService(RootRepository rootRepository) {
+    public UserService(RootRepository rootRepository, PepperService pepperService, HashService hashService) {
         this.rootRepository = rootRepository;
+        this.pepperService = pepperService;
+        this.hashService = hashService;
     }
 
     public User register(int BSN, String firstName, String infix, String surname, String dateOfBirth, String address, String email, String username, Role role){
@@ -26,8 +28,16 @@ public class UserService {
     }
 
     public User verifyUser(String username, String password) {
-        //User user = David's securitycheck
-        //if user does not exist, return null
-        return new User();
+        LoginAccount loginAccount = rootRepository.getLoginAccountByUsername(username);
+        boolean correctLogin = false;
+        if (loginAccount != null) {
+            String hash = loginAccount.getHash();
+            String pepperedPassword = pepperService.getPepper() + password;
+            correctLogin = hashService.argon2idVerify(hash, pepperedPassword);
+        }
+        if (correctLogin) {
+            return rootRepository.getUserByUsername(username);
+        }
+        return null;
     }
 }

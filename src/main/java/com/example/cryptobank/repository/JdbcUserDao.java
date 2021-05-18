@@ -53,15 +53,15 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-    public Optional<User> get(int bsn){
-        logger.debug("JdbcUserDao.get aangeroepen voor user " + bsn);
+    public User get(String username){
+        logger.debug("JdbcUserDao.get aangeroepen voor user " + username);
         List<User> users = jdbcTemplate.query(
-                "select * from bitbankdb.user where bsn = ?",
-                rowMapper, bsn);
+                "select * from bitbankdb.user where username = ?",
+                rowMapper, username);
         if (users.size() != 1){
-            return Optional.empty();
+            return null;
         } else {
-            return Optional.of(users.get(0));
+            return users.get(0);
         }
     }
 

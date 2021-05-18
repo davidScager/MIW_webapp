@@ -58,7 +58,7 @@ public class RootRepository {
      */
     public boolean registerUser(User user, Role role){
         logger.debug("RootRepository.registerUser aangeroepen voor user " + user.getBSN());
-        if (!loginDAO.isRegistered(user) && userDao.get(user.getBSN()).isEmpty()){
+        if (!loginDAO.isRegistered(user) && userDao.get(user.getUsername()) != null){
             Actor newActor = new Actor(role);
             actorDao.create(newActor);
             user.setId(newActor.getUserId());
@@ -69,6 +69,10 @@ public class RootRepository {
             return true;
         }
         return false;
+    }
+
+    public User getUserByUsername(String username) {
+        return userDao.get(username);
     }
 
     /**
