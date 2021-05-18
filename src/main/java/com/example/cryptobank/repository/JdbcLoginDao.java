@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of loginAccount database access using MySQL and Spring JdbcTemplate
@@ -28,29 +29,35 @@ public class JdbcLoginDao implements LoginDao {
     }
 
     @Override
-    public boolean isRegistered(User user) {
-        List<LoginAccount> registeredUser = jdbcTemplate.query(
-                "select * from bitbankdb.loginaccount where username = ?",
-                (rs, rowNum) -> new LoginAccount(rs.getString("username"), rs.getString("hash"), rs.getString("salt")),
-                user.getUsername());
-        return !registeredUser.isEmpty();
+    public void create(String username, HashAndSalt hashAndSalt) {
+        jdbcTemplate.update(connection -> insertLoginStatement(username, hashAndSalt, connection));
     }
 
-    @Override
-    public void create(User user, HashAndSalt hashAndSalt) {
-        jdbcTemplate.update(connection -> insertLoginStatement(user, hashAndSalt, connection));
-    }
-
-    private PreparedStatement insertLoginStatement(User user, HashAndSalt hashAndSalt, Connection connection) throws SQLException {
+    private PreparedStatement insertLoginStatement(String username, HashAndSalt hashAndSalt, Connection connection) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("insert into bitbankdb.loginaccount values (?, ?, ?)");
-        ps.setString(1, user.getUsername());
+        ps.setString(1, username);
         ps.setString(2, hashAndSalt.getHash());
         ps.setString(3, hashAndSalt.getSalt());
         return ps;
     }
 
+    public Optional<LoginAccount> get(String username){
+        List<LoginAccount> loginList = jdbcTemplate.query(
+                "select * from bitbankdb.loginaccount where username = ?",
+                (rs, rowNum) -> new LoginAccount(rs.getString("username"), rs.getString("password"), rs.getString("salt")),
+                username);
+        if(loginList.size() != 1){
+            return Optional.empty();
+        } else {
+            return Optional.of(loginList.get(0));
+        }
+    }
+
     @Override
-    public HashAndSalt login(User user, String password) {
-        return new HashAndSalt("hash", "salt");
+    public void update(String username, HashAndSalt hashAndSalt) {
+    }
+
+    @Override
+    public void delete(String username) {
     }
 }
