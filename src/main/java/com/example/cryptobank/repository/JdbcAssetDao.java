@@ -35,8 +35,6 @@ public class JdbcAssetDao implements AssetDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> insertMemberStatement(asset, connection), keyHolder);
-//        int newKey = keyHolder.getKey().intValue();
-//        asset.setAssetId(newKey);
     }
 
     private PreparedStatement insertMemberStatement(Asset asset, Connection connection) throws SQLException {
@@ -59,7 +57,6 @@ public class JdbcAssetDao implements AssetDao {
 
         String query = "SELECT * FROM asset";
         List<Asset> tempAssetList = jdbcTemplate.query(query, new AssetRowMapper());
-//        Asset tempAsset = jdbcTemplate.queryForObject( query, new Object[] { id }, new AssetRowMapper());
 
         return tempAssetList;
     }
@@ -82,6 +79,9 @@ public class JdbcAssetDao implements AssetDao {
             asset.setDescription(rs.getString("description"));
             asset.setValueInUsd(rs.getDouble("valueInUsd"));
             asset.setAdjustmentFactor(rs.getDouble("adjustmentFactor"));
+            asset.setValueYesterday(rs.getDouble("valueYesterday"));
+            asset.setValueLastWeek(rs.getDouble("valueLastWeek"));
+            asset.setValueLastMonth(rs.getDouble("valueLastMonth"));
 
             return asset;
         }

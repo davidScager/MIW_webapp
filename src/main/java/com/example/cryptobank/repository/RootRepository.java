@@ -114,19 +114,36 @@ public class RootRepository {
                     ". De waarde van deze positie is: " + Math.round(asset.getValueInUsd() * tempAmount * 100) / 100 +
                     " USD. Sinds uw laatste aankoop is deze positie met " + stijgingDaling + " % gestegen.");
         }
-        return tempAssetOverview; }
+        return tempAssetOverview;
+    }
 
     public String showPortfolioValue(int portfolioId) {
         List<Asset> tempPortfolioValue = assetPortfolioDao.getAssetOverview(portfolioId);
-        List<String> tempAssetOverview = new ArrayList();
         double tempTotalPortfolioValue = 0;
-        double tempTotalHistoricPortfolioValue = 0;
-        tempAssetOverview.add("Portefeuille-overzicht voor portfolio " + portfolioId + ": ");
+        double tempValueYesterday = 0;
+        double tempValueLastWeek = 0;
+        double tempValueLastMonth = 0;
         for (Asset asset : tempPortfolioValue ) {
             double tempAmount = assetPortfolioDao.getAmountByAssetName(asset.getAbbreviation(), portfolioId);
             tempTotalPortfolioValue = tempTotalPortfolioValue + Math.round(asset.getValueInUsd() * tempAmount);
-//            tempTotalHistoricPortfolioValue = tempTotalHistoricPortfolioValue + Math.round(asset.getValueLAstMonth * tempAmount);
+            tempValueYesterday = tempValueYesterday + asset.getValueYesterday() * tempAmount;
+            tempValueLastWeek = tempValueLastWeek + asset.getValueLastWeek() * tempAmount;
+            tempValueLastMonth = tempValueLastMonth + asset.getValueLastMonth() * tempAmount;
         }
-        String portfolioValueOutput = "De waarde van uw portefeuille is momenteel " + tempTotalPortfolioValue + " dollar.";
-        return portfolioValueOutput; }
+        return buildString(tempTotalPortfolioValue, tempValueYesterday, tempValueLastWeek, tempValueLastMonth);
+    }
+
+    private String buildString(double now, double yesterday, double week, double month) {
+        StringBuilder portfolioValueOutput = new StringBuilder();
+        portfolioValueOutput.append("De waarde van uw portefeuille is momenteel " + now + " dollar. \n" +
+                "\tGisteren was de waarde " + yesterday +
+                " dollar (" + Math.round( (now / yesterday - 1 ) * 100) + "% gestegen).\n" +
+                "\tVorige week was de waarde " + week +
+                " dollar (" + Math.round( (now / week - 1 ) * 100) + "% gestegen).\n" +
+                "\tVorige maand was de waarde " + month +
+                " dollar (" + Math.round( (now / month - 1 ) * 100) + "% gestegen).");
+        return portfolioValueOutput.toString();
+    }
+
+
 }
