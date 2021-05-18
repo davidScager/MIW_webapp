@@ -117,6 +117,10 @@ public class RootRepository {
 
     public List<Asset> showAssetOverview() { return assetDao.getAssetOverview();}
 
+    public void updateAsset(Asset asset){
+        assetDao.update(asset);
+    }
+
     public int getPortfolioIdByUserId(int userId) { return portfolioDao.getPortfolioIdByUserId(userId);}
 
     public List<String> showPortfolioOverview(int portfolioId) {

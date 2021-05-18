@@ -68,6 +68,7 @@ public class JdbcAssetDao implements AssetDao {
     public Asset getOneByName(String name) {
         String query = "SELECT * FROM asset WHERE abbreviation = ?";
         Asset tempAsset = jdbcTemplate.queryForObject( query, new Object[] { name }, new AssetRowMapper());
+
         return tempAsset;
     }
 
@@ -81,13 +82,21 @@ public class JdbcAssetDao implements AssetDao {
             asset.setDescription(rs.getString("description"));
             asset.setValueInUsd(rs.getDouble("valueInUsd"));
             asset.setAdjustmentFactor(rs.getDouble("adjustmentFactor"));
-
+            asset.setValueYesterday(rs.getDouble("valueYesterday"));
+            asset.setValueLastWeek(rs.getDouble("valueLastWeek"));
+            asset.setValueLastMonth(rs.getDouble("valueLastMonth"));
             return asset;
         }
     }
 
     @Override
-    public void update(Asset asset, int id) {
+    public void update(Asset asset) {
+        logger.debug("JdbcAssetDao.update aan geroepen voor " + asset.getName());
+        String sql = "UPDATE asset set name = ?, abbreviation = ?, description = ?, valueInUsd = ?, adjustmentFactor = ?, " +
+                "valueYesterday = ?, valueLastWeek = ?, valueLastMonth = ? where name = ?";
+        jdbcTemplate.update(sql, asset.getName(), asset.getAbbreviation(),
+                asset.getDescription(), asset.getValueInUsd(), asset.getAdjustmentFactor(), asset.getValueYesterday(),
+                asset.getValueLastWeek(), asset.getValueLastMonth(), asset.getName());
     }
 
     @Override
