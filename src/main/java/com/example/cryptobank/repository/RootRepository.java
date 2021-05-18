@@ -88,7 +88,7 @@ public class RootRepository {
      * @author David_Scager
      */
     public void registerLogin(User user, HashAndSalt hashAndSalt){
-        loginDAO.create(user.getUsername(), hashAndSalt);
+        loginDAO.create(user.getEmail(), hashAndSalt);
     }
 
     public void saveActor(Actor actor){

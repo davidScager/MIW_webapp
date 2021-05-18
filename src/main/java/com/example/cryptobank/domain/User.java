@@ -16,13 +16,12 @@ public class User {
     private String surname;
     private String dateOfBirth;
     private String address;
-    private String username;
 
     @Email
     @NotNull
     private String email;
 
-    public User(int BSN, String firstName, String infix, String surname, String dateOfBirth, String address, String email, String username) {
+    public User(int BSN, String firstName, String infix, String surname, String dateOfBirth, String address, String email) {
         this.BSN = BSN;
         this.firstName = firstName;
         this.infix = infix;
@@ -30,7 +29,6 @@ public class User {
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.email = email;
-        this.username = username;
         this.id = 0;
         logger.info("New User");
     }
@@ -102,11 +100,4 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 }

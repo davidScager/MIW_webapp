@@ -5,7 +5,6 @@ public class Portfolio {
     private int portfolioId;
     private Actor actor;
 
-    //changed user to actor -David
     public Portfolio(Actor actor) {
         super();
         this.actor = actor;

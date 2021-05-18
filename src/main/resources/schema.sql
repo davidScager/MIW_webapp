@@ -35,10 +35,9 @@ CREATE TABLE IF NOT EXISTS User
     surname     VARCHAR(45) NOT NULL,
     dateOfBirth DATE        NOT NULL,
     address     VARCHAR(45) NOT NULL,
-    email       VARCHAR(45) NOT NULL,
-    username    VARCHAR(45) NOT NULL,
+    email       VARCHAR(100) NOT NULL,
     PRIMARY KEY (BSN),
-#     FOREIGN KEY (username)
+#     FOREIGN KEY (email)
 #         REFERENCES LoginAccount (username)
 #         ON DELETE CASCADE
 #         ON UPDATE CASCADE,
