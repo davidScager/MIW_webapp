@@ -1,10 +1,10 @@
 package com.example.cryptobank.repository;
 
 import com.example.cryptobank.domain.Asset;
+import com.example.cryptobank.domain.Portfolio;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface AssetPortfolioDao {
@@ -15,7 +15,7 @@ public interface AssetPortfolioDao {
 
     public void create(Object o);
 
-    public void update(Object o, int id);
+    public void update(Asset asset, Portfolio portfolio, double amount);
 
     public void delete(int id);
 }
