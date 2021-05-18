@@ -37,10 +37,10 @@ CREATE TABLE IF NOT EXISTS User
     email       VARCHAR(45) NOT NULL,
     username    VARCHAR(45) NOT NULL,
     PRIMARY KEY (BSN),
-    FOREIGN KEY (username)
-        REFERENCES LoginAccount (username)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
+#     FOREIGN KEY (username)
+#         REFERENCES LoginAccount (username)
+#         ON DELETE CASCADE
+#         ON UPDATE CASCADE,
     FOREIGN KEY (userId)
         REFERENCES Actor (userId)
         ON DELETE CASCADE

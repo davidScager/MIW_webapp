@@ -84,7 +84,6 @@ public class JdbcAssetDao implements AssetDao {
 
     @Override
     public void update(Asset asset, int id) {
-
     }
 
     @Override
