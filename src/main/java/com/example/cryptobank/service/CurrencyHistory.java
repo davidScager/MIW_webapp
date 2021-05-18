@@ -18,7 +18,6 @@ public class CurrencyHistory {
         private ObjectMapper objectMapper;
         private String adress = "https://api.coingecko.com/api/v3/coins/";
         private String finishadress = "/history?date=";
-        private final Logger logger = LoggerFactory.getLogger(CurrencyHistory.class);
 
         public CurrencyHistory() {
                 super();
