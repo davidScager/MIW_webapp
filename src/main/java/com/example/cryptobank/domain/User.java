@@ -3,14 +3,10 @@ package com.example.cryptobank.domain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
-// for now only made to match to mailsender
-
-@Component
+@Component //voor mailserver. moet nog naar gekeken worden
 public class User {
     private final Logger logger = LoggerFactory.getLogger(User.class);
     private int BSN;

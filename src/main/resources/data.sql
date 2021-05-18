@@ -1,13 +1,13 @@
 USE BitBankDB;
 
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Bitcoin', 'BTC','Mooie munt' ,'50000','1', 1,1,1);
-INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Etherium', 'ETH','Mooie munt' ,'3000','1.1',1,1,1);
+INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Ethereum', 'ETH','Mooie munt' ,'3000','1.1',1,1,1);
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Binance Coin', 'BNB','Mooie munt' ,'600','1',1,1,1);
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Cardano', 'ADA','Mooie munt' ,'2','1',1,1,1);
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Dogecoin', 'DOGE','Mooie munt' ,'0.5','1',1,1,1);
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('XRP','XRP','Mooie munt' ,'1.28','1',1,1,1);
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Polkadot', 'DOT','Mooie munt' ,'37.12','1',1,1,1);
-INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('INternet Computer', 'ICP','Mooie munt' ,'208.92','1',1,1,1);
+INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Internet Computer', 'ICP','Mooie munt' ,'208.92','1',1,1,1);
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Bitcoin Cash', 'BCH','Mooie munt' ,'1002','1',1,1,1);
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Litecoin', 'LTC','Mooie munt' ,'261.18','1',1,1,1);
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Stellar', 'XLM','Mooie munt' ,'0.6','1',1,1,1);
@@ -18,7 +18,7 @@ INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('TRON', 'TRX','Mooie munt' ,'0.105','1',1,1,1);
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Filecoin', 'FIL','Mooie munt' ,'93.85','1',1,1,1);
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Monero', 'XMR','Mooie munt' ,'328.79','1',1,1,1);
-INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('NEo', 'NEO','Mooie munt' ,'81.19','1',1,1,1);
+INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Neo', 'NEO','Mooie munt' ,'81.19','1',1,1,1);
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('DASH', 'DASH','Mooie munt' ,'200.1','1',1,1,1);
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Dollar', 'USD' ,'valutaatje', 1, 1,1,1,1);
 
@@ -35,6 +35,13 @@ INSERT INTO actor (userId, checkingAccount, role) Values (5,32187456,'client');
 INSERT INTO actor (userId, checkingAccount, role) Values (6,98765432,'bank');
 
 # Testdata voor tijdelijk gebruik
+INSERT INTO portfolio (portfolioId, actor) Values (101,1);
+INSERT INTO portfolio (portfolioId, actor) Values (102,2);
+INSERT INTO portfolio (portfolioId, actor) Values (103,3);
+INSERT INTO portfolio (portfolioId, actor) Values (104,4);
+INSERT INTO portfolio (portfolioId, actor) Values (105,5);
+
+# Testdata voor tijdelijk gebruik
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BTC',101,0.67);
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ETH',102,0.45);
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('FIL',101,2);
@@ -45,13 +52,6 @@ INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('THETA',104,
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('TRX',105,6321);
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('VET',103,11);
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('DASH',103,986);
-
-# Testdata voor tijdelijk gebruik
-INSERT INTO portfolio (portfolioId, actor) Values (101,1);
-INSERT INTO portfolio (portfolioId, actor) Values (102,2);
-INSERT INTO portfolio (portfolioId, actor) Values (103,3);
-INSERT INTO portfolio (portfolioId, actor) Values (104,4);
-INSERT INTO portfolio (portfolioId, actor) Values (105,5);
 
 # Testdata voor tijdelijk gebruik
 INSERT INTO transaction (transactionId, timestamp, seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought) Values (2001,'2021-02-16',6,2,1,10.2,'USD','ETH');

@@ -13,7 +13,7 @@ public interface UserDao {
 
     void create(User user);
 
-    Optional<User> get(int bsn);
+    User get(String username);
 
     void update(User user, int bsn);
 

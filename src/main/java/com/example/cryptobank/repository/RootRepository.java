@@ -29,8 +29,13 @@ public class RootRepository {
     private final AssetPortfolioDao assetPortfolioDao;
     private final TransactionDao transactionDao;
     private final LogDao logDao;
+    private final JdbcAssetPortfolioDao jdbcAssetPortfolioDao;
+    private final JdbcAssetDao jdbcAssetDao;
+    private final int STARTKAPITAAL = 200;
 
-    public RootRepository(UserDao userDao, PortfolioDao portfolioDao, AssetDao assetDao, ActorDao actorDao, LoginDao loginDAO, AssetPortfolioDao assetPortfolioDao, TransactionDao transactionDao, LogDao logDao) {
+    public RootRepository(UserDao userDao, PortfolioDao portfolioDao, AssetDao assetDao, ActorDao actorDao, LoginDao loginDAO, AssetPortfolioDao assetPortfolioDao, TransactionDao transactionDao, LogDao logDao, JdbcAssetPortfolioDao jdbcAssetPortfolioDao, JdbcAssetDao jdbcAssetDao) {
+        this.jdbcAssetPortfolioDao = jdbcAssetPortfolioDao;
+        this.jdbcAssetDao = jdbcAssetDao;
         logger.info("New RootRepository");
         this.userDao = userDao;
         this.portfolioDao = portfolioDao;
@@ -53,17 +58,21 @@ public class RootRepository {
      */
     public boolean registerUser(User user, Role role){
         logger.debug("RootRepository.registerUser aangeroepen voor user " + user.getBSN());
-        if (!loginDAO.isRegistered(user) && userDao.get(user.getBSN()).isEmpty()){
+        if (!loginDAO.isRegistered(user) && userDao.get(user.getUsername()) != null){
             Actor newActor = new Actor(role);
             actorDao.create(newActor);
-            savePortfolio(new Portfolio(newActor));
-
             user.setId(newActor.getUserId());
             userDao.create(user);
-            //still need to add starting amount in EUR to portfolio
+            Portfolio portfolio = new Portfolio(newActor);
+            savePortfolio(portfolio);
+            jdbcAssetPortfolioDao.update(jdbcAssetDao.getOneByName("EUR"), portfolio, STARTKAPITAAL);
             return true;
         }
         return false;
+    }
+
+    public User getUserByUsername(String username) {
+        return userDao.get(username);
     }
 
     /**

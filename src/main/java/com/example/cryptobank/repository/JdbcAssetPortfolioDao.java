@@ -1,6 +1,7 @@
 package com.example.cryptobank.repository;
 
 import com.example.cryptobank.domain.Asset;
+import com.example.cryptobank.domain.Portfolio;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -75,8 +76,9 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
     }
 
     @Override
-    public void update(Object o, int id) {
-
+    public void update(Asset asset, Portfolio portfolio, double amount) {
+        String sql = "insert into assetportfolio(assetname, portfolioid, amount) values (?,?,?)";
+        jdbcTemplate.update(sql, asset.getAbbreviation(), portfolio.getPortfolioId(), amount);
     }
 
     @Override
