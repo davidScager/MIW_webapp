@@ -35,6 +35,13 @@ INSERT INTO actor (userId, checkingAccount, role) Values (5,32187456,'client');
 INSERT INTO actor (userId, checkingAccount, role) Values (6,98765432,'bank');
 
 # Testdata voor tijdelijk gebruik
+INSERT INTO portfolio (portfolioId, actor) Values (101,1);
+INSERT INTO portfolio (portfolioId, actor) Values (102,2);
+INSERT INTO portfolio (portfolioId, actor) Values (103,3);
+INSERT INTO portfolio (portfolioId, actor) Values (104,4);
+INSERT INTO portfolio (portfolioId, actor) Values (105,5);
+
+# Testdata voor tijdelijk gebruik
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('Bitcoin',101,0.67);
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('Etherium',102,0.45);
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('Filecoin',101,2);
@@ -45,13 +52,6 @@ INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('THETA',104,
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('TRON',105,6321);
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('VeChain',103,11);
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('DASH',103,986);
-
-# Testdata voor tijdelijk gebruik
-INSERT INTO portfolio (portfolioId, actor) Values (101,1);
-INSERT INTO portfolio (portfolioId, actor) Values (102,2);
-INSERT INTO portfolio (portfolioId, actor) Values (103,3);
-INSERT INTO portfolio (portfolioId, actor) Values (104,4);
-INSERT INTO portfolio (portfolioId, actor) Values (105,5);
 
 # Testdata voor tijdelijk gebruik
 INSERT INTO transaction (transactionId, timestamp, seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought) Values (2001,'2021-02-16',6,2,1,10.2,'Dollar','Etherium');
