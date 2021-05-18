@@ -1,6 +1,8 @@
 package com.example.cryptobank.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -14,8 +16,11 @@ public class CurrencyHistory {
         private ObjectMapper objectMapper;
         private String adress = "https://api.coingecko.com/api/v3/coins/";
         private String finishadress = "/history?date=";
+        private final Logger logger = LoggerFactory.getLogger(CurrencyHistory.class);
 
         public Double historyValuefrom(String date, String cryptocoin) throws IOException{
+                logger.info("Nieuwe opvraag");
+                if (cryptocoin.equals("Dollar")) return 1.0;
                 objectMapper = new ObjectMapper();
                 String url = adress + getStringForApi(cryptocoin) + finishadress + date;
                 Map<String, Object> coinwithcurrency = objectMapper.readValue(new URL(url), Map.class);
@@ -28,18 +33,22 @@ public class CurrencyHistory {
                                 return Double.valueOf(stringssplit[1]);
                         }
                 }
-                return null;
+                return 0.0;
         }
 
-        private String getStringForApi(String crytocoin){
-                if (crytocoin.equals("Bitcoin") || crytocoin.equals("Binance Coin") || crytocoin.equals("Cardano") || crytocoin.equals("DASH") ||
-                crytocoin.equals("Dogecoin") || crytocoin.equals("EOS") || crytocoin.equals("Ethereum") || crytocoin.equals("Filecoin") ||
-                crytocoin.equals("Litecoin") || crytocoin.equals("Monero") || crytocoin.equals("Neo") || crytocoin.equals("Polkadot") || crytocoin.equals("Stellar") ||
-                crytocoin.equals("TRON") || crytocoin.equals("Vechain")) return crytocoin.toLowerCase(Locale.ROOT);
-                else if (crytocoin.equals("Bitcoin Cash") || crytocoin.equals("Ethereum Classic") || crytocoin.equals("Internet Computer"))
-                        return crytocoin.toLowerCase(Locale.ROOT).replace(" ", "-");
-                else if (crytocoin.equals("XRP")) return "erp-classic";
-                else if (crytocoin.equals("THETA")) return "theta-token";
+        private String getStringForApi(String cryptocoin){
+                if (cryptocoin.equals("Bitcoin") || cryptocoin.equals("Cardano") || cryptocoin.equals("DASH") ||
+                cryptocoin.equals("Dogecoin") || cryptocoin.equals("EOS") || cryptocoin.equals("Ethereum") || cryptocoin.equals("Filecoin") ||
+                cryptocoin.equals("Litecoin") || cryptocoin.equals("Monero") || cryptocoin.equals("Neo") || cryptocoin.equals("Polkadot") || cryptocoin.equals("Stellar") ||
+                cryptocoin.equals("TRON") || cryptocoin.equals("VeChain")) {
+                        String teruggave = cryptocoin.toLowerCase(Locale.ROOT);
+                        return teruggave;
+                }
+                else if (cryptocoin.equals("Bitcoin Cash") || cryptocoin.equals("Ethereum Classic") || cryptocoin.equals("Internet Computer"))
+                        return cryptocoin.toLowerCase(Locale.ROOT).replace(" ", "-");
+                else if (cryptocoin.equals("XRP")) return "xrp-classic";
+                else if (cryptocoin.equals("THETA")) return "theta-token";
+                else if (cryptocoin.equals("Binance Coin")) return "binancecoin";
                 else return "dollars";
         }
 

@@ -16,34 +16,30 @@ public class Asset {
 
     private final Logger logger = LoggerFactory.getLogger(Asset.class);
 
-    public Asset(String name, String abbreviation, String description) {
-        this.name = name;
-        this.abbreviation = abbreviation;
-        this.description = description;
-        this.valueInUsd = 0;
-        this.adjustmentFactor = 1;
-        logger.info("New Asset created");
-    }
-
-    public Asset(String name, String abbreviation, String description, double valueInUsd/*, double adjustmentFactor*/, double valueYesterday, double valueLastWeek, double valueLastMonth) {
+    public Asset(String name, String abbreviation, String description, double valueInUsd, double adjustmentFactor, double valueYesterday, double valueLastWeek, double valueLastMonth) {
         this.name = name;
         this.abbreviation = abbreviation;
         this.description = description;
         this.valueInUsd = valueInUsd;
-        this.adjustmentFactor = 1;
+        this.adjustmentFactor = adjustmentFactor;
         this.valueYesterday = valueYesterday;
         this.valueLastWeek = valueLastWeek;
         this.valueLastMonth = valueLastMonth;
         logger.info("New Asset created");
     }
 
+    public Asset(String name, String abbreviation, String description) {
+        this(name, abbreviation, description, 1,1,1,1,1);
+        logger.info("New Asset created");
+    }
+
     public Asset(String name) {
-        this();
-        this.name = name;
-        this.abbreviation = null;
-        this.description = null;
-        this.valueInUsd = 0;
-        this.adjustmentFactor = 1;
+        this(name, "Abbreviation", "Description");
+        logger.info("New Asset created");
+    }
+
+    public Asset() {
+        this("Assetname");
         logger.info("New Asset created");
     }
 
@@ -71,9 +67,7 @@ public class Asset {
         this.valueLastMonth = valueLastMonth;
     }
 
-    public Asset() {
-        logger.info("New Asset created");
-    }
+
 
     public String getName() {
         return name;

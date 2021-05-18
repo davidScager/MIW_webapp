@@ -3,8 +3,12 @@ package com.example.cryptobank.service;
 import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.repository.AssetDao;
 import com.example.cryptobank.repository.JdbcAssetDao;
+import com.example.cryptobank.repository.JdbcUserDao;
 import org.apache.catalina.LifecycleState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -14,6 +18,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+@Service
 public class MethodRunOnScheduleHelper {
     private CurrencyCollector collector = new CurrencyCollector();
     private AssetService assetService;
@@ -21,7 +26,9 @@ public class MethodRunOnScheduleHelper {
     @Autowired
     public MethodRunOnScheduleHelper(AssetService assetService) {
         this.assetService = assetService;
+        logger.info("ubvievb iwv e");
     }
+    private final Logger logger = LoggerFactory.getLogger(MethodRunOnScheduleHelper.class);
 
     public void getCurrencyDaily() {
 
@@ -45,24 +52,27 @@ public class MethodRunOnScheduleHelper {
     }
 
     public void getCurrencyDailyForHistoryValue() {
+        System.out.println("Asset history word geupdate");
         List<Asset> assetList = assetService.showAssetList();
+        System.out.println(assetList);
         CurrencyHistory currencyHistory = new CurrencyHistory();
         final Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 assetList.forEach(asset -> setAssetHelper(asset, currencyHistory));
-                //assetList.forEach(asset -> assetService.update(asset));
+                assetList.forEach(asset -> assetService.update(asset));
             }
-        }, Date.from(Instant.now()), Duration.ofSeconds(20).toMillis());
-        System.out.println(assetList.get(0));
+        }, Date.from(Instant.now()), Duration.ofDays(1).toMillis());
+        System.out.println(assetList.get(0).getValueLastWeek());
+        System.out.println("Asset history geupdate");
     }
 
     private void setAssetHelper(Asset asset, CurrencyHistory currencyHistory){
         try {
-            asset.setValueYesterday(currencyHistory.historyValuefrom(asset.getName(), currencyHistory.dateYesterday()));
-            asset.setValueLastWeek(currencyHistory.historyValuefrom(asset.getName(), currencyHistory.dateLasteWeek()));
-            asset.setValueLastMonth(currencyHistory.historyValuefrom(asset.getName(), currencyHistory.dateLastMonth()));
+            asset.setValueYesterday(currencyHistory.historyValuefrom(currencyHistory.dateYesterday(),asset.getName()));
+            asset.setValueLastWeek(currencyHistory.historyValuefrom(currencyHistory.dateLasteWeek(),asset.getName()));
+            asset.setValueLastMonth(currencyHistory.historyValuefrom(currencyHistory.dateLastMonth(), asset.getName()));
         } catch (IOException e) {
             e.printStackTrace();
         }
