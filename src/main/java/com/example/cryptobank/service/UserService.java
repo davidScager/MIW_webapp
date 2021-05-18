@@ -36,7 +36,7 @@ public class UserService {
             correctLogin = hashService.argon2idVerify(hash, pepperedPassword);
         }
         if (correctLogin) {
-            return rootRepository.getUserByUserName(username);
+            return rootRepository.getUserByUsername(username);
         }
         return null;
     }
