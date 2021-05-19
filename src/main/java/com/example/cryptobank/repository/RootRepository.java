@@ -109,15 +109,19 @@ public class RootRepository {
         return getActor(actor.getUserId());
     }
 
-    public void savePortfolio(Portfolio portfolio){//te gebruiken in actor check staat in portfolio dao
+    public void savePortfolio(Portfolio portfolio) {//te gebruiken in actor check staat in portfolio dao
         portfolioDao.create(portfolio);
     }
 
-    public void saveAsset(Asset asset) { assetDao.create(asset); }
+    public void saveAsset(Asset asset) {
+        assetDao.create(asset);
+    }
 
-    public List<Asset> showAssetOverview() { return assetDao.getAssetOverview();}
+    public List<Asset> showAssetOverview() {
+        return assetDao.getAssetOverview();
+    }
 
-    public void updateAsset(Asset asset){
+    public void updateAsset(Asset asset) {
         assetDao.update(asset);
     }
 
@@ -125,18 +129,21 @@ public class RootRepository {
 
     public Asset updateAssetByApi(String name) { return assetDao.updateAssetByApi(name); }
 
-
     public int getPortfolioIdByUserId(int userId) { return portfolioDao.getPortfolioIdByUserId(userId);}
+
+    public void saveTransaction(Transaction transaction) {
+        transactionDao.saveTransaction(transaction);
+    }
 
     public List<String> showPortfolioOverview(int portfolioId) {
         List<Asset> tempPortfolioOverview = assetPortfolioDao.getAssetOverview(portfolioId);
         List<String> tempAssetOverview = new ArrayList();
         tempAssetOverview.add("Portefeuille-overzicht voor portfolio " + portfolioId + ": ");
-        for (Asset asset : tempPortfolioOverview ) {
+        for (Asset asset : tempPortfolioOverview) {
             double tempAmount = assetPortfolioDao.getAmountByAssetName(asset.getAbbreviation(), portfolioId);
             int tempTransactionId = transactionDao.getTransactionIdMostRecentTrade(asset.getAbbreviation());
             double tradedRate = logDao.getTradedRateByTransactionId(tempTransactionId);
-            double stijgingDaling = Math.round( (asset.getValueInUsd() / tradedRate - 1 ) * 100);
+            double stijgingDaling = Math.round((asset.getValueInUsd() / tradedRate - 1) * 100);
             tempAssetOverview.add("Asset: /" + asset.getName() + ", huidige koers (in USD): " + asset.getValueInUsd() + ", aantal in portefeuille: " + tempAmount +
                     ". De waarde van deze positie is: " + Math.round(asset.getValueInUsd() * tempAmount * 100) / 100 +
                     " USD. Sinds uw laatste aankoop is deze positie met " + stijgingDaling + " % gestegen.");
