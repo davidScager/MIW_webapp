@@ -30,9 +30,9 @@ class LoginControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private static UserService mockUserService = Mockito.mock(UserService.class);
+    private static UserService mockUserService;
     @MockBean
-    private static TokenService mockTokenService = Mockito.mock(TokenService.class);
+    private static TokenService mockTokenService;
 
     public LoginController loginController= new LoginController(mockUserService, mockTokenService);
 
