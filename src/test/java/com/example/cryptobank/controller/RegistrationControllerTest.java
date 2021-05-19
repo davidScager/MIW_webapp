@@ -41,6 +41,7 @@ public class RegistrationControllerTest {
         logger.info("New RegistrationControllerTest");
     }
 
+/*
     @Test
     public void RegisterClientTest(){
         User user = new User(12345, "Testman", "t", "Van Der Test", "12-06-1980", "Testlaan 23, Amsterdam", "Testman@hotmail.com", "tester");
@@ -67,4 +68,5 @@ public class RegistrationControllerTest {
             e.printStackTrace();
         }
     }
+*/
 }

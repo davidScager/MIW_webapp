@@ -2,10 +2,7 @@ package com.example.cryptobank.repository;
 
 import com.example.cryptobank.domain.LoginAccount;
 import com.example.cryptobank.security.HashAndSalt;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@ActiveProfiles("bitbanktestdb")
+@ActiveProfiles("testdb")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class LoginDaoTest {
     private Logger logger = LoggerFactory.getLogger(LoginDaoTest.class);
@@ -25,7 +22,6 @@ class LoginDaoTest {
     private final String HASH = "hash";
     private final String SALT = "salt";
     private HashAndSalt testHashAndSalt;
-    //private LoginAccount expectedLoginAccount;
 
     @Autowired
     public LoginDaoTest(LoginDao loginDao){
