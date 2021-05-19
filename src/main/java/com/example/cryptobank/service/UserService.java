@@ -28,16 +28,16 @@ public class UserService {
     }
 
     public User verifyUser(String username, String password) {
-        LoginAccount loginAccount = rootRepository.getLoginAccountByUsername(username);
-        boolean correctLogin = false;
-        if (loginAccount != null) {
-            String hash = loginAccount.getHash();
-            String pepperedPassword = pepperService.getPepper() + password;
-            correctLogin = hashService.argon2idVerify(hash, pepperedPassword);
-        }
-        if (correctLogin) {
-            return rootRepository.getUserByUsername(username);
-        }
+//        LoginAccount loginAccount = rootRepository.getLoginAccountByUsername(username);
+//        boolean correctLogin = false;
+//        if (loginAccount != null) {
+//            String hash = loginAccount.getHash();
+//            String pepperedPassword = pepperService.getPepper() + password;
+//            correctLogin = hashService.argon2idVerify(hash, pepperedPassword);
+//        }
+//        if (correctLogin) {
+//            return rootRepository.getUserByUsername(username);
+//        }
         return null;
     }
 }
