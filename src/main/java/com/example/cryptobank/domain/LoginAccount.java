@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 /**
  * Login account type object
  * @author David_Scager
@@ -29,6 +31,19 @@ public class LoginAccount {
                 ", hash='" + hash + '\'' +
                 ", salt='" + salt + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LoginAccount that = (LoginAccount) o;
+        return username.equals(that.username) && hash.equals(that.hash) && salt.equals(that.salt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, hash, salt);
     }
 
     public String getUsername() {
