@@ -25,7 +25,7 @@ public class CurrencyHistory {
         }
 
         public Double historyValuefrom(String date, String cryptocoin) throws IOException{
-                logger.info("Nieuwe opvraag");
+                /*logger.info("Nieuwe opvraag");*/
                 if (cryptocoin.equals("Dollar")) return 1.0;
                 objectMapper = new ObjectMapper();
                 String url = adress + getStringForApi(cryptocoin) + finishadress + date;
