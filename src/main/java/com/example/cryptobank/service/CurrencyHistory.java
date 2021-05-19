@@ -25,7 +25,6 @@ public class CurrencyHistory {
         }
 
         public Double historyValuefrom(String date, String cryptocoin) throws IOException{
-                /*logger.info("Nieuwe opvraag");*/
                 if (cryptocoin.equals("Dollar")) return 1.0;
                 objectMapper = new ObjectMapper();
                 String url = adress + getStringForApi(cryptocoin) + finishadress + date;
@@ -43,17 +42,17 @@ public class CurrencyHistory {
         }
 
         private String getStringForApi(String cryptocoin){
-                if (cryptocoin.equals("Bitcoin") || cryptocoin.equals("Cardano") || cryptocoin.equals("DASH") ||
-                cryptocoin.equals("Dogecoin") || cryptocoin.equals("EOS") || cryptocoin.equals("Ethereum") || cryptocoin.equals("Filecoin") ||
+                if (cryptocoin.equals("Bitcoin") || cryptocoin.equals("Cardano") || cryptocoin.equals("Dash") ||
+                cryptocoin.equals("Dogecoin") || cryptocoin.equals("Eos") || cryptocoin.equals("Ethereum") || cryptocoin.equals("Filecoin") ||
                 cryptocoin.equals("Litecoin") || cryptocoin.equals("Monero") || cryptocoin.equals("Neo") || cryptocoin.equals("Polkadot") || cryptocoin.equals("Stellar") ||
-                cryptocoin.equals("TRON") || cryptocoin.equals("VeChain")) {
+                cryptocoin.equals("Tron") || cryptocoin.equals("Vechain")) {
                         String teruggave = cryptocoin.toLowerCase(Locale.ROOT);
                         return teruggave;
                 }
                 else if (cryptocoin.equals("Bitcoin Cash") || cryptocoin.equals("Ethereum Classic") || cryptocoin.equals("Internet Computer"))
                         return cryptocoin.toLowerCase(Locale.ROOT).replace(" ", "-");
                 else if (cryptocoin.equals("XRP")) return "xrp-classic";
-                else if (cryptocoin.equals("THETA")) return "theta-token";
+                else if (cryptocoin.equals("Theta")) return "theta-token";
                 else if (cryptocoin.equals("Binance Coin")) return "binancecoin";
                 else return "dollars";
         }

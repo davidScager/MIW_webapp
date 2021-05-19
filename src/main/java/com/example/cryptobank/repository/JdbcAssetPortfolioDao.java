@@ -43,6 +43,15 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         return tempAssetList;
     }
 
+    @Override
+    public Map<Asset, Double> getAssetOvervieuwWithAmmount(int portfolioId){
+        Map<Asset, Double> resultMap = new HashMap<>();
+        String query = "SELECT * FROM assetportfolio WHERE portfolioId = ?";
+        List<AssetPortfolio> tempList = jdbcTemplate.query(query, new AssetPortfolioAmountRowMapper(), portfolioId);
+        tempList.forEach(assetPortfolio -> resultMap.put(jdbcAssetDao.getOneByName(assetPortfolio.getAssetname()), assetPortfolio.getAmount()));
+        return resultMap;
+    }
+
     public class AssetPortfolioRowMapper implements RowMapper<String> {
         @Override
         public String mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -53,13 +62,14 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         }
     }
 
-    public class AssetPortfolioAmountRowMapper implements RowMapper<Integer> {
+    public class AssetPortfolioAmountRowMapper implements RowMapper<AssetPortfolio> {
         @Override
-        public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-
-            int amount = rs.getInt("amount");
-
-            return amount;
+        public AssetPortfolio mapRow(ResultSet rs, int rowNum) throws SQLException {
+            String assetName = rs.getString("assetName");
+            int portfolioId = rs.getInt("portfolioId");
+            double amount = rs.getInt("amount");
+            AssetPortfolio assetPortfolio = new AssetPortfolio(assetName, portfolioId, amount);
+            return assetPortfolio;
         }
     }
 

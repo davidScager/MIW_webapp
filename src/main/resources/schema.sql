@@ -71,27 +71,19 @@ CREATE TABLE IF NOT EXISTS Transaction
     `assetSold`       VARCHAR(45) NOT NULL,
     `assetBought`     VARCHAR(45) NOT NULL,
     PRIMARY KEY (`transactionId`),
-    INDEX `verzinzelf3_idx` (`seller` ASC) VISIBLE,
-    INDEX `verzinzelf4_idx` (`buyer` ASC) VISIBLE,
-    INDEX `verzinzelf5_idx` (`assetSold` ASC) VISIBLE,
-    INDEX `verzinzelf7_idx` (`assetBought` ASC) VISIBLE,
-    CONSTRAINT `verzinzelf3`
         FOREIGN KEY (`seller`)
             REFERENCES `BitBankDB`.`Actor` (`userId`)
 #            ON DELETE NO ACTION
 #            ON UPDATE NO ACTION,
-,    CONSTRAINT `verzinzelf4`
-        FOREIGN KEY (`buyer`)
+,FOREIGN KEY (`buyer`)
             REFERENCES `BitBankDB`.`Actor` (`userId`)
 #            ON DELETE NO ACTION
 #            ON UPDATE NO ACTION,
-,    CONSTRAINT `verzinzelf5`
-        FOREIGN KEY (`assetSold`)
+,FOREIGN KEY (`assetSold`)
             REFERENCES `BitBankDB`.`Asset` (`abbreviation`)
 #            ON DELETE NO ACTION
 #            ON UPDATE NO ACTION,
-,    CONSTRAINT `verzinzelf7`
-        FOREIGN KEY (`assetBought`)
+,FOREIGN KEY (`assetBought`)
             REFERENCES `BitBankDB`.`Asset` (`abbreviation`)
 #            ON DELETE NO ACTION
 #            ON UPDATE NO ACTION
@@ -114,15 +106,11 @@ CREATE TABLE IF NOT EXISTS AssetPortfolio
     `portfolioId` INT         NOT NULL,
     `amount`      DOUBLE      NOT NULL,
     PRIMARY KEY (`assetName`, `portfolioId`),
-    INDEX `verzinzelf11_idx` (`portfolioId` ASC) VISIBLE,
-    INDEX `verzinzelf10_idx` (`assetName` ASC) VISIBLE,
-    CONSTRAINT `verzinzelf11`
         FOREIGN KEY (`portfolioId`)
             REFERENCES `BitBankDB`.`Portfolio` (`portfolioId`)
 #            ON DELETE CASCADE
 #            ON UPDATE CASCADE,
-,    CONSTRAINT `verzinzelf10`
-        FOREIGN KEY (`assetName`)
+,FOREIGN KEY (`assetName`)
             REFERENCES `BitBankDB`.`Asset` (`abbreviation`)
 #            ON DELETE NO ACTION
 #            ON UPDATE NO ACTION
