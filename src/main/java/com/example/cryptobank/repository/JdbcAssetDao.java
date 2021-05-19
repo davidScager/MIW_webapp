@@ -35,27 +35,29 @@ public class JdbcAssetDao implements AssetDao {
 
     @Override
     public void create(Asset asset) {
-
         logger.debug("AssetDao.save aangeroepen voor " + asset.getName());
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> insertMemberStatement(asset, connection), keyHolder);
-
     }
 
     @Override
     public List<Asset> getAssetOverview() {
-
         String query = "SELECT * FROM asset";
-        List<Asset> tempAssetList = jdbcTemplate.query(query, new AssetRowMapper());
 
-        return tempAssetList;
+        return jdbcTemplate.query(query, new AssetRowMapper());
     }
 
     @Override
     public Asset getOneByName(String name) {
         String query = "SELECT * FROM asset WHERE abbreviation = ?";
-        Asset tempAsset = jdbcTemplate.queryForObject( query, new Object[] { name }, new AssetRowMapper());
+
+        return jdbcTemplate.queryForObject( query, new Object[] { name }, new AssetRowMapper());
+    }
+
+    public Asset getOneBySymbol(String symbol) {
+        String query = "SELECT * FROM asset WHERE abbreviation = ?";
+        Asset tempAsset = jdbcTemplate.queryForObject( query, new Object[] { symbol }, new AssetRowMapper());
 
         return tempAsset;
     }
@@ -68,6 +70,30 @@ public class JdbcAssetDao implements AssetDao {
         jdbcTemplate.update(sql, asset.getName(), asset.getAbbreviation(),
                 asset.getDescription(), asset.getValueInUsd(), asset.getAdjustmentFactor(), asset.getValueYesterday(),
                 asset.getValueLastWeek(), asset.getValueLastMonth(), asset.getName());
+    }
+
+    @Override
+    public void update(Asset asset, int id) {
+
+    }
+
+    public Asset updateAssetByApi(String symbol)  {
+        Asset asset = getOneBySymbol(symbol);
+        CurrencyCollector currencyCollector = new CurrencyCollector();
+        try {
+            currencyCollector.makeRequestPerAsset(jdbcTemplate, asset );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return asset;
+    }
+
+    public List<Asset> updateAssetsByApi()  {
+        for (Asset asset : getAssetOverview()){
+            System.out.println("asset.getAbbreviation() "+asset.getAbbreviation());
+            updateAssetByApi(asset.getAbbreviation());
+        }
+        return getAssetOverview();
     }
 
     public void updateAdjustmentFactor(Asset asset, double dollarAmount, boolean buyFromBank, boolean sellToBank) {
@@ -100,13 +126,6 @@ public class JdbcAssetDao implements AssetDao {
         return ps;
     }
 
-    public Asset getOneBySymbol(String symbol) {
-        String query = "SELECT * FROM asset WHERE abbreviation = ?";
-        Asset tempAsset = jdbcTemplate.queryForObject( query, new Object[] { symbol }, new AssetRowMapper());
-
-        return tempAsset;
-    }
-
     public class AssetRowMapper implements RowMapper<Asset> {
         @Override
         public Asset mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -124,28 +143,5 @@ public class JdbcAssetDao implements AssetDao {
         }
     }
 
-    @Override
-    public void update(Asset asset, int id) {
-
-    }
-
-    public List<Asset> updateAssetsByApi()  {
-        for (Asset asset : getAssetOverview()){
-            System.out.println("asset.getAbbreviation() "+asset.getAbbreviation());
-            updateAssetByApi(asset.getAbbreviation());
-        }
-        return getAssetOverview();
-    }
-
-    public Asset updateAssetByApi(String symbol)  {
-        Asset asset = getOneBySymbol(symbol);
-        CurrencyCollector currencyCollector = new CurrencyCollector();
-        try {
-            currencyCollector.makeRequestPerAsset(jdbcTemplate, asset );
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return asset;
-    }
 
 }

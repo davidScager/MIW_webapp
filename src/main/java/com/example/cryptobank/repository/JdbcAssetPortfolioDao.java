@@ -16,7 +16,7 @@ import java.util.*;
 public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private JdbcAssetDao jdbcAssetDao;
+    private final JdbcAssetDao jdbcAssetDao;
 
     private final Logger logger = LoggerFactory.getLogger(JdbcAssetDao.class);
 
@@ -42,6 +42,11 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
     }
 
     @Override
+    public List<AssetPortfolio> getAssetPortfolioOverview(int portfolioId) {
+        return null;
+    }
+
+    @Override
     public Map<Asset, Double> getAssetOvervieuwWithAmmount(int portfolioId){
         Map<Asset, Double> resultMap = new HashMap<>();
         String query = "SELECT * FROM assetportfolio WHERE portfolioId = ?";
@@ -54,9 +59,7 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         @Override
         public String mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-            String tempName = rs.getString(1);
-
-            return tempName;
+            return rs.getString(1);
         }
     }
 
@@ -74,13 +77,21 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
     @Override
     public double getAmountByAssetName(String name, int portfolioId) {
         String query = "SELECT amount FROM assetportfolio WHERE portfolioId = ? AND assetName = ?";
-        double tempAmount = Double.parseDouble(jdbcTemplate.queryForObject(query, new Object[] { portfolioId, name }, new AssetPortfolioRowMapper()));
-        return tempAmount;
+
+        return Double.parseDouble(jdbcTemplate.queryForObject(query, new Object[] { portfolioId, name }, new AssetPortfolioRowMapper()));
     }
 
     @Override
-    public void create(Object o) {
+    public void update(AssetPortfolio assetPortfolio) {
+        String SQL = "update assetportfolio set assetName = ?,portfolioId = ?, amount = ? where assetName = ? and portfolioId = ? ";
+        jdbcTemplate.update(SQL,assetPortfolio.getAssetName(),
+                assetPortfolio.getPortfolioId(),
+                assetPortfolio.getAmount(),
+                assetPortfolio.getAssetName(),
+                assetPortfolio.getPortfolioId());
 
+        //System.out.println("Updated Record with name = " + asset.getName());
+        return ;
     }
 
     @Override
@@ -90,7 +101,7 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
     }
 
     @Override
-    public void delete(int id) {
+    public void create(Object o) {
 
     }
 
@@ -99,6 +110,10 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         jdbcTemplate.update(connection -> insertStatement(assetPortfolio, connection));
     }
 
+    @Override
+    public void delete(int id) {
+
+    }
 
     @Override
     public void delete(AssetPortfolio assetPortfolio) {
@@ -115,23 +130,5 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         return ps;
     }
 
-    @Override
-    public void update(AssetPortfolio assetPortfolio) {
-        String SQL = "update assetportfolio set assetName = ?,portfolioId = ?, amount = ? where assetName = ? and portfolioId = ? ";
-        jdbcTemplate.update(SQL,assetPortfolio.getAssetName(),
-                assetPortfolio.getPortfolioId(),
-                assetPortfolio.getAmount(),
-                assetPortfolio.getAssetName(),
-                assetPortfolio.getPortfolioId());
-
-        //System.out.println("Updated Record with name = " + asset.getName());
-        return ;
-    }
-
-
-    @Override
-    public List<AssetPortfolio> getAssetPortfolioOverview(int portfolioId) {
-        return null;
-    }
 
 }
