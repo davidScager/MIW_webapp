@@ -66,8 +66,6 @@ public class Asset {
         this.valueLastMonth = valueLastMonth;
     }
 
-
-
     public String getName() {
         return name;
     }

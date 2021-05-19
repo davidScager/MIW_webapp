@@ -30,14 +30,12 @@ public class AssetController {
 
     @GetMapping("/createasset")
     public Asset createAssetHandler(@RequestParam String name, @RequestParam String abbreviation, @RequestParam String description) throws IOException {
-        Asset newAsset = assetService.createNewAsset(name, abbreviation, description);
-        return newAsset;
+        return assetService.createNewAsset(name, abbreviation, description);
     }
 
     @GetMapping("/assetoverview")
     public List<Asset> assetOverviewHandler() {
-        List<Asset> assetList = assetService.showAssetList();
-        return assetList;
+        return assetService.showAssetList();
     }
 
 

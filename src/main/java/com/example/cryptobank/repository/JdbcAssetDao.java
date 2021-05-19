@@ -19,6 +19,9 @@ public class JdbcAssetDao implements AssetDao {
 
     private final JdbcTemplate jdbcTemplate;
 
+    private final double ADJUSTMENT_UNIT = 10000;
+    private final double ADJUSTMENT_PERCENTAGE = 0.01;
+
     private final Logger logger = LoggerFactory.getLogger(JdbcAssetDao.class);
 
     @Autowired
@@ -35,8 +38,49 @@ public class JdbcAssetDao implements AssetDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> insertMemberStatement(asset, connection), keyHolder);
-//        int newKey = keyHolder.getKey().intValue();
-//        asset.setAssetId(newKey);
+
+    }
+
+    @Override
+    public List<Asset> getAssetOverview() {
+
+        String query = "SELECT * FROM asset";
+        List<Asset> tempAssetList = jdbcTemplate.query(query, new AssetRowMapper());
+
+        return tempAssetList;
+    }
+
+    @Override
+    public Asset getOneByName(String name) {
+        String query = "SELECT * FROM asset WHERE abbreviation = ?";
+        Asset tempAsset = jdbcTemplate.queryForObject( query, new Object[] { name }, new AssetRowMapper());
+
+        return tempAsset;
+    }
+
+    @Override
+    public void update(Asset asset) {
+        logger.debug("JdbcAssetDao.update aan geroepen voor " + asset.getName());
+        String sql = "UPDATE asset set name = ?, abbreviation = ?, description = ?, valueInUsd = ?, adjustmentFactor = ?, " +
+                "valueYesterday = ?, valueLastWeek = ?, valueLastMonth = ? where name = ?";
+        jdbcTemplate.update(sql, asset.getName(), asset.getAbbreviation(),
+                asset.getDescription(), asset.getValueInUsd(), asset.getAdjustmentFactor(), asset.getValueYesterday(),
+                asset.getValueLastWeek(), asset.getValueLastMonth(), asset.getName());
+    }
+
+    public void updateAdjustmentFactor(Asset asset, double dollarAmount, boolean buyFromBank, boolean sellToBank) {
+        double tempAdjustmentFactor = asset.getAdjustmentFactor();
+        if(buyFromBank) {
+            tempAdjustmentFactor = tempAdjustmentFactor + (dollarAmount / ADJUSTMENT_UNIT) * ADJUSTMENT_PERCENTAGE;
+        } else if (sellToBank){
+            tempAdjustmentFactor = tempAdjustmentFactor - (dollarAmount / ADJUSTMENT_UNIT) * ADJUSTMENT_PERCENTAGE;
+        }
+        asset.setAdjustmentFactor(tempAdjustmentFactor);
+    }
+
+    @Override
+    public void delete(int id) {
+
     }
 
     private PreparedStatement insertMemberStatement(Asset asset, Connection connection) throws SQLException {
@@ -54,24 +98,6 @@ public class JdbcAssetDao implements AssetDao {
         return ps;
     }
 
-    @Override
-    public List<Asset> getAssetOverview() {
-
-        String query = "SELECT * FROM asset";
-        List<Asset> tempAssetList = jdbcTemplate.query(query, new AssetRowMapper());
-//        Asset tempAsset = jdbcTemplate.queryForObject( query, new Object[] { id }, new AssetRowMapper());
-
-        return tempAssetList;
-    }
-
-    @Override
-    public Asset getOneByName(String name) {
-        String query = "SELECT * FROM asset WHERE abbreviation = ?";
-        Asset tempAsset = jdbcTemplate.queryForObject( query, new Object[] { name }, new AssetRowMapper());
-
-        return tempAsset;
-    }
-
     public class AssetRowMapper implements RowMapper<Asset> {
         @Override
         public Asset mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -87,20 +113,5 @@ public class JdbcAssetDao implements AssetDao {
             asset.setValueLastMonth(rs.getDouble("valueLastMonth"));
             return asset;
         }
-    }
-
-    @Override
-    public void update(Asset asset) {
-        logger.debug("JdbcAssetDao.update aan geroepen voor " + asset.getName());
-        String sql = "UPDATE asset set name = ?, abbreviation = ?, description = ?, valueInUsd = ?, adjustmentFactor = ?, " +
-                "valueYesterday = ?, valueLastWeek = ?, valueLastMonth = ? where name = ?";
-        jdbcTemplate.update(sql, asset.getName(), asset.getAbbreviation(),
-                asset.getDescription(), asset.getValueInUsd(), asset.getAdjustmentFactor(), asset.getValueYesterday(),
-                asset.getValueLastWeek(), asset.getValueLastMonth(), asset.getName());
-    }
-
-    @Override
-    public void delete(int id) {
-
     }
 }

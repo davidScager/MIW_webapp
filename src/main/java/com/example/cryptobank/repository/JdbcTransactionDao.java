@@ -14,6 +14,8 @@ public class JdbcTransactionDao implements TransactionDao{
 
     private final JdbcTemplate jdbcTemplate;
 
+    private final double TRANSACTION_COST_PERCENTAGE = 0.0025;
+
     private final Logger logger = LoggerFactory.getLogger(JdbcAssetDao.class);
 
     public JdbcTransactionDao(JdbcTemplate jdbcTemplate) {
@@ -37,5 +39,10 @@ public class JdbcTransactionDao implements TransactionDao{
 
             return tempTransactionId;
         }
+    }
+
+    public double calculateTransactionCost(double dollarAmount) {
+
+        return dollarAmount * TRANSACTION_COST_PERCENTAGE;
     }
 }

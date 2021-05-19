@@ -18,7 +18,7 @@ import java.util.Optional;
 public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private JdbcAssetDao jdbcAssetDao;
+    private final JdbcAssetDao jdbcAssetDao;
 
     private final Logger logger = LoggerFactory.getLogger(JdbcAssetDao.class);
 
@@ -39,35 +39,13 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
             Asset asset = jdbcAssetDao.getOneByName(string);
             tempAssetList.add(asset);
         }
-
         return tempAssetList;
-    }
-
-    public class AssetPortfolioRowMapper implements RowMapper<String> {
-        @Override
-        public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-
-            String tempName = rs.getString(1);
-
-            return tempName;
-        }
-    }
-
-    public class AssetPortfolioAmountRowMapper implements RowMapper<Integer> {
-        @Override
-        public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-
-            int amount = rs.getInt("amount");
-
-            return amount;
-        }
     }
 
     @Override
     public double getAmountByAssetName(String name, int portfolioId) {
         String query = "SELECT amount FROM assetportfolio WHERE portfolioId = ? AND assetName = ?";
-        double tempAmount = Double.parseDouble(jdbcTemplate.queryForObject(query, new Object[] { portfolioId, name }, new AssetPortfolioRowMapper()));
-        return tempAmount;
+        return Double.parseDouble(jdbcTemplate.queryForObject(query, new Object[] { portfolioId, name }, new AssetPortfolioRowMapper()));
     }
 
     @Override
@@ -77,12 +55,20 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
 
     @Override
     public void update(Asset asset, Portfolio portfolio, double amount) {
-        String sql = "insert into assetportfolio(assetname, portfolioid, amount) values (?,?,?)";
+        String sql = "INSERT into assetportfolio(assetname, portfolioid, amount) values (?,?,?)";
         jdbcTemplate.update(sql, asset.getAbbreviation(), portfolio.getPortfolioId(), amount);
     }
 
     @Override
     public void delete(int id) {
 
+    }
+
+    public static class AssetPortfolioRowMapper implements RowMapper<String> {
+        @Override
+        public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+            return rs.getString(1);
+        }
     }
 }
