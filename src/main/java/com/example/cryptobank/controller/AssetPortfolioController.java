@@ -33,13 +33,13 @@ public class AssetPortfolioController {
     }
 
     @GetMapping("/createassetportfolio")
-    public AssetPortfolio createAssetPortfolioHandler(@RequestParam String assetName, @RequestParam double portfolioId, double amount) throws IOException {
+    public AssetPortfolio createAssetPortfolioHandler(@RequestParam String assetName, @RequestParam int portfolioId, double amount) throws IOException {
         AssetPortfolio assetPortfolio = assetPortfolioService.createNewAssetPortfolio(assetName, portfolioId, amount);
         return assetPortfolio;
     }
 
     @GetMapping("/updateportfolioasset")
-    public AssetPortfolio updateAssetHandler(@RequestParam String assetName, @RequestParam double portfolioId, @RequestParam double amount) throws IOException {
+    public AssetPortfolio updateAssetHandler(@RequestParam String assetName, @RequestParam int portfolioId, @RequestParam double amount) throws IOException {
         AssetPortfolio assetPortfolio = assetPortfolioService.update(assetName, portfolioId, amount);
         return assetPortfolio;
     }

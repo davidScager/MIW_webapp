@@ -3,10 +3,10 @@ package com.example.cryptobank.domain;
 public class AssetPortfolio {
 
     private String assetName;
-    private double portfolioId;
+    private int portfolioId;
     private double amount;
 
-    public AssetPortfolio(String symbol, Double portfolioId, double amount) {
+    public AssetPortfolio(String symbol, int portfolioId, double amount) {
         this.assetName = symbol;
         this.portfolioId = portfolioId;
         this.amount = amount;
@@ -20,11 +20,11 @@ public class AssetPortfolio {
         this.assetName = symbol;
     }
 
-    public Double getPortfolioId() {
+    public int getPortfolioId() {
         return portfolioId;
     }
 
-    public void setPortofolioId(Double portfolioId) {
+    public void setPortofolioId(int portfolioId) {
         this.portfolioId = portfolioId;
     }
 

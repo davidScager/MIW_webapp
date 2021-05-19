@@ -10,9 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
@@ -48,7 +46,7 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         Map<Asset, Double> resultMap = new HashMap<>();
         String query = "SELECT * FROM assetportfolio WHERE portfolioId = ?";
         List<AssetPortfolio> tempList = jdbcTemplate.query(query, new AssetPortfolioAmountRowMapper(), portfolioId);
-        tempList.forEach(assetPortfolio -> resultMap.put(jdbcAssetDao.getOneByName(assetPortfolio.getAssetname()), assetPortfolio.getAmount()));
+        tempList.forEach(assetPortfolio -> resultMap.put(jdbcAssetDao.getOneByName(assetPortfolio.getAssetName()), assetPortfolio.getAmount()));
         return resultMap;
     }
 
