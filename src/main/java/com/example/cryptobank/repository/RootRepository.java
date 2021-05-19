@@ -127,12 +127,39 @@ public class RootRepository {
 
     public List<Asset> updateAssetsByApi() { return assetDao.getAssetOverview(); }
 
-    public Asset updateAssetByApi(String name) { return assetDao.updateAssetByApi(name); }
+    public Asset updateAssetByApi(String name) {
+        return assetDao.updateAssetByApi(name);
+    }
 
-    public int getPortfolioIdByUserId(int userId) { return portfolioDao.getPortfolioIdByUserId(userId);}
+    public int getPortfolioIdByUserId(int userId) {
+        return portfolioDao.getPortfolioIdByUserId(userId);
+    }
 
     public void saveTransaction(Transaction transaction) {
         transactionDao.saveTransaction(transaction);
+        updateAdjustmentFactor(transaction.getAssetBought(), transaction.getNumberOfAssets(), transaction.getBuyer(), transaction.getSeller());
+        updateAdjustmentFactor(transaction.getAssetSold(), transaction.getNumberOfAssets(), transaction.getBuyer(), transaction.getSeller());
+    }
+
+    public void updateAdjustmentFactor(String assetName, double numberOfAssets, int buyerId, int sellerId) {
+        Asset asset = assetDao.getOneByName(assetName);
+        if (asset.getAbbreviation().equals("USD")) {
+            return;
+        }
+        double dollarAmount = numberOfAssets * asset.getValueInUsd();
+        Optional<Actor> tempBuyer = actorDao.get(buyerId);
+        Actor buyer = tempBuyer.get();
+        Optional<Actor> tempSeller = actorDao.get(sellerId);
+        Actor seller = tempSeller.get();
+        boolean buyFromBank = buyer.getRole().equals("BANK") ? true : false;
+        boolean sellToBank = seller.getRole().equals("BANK") ? true : false;
+        assetDao.updateAdjustmentFactor(asset, dollarAmount, buyFromBank, sellToBank);
+    }
+
+    public double calculateTransactionCost(double numberOfAssets, String asset) {
+        Asset asset1 = assetDao.getOneByName(asset);
+        double cost = numberOfAssets * asset1.getValueInUsd();
+        return transactionDao.calculateTransactionCost(cost);
     }
 
     public List<String> showPortfolioOverview(int portfolioId) {

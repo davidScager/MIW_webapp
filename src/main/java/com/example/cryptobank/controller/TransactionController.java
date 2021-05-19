@@ -30,22 +30,30 @@ public class TransactionController {
     }
 
     @GetMapping("/assetoverviewfrombank")
-    public Map<Asset, Double> getAssetOverVieuwWithAmount(){
+    public Map<Asset, Double> getAssetOverVieuwWithAmount() {
         return transactionService.getAssetOverVieuwWithAmount(106);//dit is de portfolioId van de bank
     }
 
     @GetMapping("/myavalableassetstosell")
-    public Map<Asset, Double> getAssetOverVieuwfoUser(@RequestParam int portfolioId){
+    public Map<Asset, Double> getAssetOverVieuwfoUser(@RequestParam int portfolioId) {
         return transactionService.getAssetOverVieuwWithAmount(portfolioId);
+    }
+
+    @GetMapping("/transactioncost")
+    public double transactionCost(@RequestParam double numberOfAssets, @RequestParam String assetBought) throws IOException {
+        return transactionService.calculateTransactionCost(numberOfAssets, assetBought);
     }
 
     @PostMapping("/createtransaction")
     public Transaction createTransactionHandler(@RequestParam int seller,
                                                 @RequestParam int buyer, @RequestParam double numberOfAssets,
-                                                @RequestParam double transactionCost, @RequestParam String assetSold,
+                                                @RequestParam String assetSold,
                                                 @RequestParam String assetBought) throws IOException {
+        double transactionCost = transactionService.calculateTransactionCost(numberOfAssets, assetBought);
         Transaction newTransaction = transactionService.createNewTransaction(seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought);
         return newTransaction;
     }
+
+
 
 }

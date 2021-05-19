@@ -96,6 +96,7 @@ public class JdbcAssetDao implements AssetDao {
         return getAssetOverview();
     }
 
+    @Override
     public void updateAdjustmentFactor(Asset asset, double dollarAmount, boolean buyFromBank, boolean sellToBank) {
         double tempAdjustmentFactor = asset.getAdjustmentFactor();
         if(buyFromBank) {
@@ -104,6 +105,7 @@ public class JdbcAssetDao implements AssetDao {
             tempAdjustmentFactor = tempAdjustmentFactor - (dollarAmount / ADJUSTMENT_UNIT) * ADJUSTMENT_PERCENTAGE;
         }
         asset.setAdjustmentFactor(tempAdjustmentFactor);
+        update(asset);
     }
 
     @Override
