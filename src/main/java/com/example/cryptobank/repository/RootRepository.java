@@ -113,11 +113,9 @@ public class RootRepository {
         portfolioDao.create(portfolio);
     }
 
-
     public void saveAsset(Asset asset) {
         assetDao.create(asset);
     }
-    public void saveAsset(Asset asset) { assetDao.create(asset); }
 
     public List<Asset> showAssetOverview() {
         return assetDao.getAssetOverview();
@@ -131,11 +129,7 @@ public class RootRepository {
 
     public Asset updateAssetByApi(String name) { return assetDao.updateAssetByApi(name); }
 
-
     public int getPortfolioIdByUserId(int userId) { return portfolioDao.getPortfolioIdByUserId(userId);}
-    public int getPortfolioIdByUserId(int userId) {
-        return portfolioDao.getPortfolioIdByUserId(userId);
-    }
 
     public void saveTransaction(Transaction transaction) {
         transactionDao.saveTransaction(transaction);
