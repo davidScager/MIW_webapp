@@ -3,6 +3,8 @@ package com.example.cryptobank.domain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 public class Actor {
     private final Logger logger = LoggerFactory.getLogger(Actor.class);
     private long userId;
@@ -29,6 +31,19 @@ public class Actor {
                 ", checkingaccount='" + checkingaccount + '\'' +
                 ", role=" + role +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Actor actor = (Actor) o;
+        return userId == actor.userId && checkingaccount.equals(actor.checkingaccount) && role == actor.role;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, checkingaccount, role);
     }
 
     public Actor(){}
