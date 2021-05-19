@@ -1,6 +1,7 @@
 package com.example.cryptobank.repository;
 
 import com.example.cryptobank.domain.Asset;
+import com.example.cryptobank.service.CurrencyCollector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 import java.util.Optional;
@@ -72,6 +74,13 @@ public class JdbcAssetDao implements AssetDao {
         return tempAsset;
     }
 
+    public Asset getOneBySymbol(String symbol) {
+        String query = "SELECT * FROM asset WHERE abbreviation = ?";
+        Asset tempAsset = jdbcTemplate.queryForObject( query, new Object[] { symbol }, new AssetRowMapper());
+
+        return tempAsset;
+    }
+
     public class AssetRowMapper implements RowMapper<Asset> {
         @Override
         public Asset mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -100,7 +109,32 @@ public class JdbcAssetDao implements AssetDao {
     }
 
     @Override
+    public void update(Asset asset, int id) {
+
+    }
+
+    @Override
     public void delete(int id) {
 
     }
+
+    public List<Asset> updateAssetsByApi()  {
+        for (Asset asset : getAssetOverview()){
+            System.out.println("asset.getAbbreviation() "+asset.getAbbreviation());
+            updateAssetByApi(asset.getAbbreviation());
+        }
+        return getAssetOverview();
+    }
+
+    public Asset updateAssetByApi(String symbol)  {
+        Asset asset = getOneBySymbol(symbol);
+        CurrencyCollector currencyCollector = new CurrencyCollector();
+        try {
+            currencyCollector.makeRequestPerAsset(jdbcTemplate, asset );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return asset;
+    }
+
 }

@@ -1,0 +1,10 @@
+Asset
+
+http://localhost:8080/createasset?name=test_coin&abbreviation=tcoin&description=kansloze_munt
+http://localhost:8080/assetoverview
+http://localhost:8080/updateassetbyapi?name=btc
+http://localhost:8080/updateassetsbyapi
+
+AssetPortfolio
+http://localhost:8080/createassetportfolio?assetName=NEO&portfolioId=101&amount=2.5
+http://localhost:8080/updateportfolioasset?assetName=NEO&portfolioId=101&amount=3.5

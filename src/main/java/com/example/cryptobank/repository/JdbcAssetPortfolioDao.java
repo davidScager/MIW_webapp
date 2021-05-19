@@ -1,6 +1,7 @@
 package com.example.cryptobank.repository;
 
 import com.example.cryptobank.domain.Asset;
+import com.example.cryptobank.domain.AssetPortfolio;
 import com.example.cryptobank.domain.Portfolio;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,8 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -85,4 +85,45 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
     public void delete(int id) {
 
     }
+
+    @Override
+    public void create(AssetPortfolio assetPortfolio) {
+        jdbcTemplate.update(connection -> insertStatement(assetPortfolio, connection));
+    }
+
+
+    @Override
+    public void delete(AssetPortfolio assetPortfolio) {
+
+    }
+
+    private PreparedStatement insertStatement(AssetPortfolio assetPortfolio, Connection connection) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement(
+                "insert into assetportfolio (assetName, portfolioId, amount) values (?, ?, ?)",
+                Statement.RETURN_GENERATED_KEYS);
+        ps.setString(1, assetPortfolio.getAssetName());
+        ps.setDouble(2, assetPortfolio.getPortfolioId());
+        ps.setDouble(3, assetPortfolio.getAmount());
+        return ps;
+    }
+
+    @Override
+    public void update(AssetPortfolio assetPortfolio) {
+        String SQL = "update assetportfolio set assetName = ?,portfolioId = ?, amount = ? where assetName = ? and portfolioId = ? ";
+        jdbcTemplate.update(SQL,assetPortfolio.getAssetName(),
+                assetPortfolio.getPortfolioId(),
+                assetPortfolio.getAmount(),
+                assetPortfolio.getAssetName(),
+                assetPortfolio.getPortfolioId());
+
+        //System.out.println("Updated Record with name = " + asset.getName());
+        return ;
+    }
+
+
+    @Override
+    public List<AssetPortfolio> getAssetPortfolioOverview(int portfolioId) {
+        return null;
+    }
+
 }

@@ -26,12 +26,6 @@ public class AssetService {
 
     public Asset createNewAsset(String name, String abbreviation, String description) throws IOException {
         Asset newAsset = new Asset(name, abbreviation, description);
-        double valueYesterday = currencyHistory.historyValuefrom(currencyHistory.dateYesterday(), newAsset.getName());
-        newAsset.setValueYesterday(valueYesterday);
-        double valueLastWeek = currencyHistory.historyValuefrom(currencyHistory.dateLasteWeek(), newAsset.getName());
-        newAsset.setValueLastWeek(valueLastWeek);
-        double valueLastMonth = currencyHistory.historyValuefrom(currencyHistory.dateLastMonth(), newAsset.getName());
-        newAsset.setValueLastMonth(valueLastMonth);
         rootReposistory.saveAsset(newAsset);
         return newAsset;
     }
@@ -44,4 +38,22 @@ public class AssetService {
     public void update (Asset asset){
         rootReposistory.updateAsset(asset);
     }
+
+    public List<Asset> updateAssetsByApi() {
+        List<Asset> assetList = rootReposistory.updateAssetsByApi();
+        return assetList;
+    }
+
+    public Asset updateAssetByApi(String name) {
+        Asset asset = rootReposistory.updateAssetByApi(name);
+        return asset;
+    }
+
+    /*
+    public Asset update(Asset asset) {
+        rootReposistory.updateAsset(asset);
+        return asset;
+    }
+
+     */
 }
