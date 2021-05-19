@@ -24,4 +24,6 @@ public interface AssetDao {
 
     public void update(Asset asset);
 
+    public void updateAdjustmentFactor(Asset asset, double dollarAmount, boolean buyFromBank, boolean sellToBank);
+
 }

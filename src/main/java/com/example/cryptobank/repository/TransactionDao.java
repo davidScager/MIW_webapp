@@ -10,4 +10,6 @@ public interface TransactionDao {
 
     public void saveTransaction(Transaction transaction);
 
+    public double calculateTransactionCost(double dollarAmount);
+
 }
