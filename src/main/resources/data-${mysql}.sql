@@ -73,6 +73,7 @@ INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('VET',106,23
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('XLM',106,4132);
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('XMR',106,1030);
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('XRP',106,3240);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('USD',106,5000000);
 
 # Testdata voor tijdelijk gebruik
 #INSERT INTO transaction (transactionId, timestamp, seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought) Values (2001,'2021-02-16',6,2,1,10.2,'Dollar','Ethereum');
