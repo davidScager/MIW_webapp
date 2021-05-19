@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    private Logger logger = LoggerFactory.getLogger(SaltMaker.class);
+    private Logger logger = LoggerFactory.getLogger(UserService.class);
     private final RootRepository rootRepository;
     private final HashService hashService;
 
@@ -36,4 +36,6 @@ public class UserService {
         logger.info("Login rejected");
         return null;
     }
+
+
 }

@@ -80,6 +80,12 @@ public class RootRepository {
         return loginDAO.get(username).orElse(null);
     }
 
+    public void storeResetToken(String username, String token) {
+        Optional<LoginAccount> loginAccount = loginDAO.get(username);
+        LoginAccount loginAccount1 = loginAccount.orElse(null);
+        loginDAO.update(loginAccount1.getUsername(), new HashAndSalt(loginAccount1.getHash(), loginAccount1.getSalt()), token);
+    }
+
     /**
      * Register new login account
      * @param user (User)
