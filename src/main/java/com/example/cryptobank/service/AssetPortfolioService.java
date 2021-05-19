@@ -29,7 +29,7 @@ public class AssetPortfolioService {
         logger.info("New AssetPortofolioService");
     }
 
-    public AssetPortfolio createNewAssetPortfolio(String symbol, double portfolioId, double amount) throws IOException {
+    public AssetPortfolio createNewAssetPortfolio(String symbol, int portfolioId, double amount) throws IOException {
         AssetPortfolio newAssetPortfolio = new AssetPortfolio(symbol, portfolioId, amount);
         jdbcAssetPortfolioDao.create(newAssetPortfolio);
         return newAssetPortfolio;
@@ -41,7 +41,7 @@ public class AssetPortfolioService {
         return null;
     }
 
-    public AssetPortfolio update(String symbol,  double portfolioId, double amount) {
+    public AssetPortfolio update(String symbol,  int portfolioId, double amount) {
         AssetPortfolio newAssetPortfolio = new AssetPortfolio(symbol, portfolioId, amount);
         jdbcAssetPortfolioDao.update(newAssetPortfolio);
         return newAssetPortfolio;
