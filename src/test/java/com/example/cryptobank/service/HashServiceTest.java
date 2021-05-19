@@ -56,7 +56,6 @@ class HashServiceTest {
 
     /**
      * Local test method to allow bypassing random salt generation
-     * and testing functionality of sha-256 algorithm and key stretching
      * @param password (String)
      * @param salt (String)
      * @return (String) peppered, salted and key stretched password hash

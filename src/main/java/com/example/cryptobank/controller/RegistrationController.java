@@ -16,13 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RegistrationController {
     private Logger logger = LoggerFactory.getLogger(SaltMaker.class);
-    private final UserService userService;
     private RegistrationService registrationService;
 
     @Autowired
-    public RegistrationController(UserService userService, RegistrationService registrationService) {
+    public RegistrationController(RegistrationService registrationService) {
         logger.info("New RegistrationController");
-        this.userService = userService;
         this.registrationService = registrationService;
     }
 
