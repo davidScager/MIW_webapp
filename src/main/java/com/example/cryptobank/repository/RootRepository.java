@@ -122,6 +122,11 @@ public class RootRepository {
         assetDao.update(asset);
     }
 
+    public List<Asset> updateAssetsByApi() { return assetDao.getAssetOverview(); }
+
+    public Asset updateAssetByApi(String name) { return assetDao.updateAssetByApi(name); }
+
+
     public int getPortfolioIdByUserId(int userId) { return portfolioDao.getPortfolioIdByUserId(userId);}
 
     public List<String> showPortfolioOverview(int portfolioId) {

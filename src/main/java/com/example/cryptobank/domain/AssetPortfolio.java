@@ -1,44 +1,38 @@
 package com.example.cryptobank.domain;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class AssetPortfolio {
 
-    String assetname;
-    int portfolioId;
-    Double amount;
+    private String assetName;
+    private double portfolioId;
+    private double amount;
 
-    private final Logger logger = LoggerFactory.getLogger(AssetPortfolio.class);
-
-    public AssetPortfolio(String assetname, int portfolioId, Double amount) {
-        this.assetname = assetname;
+    public AssetPortfolio(String symbol, Double portfolioId, double amount) {
+        this.assetName = symbol;
         this.portfolioId = portfolioId;
         this.amount = amount;
-        logger.info("New AssetPortfolio");
     }
 
-    public String getAssetname() {
-        return assetname;
+    public String getAssetName() {
+        return assetName;
     }
 
-    public void setAssetname(String assetname) {
-        this.assetname = assetname;
+    public void setAssetName(String symbol) {
+        this.assetName = symbol;
     }
 
-    public int getPortfolioId() {
+    public Double getPortfolioId() {
         return portfolioId;
     }
 
-    public void setPortfolioId(int portfolioId) {
+    public void setPortofolioId(Double portfolioId) {
         this.portfolioId = portfolioId;
     }
 
-    public Double getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 }

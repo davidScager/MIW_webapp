@@ -40,5 +40,20 @@ public class AssetController {
         return assetList;
     }
 
+    @GetMapping("/updateassetsbyapi")
+    public List<Asset> updateAssetsByApi() {
+        List<Asset> assetList = assetService.showAssetList();
+        for (Asset asset : assetList){
+            System.out.println("Get coin "+asset.getName());
+            asset = assetService.updateAssetByApi(asset.getAbbreviation());
+        }
+        return assetList;
+    }
 
+
+    @GetMapping("/updateassetbyapi")
+    public Asset updateAssetByApi(@RequestParam String symbol) {
+        Asset asset = assetService.updateAssetByApi(symbol);
+        return asset;
+    }
 }
