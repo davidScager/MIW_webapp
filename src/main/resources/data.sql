@@ -1,7 +1,7 @@
 USE BitBankDB;
 
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Bitcoin', 'BTC','Mooie munt' ,'50000','1', '1', '1', '1');
-INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Etherium', 'ETH','Mooie munt' ,'3000','1.1', '1', '1', '1');
+INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Ethereum', 'ETH','Mooie munt' ,'3000','1.1', '1', '1', '1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Binance Coin', 'BNB','Mooie munt' ,'600','1', '1', '1', '1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Cardano', 'ADA','Mooie munt' ,'2','1', '1', '1', '1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Dogecoin', 'DOGE','Mooie munt' ,'0.5','1', '1', '1', '1');
