@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS Asset
 (
     `abbreviation`     VARCHAR(45) NOT NULL,
     `name`             VARCHAR(45) NOT NULL,
-    `description`      VARCHAR(45) NOT NULL,
+    `description`      VARCHAR(200) NOT NULL,
     `valueInUsd`       DOUBLE      NOT NULL,
     `adjustmentFactor` DOUBLE      NOT NULL,
     `valueYesterday`   DOUBLE      NOT NULL,
