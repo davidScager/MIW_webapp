@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -121,6 +122,11 @@ public class RootRepository {
         assetDao.update(asset);
     }
 
+    public List<Asset> updateAssetsByApi() { return assetDao.getAssetOverview(); }
+
+    public Asset updateAssetByApi(String name) { return assetDao.updateAssetByApi(name); }
+
+
     public int getPortfolioIdByUserId(int userId) { return portfolioDao.getPortfolioIdByUserId(userId);}
 
     public List<String> showPortfolioOverview(int portfolioId) {
@@ -137,6 +143,10 @@ public class RootRepository {
                     " USD. Sinds uw laatste aankoop is deze positie met " + stijgingDaling + " % gestegen.");
         }
         return tempAssetOverview;
+    }
+
+    public Map<Asset, Double> getAssetOverVieuwWithAmount(int portfolioId){
+        return assetPortfolioDao.getAssetOvervieuwWithAmmount(portfolioId);
     }
 
     public String showPortfolioValue(int portfolioId) {

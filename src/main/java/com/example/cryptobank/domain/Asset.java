@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 public class Asset {
     private String name;
+    //TODO change abbreviation in symbol and make and systemid or assetId
     private String abbreviation;
     private String description;
     private double valueInUsd;

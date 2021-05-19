@@ -14,8 +14,14 @@ public interface AssetDao {
 
     public Asset getOneByName(String name);
 
-    public void update(Asset asset);
+    //public void update(Asset asset);
 
     public void delete(int id);
+
+    public Asset updateAssetByApi(String name);
+
+    public void update(Asset asset, int id);
+
+    public void update(Asset asset);
 
 }

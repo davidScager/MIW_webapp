@@ -52,7 +52,7 @@ public class MethodRunOnScheduleHelper {
     }
 
     public void getCurrencyDailyForHistoryValue() {
-        System.out.println("Asset history word geupdate");
+        System.out.println("Asset history is updating");
         List<Asset> assetList = assetService.showAssetList();
         System.out.println(assetList);
         CurrencyHistory currencyHistory = new CurrencyHistory();
@@ -64,8 +64,6 @@ public class MethodRunOnScheduleHelper {
                 assetList.forEach(asset -> assetService.update(asset));
             }
         }, Date.from(Instant.now()), Duration.ofDays(1).toMillis());
-        System.out.println(assetList.get(0).getValueLastWeek());
-        System.out.println("Asset history geupdate");
     }
 
     private void setAssetHelper(Asset asset, CurrencyHistory currencyHistory){
@@ -73,6 +71,7 @@ public class MethodRunOnScheduleHelper {
             asset.setValueYesterday(currencyHistory.historyValuefrom(currencyHistory.dateYesterday(),asset.getName()));
             asset.setValueLastWeek(currencyHistory.historyValuefrom(currencyHistory.dateLasteWeek(),asset.getName()));
             asset.setValueLastMonth(currencyHistory.historyValuefrom(currencyHistory.dateLastMonth(), asset.getName()));
+            logger.info(asset.getName() + " history has been updated");
         } catch (IOException e) {
             e.printStackTrace();
         }
