@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class Transaction {
 
     private int transactionId;
-    private LocalDateTime timestamp;
+    private String timestamp;
     private int seller;
     private int buyer;
     private double numberOfAssets;
@@ -18,7 +18,7 @@ public class Transaction {
 
     private final Logger logger = LoggerFactory.getLogger(Transaction.class);
 
-    public Transaction(int transactionId, LocalDateTime timestamp, int seller, int buyer, double numberOfAssets, double transactionCost, String assetSold, String assetBought) {
+    public Transaction(int transactionId, String timestamp, int seller, int buyer, double numberOfAssets, double transactionCost, String assetSold, String assetBought) {
         this.transactionId = transactionId;
         this.timestamp = timestamp;
         this.seller = seller;
@@ -29,6 +29,10 @@ public class Transaction {
         this.assetBought = assetBought;
     }
 
+    public Transaction(int seller, int buyer, double numberOfAssets, double transactionCost, String assetSold, String assetBought) {
+        this(0, LocalDateTime.now().toString(), seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought);
+    }
+
     public int getTransactionId() {
         return transactionId;
     }
@@ -37,11 +41,11 @@ public class Transaction {
         this.transactionId = transactionId;
     }
 
-    public LocalDateTime getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
