@@ -72,6 +72,7 @@ public class JdbcAssetDao implements AssetDao {
         return tempAsset;
     }
 
+
     public class AssetRowMapper implements RowMapper<Asset> {
         @Override
         public Asset mapRow(ResultSet rs, int rowNum) throws SQLException {

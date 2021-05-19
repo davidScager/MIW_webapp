@@ -11,15 +11,15 @@ INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Bitcoin Cash', 'BCH','Branch from bitcoin' ,'1002','1', '1', '1', '1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Litecoin', 'LTC','One of the first cryptocoins' ,'261.18','1', '1', '1', '1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Stellar', 'XLM','A coin from the Lumen organization' ,'0.6','1', '1', '1', '1');
-INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('VeChain', 'VET','Former known as DogeCoin-Dark' ,'0.56','1', '1', '1', '1');
+INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Vechain', 'VET','Former known as DogeCoin-Dark' ,'0.56','1', '1', '1', '1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Ethereum Classic', 'ETC','Branch from Ethereum' ,'82.21','1', '1', '1', '1');
-INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('EOS', 'EOS','Runs on the EOS network' ,'8.9','1', '1', '1', '1');
-INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('THETA', 'THETA','A big part of the streaming sector' ,'8.29','1', '1', '1', '1');
-INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('TRON', 'TRX','Aims to build a free digital entertainment system' ,'0.105','1', '1', '1', '1');
+INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Eos', 'EOS','Runs on the EOS network' ,'8.9','1', '1', '1', '1');
+INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Theta', 'THETA','A big part of the streaming sector' ,'8.29','1', '1', '1', '1');
+INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Tron', 'TRX','Aims to build a free digital entertainment system' ,'0.105','1', '1', '1', '1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Filecoin', 'FIL','Also works with information storage' ,'93.85','1', '1', '1', '1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Monero', 'XMR','Works anonymous' ,'328.79','1', '1', '1', '1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Neo', 'NEO','Has a vision to realize a smart economy' ,'81.19','1', '1', '1', '1');
-INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('DASH', 'DASH','Users are called masternodes' ,'200.1','1', '1', '1', '1');
+INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Dash', 'DASH','Users are called masternodes' ,'200.1','1', '1', '1', '1');
 INSERT INTO Asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Dollar', 'USD' ,'Basic value in this bank', 1, 1, '1', '1', '1');
 
 INSERT INTO role VALUE ('administrator');
@@ -40,18 +40,40 @@ INSERT INTO portfolio (portfolioId, actor) Values (102,2);
 INSERT INTO portfolio (portfolioId, actor) Values (103,3);
 INSERT INTO portfolio (portfolioId, actor) Values (104,4);
 INSERT INTO portfolio (portfolioId, actor) Values (105,5);
+INSERT INTO portfolio (portfolioId, actor) Values (106,6);
 
 # Testdata voor tijdelijk gebruik
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('Bitcoin',101,0.67);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('Etherium',102,0.45);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('Filecoin',101,2);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('Monero',102,6);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('Cordano',104,31);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('TRON',104,26);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BTC',101,0.67);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ETH',102,0.45);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('FIL',101,2);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('XMR',102,6);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ADA',104,31);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('TRX',104,26);
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('THETA',104,7);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('TRON',105,6321);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('VeChain',103,11);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('TRX',105,6321);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('VET',103,11);
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('DASH',103,986);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BTC',106,3030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ADA',106,1030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BCH',106,2396);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BNB',106,4132);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('DASH',106,1030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('DOGE',106,3240);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('DOT',106,3395);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('EOS',106,3030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ETC',106,1030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ETH',106,2396);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('FIL',106,4132);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ICP',106,1030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('LTC',106,3240);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('NEO',106,3395);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('THETA',106,3030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('TRX',106,1030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('VET',106,2396);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('XLM',106,4132);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('XMR',106,1030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('XRP',106,3240);
+
 
 # Testdata voor tijdelijk gebruik
 INSERT INTO transaction (transactionId, timestamp, seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought) Values (2001,'2021-02-16',6,2,1,10.2,'Dollar','Etherium');
