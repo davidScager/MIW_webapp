@@ -28,17 +28,12 @@ public class PortfolioController {
 
     @GetMapping("/portfoliooverview")
     public List<String> portfolioOverviewHandler(@RequestParam int userId) {
-        List<String> portfolioOverviewList = portfolioService.showAssetOverview(userId);
-//        for (String string:portfolioOverviewList) {
-//            return string;
-//        }
-        return portfolioOverviewList;
+        return portfolioService.showAssetOverview(userId);
     }
 
     @GetMapping("/portfoliovalue")
     public String portfolioValueHandler(@RequestParam int userId) {
-        String portfolioValue = portfolioService.showValueOfPortfolio(userId);
-        return portfolioValue;
+        return portfolioService.showValueOfPortfolio(userId);
     }
 
 }

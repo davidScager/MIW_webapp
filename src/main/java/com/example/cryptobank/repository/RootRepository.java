@@ -113,7 +113,6 @@ public class RootRepository {
         portfolioDao.create(portfolio);
     }
 
-
     public void saveAsset(Asset asset) { assetDao.create(asset); }
 
     public List<Asset> showAssetOverview() { return assetDao.getAssetOverview();}
@@ -158,9 +157,9 @@ public class RootRepository {
         for (Asset asset : tempPortfolioValue ) {
             double tempAmount = assetPortfolioDao.getAmountByAssetName(asset.getAbbreviation(), portfolioId);
             tempTotalPortfolioValue = tempTotalPortfolioValue + Math.round(asset.getValueInUsd() * tempAmount);
-            tempValueYesterday = tempValueYesterday + asset.getValueYesterday() * tempAmount;
-            tempValueLastWeek = tempValueLastWeek + asset.getValueLastWeek() * tempAmount;
-            tempValueLastMonth = tempValueLastMonth + asset.getValueLastMonth() * tempAmount;
+            tempValueYesterday = tempValueYesterday + Math.round(asset.getValueYesterday() * tempAmount * 100) / 100;
+            tempValueLastWeek = tempValueLastWeek + Math.round(asset.getValueLastWeek() * tempAmount);
+            tempValueLastMonth = tempValueLastMonth + Math.round(asset.getValueLastMonth() * tempAmount);
         }
         return buildString(tempTotalPortfolioValue, tempValueYesterday, tempValueLastWeek, tempValueLastMonth);
     }
