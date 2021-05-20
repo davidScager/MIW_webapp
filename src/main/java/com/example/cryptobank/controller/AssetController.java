@@ -29,8 +29,8 @@ public class AssetController {
     }
 
     @GetMapping("/createasset")
-    public Asset createAssetHandler(@RequestParam String name, @RequestParam String abbreviation, @RequestParam String description) throws IOException {
-        return assetService.createNewAsset(name, abbreviation, description);
+    public Asset createAssetHandler(@RequestParam String name, @RequestParam String apiName,@RequestParam String abbreviation, @RequestParam String description) throws IOException {
+        return assetService.createNewAsset(name,apiName, abbreviation, description);
     }
 
     @GetMapping("/assetoverview")
@@ -50,8 +50,8 @@ public class AssetController {
 
 
     @GetMapping("/updateassetbyapi")
-    public Asset updateAssetByApi(@RequestParam String symbol) {
-        Asset asset = assetService.updateAssetByApi(symbol);
+    public Asset updateAssetByApi(@RequestParam String apiname) {
+        Asset asset = assetService.updateAssetByApi(apiname);
         return asset;
     }
 }

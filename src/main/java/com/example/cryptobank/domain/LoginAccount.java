@@ -15,13 +15,15 @@ public class LoginAccount {
     private String username;
     private String hash;
     private String salt;
+    private String token;
 
-    public LoginAccount(String username, String hash, String salt) {
+    public LoginAccount(String username, String hash, String salt, String token) {
         super();
         logger.info("New LoginAccount");
         this.username = username;
         this.hash = hash;
         this.salt = salt;
+        this.token = token;
     }
 
     @Override
@@ -57,4 +59,6 @@ public class LoginAccount {
     public String getSalt() {
         return salt;
     }
+
+    public String getToken() { return token; }
 }

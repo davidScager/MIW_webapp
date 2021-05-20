@@ -46,7 +46,7 @@ public class JdbcLoginDao implements LoginDao {
     public Optional<LoginAccount> get(String username){
         List<LoginAccount> loginList = jdbcTemplate.query(
                 "select * from bitbankdb.loginaccount where username = ?",
-                (rs, rowNum) -> new LoginAccount(rs.getString("username"), rs.getString("password"), rs.getString("salt")),
+                (rs, rowNum) -> new LoginAccount(rs.getString("username"), rs.getString("password"), rs.getString("salt"), rs.getString("token")),
                 username);
         if(loginList.size() != 1){
             return Optional.empty();

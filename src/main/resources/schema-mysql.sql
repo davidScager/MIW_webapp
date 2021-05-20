@@ -6,8 +6,7 @@ CREATE TABLE IF NOT EXISTS LoginAccount
 (
     username VARCHAR(100) NOT NULL PRIMARY KEY,
     password VARCHAR(100) NOT NULL,
-    salt     VARCHAR(45)  NOT NULL,
-    token    VARCHAR(500)
+    salt     VARCHAR(45)  NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Role
@@ -52,7 +51,8 @@ CREATE TABLE IF NOT EXISTS Asset
 (
     `abbreviation`     VARCHAR(45) NOT NULL,
     `name`             VARCHAR(45) NOT NULL,
-    `description`      VARCHAR(200) NOT NULL,
+    `apiName`          VARCHAR(100)NOT NULL,
+    `description`      VARCHAR(200)NOT NULL,
     `valueInUsd`       DOUBLE      NOT NULL,
     `adjustmentFactor` DOUBLE      NOT NULL,
     `valueYesterday`   DOUBLE      NOT NULL,

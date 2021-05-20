@@ -1,13 +1,15 @@
 package com.example.cryptobank.repository;
 
+import com.example.cryptobank.domain.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 @Repository
 public class JdbcLogDao implements LogDao {
@@ -20,6 +22,26 @@ public class JdbcLogDao implements LogDao {
         super();
         this.jdbcTemplate = jdbcTemplate;
         logger.info("New LogDao");
+    }
+
+    private PreparedStatement insertLogStatement(Transaction transaction, Connection connection) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("insert into log (transactionId, soldAssetTransactionRate, boughtAssetTransactionRate, " +
+                "soldAssetAdjustmentFactor, boughtAssetAdjustmentFactor, amount) values (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+        preparedStatement.setInt(1, transaction.getTransactionId());
+        preparedStatement.setDouble(2, transaction.getTransactionLog().getSoldAssetTransactionRate());
+        preparedStatement.setDouble(3, transaction.getTransactionLog().getBoughtAssetTransactionRate());
+        preparedStatement.setDouble(4, transaction.getTransactionLog().getSoldAssetAdjustmentFactor());
+        preparedStatement.setDouble(5, transaction.getTransactionLog().getBoughtAssetAdjustmentFactor());
+        preparedStatement.setDouble(6, transaction.getTransactionLog().getNumberOfAssetsSold());
+        return preparedStatement;
+    }
+
+    @Override
+    public void saveLog(Transaction transaction) {
+//        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> insertLogStatement(transaction, connection));
+//        int newKey = keyHolder.getKey().intValue();
+//        transaction.setTransactionId(newKey);
     }
 
     @Override

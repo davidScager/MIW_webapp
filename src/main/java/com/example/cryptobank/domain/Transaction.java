@@ -24,15 +24,13 @@ public class Transaction {
         this.timestamp = timestamp;
         this.seller = seller;
         this.buyer = buyer;
-//        this.numberOfAssets = numberOfAssets;
-//        this.transactionCost = transactionCost;
         this.assetSold = assetSold;
         this.assetBought = assetBought;
         this.transactionLog = transactionLog;
     }
 
     public Transaction(int seller, int buyer, String assetSold, String assetBought, TransactionLog transactionLog) {
-        this(0, LocalDateTime.now().toString(), seller, buyer, assetSold, assetBought, null);
+        this(0, LocalDateTime.now().toString(), seller, buyer, assetSold, assetBought, transactionLog);
     }
 
     public int getTransactionId() {
@@ -67,22 +65,6 @@ public class Transaction {
         this.buyer = buyer;
     }
 
-//    public double getNumberOfAssets() {
-//        return numberOfAssets;
-//    }
-//
-//    public void setNumberOfAssets(double numberOfAssets) {
-//        this.numberOfAssets = numberOfAssets;
-//    }
-//
-//    public double getTransactionCost() {
-//        return transactionCost;
-//    }
-//
-//    public void setTransactionCost(double transactionCost) {
-//        this.transactionCost = transactionCost;
-//    }
-
     public String getAssetSold() {
         return assetSold;
     }
@@ -115,7 +97,7 @@ public class Transaction {
                 ", seller=" + seller +
                 ", buyer=" + buyer +
                 ", assetSold='" + assetSold + '\'' +
-                ", assetBought='" + assetBought + '\'' +
+                ", assetBought='" + assetBought + '\'' + ", " +
                 transactionLog +
                 '}';
     }

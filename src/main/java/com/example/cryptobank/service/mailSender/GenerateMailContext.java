@@ -14,7 +14,7 @@ public class GenerateMailContext {
     }
 
     public String setResetText(String token) throws MalformedURLException {
-        return "blablablablablablablablablabalbalabalbalabaolbal Dit is je url. klik er maar op, eikel. En niet meer vergeten! " + CreateURLHelper.generateToken(resetURL, token);
+        return "Dit is je url. klik er maar op, eikel. En niet meer vergeten! \n" + CreateURLHelper.generateToken(resetURL, token);
     }
 
 
