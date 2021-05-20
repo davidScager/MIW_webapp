@@ -229,5 +229,13 @@ public class RootRepository {
         return portfolioValueOutput.toString();
     }
 
+    public void updateLoginAccount(String username, HashAndSalt hashAndSalt, String token) {
+        loginDAO.update(username, hashAndSalt, token);
+    }
+
+    public Optional<LoginAccount> getLoginAccount(String username) {
+         return loginDAO.get(username);
+    }
+
 
 }
