@@ -143,8 +143,8 @@ public class RootRepository {
 
     public void saveTransaction(Transaction transaction) {
         transactionDao.saveTransaction(transaction);
-        updateAdjustmentFactor(transaction.getAssetBought(), transaction.getNumberOfAssets(), transaction.getBuyer(), transaction.getSeller());
-        updateAdjustmentFactor(transaction.getAssetSold(), transaction.getNumberOfAssets(), transaction.getBuyer(), transaction.getSeller());
+        updateAdjustmentFactor(transaction.getAssetBought(), transaction.getTransactionLog().getNumberOfAssetsBought(), transaction.getBuyer(), transaction.getSeller());
+        updateAdjustmentFactor(transaction.getAssetSold(), transaction.getTransactionLog().getNumberOfAssetsSold(), transaction.getBuyer(), transaction.getSeller());
     }
 
     public void updateAdjustmentFactor(String assetName, double numberOfAssets, int buyerId, int sellerId) {
