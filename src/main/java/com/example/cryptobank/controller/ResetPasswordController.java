@@ -23,6 +23,7 @@ public class ResetPasswordController {
     private final GenerateMailContext generateMailContext;
     private final TokenService tokenService;
     private String token;
+    private String email;
 
 
     @Autowired
@@ -49,13 +50,20 @@ public class ResetPasswordController {
         return ResponseEntity.ok().header("Authorization").body("Als je een account bij ons hebt ontvang je een email met een reset");
     }
 
-    @PostMapping("/createnewpassword") //javascript haalt token uit url // checken of token in DB staat // token blijft zelfde..
-    public HttpEntity<? extends Object> setNewPassword(@RequestParam("Authorization") String token, String password) {
-        logger.info(token);
-        String email = tokenService.parseToken(token, "reset");
-        loginAccountService.updateResetPassword(email);
-        logger.info(email);
-        return ResponseEntity.ok().header("Authorization").body("wachtwoord is gereset");
+    @PostMapping("/createnewpassword") //javascript haalt token uit url
+    public HttpEntity<? extends Object> setNewPassword(@RequestParam("Authorization") String token,@RequestParam String password) {
+        try {
+            email = tokenService.parseToken(token, "reset");
+            logger.info(email + "vanuit Token");
+        } catch (Exception e) {
+            return ResponseEntity.ok().header("Authorization").body("Token is ongeldig");
+        }
+        if (loginAccountService.isTokenStored(email)) {
+                loginAccountService.updateResetPassword(email, password);
+                return ResponseEntity.ok().header("Authorization").body("wachtwoord is gereset");
+            }
+
+        return ResponseEntity.ok().header("Authorization").body("Token is al gebruikt");
     }
 }
 

@@ -42,7 +42,7 @@ class LoginDaoTest {
 
     @Test @Order(3)
     void get() {
-        LoginAccount expectedLoginAccount = new LoginAccount(USERNAME, HASH, SALT);
+        LoginAccount expectedLoginAccount = new LoginAccount(USERNAME, HASH, SALT, null);
         LoginAccount actualLoginAccount = loginDao.get(USERNAME).orElse(null);
         assertEquals(expectedLoginAccount, actualLoginAccount);
     }
