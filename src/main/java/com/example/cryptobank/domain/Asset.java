@@ -5,10 +5,13 @@ import org.slf4j.LoggerFactory;
 
 public class Asset {
     private String name;
-    //TODO change abbreviation in symbol and make and systemid or assetId
+    private String apiName;
     private String abbreviation;
     private String description;
     private double valueInUsd;
+
+
+
     private double adjustmentFactor;
     private double valueYesterday;
     private double valueLastWeek;
@@ -16,8 +19,9 @@ public class Asset {
 
     private final Logger logger = LoggerFactory.getLogger(Asset.class);
 
-    public Asset(String name, String abbreviation, String description, double valueInUsd, double adjustmentFactor, double valueYesterday, double valueLastWeek, double valueLastMonth) {
+    public Asset(String name, String apiName, String abbreviation, String description, double valueInUsd, double adjustmentFactor, double valueYesterday, double valueLastWeek, double valueLastMonth) {
         this.name = name;
+        this.apiName = apiName;
         this.abbreviation = abbreviation;
         this.description = description;
         this.valueInUsd = valueInUsd;
@@ -28,23 +32,30 @@ public class Asset {
         logger.info("New Asset created");
     }
 
-    public Asset(String name, String abbreviation, String description) {
-        this(name, abbreviation, description, 1,1,1,1,1);
+    public Asset(String name, String apiName, String abbreviation, String description) {
+        this(name, apiName,abbreviation, description, 1,1,1,1,1);
         logger.info("New Asset created");
     }
 
-    public Asset(String name) {
-        this(name, "Abbreviation", "Description");
+    public Asset(String name, String apiName) {
+        this(name, apiName,"Abbreviation", "Description");
         logger.info("New Asset created");
     }
+
 
     public Asset() {
-        this("Assetname");
-        logger.info("New Asset created");
+         logger.info("New Empty Asset created");
     }
 
     public double getValueYesterday() {
         return valueYesterday;
+    }
+    public String getApiName() {
+        return apiName;
+    }
+
+    public void setApiName(String apiName) {
+        this.apiName = apiName;
     }
 
     public void setValueYesterday(double valueYesterday) {

@@ -16,9 +16,11 @@ public interface AssetDao {
 
     void delete(int id);
 
-    Asset updateAssetByApi(String name);
+    Asset updateAssetByApi(String apiName);
 
     Asset getOneBySymbol(String symbol);
+
+    public Asset getOneByApiName(String apiName);
 
     void update(Asset asset);
 
