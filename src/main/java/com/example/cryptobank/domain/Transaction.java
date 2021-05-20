@@ -11,26 +11,28 @@ public class Transaction {
     private String timestamp;
     private int seller;
     private int buyer;
-    private double numberOfAssets;
-    private double transactionCost;
+//    private double numberOfAssets;
+//    private double transactionCost;
     private String assetSold;
     private String assetBought;
+    TransactionLog transactionLog;
 
     private final Logger logger = LoggerFactory.getLogger(Transaction.class);
 
-    public Transaction(int transactionId, String timestamp, int seller, int buyer, double numberOfAssets, double transactionCost, String assetSold, String assetBought) {
+    public Transaction(int transactionId, String timestamp, int seller, int buyer, String assetSold, String assetBought, TransactionLog transactionLog) {
         this.transactionId = transactionId;
         this.timestamp = timestamp;
         this.seller = seller;
         this.buyer = buyer;
-        this.numberOfAssets = numberOfAssets;
-        this.transactionCost = transactionCost;
+//        this.numberOfAssets = numberOfAssets;
+//        this.transactionCost = transactionCost;
         this.assetSold = assetSold;
         this.assetBought = assetBought;
+        this.transactionLog = transactionLog;
     }
 
-    public Transaction(int seller, int buyer, double numberOfAssets, double transactionCost, String assetSold, String assetBought) {
-        this(0, LocalDateTime.now().toString(), seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought);
+    public Transaction(int seller, int buyer, String assetSold, String assetBought, TransactionLog transactionLog) {
+        this(0, LocalDateTime.now().toString(), seller, buyer, assetSold, assetBought, null);
     }
 
     public int getTransactionId() {
@@ -65,21 +67,21 @@ public class Transaction {
         this.buyer = buyer;
     }
 
-    public double getNumberOfAssets() {
-        return numberOfAssets;
-    }
-
-    public void setNumberOfAssets(double numberOfAssets) {
-        this.numberOfAssets = numberOfAssets;
-    }
-
-    public double getTransactionCost() {
-        return transactionCost;
-    }
-
-    public void setTransactionCost(double transactionCost) {
-        this.transactionCost = transactionCost;
-    }
+//    public double getNumberOfAssets() {
+//        return numberOfAssets;
+//    }
+//
+//    public void setNumberOfAssets(double numberOfAssets) {
+//        this.numberOfAssets = numberOfAssets;
+//    }
+//
+//    public double getTransactionCost() {
+//        return transactionCost;
+//    }
+//
+//    public void setTransactionCost(double transactionCost) {
+//        this.transactionCost = transactionCost;
+//    }
 
     public String getAssetSold() {
         return assetSold;
@@ -97,6 +99,14 @@ public class Transaction {
         this.assetBought = assetBought;
     }
 
+    public TransactionLog getTransactionLog() {
+        return transactionLog;
+    }
+
+    public void setTransactionLog(TransactionLog transactionLog) {
+        this.transactionLog = transactionLog;
+    }
+
     @Override
     public String toString() {
         return "Transaction{" +
@@ -104,10 +114,9 @@ public class Transaction {
                 ", timestamp=" + timestamp +
                 ", seller=" + seller +
                 ", buyer=" + buyer +
-                ", numberOfAssets=" + numberOfAssets +
-                ", transactionCost=" + transactionCost +
                 ", assetSold='" + assetSold + '\'' +
                 ", assetBought='" + assetBought + '\'' +
+                transactionLog +
                 '}';
     }
 }

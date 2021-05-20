@@ -2,6 +2,7 @@ package com.example.cryptobank.service;
 
 import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.domain.Transaction;
+import com.example.cryptobank.domain.TransactionLog;
 import com.example.cryptobank.repository.RootRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,9 @@ public class TransactionService {
     }
 
     public Transaction createNewTransaction(int seller, int buyer, double numberOfAssets, double transactionCost, String assetSold, String assetBought) throws IOException {
-        Transaction newTransaction = new Transaction(seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought);
+        TransactionLog tempTransactionLog= null;
+        tempTransactionLog.createTransactionLog(assetBought, assetSold, numberOfAssets, transactionCost);
+        Transaction newTransaction = new Transaction(seller, buyer, assetSold, assetBought, tempTransactionLog);
         rootRepository.saveTransaction(newTransaction);
         return newTransaction;
     }
