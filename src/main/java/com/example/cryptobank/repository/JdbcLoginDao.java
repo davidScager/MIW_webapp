@@ -1,5 +1,6 @@
 package com.example.cryptobank.repository;
 
+import antlr.Token;
 import com.example.cryptobank.domain.LoginAccount;
 import com.example.cryptobank.domain.User;
 import com.example.cryptobank.security.HashAndSalt;
@@ -30,14 +31,15 @@ public class JdbcLoginDao implements LoginDao {
 
     @Override
     public void create(String username, HashAndSalt hashAndSalt) {
-        jdbcTemplate.update(connection -> insertLoginStatement(username, hashAndSalt, connection));
+        jdbcTemplate.update(connection -> insertLoginStatement(username, hashAndSalt, null, connection));
     }
 
-    private PreparedStatement insertLoginStatement(String username, HashAndSalt hashAndSalt, Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("insert into bitbankdb.loginaccount values (?, ?, ?)");
+    private PreparedStatement insertLoginStatement(String username, HashAndSalt hashAndSalt, String token, Connection connection) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("insert into bitbankdb.loginaccount values (?, ?, ?, ?)");
         ps.setString(1, username);
         ps.setString(2, hashAndSalt.getHash());
         ps.setString(3, hashAndSalt.getSalt());
+        ps.setString(4, token);
         return ps;
     }
 
@@ -55,7 +57,8 @@ public class JdbcLoginDao implements LoginDao {
 
     @Override
     public void update(String username, HashAndSalt hashAndSalt, String token) {
-        jdbcTemplate.update(connection -> insertLoginStatement(username, hashAndSalt, connection));
+        jdbcTemplate.update("update bitbankdb.loginaccount set username = ?, password  = ?, salt = ?, token = ? where username = ?",
+                username, hashAndSalt.getHash(), hashAndSalt.getSalt(), token, username);
     }
 
     @Override
