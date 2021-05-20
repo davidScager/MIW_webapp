@@ -24,9 +24,13 @@ public class LoginAccountService {
     }
 
     public String addTokenToLoginAccount(String username) {
-        String token = tokenService.generateJwtToken("reset", 10);
+        String token = tokenService.generateJwtToken(username, "reset", 10);
         rootRepository.storeResetToken(username, token);
         return token;
+    }
+
+    public void updateResetPassword(String username) {
+        rootRepository.storeResetToken(username, null);
     }
 
 

@@ -33,7 +33,7 @@ public class LoginController {
         logger.info("Login request received from client");
         User user = userService.verifyUser(username, password);
         if (user != null) {
-            String token = tokenService.generateJwtToken("session", 60);
+            String token = tokenService.generateJwtToken(username, "session", 60);
             return ResponseEntity.ok().header("Authorization", token).body(user);
         }
         return ResponseEntity.notFound().build();
