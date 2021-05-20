@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.MalformedURLException;
+
 @RestController
 public class ResetPasswordController {
     private Logger logger = LoggerFactory.getLogger(ResetPasswordController.class);
@@ -29,8 +31,8 @@ public class ResetPasswordController {
     }
 
     @PostMapping("/resetpassword")
-    public HttpEntity<? extends Object> sendResetPassword(@RequestParam String email) {
-        if (!loginAccountService.verifyAccount(email)) {
+    public HttpEntity<? extends Object> sendResetPassword(@RequestParam String email) throws MalformedURLException {
+        if (loginAccountService.verifyAccount(email)) {
             logger.info("LoginAccount contains " + email);
             String token = loginAccountService.addTokenToLoginAccount(email);
             String mailText = generateMailContext.setResetText(token);
