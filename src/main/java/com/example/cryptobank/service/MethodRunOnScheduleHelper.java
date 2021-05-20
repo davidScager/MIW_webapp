@@ -8,6 +8,7 @@ import org.apache.catalina.LifecycleState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -22,10 +23,12 @@ import java.util.TimerTask;
 public class MethodRunOnScheduleHelper {
     private CurrencyCollector collector = new CurrencyCollector();
     private AssetService assetService;
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public MethodRunOnScheduleHelper(AssetService assetService) {
+    public MethodRunOnScheduleHelper(AssetService assetService, JdbcTemplate jdbcTemplate) {
         this.assetService = assetService;
+        this.jdbcTemplate = jdbcTemplate;
         logger.info("ubvievb iwv e");
     }
     private final Logger logger = LoggerFactory.getLogger(MethodRunOnScheduleHelper.class);
@@ -68,6 +71,7 @@ public class MethodRunOnScheduleHelper {
 
     private void setAssetHelper(Asset asset, CurrencyHistory currencyHistory){
         try {
+            collector.makeRequestPerAsset(jdbcTemplate, asset);
             asset.setValueYesterday(currencyHistory.historyValuefrom(currencyHistory.dateYesterday(),asset.getName()));
             asset.setValueLastWeek(currencyHistory.historyValuefrom(currencyHistory.dateLasteWeek(),asset.getName()));
             asset.setValueLastMonth(currencyHistory.historyValuefrom(currencyHistory.dateLastMonth(), asset.getName()));
