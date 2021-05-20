@@ -26,7 +26,7 @@ public class TransactionService {
         logger.info("New TransactionService");
     }
 
-    public Map<Asset, Double> getAssetOverVieuwWithAmount(int portfolioId){
+    public Map<Asset, Double> getAssetOverVieuwWithAmount(int portfolioId) {
         return rootRepository.getAssetOverVieuwWithAmount(portfolioId);
     }
 
@@ -34,6 +34,14 @@ public class TransactionService {
         Transaction newTransaction = new Transaction(seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought);
         rootRepository.saveTransaction(newTransaction);
         return newTransaction;
+    }
+
+    public double calculateTransactionCost(double numberOfAssets, String asset) {
+        return rootRepository.calculateTransactionCost(numberOfAssets, asset);
+    }
+
+    public void updateAdjustmentFactor(String assetName, double numberOfAssets, int buyerId, int sellerId) {
+        rootRepository.updateAdjustmentFactor(assetName, numberOfAssets, buyerId, sellerId);
     }
 
 }

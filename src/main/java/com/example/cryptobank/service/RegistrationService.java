@@ -38,7 +38,6 @@ public class RegistrationService {
      * @param address (String)
      * @param email (String)
      * @param password (String)
-     * @param username (String)
      * @param role (Role)
      * @return (String) message for client
      */
