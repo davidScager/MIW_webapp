@@ -14,6 +14,6 @@ import java.util.Optional;
 public interface LoginDao {
     void create(String username, HashAndSalt hashAndSalt);
     Optional<LoginAccount> get(String username);
-    void update(String username, HashAndSalt hashAndSalt);
+    void update(String username, HashAndSalt hashAndSalt, String token);
     void delete(String username);
 }

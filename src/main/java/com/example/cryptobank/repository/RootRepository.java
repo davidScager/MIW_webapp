@@ -81,6 +81,12 @@ public class RootRepository {
         return loginDAO.get(username).orElse(null);
     }
 
+    public void storeResetToken(String username, String token) {
+        Optional<LoginAccount> loginAccount = loginDAO.get(username);
+        LoginAccount loginAccount1 = loginAccount.orElse(null);
+        loginDAO.update(loginAccount1.getUsername(), new HashAndSalt(loginAccount1.getHash(), loginAccount1.getSalt()), token);
+    }
+
     /**
      * Register new login account
      * @param user (User)
@@ -137,8 +143,8 @@ public class RootRepository {
 
     public void saveTransaction(Transaction transaction) {
         transactionDao.saveTransaction(transaction);
-        updateAdjustmentFactor(transaction.getAssetBought(), transaction.getNumberOfAssets(), transaction.getBuyer(), transaction.getSeller());
-        updateAdjustmentFactor(transaction.getAssetSold(), transaction.getNumberOfAssets(), transaction.getBuyer(), transaction.getSeller());
+        updateAdjustmentFactor(transaction.getAssetBought(), transaction.getTransactionLog().getNumberOfAssetsBought(), transaction.getBuyer(), transaction.getSeller());
+        updateAdjustmentFactor(transaction.getAssetSold(), transaction.getTransactionLog().getNumberOfAssetsSold(), transaction.getBuyer(), transaction.getSeller());
     }
 
     public void updateAdjustmentFactor(String assetName, double numberOfAssets, int buyerId, int sellerId) {

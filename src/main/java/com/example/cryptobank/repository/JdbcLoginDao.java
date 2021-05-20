@@ -54,7 +54,7 @@ public class JdbcLoginDao implements LoginDao {
     }
 
     @Override
-    public void update(String username, HashAndSalt hashAndSalt) {
+    public void update(String username, HashAndSalt hashAndSalt, String token) {
         jdbcTemplate.update(connection -> insertLoginStatement(username, hashAndSalt, connection));
     }
 
