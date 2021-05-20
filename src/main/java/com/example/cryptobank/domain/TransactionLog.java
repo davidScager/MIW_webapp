@@ -1,5 +1,6 @@
 package com.example.cryptobank.domain;
 
+import com.example.cryptobank.repository.AssetDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,14 +11,15 @@ public class TransactionLog {
     private double boughtAssetTransactionRate;
     private double soldAssetTransactionRate;
     private double boughtAssetAdjustmentFactor;
-    private int soldAssetAdjustmentFactor;
+    private double soldAssetAdjustmentFactor;
     private double numberOfAssetsBought;
     private double numberOfAssetsSold;
     private double transactionCost;
+    AssetDao assetDao;
 
     private final Logger logger = LoggerFactory.getLogger(TransactionLog.class);
 
-    public TransactionLog(double boughtAssetTransactionRate, double soldAssetTransactionRate, double boughtAssetAdjustmentFactor, int soldAssetAdjustmentFactor, double numberOfAssetsBought, double numberOfAssetsSold, double transactionCost) {
+    public TransactionLog(double boughtAssetTransactionRate, double soldAssetTransactionRate, double boughtAssetAdjustmentFactor, double soldAssetAdjustmentFactor, double numberOfAssetsBought, double numberOfAssetsSold, double transactionCost) {
         this.boughtAssetTransactionRate = boughtAssetTransactionRate;
         this.soldAssetTransactionRate = soldAssetTransactionRate;
         this.boughtAssetAdjustmentFactor = boughtAssetAdjustmentFactor;
@@ -26,6 +28,14 @@ public class TransactionLog {
         this.numberOfAssetsSold = numberOfAssetsSold;
         this.transactionCost = transactionCost;
         logger.info("New TransactionLog created");
+    }
+
+    public TransactionLog createTransactionLog(String assetBought, String assetSold, double boughtAmount, double transactionCost) {
+        Asset boughtAsset = assetDao.getOneByName(assetBought);
+        Asset soldAsset = assetDao.getOneByName(assetSold);
+        double soldAmount = (boughtAsset.getValueInUsd() * boughtAsset.getAdjustmentFactor() * boughtAmount) / (soldAsset.getValueInUsd() * soldAsset.getAdjustmentFactor());
+
+        return new TransactionLog(boughtAsset.getValueInUsd(), soldAsset.getValueInUsd(), boughtAsset.getAdjustmentFactor(), soldAsset.getAdjustmentFactor(), boughtAmount, soldAmount, transactionCost);
     }
 
     public double getBoughtAssetTransactionRate() {
@@ -52,7 +62,7 @@ public class TransactionLog {
         this.boughtAssetAdjustmentFactor = boughtAssetAdjustmentFactor;
     }
 
-    public int getSoldAssetAdjustmentFactor() {
+    public double getSoldAssetAdjustmentFactor() {
         return soldAssetAdjustmentFactor;
     }
 
@@ -82,5 +92,16 @@ public class TransactionLog {
 
     public void setTransactionCost(double transactionCost) {
         this.transactionCost = transactionCost;
+    }
+
+    @Override
+    public String toString() {
+        return "TransactionLog{" +
+                "Bought at rate " + boughtAssetTransactionRate +
+                ", Sold at rate " + soldAssetTransactionRate +
+                ", amount bought" + numberOfAssetsBought +
+                ", amount sold" + numberOfAssetsSold +
+                ", transaction cost " + transactionCost +
+                '}';
     }
 }
