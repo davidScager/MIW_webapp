@@ -1,6 +1,7 @@
 package com.example.cryptobank.domain;
 
 import com.example.cryptobank.repository.AssetDao;
+import com.example.cryptobank.repository.JdbcAssetDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,13 +31,18 @@ public class TransactionLog {
         logger.info("New TransactionLog created");
     }
 
-    public TransactionLog createTransactionLog(String assetBought, String assetSold, double boughtAmount, double transactionCost) {
-        Asset boughtAsset = assetDao.getOneByName(assetBought);
-        Asset soldAsset = assetDao.getOneByName(assetSold);
-        double soldAmount = (boughtAsset.getValueInUsd() * boughtAsset.getAdjustmentFactor() * boughtAmount) / (soldAsset.getValueInUsd() * soldAsset.getAdjustmentFactor());
-
-        return new TransactionLog(boughtAsset.getValueInUsd(), soldAsset.getValueInUsd(), boughtAsset.getAdjustmentFactor(), soldAsset.getAdjustmentFactor(), boughtAmount, soldAmount, transactionCost);
+    public TransactionLog(){
+        super();
     }
+
+//    public TransactionLog createTransactionLog(String assetBought, String assetSold, double boughtAmount, double transactionCost) {
+//        JdbcAssetDao jdbcAssetDao;
+//        Asset boughtAsset = assetDao.getOneByName(assetBought);
+//        Asset soldAsset = assetDao.getOneByName(assetSold);
+//        double soldAmount = (boughtAsset.getValueInUsd() * boughtAsset.getAdjustmentFactor() * boughtAmount) / (soldAsset.getValueInUsd() * soldAsset.getAdjustmentFactor());
+//
+//        return new TransactionLog(boughtAsset.getValueInUsd(), soldAsset.getValueInUsd(), boughtAsset.getAdjustmentFactor(), soldAsset.getAdjustmentFactor(), boughtAmount, soldAmount, transactionCost);
+//    }
 
     public double getBoughtAssetTransactionRate() {
         return boughtAssetTransactionRate;
@@ -66,7 +72,7 @@ public class TransactionLog {
         return soldAssetAdjustmentFactor;
     }
 
-    public void setSoldAssetAdjustmentFactor(int soldAssetAdjustmentFactor) {
+    public void setSoldAssetAdjustmentFactor(double soldAssetAdjustmentFactor) {
         this.soldAssetAdjustmentFactor = soldAssetAdjustmentFactor;
     }
 

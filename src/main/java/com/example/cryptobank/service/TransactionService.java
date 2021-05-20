@@ -32,10 +32,12 @@ public class TransactionService {
     }
 
     public Transaction createNewTransaction(int seller, int buyer, double numberOfAssets, double transactionCost, String assetSold, String assetBought) throws IOException {
-        TransactionLog tempTransactionLog= null;
-        tempTransactionLog.createTransactionLog(assetBought, assetSold, numberOfAssets, transactionCost);
+        TransactionLog tempTransactionLog = rootRepository.createNewTransactionLog(assetSold, assetBought, numberOfAssets, transactionCost);
         Transaction newTransaction = new Transaction(seller, buyer, assetSold, assetBought, tempTransactionLog);
-        rootRepository.saveTransaction(newTransaction);
+//        System.out.println(tempTransactionLog);
+//        System.out.println("++++++++++++++++++++");
+//        System.out.println(newTransaction);
+        rootRepository.saveTransactionAndLog(newTransaction);
         return newTransaction;
     }
 
