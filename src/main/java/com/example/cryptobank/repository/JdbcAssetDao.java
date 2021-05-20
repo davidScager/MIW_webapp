@@ -96,7 +96,7 @@ public class JdbcAssetDao implements AssetDao {
     public List<Asset> updateAssetsByApi()  {
         for (Asset asset : getAssetOverview()){
             System.out.println("asset.getAbbreviation() "+asset.getAbbreviation());
-            updateAssetByApi(asset.getAbbreviation());
+            updateAssetByApi(asset.getApiName());
         }
         return getAssetOverview();
     }

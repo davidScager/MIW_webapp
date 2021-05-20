@@ -43,7 +43,7 @@ public class AssetController {
         List<Asset> assetList = assetService.showAssetList();
         for (Asset asset : assetList){
             System.out.println("Get coin "+asset.getName());
-            asset = assetService.updateAssetByApi(asset.getAbbreviation());
+            asset = assetService.updateAssetByApi(asset.getApiName());
         }
         return assetList;
     }
