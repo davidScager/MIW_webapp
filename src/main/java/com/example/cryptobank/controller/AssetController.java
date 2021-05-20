@@ -30,15 +30,28 @@ public class AssetController {
 
     @GetMapping("/createasset")
     public Asset createAssetHandler(@RequestParam String name, @RequestParam String abbreviation, @RequestParam String description) throws IOException {
-        Asset newAsset = assetService.createNewAsset(name, abbreviation, description);
-        return newAsset;
+        return assetService.createNewAsset(name, abbreviation, description);
     }
 
     @GetMapping("/assetoverview")
     public List<Asset> assetOverviewHandler() {
+        return assetService.showAssetList();
+    }
+
+    @GetMapping("/updateassetsbyapi")
+    public List<Asset> updateAssetsByApi() {
         List<Asset> assetList = assetService.showAssetList();
+        for (Asset asset : assetList){
+            System.out.println("Get coin "+asset.getName());
+            asset = assetService.updateAssetByApi(asset.getAbbreviation());
+        }
         return assetList;
     }
 
 
+    @GetMapping("/updateassetbyapi")
+    public Asset updateAssetByApi(@RequestParam String symbol) {
+        Asset asset = assetService.updateAssetByApi(symbol);
+        return asset;
+    }
 }

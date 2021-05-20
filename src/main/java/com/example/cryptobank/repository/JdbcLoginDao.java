@@ -55,9 +55,11 @@ public class JdbcLoginDao implements LoginDao {
 
     @Override
     public void update(String username, HashAndSalt hashAndSalt) {
+        jdbcTemplate.update(connection -> insertLoginStatement(username, hashAndSalt, connection));
     }
 
     @Override
     public void delete(String username) {
+        jdbcTemplate.update("delete from bitbankdb.loginaccount where username = ?", username);
     }
 }

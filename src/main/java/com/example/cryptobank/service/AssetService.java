@@ -44,4 +44,22 @@ public class AssetService {
     public void update (Asset asset){
         rootReposistory.updateAsset(asset);
     }
+
+    public List<Asset> updateAssetsByApi() {
+        List<Asset> assetList = rootReposistory.updateAssetsByApi();
+        return assetList;
+    }
+
+    public Asset updateAssetByApi(String name) {
+        Asset asset = rootReposistory.updateAssetByApi(name);
+        return asset;
+    }
+
+    /*
+    public Asset update(Asset asset) {
+        rootReposistory.updateAsset(asset);
+        return asset;
+    }
+
+     */
 }

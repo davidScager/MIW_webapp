@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -108,47 +109,106 @@ public class RootRepository {
         return getActor(actor.getUserId());
     }
 
-    public void savePortfolio(Portfolio portfolio){//te gebruiken in actor check staat in portfolio dao
+    public void savePortfolio(Portfolio portfolio) {//te gebruiken in actor check staat in portfolio dao
         portfolioDao.create(portfolio);
     }
 
+    public void saveAsset(Asset asset) {
+        assetDao.create(asset);
+    }
 
-    public void saveAsset(Asset asset) { assetDao.create(asset); }
+    public List<Asset> showAssetOverview() {
+        return assetDao.getAssetOverview();
+    }
 
-    public List<Asset> showAssetOverview() { return assetDao.getAssetOverview();}
-
-    public void updateAsset(Asset asset){
+    public void updateAsset(Asset asset) {
         assetDao.update(asset);
     }
 
-    public int getPortfolioIdByUserId(int userId) { return portfolioDao.getPortfolioIdByUserId(userId);}
+    public List<Asset> updateAssetsByApi() { return assetDao.getAssetOverview(); }
+
+    public Asset updateAssetByApi(String name) {
+        return assetDao.updateAssetByApi(name);
+    }
+
+    public int getPortfolioIdByUserId(int userId) {
+        return portfolioDao.getPortfolioIdByUserId(userId);
+    }
+
+    public void saveTransaction(Transaction transaction) {
+        transactionDao.saveTransaction(transaction);
+        updateAdjustmentFactor(transaction.getAssetBought(), transaction.getNumberOfAssets(), transaction.getBuyer(), transaction.getSeller());
+        updateAdjustmentFactor(transaction.getAssetSold(), transaction.getNumberOfAssets(), transaction.getBuyer(), transaction.getSeller());
+    }
+
+    public void updateAdjustmentFactor(String assetName, double numberOfAssets, int buyerId, int sellerId) {
+        Asset asset = assetDao.getOneByName(assetName);
+        if (asset.getAbbreviation().equals("USD")) {
+            return;
+        }
+        double dollarAmount = numberOfAssets * asset.getValueInUsd();
+        Optional<Actor> tempBuyer = actorDao.get(buyerId);
+        Actor buyer = tempBuyer.get();
+        Optional<Actor> tempSeller = actorDao.get(sellerId);
+        Actor seller = tempSeller.get();
+        boolean buyFromBank = buyer.getRole().equals("BANK") ? true : false;
+        boolean sellToBank = seller.getRole().equals("BANK") ? true : false;
+        assetDao.updateAdjustmentFactor(asset, dollarAmount, buyFromBank, sellToBank);
+    }
+
+    public double calculateTransactionCost(double numberOfAssets, String asset) {
+        Asset asset1 = assetDao.getOneByName(asset);
+        double cost = numberOfAssets * asset1.getValueInUsd();
+        return transactionDao.calculateTransactionCost(cost);
+    }
 
     public List<String> showPortfolioOverview(int portfolioId) {
         List<Asset> tempPortfolioOverview = assetPortfolioDao.getAssetOverview(portfolioId);
         List<String> tempAssetOverview = new ArrayList();
         tempAssetOverview.add("Portefeuille-overzicht voor portfolio " + portfolioId + ": ");
-        for (Asset asset : tempPortfolioOverview ) {
+        for (Asset asset : tempPortfolioOverview) {
             double tempAmount = assetPortfolioDao.getAmountByAssetName(asset.getAbbreviation(), portfolioId);
             int tempTransactionId = transactionDao.getTransactionIdMostRecentTrade(asset.getAbbreviation());
             double tradedRate = logDao.getTradedRateByTransactionId(tempTransactionId);
-            double stijgingDaling = Math.round( (asset.getValueInUsd() / tradedRate - 1 ) * 100);
+            double stijgingDaling = Math.round((asset.getValueInUsd() / tradedRate - 1) * 100);
             tempAssetOverview.add("Asset: /" + asset.getName() + ", huidige koers (in USD): " + asset.getValueInUsd() + ", aantal in portefeuille: " + tempAmount +
                     ". De waarde van deze positie is: " + Math.round(asset.getValueInUsd() * tempAmount * 100) / 100 +
                     " USD. Sinds uw laatste aankoop is deze positie met " + stijgingDaling + " % gestegen.");
         }
-        return tempAssetOverview; }
+        return tempAssetOverview;
+    }
+
+    public Map<Asset, Double> getAssetOverVieuwWithAmount(int portfolioId){
+        return assetPortfolioDao.getAssetOvervieuwWithAmmount(portfolioId);
+    }
 
     public String showPortfolioValue(int portfolioId) {
         List<Asset> tempPortfolioValue = assetPortfolioDao.getAssetOverview(portfolioId);
-        List<String> tempAssetOverview = new ArrayList();
         double tempTotalPortfolioValue = 0;
-        double tempTotalHistoricPortfolioValue = 0;
-        tempAssetOverview.add("Portefeuille-overzicht voor portfolio " + portfolioId + ": ");
+        double tempValueYesterday = 0;
+        double tempValueLastWeek = 0;
+        double tempValueLastMonth = 0;
         for (Asset asset : tempPortfolioValue ) {
             double tempAmount = assetPortfolioDao.getAmountByAssetName(asset.getAbbreviation(), portfolioId);
             tempTotalPortfolioValue = tempTotalPortfolioValue + Math.round(asset.getValueInUsd() * tempAmount);
-//            tempTotalHistoricPortfolioValue = tempTotalHistoricPortfolioValue + Math.round(asset.getValueLAstMonth * tempAmount);
+            tempValueYesterday = tempValueYesterday + Math.round(asset.getValueYesterday() * tempAmount * 100) / 100;
+            tempValueLastWeek = tempValueLastWeek + Math.round(asset.getValueLastWeek() * tempAmount);
+            tempValueLastMonth = tempValueLastMonth + Math.round(asset.getValueLastMonth() * tempAmount);
         }
-        String portfolioValueOutput = "De waarde van uw portefeuille is momenteel " + tempTotalPortfolioValue + " dollar.";
-        return portfolioValueOutput; }
+        return buildString(tempTotalPortfolioValue, tempValueYesterday, tempValueLastWeek, tempValueLastMonth);
+    }
+
+    private String buildString(double now, double yesterday, double week, double month) {
+        StringBuilder portfolioValueOutput = new StringBuilder();
+        portfolioValueOutput.append("De waarde van uw portefeuille is momenteel " + now + " dollar. \n" +
+                "\tGisteren was de waarde " + yesterday +
+                " dollar (" + Math.round( (now / yesterday - 1 ) * 100) + "% gestegen).\n" +
+                "\tVorige week was de waarde " + week +
+                " dollar (" + Math.round( (now / week - 1 ) * 100) + "% gestegen).\n" +
+                "\tVorige maand was de waarde " + month +
+                " dollar (" + Math.round( (now / month - 1 ) * 100) + "% gestegen).");
+        return portfolioValueOutput.toString();
+    }
+
+
 }
