@@ -24,8 +24,8 @@ public class AssetService {
         logger.info("New AssetService");
     }
 
-    public Asset createNewAsset(String name, String abbreviation, String description) throws IOException {
-        Asset newAsset = new Asset(name, abbreviation, description);
+    public Asset createNewAsset(String name,String apiName, String abbreviation, String description) throws IOException {
+        Asset newAsset = new Asset(name, apiName,abbreviation, description);
         updateAssetByApi(name); //TODO check of dit werkt in nieuwe versie
         double valueYesterday = currencyHistory.historyValuefrom(currencyHistory.dateYesterday(), newAsset.getName());
         newAsset.setValueYesterday(valueYesterday);
@@ -52,8 +52,8 @@ public class AssetService {
         return assetList;
     }
 
-    public Asset updateAssetByApi(String name) {
-        Asset asset = rootReposistory.updateAssetByApi(name);
+    public Asset updateAssetByApi(String apiName) {
+        Asset asset = rootReposistory.updateAssetByApi(apiName);
         return asset;
     }
 

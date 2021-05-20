@@ -49,11 +49,11 @@ public class CurrencyCollector {
     }
 
     public void makeRequestPerAsset(JdbcTemplate jdbcTemplate, Asset asset) throws IOException {
-        String urlName = encodeValue(asset.getName());
+        String apiName = asset.getApiName();
 
         String jsonName = encodeValue(asset.getName().toLowerCase());
 
-        String url = "https://api.coingecko.com/api/v3/simple/price?ids="+urlName +
+        String url = "https://api.coingecko.com/api/v3/simple/price?ids="+apiName +
                 "&vs_currencies=usd&include_24hr_vol=true&include_24hr_change=true";
 
         System.out.println(url);

@@ -2,7 +2,7 @@ Asset
 
 http://localhost:8080/createasset?name=test_coin&abbreviation=tcoin&description=kansloze_munt
 http://localhost:8080/assetoverview
-http://localhost:8080/updateassetbyapi?name=btc
+http://localhost:8080/updateassetbyapi?apiname=bitcoin
 http://localhost:8080/updateassetsbyapi
 
 AssetPortfolio

@@ -63,6 +63,14 @@ public class JdbcAssetDao implements AssetDao {
     }
 
     @Override
+    public Asset getOneByApiName(String apiName) {
+        String query = "SELECT * FROM asset WHERE apiName = ?";
+        Asset tempAsset = jdbcTemplate.queryForObject( query, new Object[] { apiName }, new AssetRowMapper());
+
+        return tempAsset;
+    }
+
+    @Override
     public void update(Asset asset) {
         logger.debug("JdbcAssetDao.update aan geroepen voor " + asset.getName());
         String sql = "UPDATE asset set name = ?, abbreviation = ?, description = ?, valueInUsd = ?, adjustmentFactor = ?, " +
@@ -73,8 +81,8 @@ public class JdbcAssetDao implements AssetDao {
     }
 
     @Override
-    public Asset updateAssetByApi(String symbol)  {
-        Asset asset = getOneBySymbol(symbol);
+    public Asset updateAssetByApi(String apiName)  {
+        Asset asset = getOneByApiName(apiName);
         CurrencyCollector currencyCollector = new CurrencyCollector();
         try {
             currencyCollector.makeRequestPerAsset(jdbcTemplate, asset );
@@ -112,16 +120,17 @@ public class JdbcAssetDao implements AssetDao {
 
     private PreparedStatement insertMemberStatement(Asset asset, Connection connection) throws SQLException {
         PreparedStatement ps = connection.prepareStatement(
-                "insert into asset (name, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, ValueLastMonth) values (?, ?, ?, ?, ?, ?, ?, ?)",
+                "insert into asset (name, apiName, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, ValueLastMonth) values (?, ?, ?, ?, ?, ?, ?, ?)",
                 Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, asset.getName());
-        ps.setString(2, asset.getAbbreviation());
-        ps.setString(3, asset.getDescription());
-        ps.setDouble(4, asset.getValueInUsd());
-        ps.setDouble(5, asset.getAdjustmentFactor());
-        ps.setDouble(6, asset.getValueYesterday());
-        ps.setDouble(7, asset.getValueLastWeek());
-        ps.setDouble(8, asset.getValueLastMonth());
+        ps.setString(2, asset.getApiName());
+        ps.setString(3, asset.getAbbreviation());
+        ps.setString(4, asset.getDescription());
+        ps.setDouble(5, asset.getValueInUsd());
+        ps.setDouble(6, asset.getAdjustmentFactor());
+        ps.setDouble(7, asset.getValueYesterday());
+        ps.setDouble(8, asset.getValueLastWeek());
+        ps.setDouble(9, asset.getValueLastMonth());
         return ps;
     }
 
@@ -131,6 +140,7 @@ public class JdbcAssetDao implements AssetDao {
             Asset asset = new Asset();
 
             asset.setName(rs.getString("name"));
+            asset.setApiName(rs.getString("apiName"));
             asset.setAbbreviation(rs.getString("abbreviation"));
             asset.setDescription(rs.getString("description"));
             asset.setValueInUsd(rs.getDouble("valueInUsd"));
