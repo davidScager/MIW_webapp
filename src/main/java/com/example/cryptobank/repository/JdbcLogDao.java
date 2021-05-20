@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Repository
-public class JdbcLogDao implements LogDao{
+public class JdbcLogDao implements LogDao {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -28,6 +28,7 @@ public class JdbcLogDao implements LogDao{
         double tradedRate = jdbcTemplate.queryForObject(query, new Object[] { transactionId }, new TradedRateRowMapper());
         return tradedRate;
     }
+
     public class TradedRateRowMapper implements RowMapper<Double> {
         @Override
         public Double mapRow(ResultSet rs, int rowNum) throws SQLException {

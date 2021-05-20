@@ -55,8 +55,8 @@ public class JdbcTransactionDao implements TransactionDao{
         preparedStatement.setString(1, transaction.getTimestamp());
         preparedStatement.setInt(2, transaction.getSeller());
         preparedStatement.setInt(3, transaction.getBuyer());
-        preparedStatement.setDouble(4, transaction.getNumberOfAssets());
-        preparedStatement.setDouble(5, transaction.getTransactionCost());
+        preparedStatement.setDouble(4, transaction.getTransactionLog().getNumberOfAssetsBought());
+        preparedStatement.setDouble(5, transaction.getTransactionLog().getTransactionCost());
         preparedStatement.setString(6, transaction.getAssetSold());
         preparedStatement.setString(7, transaction.getAssetBought());
         return preparedStatement;
