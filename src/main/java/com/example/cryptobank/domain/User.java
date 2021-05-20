@@ -33,6 +33,20 @@ public class User {
         logger.info("New User");
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "BSN=" + BSN +
+                ", id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", infix='" + infix + '\'' +
+                ", surname='" + surname + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
     public User() {
     }
 
