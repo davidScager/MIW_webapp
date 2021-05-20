@@ -29,7 +29,6 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
 
     @Override
     public List<Asset> getAssetOverview(int portfolioId) {
-
         String query = "SELECT * FROM assetportfolio WHERE portfolioId = ?";
         List<String> tempAssetNameList = jdbcTemplate.query(query, new Object[] { portfolioId },new AssetPortfolioRowMapper());
         List<Asset> tempAssetList = new ArrayList<>();
@@ -37,13 +36,7 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
             Asset asset = jdbcAssetDao.getOneByName(string);
             tempAssetList.add(asset);
         }
-
         return tempAssetList;
-    }
-
-    @Override
-    public List<AssetPortfolio> getAssetPortfolioOverview(int portfolioId) {
-        return null;
     }
 
     @Override
@@ -81,7 +74,8 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         return Double.parseDouble(jdbcTemplate.queryForObject(query, new Object[] { portfolioId, name }, new AssetPortfolioRowMapper()));
     }
 
-    @Override
+    //tijdelijk uigecomment omdat er twijfel is of deze nog geburuikt kan worden
+    /*@Override
     public void update(AssetPortfolio assetPortfolio) {
         String SQL = "update assetportfolio set assetName = ?,portfolioId = ?, amount = ? where assetName = ? and portfolioId = ? ";
         jdbcTemplate.update(SQL,assetPortfolio.getAssetName(),
@@ -92,17 +86,12 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
 
         //System.out.println("Updated Record with name = " + asset.getName());
         return ;
-    }
+    }*/
 
     @Override
     public void update(Asset asset, Portfolio portfolio, double amount) {
         String sql = "insert into assetportfolio(assetname, portfolioid, amount) values (?,?,?)";
         jdbcTemplate.update(sql, asset.getAbbreviation(), portfolio.getPortfolioId(), amount);
-    }
-
-    @Override
-    public void create(Object o) {
-
     }
 
     @Override
@@ -112,12 +101,7 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
 
     @Override
     public void delete(int id) {
-
-    }
-
-    @Override
-    public void delete(AssetPortfolio assetPortfolio) {
-
+        //TODO
     }
 
     private PreparedStatement insertStatement(AssetPortfolio assetPortfolio, Connection connection) throws SQLException {

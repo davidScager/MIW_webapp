@@ -15,8 +15,6 @@ public interface PortfolioDao {
 
     public Optional<Portfolio> get(int id);
 
-    public void update(Object o, int id);
-
     public void delete(int id);
 
     public int getPortfolioIdByUserId(int userId);
