@@ -25,16 +25,20 @@ public class TokenService {
         super();
     }
 
-    public String getToken() {
+    public String generateJwtToken(String subject, int minutesValid) {
         String jwt = Jwts.builder()
-                .setSubject("authentication")
-                .setAudience("djvbd")
+                .setSubject(subject)
                 .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now.plus(1, ChronoUnit.HOURS)))
+                .setExpiration(Date.from(now.plus(minutesValid, ChronoUnit.MINUTES)))
                 .signWith(Keys.hmacShaKeyFor(secret))
                 .compact();
         return jwt;
     }
+
+
+
+
+
 
     public void parseToken(String token) {
 

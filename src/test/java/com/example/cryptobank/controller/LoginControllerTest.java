@@ -9,13 +9,11 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,9 +28,9 @@ class LoginControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private static UserService mockUserService = Mockito.mock(UserService.class);
+    private static UserService mockUserService;
     @MockBean
-    private static TokenService mockTokenService = Mockito.mock(TokenService.class);
+    private static TokenService mockTokenService;
 
     public LoginController loginController= new LoginController(mockUserService, mockTokenService);
 
@@ -45,7 +43,7 @@ class LoginControllerTest {
     public static void setUp() {
         Mockito.when(mockUserService.verifyUser("huibvanstraten@gmail.com", "biuh")).thenReturn(
                 new User(13167, "huib", "van", "Straten", "29-01-1982", "van lierdreef", "huibvanstraten@gmail.com"));
-        Mockito.when(mockTokenService.getToken()).thenReturn("DitIsEenToken");
+        Mockito.when(mockTokenService.generateJwtToken("session", 60)).thenReturn("DitIsEenToken");
 
     }
 
