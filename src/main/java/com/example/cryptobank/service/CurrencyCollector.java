@@ -50,11 +50,13 @@ public class CurrencyCollector {
 
     public void makeRequestPerAsset(JdbcTemplate jdbcTemplate, Asset asset) throws IOException {
         String apiName = asset.getApiName();
-
-        String jsonName = encodeValue(asset.getName().toLowerCase());
+        String jsonName = asset.getApiName().toLowerCase();
+        if (apiName == null || apiName.isEmpty()){
+            return;
+        }
 
         String url = "https://api.coingecko.com/api/v3/simple/price?ids="+apiName +
-                "&vs_currencies=usd&include_24hr_vol=true&include_24hr_change=true";
+                "&vs_currencies=usd";
 
         System.out.println(url);
         RestTemplate restTemplate = new RestTemplate();
@@ -63,6 +65,7 @@ public class CurrencyCollector {
         JSONObject json = null;
         try {
             json = new JSONObject(response.toString());
+            System.out.println(json.getJSONObject(jsonName));
             System.out.println(json.getJSONObject(jsonName).getDouble("usd"));
             asset.setValueInUsd(json.getJSONObject(jsonName).getDouble("usd"));
             //asset.setAdjustmentFactor(json.getJSONObject(jsonName).getDouble("usd_24h_change"));
@@ -70,7 +73,7 @@ public class CurrencyCollector {
             JdbcAssetDao jdbcAssetDao = new JdbcAssetDao(jdbcTemplate);
             jdbcAssetDao.update(asset);
         } catch (JSONException e) {
-            System.out.println("Problem coin "+asset.getName());
+            System.out.println("Problem coin "+asset.getName()+" apiName "+apiName);
             System.out.println("Url: "+url);
             e.printStackTrace();
         }
