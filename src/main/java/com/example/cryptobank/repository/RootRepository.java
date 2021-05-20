@@ -26,13 +26,9 @@ public class RootRepository {
     private final AssetPortfolioDao assetPortfolioDao;
     private final TransactionDao transactionDao;
     private final LogDao logDao;
-    private final JdbcAssetPortfolioDao jdbcAssetPortfolioDao;
-    private final JdbcAssetDao jdbcAssetDao;
     private final int STARTKAPITAAL = 200;
 
-    public RootRepository(UserDao userDao, PortfolioDao portfolioDao, AssetDao assetDao, ActorDao actorDao, LoginDao loginDAO, AssetPortfolioDao assetPortfolioDao, TransactionDao transactionDao, LogDao logDao, JdbcAssetPortfolioDao jdbcAssetPortfolioDao, JdbcAssetDao jdbcAssetDao) {
-        this.jdbcAssetPortfolioDao = jdbcAssetPortfolioDao;
-        this.jdbcAssetDao = jdbcAssetDao;
+    public RootRepository(UserDao userDao, PortfolioDao portfolioDao, AssetDao assetDao, ActorDao actorDao, LoginDao loginDAO, AssetPortfolioDao assetPortfolioDao, TransactionDao transactionDao, LogDao logDao) {
         logger.info("New RootRepository");
         this.userDao = userDao;
         this.portfolioDao = portfolioDao;

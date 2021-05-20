@@ -51,6 +51,7 @@ public class TransactionController {
                                                 @RequestParam String assetBought) throws IOException {
         double transactionCost = transactionService.calculateTransactionCost(numberOfAssets, assetBought);
         Transaction newTransaction = transactionService.createNewTransaction(seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought);
+        //TODO update adjesment factor for both assets
         return newTransaction;
     }
 

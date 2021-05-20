@@ -8,22 +8,22 @@ import java.util.List;
 @Repository
 public interface AssetDao {
 
-    public void create(Asset asset);
+    void create(Asset asset);
 
-    public List<Asset> getAssetOverview();
+   List<Asset> getAssetOverview();
 
-    public Asset getOneByName(String name);
+    Asset getOneByName(String name);
 
-    //public void update(Asset asset);
+    void delete(int id);
 
-    public void delete(int id);
+    Asset updateAssetByApi(String name);
 
-    public Asset updateAssetByApi(String name);
+    Asset getOneBySymbol(String symbol);
 
-    public void update(Asset asset, int id);
+    void update(Asset asset);
 
-    public void update(Asset asset);
+    List<Asset> updateAssetsByApi();
 
-    public void updateAdjustmentFactor(Asset asset, double dollarAmount, boolean buyFromBank, boolean sellToBank);
+    void updateAdjustmentFactor(Asset asset, double dollarAmount, boolean buyFromBank, boolean sellToBank);
 
 }

@@ -44,7 +44,6 @@ public class JdbcAssetDao implements AssetDao {
     @Override
     public List<Asset> getAssetOverview() {
         String query = "SELECT * FROM asset";
-
         return jdbcTemplate.query(query, new AssetRowMapper());
     }
 
@@ -55,6 +54,7 @@ public class JdbcAssetDao implements AssetDao {
         return jdbcTemplate.queryForObject( query, new Object[] { name }, new AssetRowMapper());
     }
 
+    @Override
     public Asset getOneBySymbol(String symbol) {
         String query = "SELECT * FROM asset WHERE abbreviation = ?";
         Asset tempAsset = jdbcTemplate.queryForObject( query, new Object[] { symbol }, new AssetRowMapper());
@@ -73,10 +73,6 @@ public class JdbcAssetDao implements AssetDao {
     }
 
     @Override
-    public void update(Asset asset, int id) {
-
-    }
-
     public Asset updateAssetByApi(String symbol)  {
         Asset asset = getOneBySymbol(symbol);
         CurrencyCollector currencyCollector = new CurrencyCollector();
@@ -88,6 +84,7 @@ public class JdbcAssetDao implements AssetDao {
         return asset;
     }
 
+    @Override
     public List<Asset> updateAssetsByApi()  {
         for (Asset asset : getAssetOverview()){
             System.out.println("asset.getAbbreviation() "+asset.getAbbreviation());

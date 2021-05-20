@@ -17,19 +17,14 @@ public interface AssetPortfolioDao {
 
     public double getAmountByAssetName(String name, int portfolioId);
 
-    public void create(Object o);
-
     public void update(Asset asset, Portfolio portfolio, double amount);
 
     public void delete(int id);
 
     public void create(AssetPortfolio assetPortfolio);
 
-    public void update(AssetPortfolio assetPortfolio);
-
-    public void delete(AssetPortfolio assetPortfolio);
+    /*public void update(AssetPortfolio assetPortfolio);*/
 
 
-    public List<AssetPortfolio> getAssetPortfolioOverview(int portfolioId) ;
 
 }

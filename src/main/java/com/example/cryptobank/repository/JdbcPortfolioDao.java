@@ -30,16 +30,19 @@ import java.util.Optional;
 public class JdbcPortfolioDao implements PortfolioDao {
 
     private final JdbcTemplate jdbcTemplate;
+    private ActorDao actorDao;
 
     @Autowired
-    public JdbcPortfolioDao(JdbcTemplate jdbcTemplate) {
+    public JdbcPortfolioDao(JdbcTemplate jdbcTemplate, ActorDao actorDao) {
         super();
+        this.actorDao = actorDao;
         this.jdbcTemplate = jdbcTemplate;
     }
     RowMapper<Portfolio> portfolioRowMapper = (resultSet, rownumber) -> {Portfolio portfolio = new Portfolio();
         portfolio.setPortfolioId(resultSet.getInt("portfolioId"));
-        /*Actor actor = actorDao.get(resultSet.getInt("user"));
-        portfolio.setActor(actor);*/
+        Optional<Actor> actor = actorDao.get(resultSet.getInt("user"));
+        Actor actor1 = actor.get();
+        portfolio.setActor(actor1);
         return portfolio;
     };
 
@@ -72,11 +75,6 @@ public class JdbcPortfolioDao implements PortfolioDao {
             return Optional.of(portfolioList.get(0));
         }
         throw new MissingResourceException("No such Portfolio", "Portfolio", String.valueOf(id));
-    }
-
-    @Override
-    public void update(Object o, int id) {
-    //je kan alleen de id updaten want de user kan je niet via hier updaten dus lijkt me overbodig.
     }
 
     @Override

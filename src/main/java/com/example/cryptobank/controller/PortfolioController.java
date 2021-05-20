@@ -35,5 +35,4 @@ public class PortfolioController {
     public String portfolioValueHandler(@RequestParam int userId) {
         return portfolioService.showValueOfPortfolio(userId);
     }
-
 }
