@@ -141,8 +141,9 @@ public class RootRepository {
         return portfolioDao.getPortfolioIdByUserId(userId);
     }
 
-    public void saveTransaction(Transaction transaction) {
+    public void saveTransactionAndLog(Transaction transaction) {
         transactionDao.saveTransaction(transaction);
+        logDao.saveLog(transaction);
         updateAdjustmentFactor(transaction.getAssetBought(), transaction.getTransactionLog().getNumberOfAssetsBought(), transaction.getBuyer(), transaction.getSeller());
         updateAdjustmentFactor(transaction.getAssetSold(), transaction.getTransactionLog().getNumberOfAssetsSold(), transaction.getBuyer(), transaction.getSeller());
     }
@@ -160,6 +161,22 @@ public class RootRepository {
         boolean buyFromBank = buyer.getRole().equals("BANK") ? true : false;
         boolean sellToBank = seller.getRole().equals("BANK") ? true : false;
         assetDao.updateAdjustmentFactor(asset, dollarAmount, buyFromBank, sellToBank);
+    }
+
+    public TransactionLog createNewTransactionLog(String assetSold, String assetBought, double numberOfAssets, double transactionCost){
+        Asset boughtAsset = assetDao.getOneByName(assetBought);
+        Asset soldAsset = assetDao.getOneByName(assetSold);
+        double soldAmount = (boughtAsset.getValueInUsd() * boughtAsset.getAdjustmentFactor() * numberOfAssets) / (soldAsset.getValueInUsd() * soldAsset.getAdjustmentFactor());
+
+//        TransactionLog tempTransactionLog = new TransactionLog();
+//        tempTransactionLog.setBoughtAssetTransactionRate(boughtAsset.getValueInUsd());
+//        tempTransactionLog.setSoldAssetTransactionRate(soldAsset.getValueInUsd());
+//        tempTransactionLog.setBoughtAssetAdjustmentFactor(boughtAsset.getAdjustmentFactor());
+//        tempTransactionLog.setSoldAssetAdjustmentFactor(soldAsset.getAdjustmentFactor());
+//        tempTransactionLog.setNumberOfAssetsBought(numberOfAssets);
+//        tempTransactionLog.setNumberOfAssetsSold(soldAmount);
+//        tempTransactionLog.setTransactionCost(transactionCost);
+        return new TransactionLog(boughtAsset.getValueInUsd(), soldAsset.getValueInUsd(), boughtAsset.getAdjustmentFactor(), soldAsset.getAdjustmentFactor(), numberOfAssets, soldAmount, transactionCost);
     }
 
     public double calculateTransactionCost(double numberOfAssets, String asset) {
