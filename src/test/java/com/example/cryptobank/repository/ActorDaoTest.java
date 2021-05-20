@@ -11,7 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles("bitbanktestdb")
 class ActorDaoTest {
 
     private ActorDao daoUnderTest;
