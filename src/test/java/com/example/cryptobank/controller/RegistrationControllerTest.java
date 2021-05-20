@@ -30,9 +30,6 @@ public class RegistrationControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private UserService userService;
-
-    @MockBean
     private RegistrationService registrationService;
 
     @Autowired
@@ -44,10 +41,10 @@ public class RegistrationControllerTest {
 /*
     @Test
     public void RegisterClientTest(){
-        User user = new User(12345, "Testman", "t", "Van Der Test", "12-06-1980", "Testlaan 23, Amsterdam", "Testman@hotmail.com", "tester");
+        User user = new User(12345, "Testman", "t", "Van Der Test", "12-06-1980", "Testlaan 23, Amsterdam", "Testman@hotmail.com");
 
         try{
-            Mockito.when(userService.register(12345, "Testman", "t", "Van Der Test", "12-06-1980", "Testlaan 23, Amsterdam", "Testman@hotmail.com", "tester", Role.CLIENT)).thenReturn(user);
+            Mockito.when(registrationService.register(12345, "Testman", "t", "Van Der Test", "12-06-1980", "Testlaan 23, Amsterdam", "Testman@hotmail.com", "tester", Role.CLIENT)).thenReturn(user.toString());
             MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/registerClient");
             request.param("BSN", "12345");
             request.param("firstName", "Testman");
