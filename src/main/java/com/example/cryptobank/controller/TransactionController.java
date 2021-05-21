@@ -31,7 +31,7 @@ public class TransactionController {
 
     @GetMapping("/assetoverviewfrombank")
     public Map<Asset, Double> getAssetOverviewWithAmount() {
-        return transactionService.getAssetOverviewWithAmount(106);//dit is de portfolioId van de bank
+        return transactionService.getAssetOverviewWithAmount(101);//dit is de portfolioId van de bank
     }
 
     @GetMapping("/myavalableassetstosell") //available

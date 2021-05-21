@@ -124,7 +124,7 @@ CREATE TABLE Log(
 -- INSERT DATA
 
 INSERT INTO Asset (name,apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Bitcoin', 'Bitcoin','BTC','Most known cryptocoin' ,'50000','1', '1', '1', '1');
-INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Ethereum','Ethereum', 'ETH','A crytocoin on an opensourcepaltform' ,'3000','1.1', '1', '1', '1');
+INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Ethereum','Ethereum', 'ETH','A crytocoin on an opensourcepaltform' ,'3000','1', '1', '1', '1');
 INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Binance Coin','binancecoin', 'BNB','Has the most exchangeses of all cyptocoins' ,'600','1', '1', '1', '1');
 INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Cardano', 'Cardano','ADA','Follows sience to improve its service' ,'2','1', '1', '1', '1');
 INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Dogecoin','Dogecoin', 'DOGE','Created by software engineers' ,'0.5','1', '1', '1', '1');
@@ -143,11 +143,37 @@ INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustm
 INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Monero','Monero', 'XMR','Works anonymous' ,'328.79','1', '1', '1', '1');
 INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Neo','Neo', 'NEO','Has a vision to realize a smart economy' ,'81.19','1', '1', '1', '1');
 INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Dash', 'Dash','DASH','Users are called masternodes' ,'200.1','1', '1', '1', '1');
-INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Dollar','', 'USD' ,'Basic value in this bank', 1, 1, '1', '1', '1');
+INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Dollar','', 'USD' ,'Basic value in this bank', '1', '1', '1', '1', '1');
 
 INSERT INTO role VALUES ('administrator');
 INSERT INTO role VALUES ('bank');
 INSERT INTO role VALUES ('client');
+
+INSERT INTO actor (userId, checkingAccount, role) Values (1,12345678,'bank');
+
+INSERT INTO portfolio (portfolioId, actor) Values (101,1);
+
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BTC',101,3030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ADA',101,1030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BCH',101,2396);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BNB',101,4132);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('DASH',101,1030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('DOGE',101,3240);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('DOT',101,3395);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('EOS',101,3030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ETC',101,1030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ETH',101,2396);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('FIL',101,4132);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ICP',101,1030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('LTC',101,3240);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('NEO',101,3395);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('THETA',101,3030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('TRX',101,1030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('VET',101,2396);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('XLM',101,4132);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('XMR',101,1030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('XRP',101,3240);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('USD',101,5000000);
 
 -- CREATE USER
 
