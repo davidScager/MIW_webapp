@@ -20,9 +20,9 @@ CREATE TABLE Actor(
     checkingAccount VARCHAR(45) NULL,
     role            VARCHAR(45) NOT NULL,
     FOREIGN KEY (role)
-    REFERENCES Role (role)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+        REFERENCES Role (role)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
     );
 
 CREATE TABLE User(
@@ -35,13 +35,13 @@ CREATE TABLE User(
     address         VARCHAR(45) NOT NULL,
     email           VARCHAR(100) NOT NULL,
     FOREIGN KEY (email)
-    REFERENCES LoginAccount (username)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
+        REFERENCES LoginAccount (username)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
     FOREIGN KEY (userId)
-    REFERENCES Actor (userId)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+        REFERENCES Actor (userId)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
     );
 
 CREATE TABLE Asset(
@@ -60,9 +60,9 @@ CREATE TABLE Portfolio(
     portfolioId     INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     actor           INT NOT NULL,
     FOREIGN KEY (actor)
-    REFERENCES Actor (userId)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+        REFERENCES Actor (userId)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
     );
 
 CREATE TABLE AssetPortfolio(
@@ -71,13 +71,13 @@ CREATE TABLE AssetPortfolio(
     amount          DOUBLE      NOT NULL,
     PRIMARY KEY (assetName, portfolioId),
     FOREIGN KEY (portfolioId)
-    REFERENCES Portfolio (portfolioId)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
+        REFERENCES Portfolio (portfolioId)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
     FOREIGN KEY (assetName)
-    REFERENCES Asset (abbreviation)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+        REFERENCES Asset (abbreviation)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
     );
 
 CREATE TABLE Transaction(
@@ -90,21 +90,21 @@ CREATE TABLE Transaction(
     assetSold       VARCHAR(45) NOT NULL,
     assetBought     VARCHAR(45) NOT NULL,
     FOREIGN KEY (seller)
-    REFERENCES Actor (userId)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
+        REFERENCES Actor (userId)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
     FOREIGN KEY (buyer)
-    REFERENCES Actor (userId)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
+        REFERENCES Actor (userId)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
     FOREIGN KEY (assetSold)
-    REFERENCES Asset (abbreviation)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
+        REFERENCES Asset (abbreviation)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
     FOREIGN KEY (assetBought)
-    REFERENCES Asset (abbreviation)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+        REFERENCES Asset (abbreviation)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
     );
 
 CREATE TABLE Log(
@@ -116,14 +116,12 @@ CREATE TABLE Log(
     amount                      DOUBLE NOT NULL,
     PRIMARY KEY (transactionId),
     FOREIGN KEY (transactionId)
-    REFERENCES Transaction (transactionId)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+        REFERENCES Transaction (transactionId)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
     );
 
 -- INSERT DATA
-
-USE BitBankDB;
 
 INSERT INTO Asset (name,apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Bitcoin', 'Bitcoin','BTC','Most known cryptocoin' ,'50000','1', '1', '1', '1');
 INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Ethereum','Ethereum', 'ETH','A crytocoin on an opensourcepaltform' ,'3000','1.1', '1', '1', '1');
