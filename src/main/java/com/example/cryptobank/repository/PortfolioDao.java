@@ -11,11 +11,11 @@ public interface PortfolioDao {
 
     public List list();
 
-    public void create(Object o);
+    public void create(Portfolio portfolio);
 
     public Optional<Portfolio> get(int id);
 
     public void delete(int id);
 
-    public int getPortfolioIdByUserId(int userId);
+    public Portfolio getPortfolioIdByUserId(int userId);
 }

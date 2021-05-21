@@ -133,7 +133,7 @@ public class RootRepository {
         return assetDao.updateAssetByApi(name);
     }
 
-    public int getPortfolioIdByUserId(int userId) {
+    public Portfolio getPortfolioIdByUserId(int userId) {
         return portfolioDao.getPortfolioIdByUserId(userId);
     }
 
