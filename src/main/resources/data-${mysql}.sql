@@ -1,38 +1,77 @@
 USE BitBankDB;
 
-INSERT INTO Asset (name,apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Bitcoin', 'Bitcoin','BTC','Most known cryptocoin' ,'50000','1', '1', '1', '1');
-INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Ethereum','Ethereum', 'ETH','A crytocoin on an opensourcepaltform' ,'3000','1.1', '1', '1', '1');
-INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Binance Coin','binancecoin', 'BNB','Has the most exchangeses of all cyptocoins' ,'600','1', '1', '1', '1');
-INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Cardano', 'Cardano','ADA','Follows sience to improve its service' ,'2','1', '1', '1', '1');
-INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Dogecoin','Dogecoin', 'DOGE','Created by software engineers' ,'0.5','1', '1', '1', '1');
-INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('XRP','xrp-classic','XRP','Ripple is often tought as the same' ,'1.28','1', '1', '1', '1');
-INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Polkadot','Polkadot', 'DOT','Has the same founder as Ethereum' ,'37.12','1', '1', '1', '1');
-INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Internet Computer','internet-computer', 'ICP','Relased at may 10th of this year' ,'208.92','1', '1', '1', '1');
-INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Bitcoin Cash','bitcoin-cash', 'BCH','Branch from bitcoin' ,'1002','1', '1', '1', '1');
-INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Litecoin','Litecoin', 'LTC','One of the first cryptocoins' ,'261.18','1', '1', '1', '1');
-INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Stellar', 'Stellar','XLM','A coin from the Lumen organization' ,'0.6','1', '1', '1', '1');
-INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Vechain','Vechain', 'VET','Former known as DogeCoin-Dark' ,'0.56','1', '1', '1', '1');
+INSERT INTO Asset (name, apiName, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday,
+                   valueLastWeek, valueLastMonth)
+Values ('Bitcoin', 'Bitcoin', 'BTC', 'Most known cryptocoin', '50000', '1', '1', '1', '1');
+INSERT INTO Asset (name, apiName, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday,
+                   valueLastWeek, valueLastMonth)
+Values ('Ethereum', 'Ethereum', 'ETH', 'A crytocoin on an opensourcepaltform', '3000', '1', '1', '1', '1');
+INSERT INTO Asset (name, apiName, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday,
+                   valueLastWeek, valueLastMonth)
+Values ('Binance Coin', 'binancecoin', 'BNB', 'Has the most exchangeses of all cyptocoins', '600', '1', '1', '1', '1');
+INSERT INTO Asset (name, apiName, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday,
+                   valueLastWeek, valueLastMonth)
+Values ('Cardano', 'Cardano', 'ADA', 'Follows sience to improve its service', '2', '1', '1', '1', '1');
+INSERT INTO Asset (name, apiName, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday,
+                   valueLastWeek, valueLastMonth)
+Values ('Dogecoin', 'Dogecoin', 'DOGE', 'Created by software engineers', '0.5', '1', '1', '1', '1');
+INSERT INTO Asset (name, apiName, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday,
+                   valueLastWeek, valueLastMonth)
+Values ('XRP', 'xrp-classic', 'XRP', 'Ripple is often tought as the same', '1.28', '1', '1', '1', '1');
+INSERT INTO Asset (name, apiName, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday,
+                   valueLastWeek, valueLastMonth)
+Values ('Polkadot', 'Polkadot', 'DOT', 'Has the same founder as Ethereum', '37.12', '1', '1', '1', '1');
+INSERT INTO Asset (name, apiName, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday,
+                   valueLastWeek, valueLastMonth)
+Values ('Internet Computer', 'internet-computer', 'ICP', 'Relased at may 10th of this year', '208.92', '1', '1', '1',
+        '1');
+INSERT INTO Asset (name, apiName, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday,
+                   valueLastWeek, valueLastMonth)
+Values ('Bitcoin Cash', 'bitcoin-cash', 'BCH', 'Branch from bitcoin', '1002', '1', '1', '1', '1');
+INSERT INTO Asset (name, apiName, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday,
+                   valueLastWeek, valueLastMonth)
+Values ('Litecoin', 'Litecoin', 'LTC', 'One of the first cryptocoins', '261.18', '1', '1', '1', '1');
+INSERT INTO Asset (name, apiName, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday,
+                   valueLastWeek, valueLastMonth)
+Values ('Stellar', 'Stellar', 'XLM', 'A coin from the Lumen organization', '0.6', '1', '1', '1', '1');
+INSERT INTO Asset (name, apiName, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday,
+                   valueLastWeek, valueLastMonth)
+Values ('Vechain', 'Vechain', 'VET', 'Former known as DogeCoin-Dark', '0.56', '1', '1', '1', '1');
 INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Ethereum Classic','ethereum-classic', 'ETC','Branch from Ethereum' ,'82.21','1', '1', '1', '1');
 INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Eos','Eos', 'EOS','Runs on the EOS network' ,'8.9','1', '1', '1', '1');
 INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Theta', 'theta-token','THETA','A big part of the streaming sector' ,'8.29','1', '1', '1', '1');
 INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Tron','Tron', 'TRX','Aims to build a free digital entertainment system' ,'0.105','1', '1', '1', '1');
 INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Filecoin', 'Filecoin','FIL','Also works with information storage' ,'93.85','1', '1', '1', '1');
-INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Monero','Monero', 'XMR','Works anonymous' ,'328.79','1', '1', '1', '1');
-INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Neo','Neo', 'NEO','Has a vision to realize a smart economy' ,'81.19','1', '1', '1', '1');
-INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Dash', 'Dash','DASH','Users are called masternodes' ,'200.1','1', '1', '1', '1');
-INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Dollar','', 'USD' ,'Basic value in this bank', 1, 1, '1', '1', '1');
+INSERT INTO Asset (name, apiName, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday,
+                   valueLastWeek, valueLastMonth)
+Values ('Monero', 'Monero', 'XMR', 'Works anonymous', '328.79', '1', '1', '1', '1');
+INSERT INTO Asset (name, apiName, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday,
+                   valueLastWeek, valueLastMonth)
+Values ('Neo', 'Neo', 'NEO', 'Has a vision to realize a smart economy', '81.19', '1', '1', '1', '1');
+INSERT INTO Asset (name, apiName, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday,
+                   valueLastWeek, valueLastMonth)
+Values ('Dash', 'Dash', 'DASH', 'Users are called masternodes', '200.1', '1', '1', '1', '1');
+INSERT INTO Asset (name, apiName, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday,
+                   valueLastWeek, valueLastMonth)
+Values ('Dollar', '', 'USD', 'Basic value in this bank', 1, 1, '1', '1', '1');
 
 INSERT INTO role VALUE ('administrator');
 INSERT INTO role VALUE ('bank');
 INSERT INTO role VALUE ('client');
 
 # Testdata voor tijdelijk gebruik
-INSERT INTO actor (userId, checkingAccount, role) Values (1,12345678,'CLIENT');
-INSERT INTO actor (userId, checkingAccount, role) Values (2,87654321,'CLIENT');
-INSERT INTO actor (userId, checkingAccount, role) Values (3,45612387,'CLIENT');
-INSERT INTO actor (userId, checkingAccount, role) Values (4,32145678,'CLIENT');
-INSERT INTO actor (userId, checkingAccount, role) Values (5,32187456,'CLIENT');
-INSERT INTO actor (userId, checkingAccount, role) Values (6,98765432,'BANK');
+INSERT INTO actor (userId, checkingAccount, role)
+Values (1, 12345678, 'client');
+INSERT INTO actor (userId, checkingAccount, role)
+Values (2, 87654321, 'client');
+INSERT INTO actor (userId, checkingAccount, role)
+Values (3, 45612387, 'client');
+INSERT INTO actor (userId, checkingAccount, role)
+Values (4, 32145678, 'client');
+INSERT INTO actor (userId, checkingAccount, role)
+Values (5, 32187456, 'client');
+INSERT INTO actor (userId, checkingAccount, role)
+Values (6, 98765432, 'bank');
 
 # Testdata voor tijdelijk gebruik
 INSERT INTO portfolio (portfolioId, actor)
