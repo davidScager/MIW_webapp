@@ -139,14 +139,14 @@ public class RootRepository {
         transactionDao.delete(id);
     }
 
-    public int getPortfolioIdByUserId(int userId) {
+    public Portfolio getPortfolioIdByUserId(int userId) {
         return portfolioDao.getPortfolioIdByUserId(userId);
     }
 
     public void saveTransactionAndLog(Transaction transaction) {
         transactionDao.saveTransaction(transaction);
         logDao.saveLog(transaction);
-        updateAdjustmentFactor(transaction.getAssetBought(), transaction.getTransactionLog().getNumberOfAssetsBought(), transaction.getBuyer(), transaction.getSeller());
+        updateAdjustmentFactor(transaction.getAssetBought(), transaction.getTransactionLog().getNumberOfAssetsBought(), transaction.getSeller(), transaction.getBuyer());
         updateAdjustmentFactor(transaction.getAssetSold(), transaction.getTransactionLog().getNumberOfAssetsSold(), transaction.getBuyer(), transaction.getSeller());
     }
 
@@ -160,8 +160,8 @@ public class RootRepository {
         Actor buyer = tempBuyer.get();
         Optional<Actor> tempSeller = actorDao.get(sellerId);
         Actor seller = tempSeller.get();
-        boolean buyFromBank = buyer.getRole().equals("BANK") ? true : false;
-        boolean sellToBank = seller.getRole().equals("BANK") ? true : false;
+        boolean buyFromBank = buyer.getRole().equals(Role.BANK) ? true : false;
+        boolean sellToBank = seller.getRole().equals(Role.BANK) ? true : false;
         assetDao.updateAdjustmentFactor(asset, dollarAmount, buyFromBank, sellToBank);
     }
 
