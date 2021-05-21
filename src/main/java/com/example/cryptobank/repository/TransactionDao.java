@@ -12,4 +12,6 @@ public interface TransactionDao {
 
     public double calculateTransactionCost(double dollarAmount);
 
+    public void delete(int id);
+
 }
