@@ -71,5 +71,10 @@ public class JdbcTransactionDao implements TransactionDao{
         transaction.setTransactionId(newKey);
     }
 
+    @Override
+    public void delete(int id) {
+        jdbcTemplate.update("DELETE FROM transaction WHERE transactionId = ?", id);
+    }
+
 
 }

@@ -40,7 +40,7 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
     }
 
     @Override
-    public Map<Asset, Double> getAssetOvervieuwWithAmmount(int portfolioId){
+    public Map<Asset, Double> getAssetOverviewWithAmmount(int portfolioId) {
         Map<Asset, Double> resultMap = new HashMap<>();
         String query = "SELECT * FROM assetportfolio WHERE portfolioId = ?";
         List<AssetPortfolio> tempList = jdbcTemplate.query(query, new AssetPortfolioAmountRowMapper(), portfolioId);

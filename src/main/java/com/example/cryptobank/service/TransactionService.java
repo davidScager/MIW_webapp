@@ -27,8 +27,8 @@ public class TransactionService {
         logger.info("New TransactionService");
     }
 
-    public Map<Asset, Double> getAssetOverVieuwWithAmount(int portfolioId) {
-        return rootRepository.getAssetOverVieuwWithAmount(portfolioId);
+    public Map<Asset, Double> getAssetOverviewWithAmount(int portfolioId) {
+        return rootRepository.getAssetOverviewWithAmount(portfolioId);
     }
 
     public Transaction createNewTransaction(int seller, int buyer, double numberOfAssets, double transactionCost, String assetSold, String assetBought) throws IOException {
@@ -43,6 +43,10 @@ public class TransactionService {
 
     public double calculateTransactionCost(double numberOfAssets, String asset) {
         return rootRepository.calculateTransactionCost(numberOfAssets, asset);
+    }
+
+    public void deleteTransaction(int id) {
+        rootRepository.deleteTransaction(id);
     }
 
     public void updateAdjustmentFactor(String assetName, double numberOfAssets, int buyerId, int sellerId) {

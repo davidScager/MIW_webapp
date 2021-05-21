@@ -120,7 +120,7 @@ public class JdbcAssetDao implements AssetDao {
 
     private PreparedStatement insertMemberStatement(Asset asset, Connection connection) throws SQLException {
         PreparedStatement ps = connection.prepareStatement(
-                "insert into asset (name, apiName, abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, ValueLastMonth) values (?, ?, ?, ?, ?, ?, ?, ?)",
+                "insert into asset (abbreviation, name, apiName, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, ValueLastMonth) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, asset.getName());
         ps.setString(2, asset.getApiName());
