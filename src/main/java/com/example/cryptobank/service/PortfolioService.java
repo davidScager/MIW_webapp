@@ -1,6 +1,7 @@
 package com.example.cryptobank.service;
 
 import com.example.cryptobank.domain.Asset;
+import com.example.cryptobank.domain.Portfolio;
 import com.example.cryptobank.repository.RootRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,14 +25,14 @@ public class PortfolioService {
     }
 
     public List<String> showAssetOverview(int userId) {
-        int portfolioId = rootRepository.getPortfolioIdByUserId(userId);
-        List<String> overviewPortfolioList = rootRepository.showPortfolioOverview(portfolioId);
+        Portfolio portfolio = rootRepository.getPortfolioIdByUserId(userId);
+        List<String> overviewPortfolioList = rootRepository.showPortfolioOverview(portfolio.getPortfolioId());
         return overviewPortfolioList;
     }
 
     public String showValueOfPortfolio(int userId) {
-        int portfolioId = rootRepository.getPortfolioIdByUserId(userId);
-        String portfolioValueString = rootRepository.showPortfolioValue(portfolioId);
+        Portfolio portfolio = rootRepository.getPortfolioIdByUserId(userId);
+        String portfolioValueString = rootRepository.showPortfolioValue(portfolio.getPortfolioId());
         return portfolioValueString;
     }
 }

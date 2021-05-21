@@ -40,9 +40,8 @@ public class JdbcPortfolioDao implements PortfolioDao {
     }
     RowMapper<Portfolio> portfolioRowMapper = (resultSet, rownumber) -> {Portfolio portfolio = new Portfolio();
         portfolio.setPortfolioId(resultSet.getInt("portfolioId"));
-        Optional<Actor> actor = actorDao.get(resultSet.getInt("user"));
-        Actor actor1 = actor.get();
-        portfolio.setActor(actor1);
+        Actor actor = actorDao.get(resultSet.getInt("actor")).get();
+        portfolio.setActor(actor);
         return portfolio;
     };
 
@@ -60,8 +59,7 @@ public class JdbcPortfolioDao implements PortfolioDao {
     }
 
     @Override
-    public void create(Object o) {
-        Portfolio portfolio = (Portfolio) o;
+    public void create(Portfolio portfolio) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> insertPortfolioStatement(portfolio, connection), keyHolder);
         int key = keyHolder.getKey().intValue();
@@ -83,10 +81,9 @@ public class JdbcPortfolioDao implements PortfolioDao {
     }
 
     @Override
-    public int getPortfolioIdByUserId(int userId) {
-        String query = "SELECT portfolioId FROM portfolio WHERE actor = ?";
-        int tempPortfolioID = jdbcTemplate.queryForObject( query, new Object[] { userId }, portfolioRowMapper).getPortfolioId();
-
-        return tempPortfolioID;
+    public Portfolio getPortfolioIdByUserId(int userId) {
+        String query = "SELECT * FROM portfolio WHERE actor = ?";
+        Portfolio portfolio = jdbcTemplate.queryForObject( query, new Object[] { userId }, portfolioRowMapper);
+        return portfolio;
     }
 }
