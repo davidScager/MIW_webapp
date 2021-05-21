@@ -22,17 +22,17 @@ INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustm
 INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Dash', 'Dash','DASH','Users are called masternodes' ,'200.1','1', '1', '1', '1');
 INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Dollar','', 'USD' ,'Basic value in this bank', 1, 1, '1', '1', '1');
 
-INSERT INTO role VALUE ('administrator');
-INSERT INTO role VALUE ('bank');
-INSERT INTO role VALUE ('client');
+INSERT INTO role VALUE ('ADMINISTRATOR');
+INSERT INTO role VALUE ('BANK');
+INSERT INTO role VALUE ('CLIENT');
 
 # Testdata voor tijdelijk gebruik
-INSERT INTO actor (userId, checkingAccount, role) Values (1,12345678,'client');
-INSERT INTO actor (userId, checkingAccount, role) Values (2,87654321,'client');
-INSERT INTO actor (userId, checkingAccount, role) Values (3,45612387,'client');
-INSERT INTO actor (userId, checkingAccount, role) Values (4,32145678,'client');
-INSERT INTO actor (userId, checkingAccount, role) Values (5,32187456,'client');
-INSERT INTO actor (userId, checkingAccount, role) Values (6,98765432,'bank');
+INSERT INTO actor (userId, checkingAccount, role) Values (1,12345678,'CLIENT');
+INSERT INTO actor (userId, checkingAccount, role) Values (2,87654321,'CLIENT');
+INSERT INTO actor (userId, checkingAccount, role) Values (3,45612387,'CLIENT');
+INSERT INTO actor (userId, checkingAccount, role) Values (4,32145678,'CLIENT');
+INSERT INTO actor (userId, checkingAccount, role) Values (5,32187456,'CLIENT');
+INSERT INTO actor (userId, checkingAccount, role) Values (6,98765432,'BANK');
 
 # Testdata voor tijdelijk gebruik
 INSERT INTO portfolio (portfolioId, actor) Values (101,1);
