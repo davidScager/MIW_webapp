@@ -51,8 +51,6 @@ public class TransactionController {
                                                 @RequestParam String assetBought) throws IOException {
         double transactionCost = transactionService.calculateTransactionCost(numberOfAssets, assetBought);
         Transaction newTransaction = transactionService.createNewTransaction(seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought);
-        transactionService.updateAdjustmentFactor(assetBought, numberOfAssets, buyer, seller);
-        transactionService.updateAdjustmentFactor(assetSold, numberOfAssets, buyer, seller);
         return newTransaction;
     }
 

@@ -27,12 +27,12 @@ INSERT INTO role VALUE ('bank');
 INSERT INTO role VALUE ('client');
 
 # Testdata voor tijdelijk gebruik
-INSERT INTO actor (userId, checkingAccount, role) Values (1,12345678,'CLIENT');
-INSERT INTO actor (userId, checkingAccount, role) Values (2,87654321,'CLIENT');
-INSERT INTO actor (userId, checkingAccount, role) Values (3,45612387,'CLIENT');
-INSERT INTO actor (userId, checkingAccount, role) Values (4,32145678,'CLIENT');
-INSERT INTO actor (userId, checkingAccount, role) Values (5,32187456,'CLIENT');
-INSERT INTO actor (userId, checkingAccount, role) Values (6,98765432,'BANK');
+INSERT INTO actor (userId, checkingAccount, role) Values (1,12345678,'client');
+INSERT INTO actor (userId, checkingAccount, role) Values (2,87654321,'client');
+INSERT INTO actor (userId, checkingAccount, role) Values (3,45612387,'client');
+INSERT INTO actor (userId, checkingAccount, role) Values (4,32145678,'client');
+INSERT INTO actor (userId, checkingAccount, role) Values (5,32187456,'client');
+INSERT INTO actor (userId, checkingAccount, role) Values (6,98765432,'bank');
 
 # Testdata voor tijdelijk gebruik
 INSERT INTO portfolio (portfolioId, actor)
