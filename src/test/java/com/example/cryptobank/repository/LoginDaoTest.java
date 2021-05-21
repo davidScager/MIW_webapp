@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@ActiveProfiles("testdb")
+@ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class LoginDaoTest {
     private Logger logger = LoggerFactory.getLogger(LoginDaoTest.class);
@@ -47,11 +47,22 @@ class LoginDaoTest {
         assertEquals(expectedLoginAccount, actualLoginAccount);
     }
 
-    @Test
-    void update() {
+    @Test @Order(4)
+    void update1() {
+        String expectedUsername = "Somebody";
+        loginDao.update(expectedUsername, testHashAndSalt, null);
+        String actualUsername = loginDao.get(expectedUsername).get().getUsername();
+        assertEquals(expectedUsername, actualUsername);
     }
 
-    @Test
+    @Test @Order(5)
     void delete() {
+        loginDao.delete("Somebody");
+        assert loginDao.get("Somebody").orElse(null) == null;
+    }
+
+    @Test @Order(6)
+    void update2(){
+        assert loginDao.get(USERNAME).orElse(null) == null;
     }
 }

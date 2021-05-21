@@ -35,7 +35,7 @@ public class JdbcLoginDao implements LoginDao {
     }
 
     private PreparedStatement insertLoginStatement(String username, HashAndSalt hashAndSalt, String token, Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("insert into bitbankdb.loginaccount values (?, ?, ?, ?)");
+        PreparedStatement ps = connection.prepareStatement("insert into loginaccount values (?, ?, ?, ?)");
         ps.setString(1, username);
         ps.setString(2, hashAndSalt.getHash());
         ps.setString(3, hashAndSalt.getSalt());
@@ -45,7 +45,7 @@ public class JdbcLoginDao implements LoginDao {
 
     public Optional<LoginAccount> get(String username){
         List<LoginAccount> loginList = jdbcTemplate.query(
-                "select * from bitbankdb.loginaccount where username = ?",
+                "select * from loginaccount where username = ?",
                 (rs, rowNum) -> new LoginAccount(rs.getString("username"), rs.getString("password"), rs.getString("salt"), rs.getString("token")),
                 username);
         if(loginList.size() != 1){
@@ -57,12 +57,12 @@ public class JdbcLoginDao implements LoginDao {
 
     @Override
     public void update(String username, HashAndSalt hashAndSalt, String token) {
-        jdbcTemplate.update("update bitbankdb.loginaccount set username = ?, password  = ?, salt = ?, token = ? where username = ?",
+        jdbcTemplate.update("update loginaccount set username = ?, password  = ?, salt = ?, token = ? where username = ?",
                 username, hashAndSalt.getHash(), hashAndSalt.getSalt(), token, username);
     }
 
     @Override
     public void delete(String username) {
-        jdbcTemplate.update("delete from bitbankdb.loginaccount where username = ?", username);
+        jdbcTemplate.update("delete from loginaccount where username = ?", username);
     }
 }

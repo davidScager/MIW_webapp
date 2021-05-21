@@ -1,4 +1,3 @@
-DROP SCHEMA IF EXISTS BitBankDB;
 CREATE SCHEMA BitBankDB;
 use BitBankDB;
 
@@ -132,7 +131,3 @@ CREATE TABLE IF NOT EXISTS Log
             ON DELETE NO ACTION
             ON UPDATE NO ACTION
 );
-
-DROP USER IF EXISTS 'admin'@'localhost';
-CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
-GRANT ALL PRIVILEGES ON bitbankdb.* TO 'admin'@'localhost';

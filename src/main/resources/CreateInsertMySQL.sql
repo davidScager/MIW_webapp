@@ -1,3 +1,128 @@
+DROP SCHEMA BitBankDB;
+CREATE SCHEMA BitBankDB;
+use BitBankDB;
+
+-- CREATE TABLES
+
+CREATE TABLE LoginAccount(
+    username        VARCHAR(100) NOT NULL PRIMARY KEY,
+    password        VARCHAR(100) NOT NULL,
+    salt            VARCHAR(45)  NOT NULL,
+    token           VARCHAR(500)
+    );
+
+CREATE TABLE Role(
+    role            VARCHAR(45) NOT NULL PRIMARY KEY
+    );
+
+CREATE TABLE Actor(
+    userId          INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    checkingAccount VARCHAR(45) NULL,
+    role            VARCHAR(45) NOT NULL,
+    FOREIGN KEY (role)
+    REFERENCES Role (role)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+    );
+
+CREATE TABLE User(
+    BSN             INT         NOT NULL PRIMARY KEY,
+    userId          INT         NOT NULL,
+    firstName       VARCHAR(45) NOT NULL,
+    infix           VARCHAR(45) NULL,
+    surname         VARCHAR(45) NOT NULL,
+    dateOfBirth     DATE        NOT NULL,
+    address         VARCHAR(45) NOT NULL,
+    email           VARCHAR(100) NOT NULL,
+    FOREIGN KEY (email)
+    REFERENCES LoginAccount (username)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION,
+    FOREIGN KEY (userId)
+    REFERENCES Actor (userId)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+    );
+
+CREATE TABLE Asset(
+    abbreviation     VARCHAR(45) NOT NULL PRIMARY KEY,
+    name             VARCHAR(45) NOT NULL,
+    apiName          VARCHAR(100)NOT NULL,
+    description      VARCHAR(200)NOT NULL,
+    valueInUsd       DOUBLE      NOT NULL,
+    adjustmentFactor DOUBLE      NOT NULL,
+    valueYesterday   DOUBLE      NOT NULL,
+    valueLastWeek    DOUBLE      NOT NULL,
+    valueLastMonth   DOUBLE      NOT NULL
+    );
+
+CREATE TABLE Portfolio(
+    portfolioId     INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    actor           INT NOT NULL,
+    FOREIGN KEY (actor)
+    REFERENCES Actor (userId)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+    );
+
+CREATE TABLE AssetPortfolio(
+    assetName       VARCHAR(45) NOT NULL,
+    portfolioId     INT         NOT NULL,
+    amount          DOUBLE      NOT NULL,
+    PRIMARY KEY (assetName, portfolioId),
+    FOREIGN KEY (portfolioId)
+    REFERENCES Portfolio (portfolioId)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION,
+    FOREIGN KEY (assetName)
+    REFERENCES Asset (abbreviation)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+    );
+
+CREATE TABLE Transaction(
+    transactionId   INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    timestamp       DATETIME    NOT NULL,
+    seller          INT         NOT NULL,
+    buyer           INT         NOT NULL,
+    numberOfAssets  DOUBLE      NOT NULL,
+    transactionCost DOUBLE      NOT NULL,
+    assetSold       VARCHAR(45) NOT NULL,
+    assetBought     VARCHAR(45) NOT NULL,
+    FOREIGN KEY (seller)
+    REFERENCES Actor (userId)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION,
+    FOREIGN KEY (buyer)
+    REFERENCES Actor (userId)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION,
+    FOREIGN KEY (assetSold)
+    REFERENCES Asset (abbreviation)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION,
+    FOREIGN KEY (assetBought)
+    REFERENCES Asset (abbreviation)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+    );
+
+CREATE TABLE Log(
+    transactionId               INT    NOT NULL,
+    soldAssetTransactionRate    DOUBLE NOT NULL,
+    boughtAssetTransactionRate  DOUBLE NOT NULL,
+    soldAssetAdjustmentFactor   DOUBLE NOT NULL,
+    boughtAssetAdjustmentFactor DOUBLE NOT NULL,
+    amount                      DOUBLE NOT NULL,
+    PRIMARY KEY (transactionId),
+    FOREIGN KEY (transactionId)
+    REFERENCES Transaction (transactionId)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+    );
+
+-- INSERT DATA
+
 USE BitBankDB;
 
 INSERT INTO Asset (name,apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Bitcoin', 'Bitcoin','BTC','Most known cryptocoin' ,'50000','1', '1', '1', '1');
@@ -26,61 +151,8 @@ INSERT INTO role VALUE ('administrator');
 INSERT INTO role VALUE ('bank');
 INSERT INTO role VALUE ('client');
 
-# Testdata voor tijdelijk gebruik
-INSERT INTO actor (userId, checkingAccount, role) Values (1,12345678,'client');
-INSERT INTO actor (userId, checkingAccount, role) Values (2,87654321,'client');
-INSERT INTO actor (userId, checkingAccount, role) Values (3,45612387,'client');
-INSERT INTO actor (userId, checkingAccount, role) Values (4,32145678,'client');
-INSERT INTO actor (userId, checkingAccount, role) Values (5,32187456,'client');
-INSERT INTO actor (userId, checkingAccount, role) Values (6,98765432,'bank');
+-- CREATE USER
 
-# Testdata voor tijdelijk gebruik
-INSERT INTO portfolio (portfolioId, actor) Values (101,1);
-INSERT INTO portfolio (portfolioId, actor) Values (102,2);
-INSERT INTO portfolio (portfolioId, actor) Values (103,3);
-INSERT INTO portfolio (portfolioId, actor) Values (104,4);
-INSERT INTO portfolio (portfolioId, actor) Values (105,5);
-INSERT INTO portfolio (portfolioId, actor) Values (106,6);
-
-# Testdata voor tijdelijk gebruik
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BTC',101,0.67);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ETH',102,0.45);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('FIL',101,2);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('XMR',102,6);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ADA',104,31);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('TRX',104,26);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('THETA',104,7);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('TRX',105,6321);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('VET',103,11);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('DASH',103,986);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BTC',106,3030);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ADA',106,1030);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BCH',106,2396);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BNB',106,4132);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('DASH',106,1030);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('DOGE',106,3240);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('DOT',106,3395);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('EOS',106,3030);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ETC',106,1030);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ETH',106,2396);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('FIL',106,4132);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ICP',106,1030);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('LTC',106,3240);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('NEO',106,3395);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('THETA',106,3030);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('TRX',106,1030);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('VET',106,2396);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('XLM',106,4132);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('XMR',106,1030);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('XRP',106,3240);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('USD',106,5000000);
-
-# Testdata voor tijdelijk gebruik
-#INSERT INTO transaction (transactionId, timestamp, seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought) Values (2001,'2021-02-16',6,2,1,10.2,'Dollar','Ethereum');
-#INSERT INTO transaction (transactionId, timestamp, seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought) Values (2002,'2021-03-26',2,6,0.55,5.01,'Ethereum','Dollar');
-#INSERT INTO transaction (transactionId, timestamp, seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought) Values (2003,'2021-04-03',6,2,6,6.45,'Dollar','Monero');
-
-# Testdata voor tijdelijk gebruik
-#INSERT INTO log (transactionId, soldAssetTransactionRate, boughtAssetTransactionRate, soldAssetAdjustmentFactor, boughtAssetAdjustmentFactor,amount) Values (2001,1,3201.2,1,1,3201.2);
-#INSERT INTO log (transactionId, soldAssetTransactionRate, boughtAssetTransactionRate, soldAssetAdjustmentFactor, boughtAssetAdjustmentFactor,amount) Values (2002,3560.45,1,1,1,0.55);
-#INSERT INTO log (transactionId, soldAssetTransactionRate, boughtAssetTransactionRate, soldAssetAdjustmentFactor, boughtAssetAdjustmentFactor,amount) Values (2003,1,352.56,1,1,2115.36);
+DROP USER IF EXISTS 'admin'@'localhost';
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
+GRANT ALL PRIVILEGES ON bitbankdb.* TO 'admin'@'localhost';
