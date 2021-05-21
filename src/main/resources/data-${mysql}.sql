@@ -22,9 +22,9 @@ INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustm
 INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Dash', 'Dash','DASH','Users are called masternodes' ,'200.1','1', '1', '1', '1');
 INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Dollar','', 'USD' ,'Basic value in this bank', 1, 1, '1', '1', '1');
 
-INSERT INTO role VALUE ('ADMINISTRATOR');
-INSERT INTO role VALUE ('BANK');
-INSERT INTO role VALUE ('CLIENT');
+INSERT INTO role VALUE ('administrator');
+INSERT INTO role VALUE ('bank');
+INSERT INTO role VALUE ('client');
 
 # Testdata voor tijdelijk gebruik
 INSERT INTO actor (userId, checkingAccount, role) Values (1,12345678,'CLIENT');
@@ -35,12 +35,18 @@ INSERT INTO actor (userId, checkingAccount, role) Values (5,32187456,'CLIENT');
 INSERT INTO actor (userId, checkingAccount, role) Values (6,98765432,'BANK');
 
 # Testdata voor tijdelijk gebruik
-INSERT INTO portfolio (portfolioId, actor) Values (101,1);
-INSERT INTO portfolio (portfolioId, actor) Values (102,2);
-INSERT INTO portfolio (portfolioId, actor) Values (103,3);
-INSERT INTO portfolio (portfolioId, actor) Values (104,4);
-INSERT INTO portfolio (portfolioId, actor) Values (105,5);
-INSERT INTO portfolio (portfolioId, actor) Values (106,6);
+INSERT INTO portfolio (portfolioId, actor)
+Values (101, 1);
+INSERT INTO portfolio (portfolioId, actor)
+Values (102, 2);
+INSERT INTO portfolio (portfolioId, actor)
+Values (103, 3);
+INSERT INTO portfolio (portfolioId, actor)
+Values (104, 4);
+INSERT INTO portfolio (portfolioId, actor)
+Values (105, 5);
+INSERT INTO portfolio (portfolioId, actor)
+Values (106, 6);
 
 # Testdata voor tijdelijk gebruik
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BTC',101,0.67);
