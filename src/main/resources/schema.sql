@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS Portfolio(
 CREATE TABLE IF NOT EXISTS AssetPortfolio(
     assetName       VARCHAR(45) NOT NULL,
     portfolioId     INT         NOT NULL,
-    asset           DOUBLE      NOT NULL,
+    amount           DOUBLE      NOT NULL,
     PRIMARY KEY (assetName, portfolioId),
     FOREIGN KEY (portfolioId)
         REFERENCES Portfolio (portfolioId)

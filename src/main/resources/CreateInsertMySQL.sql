@@ -145,9 +145,9 @@ INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustm
 INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Dash', 'Dash','DASH','Users are called masternodes' ,'200.1','1', '1', '1', '1');
 INSERT INTO Asset (name, apiName ,abbreviation, description, valueInUsd, adjustmentFactor, valueYesterday, valueLastWeek, valueLastMonth) Values ('Dollar','', 'USD' ,'Basic value in this bank', 1, 1, '1', '1', '1');
 
-INSERT INTO role VALUE ('administrator');
-INSERT INTO role VALUE ('bank');
-INSERT INTO role VALUE ('client');
+INSERT INTO role VALUES ('administrator');
+INSERT INTO role VALUES ('bank');
+INSERT INTO role VALUES ('client');
 
 -- CREATE USER
 
