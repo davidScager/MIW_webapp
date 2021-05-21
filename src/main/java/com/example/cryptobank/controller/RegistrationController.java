@@ -63,9 +63,8 @@ public class RegistrationController {
             @RequestParam String dateofbirth,
             @RequestParam String address,
             @RequestParam String email,
-            @RequestParam String password,
-            @RequestParam String username) {
-        return registrationService.register(bsn, firstname, infix, surname, dateofbirth, address, email, password, Role.CLIENT);
+            @RequestParam String password) {
+        return registrationService.register(bsn, firstname, infix, surname, dateofbirth, address, email, password, Role.ADMINISTRATOR);
     }
 
 }
