@@ -30,13 +30,13 @@ public class TransactionController {
     }
 
     @GetMapping("/assetoverviewfrombank")
-    public Map<Asset, Double> getAssetOverVieuwWithAmount() {
-        return transactionService.getAssetOverVieuwWithAmount(106);//dit is de portfolioId van de bank
+    public Map<Asset, Double> getAssetOverviewWithAmount() {
+        return transactionService.getAssetOverviewWithAmount(106);//dit is de portfolioId van de bank
     }
 
-    @GetMapping("/myavalableassetstosell")
-    public Map<Asset, Double> getAssetOverVieuwfoUser(@RequestParam int portfolioId) {
-        return transactionService.getAssetOverVieuwWithAmount(portfolioId);
+    @GetMapping("/myavalableassetstosell") //available
+    public Map<Asset, Double> getAssetOverviewOfUser(@RequestParam int portfolioId) {
+        return transactionService.getAssetOverviewWithAmount(portfolioId);
     }
 
     @GetMapping("/transactioncost")
@@ -51,7 +51,8 @@ public class TransactionController {
                                                 @RequestParam String assetBought) throws IOException {
         double transactionCost = transactionService.calculateTransactionCost(numberOfAssets, assetBought);
         Transaction newTransaction = transactionService.createNewTransaction(seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought);
-        //TODO update adjesment factor for both assets
+        transactionService.updateAdjustmentFactor(assetBought, numberOfAssets, buyer, seller);
+        transactionService.updateAdjustmentFactor(assetSold, numberOfAssets, buyer, seller);
         return newTransaction;
     }
 

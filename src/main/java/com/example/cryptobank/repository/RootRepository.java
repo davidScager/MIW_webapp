@@ -127,10 +127,16 @@ public class RootRepository {
         assetDao.update(asset);
     }
 
-    public List<Asset> updateAssetsByApi() { return assetDao.getAssetOverview(); }
+    public List<Asset> updateAssetsByApi() {
+        return assetDao.getAssetOverview();
+    }
 
     public Asset updateAssetByApi(String name) {
         return assetDao.updateAssetByApi(name);
+    }
+
+    public void deleteTransaction(int id) {
+        transactionDao.delete(id);
     }
 
     public int getPortfolioIdByUserId(int userId) {
@@ -197,8 +203,8 @@ public class RootRepository {
         return tempAssetOverview;
     }
 
-    public Map<Asset, Double> getAssetOverVieuwWithAmount(int portfolioId){
-        return assetPortfolioDao.getAssetOvervieuwWithAmmount(portfolioId);
+    public Map<Asset, Double> getAssetOverviewWithAmount(int portfolioId) {
+        return assetPortfolioDao.getAssetOverviewWithAmmount(portfolioId);
     }
 
     public String showPortfolioValue(int portfolioId) {
@@ -207,7 +213,7 @@ public class RootRepository {
         double tempValueYesterday = 0;
         double tempValueLastWeek = 0;
         double tempValueLastMonth = 0;
-        for (Asset asset : tempPortfolioValue ) {
+        for (Asset asset : tempPortfolioValue) {
             double tempAmount = assetPortfolioDao.getAmountByAssetName(asset.getAbbreviation(), portfolioId);
             tempTotalPortfolioValue = tempTotalPortfolioValue + Math.round(asset.getValueInUsd() * tempAmount);
             tempValueYesterday = tempValueYesterday + Math.round(asset.getValueYesterday() * tempAmount * 100) / 100;
