@@ -1,6 +1,7 @@
 package com.example.cryptobank.controller;
 
 import com.example.cryptobank.domain.User;
+import com.example.cryptobank.domain.UserAddress;
 import com.example.cryptobank.service.TokenService;
 import com.example.cryptobank.service.UserService;
 import org.junit.jupiter.api.BeforeAll;
@@ -42,7 +43,9 @@ class LoginControllerTest {
     @BeforeAll
     public static void setUp() {
         Mockito.when(mockUserService.verifyUser("huibvanstraten@gmail.com", "biuh")).thenReturn(
-                new User(13167, "huib", "van", "Straten", "29-01-1982", "van lierdreef", "huibvanstraten@gmail.com"));
+                new User(13167, "huib", "van", "Straten", "29-01-1982",
+                        new UserAddress("van lierdreef", 10, "a", "1234ab", "Blaricum"),
+                        "huibvanstraten@gmail.com"));
         Mockito.when(mockTokenService.generateJwtToken("huibvanstraten@gmail.com","session" , 60)).thenReturn("DitIsEenToken");
 
     }

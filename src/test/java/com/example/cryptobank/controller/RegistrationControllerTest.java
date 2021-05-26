@@ -4,7 +4,11 @@ import com.example.cryptobank.domain.Role;
 import com.example.cryptobank.domain.User;
 import com.example.cryptobank.service.RegistrationService;
 import com.example.cryptobank.service.UserService;
+import io.restassured.module.mockmvc.RestAssuredMockMvc;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
@@ -25,18 +29,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(RegistrationController.class)
 public class RegistrationControllerTest {
 
-    private final Logger logger = LoggerFactory.getLogger(RegistrationControllerTest.class);
-
-    private MockMvc mockMvc;
-
-    @MockBean
+    @Mock
     private RegistrationService registrationService;
 
-    @Autowired
-    public RegistrationControllerTest(MockMvc mockMvc) {
-        this.mockMvc = mockMvc;
-        logger.info("New RegistrationControllerTest");
+    @BeforeEach
+    public void initRestAssuredMockMvcStandAlone(){
+        this.registrationService = Mockito.mock(RegistrationService.class);
+        RestAssuredMockMvc
+                .standaloneSetup(new RegistrationController(registrationService));
     }
+
+    // url:"/registerclient", method:POST, status: 200 OK, application/json,
+    //@Test
+
 
 /*
     @Test

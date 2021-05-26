@@ -15,13 +15,13 @@ public class User {
     private String infix;
     private String surname;
     private String dateOfBirth;
-    private String address;
+    private UserAddress address;
 
     @Email
     @NotNull
     private String email;
 
-    public User(int BSN, String firstName, String infix, String surname, String dateOfBirth, String address, String email) {
+    public User(int BSN, String firstName, String infix, String surname, String dateOfBirth, UserAddress address, String email) {
         this.BSN = BSN;
         this.firstName = firstName;
         this.infix = infix;
@@ -82,11 +82,11 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getAddress() {
+    public UserAddress getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(UserAddress address) {
         this.address = address;
     }
 
