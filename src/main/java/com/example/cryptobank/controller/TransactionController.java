@@ -2,7 +2,7 @@ package com.example.cryptobank.controller;
 
 import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.domain.Transaction;
-import com.example.cryptobank.service.TransactionService;
+import com.example.cryptobank.service.transaction.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

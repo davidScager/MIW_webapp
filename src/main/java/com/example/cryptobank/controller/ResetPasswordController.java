@@ -1,7 +1,7 @@
 package com.example.cryptobank.controller;
 
-import com.example.cryptobank.service.LoginAccountService;
-import com.example.cryptobank.service.TokenService;
+import com.example.cryptobank.service.login.LoginAccountService;
+import com.example.cryptobank.service.security.TokenService;
 import com.example.cryptobank.service.mailSender.GenerateMailContext;
 import com.example.cryptobank.service.mailSender.MailSenderService;
 import org.slf4j.Logger;

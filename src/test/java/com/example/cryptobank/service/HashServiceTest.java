@@ -1,7 +1,9 @@
 package com.example.cryptobank.service;
 
-import com.example.cryptobank.security.HashHelper;
-import com.example.cryptobank.security.HashAndSalt;
+import com.example.cryptobank.service.security.HashHelper;
+import com.example.cryptobank.service.security.HashAndSalt;
+import com.example.cryptobank.service.security.HashService;
+import com.example.cryptobank.service.security.PepperService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

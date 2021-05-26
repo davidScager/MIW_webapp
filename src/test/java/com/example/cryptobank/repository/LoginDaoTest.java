@@ -1,7 +1,8 @@
 package com.example.cryptobank.repository;
 
 import com.example.cryptobank.domain.LoginAccount;
-import com.example.cryptobank.security.HashAndSalt;
+import com.example.cryptobank.repository.daointerfaces.LoginDao;
+import com.example.cryptobank.service.security.HashAndSalt;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

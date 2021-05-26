@@ -1,8 +1,8 @@
 package com.example.cryptobank.controller;
 
 import com.example.cryptobank.domain.Asset;
-import com.example.cryptobank.service.AssetService;
-import com.example.cryptobank.service.CurrencyHistory;
+import com.example.cryptobank.service.assetenportfolio.AssetService;
+import com.example.cryptobank.service.currency.CurrencyHistory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

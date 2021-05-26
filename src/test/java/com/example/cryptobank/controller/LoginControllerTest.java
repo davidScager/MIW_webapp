@@ -1,8 +1,8 @@
 package com.example.cryptobank.controller;
 
 import com.example.cryptobank.domain.User;
-import com.example.cryptobank.service.TokenService;
-import com.example.cryptobank.service.UserService;
+import com.example.cryptobank.service.security.TokenService;
+import com.example.cryptobank.service.login.UserService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

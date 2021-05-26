@@ -1,11 +1,8 @@
 package com.example.cryptobank.controller;
 
-import com.example.cryptobank.domain.Actor;
 import com.example.cryptobank.domain.Role;
-import com.example.cryptobank.domain.User;
-import com.example.cryptobank.security.SaltMaker;
-import com.example.cryptobank.service.RegistrationService;
-import com.example.cryptobank.service.UserService;
+import com.example.cryptobank.service.security.SaltMaker;
+import com.example.cryptobank.service.login.RegistrationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

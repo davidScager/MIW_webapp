@@ -1,11 +1,8 @@
 package com.example.cryptobank.domain;
 
-import com.example.cryptobank.repository.AssetDao;
-import com.example.cryptobank.repository.JdbcAssetDao;
+import com.example.cryptobank.repository.daointerfaces.AssetDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.time.LocalDateTime;
 
 public class TransactionLog {
 

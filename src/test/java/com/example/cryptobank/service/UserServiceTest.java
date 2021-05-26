@@ -1,7 +1,7 @@
 package com.example.cryptobank.service;
 
 import com.example.cryptobank.domain.User;
-import com.example.cryptobank.repository.RootRepository;
+import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
