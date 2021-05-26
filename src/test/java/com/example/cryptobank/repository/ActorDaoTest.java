@@ -2,6 +2,7 @@ package com.example.cryptobank.repository;
 
 import com.example.cryptobank.domain.Actor;
 import com.example.cryptobank.domain.Role;
+import com.example.cryptobank.repository.daointerfaces.ActorDao;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

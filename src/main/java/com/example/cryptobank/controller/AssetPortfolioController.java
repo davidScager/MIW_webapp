@@ -1,10 +1,9 @@
 package com.example.cryptobank.controller;
 
-import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.domain.AssetPortfolio;
-import com.example.cryptobank.service.AssetPortfolioService;
-import com.example.cryptobank.service.AssetService;
-import com.example.cryptobank.service.PortfolioService;
+import com.example.cryptobank.service.assetenportfolio.AssetPortfolioService;
+import com.example.cryptobank.service.assetenportfolio.AssetService;
+import com.example.cryptobank.service.assetenportfolio.PortfolioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 public class AssetPortfolioController {

@@ -1,5 +1,6 @@
 package com.example.cryptobank.service;
 
+import com.example.cryptobank.service.security.PepperService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

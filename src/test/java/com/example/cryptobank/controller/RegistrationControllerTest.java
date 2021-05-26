@@ -1,47 +1,30 @@
 package com.example.cryptobank.controller;
 
-import com.example.cryptobank.domain.Role;
-import com.example.cryptobank.domain.User;
-import com.example.cryptobank.service.RegistrationService;
-import com.example.cryptobank.service.UserService;
-import io.restassured.module.mockmvc.RestAssuredMockMvc;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockedConstruction;
-import org.mockito.Mockito;
+import com.example.cryptobank.service.login.RegistrationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(RegistrationController.class)
 public class RegistrationControllerTest {
 
-    @Mock
+    private final Logger logger = LoggerFactory.getLogger(RegistrationControllerTest.class);
+
+    private MockMvc mockMvc;
+
+    @MockBean
     private RegistrationService registrationService;
 
-    @BeforeEach
-    public void initRestAssuredMockMvcStandAlone(){
-        this.registrationService = Mockito.mock(RegistrationService.class);
-        RestAssuredMockMvc
-                .standaloneSetup(new RegistrationController(registrationService));
+    @Autowired
+    public RegistrationControllerTest(MockMvc mockMvc) {
+        this.mockMvc = mockMvc;
+        logger.info("New RegistrationControllerTest");
     }
-
-    // url:"/registerclient", method:POST, status: 200 OK, application/json,
-    //@Test
-
 
 /*
     @Test
