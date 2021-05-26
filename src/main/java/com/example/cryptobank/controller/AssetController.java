@@ -48,7 +48,6 @@ public class AssetController {
         return assetList;
     }
 
-
     @GetMapping("/updateassetbyapi")
     public Asset updateAssetByApi(@RequestParam String apiname) {
         Asset asset = assetService.updateAssetByApi(apiname);

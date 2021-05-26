@@ -16,16 +16,13 @@ public class AssetPortfolio {
         return assetName;
     }
 
+//    MB: Is deze setter wel nodig? wordt vlgs mij niet gebruikt. En zou ook niet moeten worden gebruikt in deze klasse.
     public void setAssetName(String symbol) {
         this.assetName = symbol;
     }
 
     public int getPortfolioId() {
         return portfolioId;
-    }
-
-    public void setPortofolioId(int portfolioId) {
-        this.portfolioId = portfolioId;
     }
 
     public double getAmount() {

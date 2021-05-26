@@ -34,10 +34,8 @@ public class TransactionService {
     public Transaction createNewTransaction(int seller, int buyer, double numberOfAssets, double transactionCost, String assetSold, String assetBought) throws IOException {
         TransactionLog tempTransactionLog = rootRepository.createNewTransactionLog(assetSold, assetBought, numberOfAssets, transactionCost);
         Transaction newTransaction = new Transaction(seller, buyer, assetSold, assetBought, tempTransactionLog);
-//        System.out.println(tempTransactionLog);
-//        System.out.println("++++++++++++++++++++");
-//        System.out.println(newTransaction);
         rootRepository.saveTransactionAndLog(newTransaction);
+        rootRepository.updateAssetPortfolioForTransaction(newTransaction);
         return newTransaction;
     }
 
