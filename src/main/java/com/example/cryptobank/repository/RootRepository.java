@@ -28,7 +28,7 @@ public class RootRepository {
     private final LogDao logDao;
     private final int STARTKAPITAAL = 200;
     private final String TRADING_CURRENCY = "USD";
-    private final int BANK_PORTFOLIO_ID = 106;
+    private final int BANK_PORTFOLIO_ID = 101;
 
     public RootRepository(UserDao userDao, PortfolioDao portfolioDao, AssetDao assetDao, ActorDao actorDao, LoginDao loginDAO, AssetPortfolioDao assetPortfolioDao, TransactionDao transactionDao, LogDao logDao) {
         logger.info("New RootRepository");
@@ -242,7 +242,7 @@ public class RootRepository {
     }
 
     public Map<Asset, Double> getAssetOverviewWithAmount(int portfolioId) {
-        return assetPortfolioDao.getAssetOverviewWithAmmount(portfolioId);
+        return assetPortfolioDao.getAssetOverviewWithAmount(portfolioId);
     }
 
     public String showPortfolioValue(int portfolioId) {

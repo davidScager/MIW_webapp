@@ -13,7 +13,7 @@ public interface AssetPortfolioDao {
 
     public List<Asset> getAssetOverview(int portfolioId);
 
-    public Map<Asset, Double> getAssetOverviewWithAmmount(int portfolioId);
+    public Map<Asset, Double> getAssetOverviewWithAmount(int portfolioId);
 
     public double getAmountByAssetName(String name, int portfolioId);
 

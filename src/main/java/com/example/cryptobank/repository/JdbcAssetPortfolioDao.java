@@ -40,7 +40,7 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
     }
 
     @Override
-    public Map<Asset, Double> getAssetOverviewWithAmmount(int portfolioId) {
+    public Map<Asset, Double> getAssetOverviewWithAmount(int portfolioId) {
         Map<Asset, Double> resultMap = new HashMap<>();
         String query = "SELECT * FROM assetportfolio WHERE portfolioId = ?";
         List<AssetPortfolio> tempList = jdbcTemplate.query(query, new AssetPortfolioAmountRowMapper(), portfolioId);
@@ -61,7 +61,8 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         public AssetPortfolio mapRow(ResultSet rs, int rowNum) throws SQLException {
             String assetName = rs.getString("assetName");
             int portfolioId = rs.getInt("portfolioId");
-            double amount = rs.getInt("amount");
+            double amount = rs.getDouble("amount");
+            double availableForSale = rs.getDouble("forSale");
             AssetPortfolio assetPortfolio = new AssetPortfolio(assetName, portfolioId, amount);
             return assetPortfolio;
         }
@@ -74,6 +75,7 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         return Double.parseDouble(jdbcTemplate.queryForObject(query, new Object[] { portfolioId, name }, new AssetPortfolioRowMapper()));
     }
 
+    //Als dit weer wordt gebruikt, moet het worden aangepast aan het nieuwe ERD
     //tijdelijk uigecomment omdat er twijfel is of deze nog geburuikt kan worden
     /*@Override
     public void update(AssetPortfolio assetPortfolio) {
@@ -94,6 +96,8 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         jdbcTemplate.update(sql, amount, portfolio.getPortfolioId(), asset.getAbbreviation());
     }
 
+    //maak methode UpdateAvailableForSale
+
     @Override
     public void create(AssetPortfolio assetPortfolio) {
         jdbcTemplate.update(connection -> insertStatement(assetPortfolio, connection));
@@ -106,11 +110,12 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
 
     private PreparedStatement insertStatement(AssetPortfolio assetPortfolio, Connection connection) throws SQLException {
         PreparedStatement ps = connection.prepareStatement(
-                "insert into assetportfolio (assetName, portfolioId, amount) values (?, ?, ?)",
+                "insert into assetportfolio (assetName, portfolioId, amount, forSale) values (?, ?, ?, ?)",
                 Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, assetPortfolio.getAssetName());
         ps.setDouble(2, assetPortfolio.getPortfolioId());
         ps.setDouble(3, assetPortfolio.getAmount());
+        ps.setDouble(4, assetPortfolio.getAvailableForSale());
         return ps;
     }
 
