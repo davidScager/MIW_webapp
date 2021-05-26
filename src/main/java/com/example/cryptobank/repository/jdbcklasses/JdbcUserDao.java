@@ -1,6 +1,8 @@
 package com.example.cryptobank.repository.jdbcklasses;
 
+import com.example.cryptobank.domain.FullName;
 import com.example.cryptobank.domain.User;
+import com.example.cryptobank.domain.UserAddress;
 import com.example.cryptobank.repository.daointerfaces.UserDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,10 +28,10 @@ public class JdbcUserDao implements UserDao {
         User user = new User();
         user.setBSN(rs.getInt("bsn"));
         user.setId(rs.getLong("userid"));
-        user.setFirstName(rs.getString("firstname"));
-        user.setInfix(rs.getString("infix"));
-        user.setSurname(rs.getString("surname"));
+        user.setFullName(new FullName(rs.getString("firstname"), rs.getString("infix"), rs.getString("surname")));
         user.setDateOfBirth(rs.getString("dateofbirth"));
+        user.setAddress(new UserAddress(rs.getString("streetName"), rs.getInt("houseNr"), rs.getString("addition"),
+                rs.getString("postalCode"), rs.getString("residence")));
         user.setEmail(rs.getString("email"));
 
         return user;
@@ -45,8 +47,13 @@ public class JdbcUserDao implements UserDao {
     @Override
     public void create(User user) {
         logger.debug("JdbcUserDao.create aangeroepen voor user " + user.getBSN());
-        String sql = "insert into bitbankdb.user(bsn, userid, firstname, infix, surname, dateofbirth, address, email) values(?,?,?,?,?,?,?,?)";
-        jdbcTemplate.update(sql, user.getBSN(), user.getId(), user.getFirstName(), user.getInfix(), user.getSurname(), user.getDateOfBirth(), user.getAddress(), user.getEmail());
+        String sql = "insert into bitbankdb.user(bsn, userid, firstname, infix, surname, dateofbirth, " +
+                "streetName, houseNr, addition, postalCode, residence, email) values(?,?,?,?,?,?,?,?,?,?,?,?)";
+        jdbcTemplate.update(sql, user.getBSN(), user.getId(),
+                user.getFullName().getFirstName(), user.getFullName().getInfix(), user.getFullName().getSurname(),
+                user.getDateOfBirth(),
+                user.getAddress().getStreetName(), user.getAddress().getHouseNr(), user.getAddress().getAddition(), user.getAddress().getPostalCode(), user.getAddress().getResidence(),
+                user.getEmail());
     }
 
     @Override
@@ -65,8 +72,13 @@ public class JdbcUserDao implements UserDao {
     @Override
     public void update(User user, int bsn) {
         logger.debug("JdbcUserDao.update aangeroepen voor user " + user.getBSN());
-        String sql = "update bitbankdb.user set bsn = ?, userid = ?, firstname = ?, infix = ?, surname = ?, dateofbirth = ?, address = ?, email = ? where bsn = ?";
-        jdbcTemplate.update(sql, user.getBSN(), user.getId(), user.getFirstName(), user.getInfix(), user.getSurname(), user.getDateOfBirth(), user.getAddress(), user.getEmail());
+        String sql = "update bitbankdb.user set bsn = ?, userid = ?, firstname = ?, infix = ?, surname = ?, dateofbirth = ?, " +
+                "streetName = ? , houseNr = ? , addition = ? , postalCode = ?, residence = ?, email = ? where bsn = ?";
+        jdbcTemplate.update(sql, user.getBSN(), user.getId(),
+                user.getFullName().getFirstName(), user.getFullName().getInfix(), user.getFullName().getSurname(),
+                user.getDateOfBirth(),
+                user.getAddress().getStreetName(), user.getAddress().getHouseNr(), user.getAddress().getAddition(), user.getAddress().getPostalCode(), user.getAddress().getResidence(),
+                user.getEmail());
     }
 
     @Override

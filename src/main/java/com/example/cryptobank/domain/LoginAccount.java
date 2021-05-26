@@ -14,15 +14,13 @@ public class LoginAccount {
     private final Logger logger = LoggerFactory.getLogger(LoginAccount.class);
     private String username;
     private String hash;
-    private String salt;
     private String token;
 
-    public LoginAccount(String username, String hash, String salt, String token) {
+    public LoginAccount(String username, String hash, String token) {
         super();
         logger.info("New LoginAccount");
         this.username = username;
         this.hash = hash;
-        this.salt = salt;
         this.token = token;
     }
 
@@ -31,7 +29,6 @@ public class LoginAccount {
         return "LoginAccount{" +
                 "username='" + username + '\'' +
                 ", hash='" + hash + '\'' +
-                ", salt='" + salt + '\'' +
                 '}';
     }
 
@@ -40,12 +37,12 @@ public class LoginAccount {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LoginAccount that = (LoginAccount) o;
-        return username.equals(that.username) && hash.equals(that.hash) && salt.equals(that.salt);
+        return username.equals(that.username) && hash.equals(that.hash);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(username, hash, salt);
+        return Objects.hash(username, hash);
     }
 
     public String getUsername() {
@@ -54,10 +51,6 @@ public class LoginAccount {
 
     public String getHash() {
         return hash;
-    }
-
-    public String getSalt() {
-        return salt;
     }
 
     public String getToken() { return token; }

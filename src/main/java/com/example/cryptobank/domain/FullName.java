@@ -22,6 +22,18 @@ public class FullName {
         return stringBuilder.toString();
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setInfix(String infix) {
+        this.infix = infix;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
     public String getFirstName() {
         return firstName;
     }

@@ -3,7 +3,6 @@ use BitBankDB;
 CREATE TABLE IF NOT EXISTS LoginAccount(
     username        VARCHAR(100) NOT NULL PRIMARY KEY,
     password        VARCHAR(100) NOT NULL,
-    salt            VARCHAR(45)  NOT NULL,
     token           VARCHAR(500)
     );
 CREATE TABLE IF NOT EXISTS Role(
