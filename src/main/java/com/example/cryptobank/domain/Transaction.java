@@ -11,8 +11,6 @@ public class Transaction {
     private String timestamp;
     private int seller;
     private int buyer;
-//    private double numberOfAssets;
-//    private double transactionCost;
     private String assetSold;
     private String assetBought;
     TransactionLog transactionLog;
@@ -33,6 +31,7 @@ public class Transaction {
         this(0, LocalDateTime.now().toString(), seller, buyer, assetSold, assetBought, transactionLog);
     }
 
+//    MB: Veel setters worden niet gebruikt. Deze mogen weg als ze niet nodig zijn.
     public int getTransactionId() {
         return transactionId;
     }

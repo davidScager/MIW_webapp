@@ -90,8 +90,8 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
 
     @Override
     public void update(Asset asset, Portfolio portfolio, double amount) {
-        String sql = "insert into assetportfolio(assetname, portfolioid, amount) values (?,?,?)";
-        jdbcTemplate.update(sql, asset.getAbbreviation(), portfolio.getPortfolioId(), amount);
+        String sql = "update bitbankdb.assetportfolio set amount = ? where portfolioId = ? and assetName = ?";
+        jdbcTemplate.update(sql, amount, portfolio.getPortfolioId(), asset.getAbbreviation());
     }
 
     @Override

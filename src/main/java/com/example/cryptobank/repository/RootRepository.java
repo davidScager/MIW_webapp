@@ -27,6 +27,8 @@ public class RootRepository {
     private final TransactionDao transactionDao;
     private final LogDao logDao;
     private final int STARTKAPITAAL = 200;
+    private final String TRADING_CURRENCY = "USD";
+    private final int BANK_PORTFOLIO_ID = 106;
 
     public RootRepository(UserDao userDao, PortfolioDao portfolioDao, AssetDao assetDao, ActorDao actorDao, LoginDao loginDAO, AssetPortfolioDao assetPortfolioDao, TransactionDao transactionDao, LogDao logDao) {
         logger.info("New RootRepository");
@@ -139,7 +141,7 @@ public class RootRepository {
         transactionDao.delete(id);
     }
 
-    public int getPortfolioIdByUserId(int userId) {
+    public Portfolio getPortfolioIdByUserId(int userId) {
         return portfolioDao.getPortfolioIdByUserId(userId);
     }
 
@@ -148,6 +150,50 @@ public class RootRepository {
         logDao.saveLog(transaction);
         updateAdjustmentFactor(transaction.getAssetBought(), transaction.getTransactionLog().getNumberOfAssetsBought(), transaction.getBuyer(), transaction.getSeller());
         updateAdjustmentFactor(transaction.getAssetSold(), transaction.getTransactionLog().getNumberOfAssetsSold(), transaction.getBuyer(), transaction.getSeller());
+    }
+
+    public void updateAssetPortfolioForTransaction(Transaction transaction) {
+        Optional<Portfolio> tempPortfolioBuyer = portfolioDao.get(portfolioDao.getPortfolioIdByUserId(transaction.getBuyer()).getPortfolioId());
+        Portfolio buyer = tempPortfolioBuyer.get();
+        Optional<Portfolio> tempPortfolioSeller = portfolioDao.get(portfolioDao.getPortfolioIdByUserId(transaction.getSeller()).getPortfolioId());
+        Portfolio seller = tempPortfolioSeller.get();
+        double newAmountBuyerAssetBought = assetPortfolioDao.getAmountByAssetName(transaction.getAssetBought(), buyer.getPortfolioId()) + transaction.getTransactionLog().getNumberOfAssetsBought();
+        double newAmountBuyerAssetSold = assetPortfolioDao.getAmountByAssetName(transaction.getAssetSold(), buyer.getPortfolioId()) - transaction.getTransactionLog().getNumberOfAssetsSold();
+        double newAmountSellerAssetBought = assetPortfolioDao.getAmountByAssetName(transaction.getAssetBought(), seller.getPortfolioId()) - transaction.getTransactionLog().getNumberOfAssetsBought();
+        double newAmountSellerAssetSold = assetPortfolioDao.getAmountByAssetName(transaction.getAssetSold(), seller.getPortfolioId()) + transaction.getTransactionLog().getNumberOfAssetsSold();
+        assetPortfolioDao.update(assetDao.getOneByName(transaction.getAssetBought()), buyer, newAmountBuyerAssetBought);
+        assetPortfolioDao.update(assetDao.getOneByName(transaction.getAssetSold()), buyer, newAmountBuyerAssetSold);
+        assetPortfolioDao.update(assetDao.getOneByName(transaction.getAssetBought()), seller, newAmountSellerAssetBought);
+        assetPortfolioDao.update(assetDao.getOneByName(transaction.getAssetSold()), seller, newAmountSellerAssetSold);
+        handleTransactionCost(buyer, seller, transaction);
+    }
+
+    public void handleTransactionCost(Portfolio buyer, Portfolio seller, Transaction transaction) {
+        System.out.println("" + buyer.getActor().getRole());
+        if(buyer.getActor().getRole().equals(Role.CLIENT) && seller.getActor().getRole().equals(Role.CLIENT)) {
+            double tempTransactionCost = transaction.getTransactionLog().getTransactionCost() / 2;
+            updateClientForTransactionCost(buyer, tempTransactionCost);
+            updateClientForTransactionCost(seller, tempTransactionCost);
+            updateBankForTransactionCost(transaction);
+        } else if(buyer.getActor().getRole().equals(Role.BANK)) {
+            updateClientForTransactionCost(seller, transaction.getTransactionLog().getTransactionCost());
+            updateBankForTransactionCost(transaction);
+        } else {
+            updateClientForTransactionCost(buyer, transaction.getTransactionLog().getTransactionCost());
+            updateBankForTransactionCost(transaction);
+        }
+    }
+
+    public void updateBankForTransactionCost(Transaction transaction) {
+        Optional<Portfolio> tempPortfolioBank = portfolioDao.get(BANK_PORTFOLIO_ID);
+        Portfolio bank = tempPortfolioBank.get();
+        double newUSDPositionBank = assetPortfolioDao.getAmountByAssetName(TRADING_CURRENCY, BANK_PORTFOLIO_ID) + transaction.getTransactionLog().getTransactionCost();
+        assetPortfolioDao.update(assetDao.getOneByName(TRADING_CURRENCY), bank, newUSDPositionBank);
+    }
+
+    public void updateClientForTransactionCost(Portfolio client, double transactionCost) {
+        double newUSDPositionClient = assetPortfolioDao.getAmountByAssetName(TRADING_CURRENCY, client.getPortfolioId()) - transactionCost;
+        assetPortfolioDao.update(assetDao.getOneByName(TRADING_CURRENCY), client, newUSDPositionClient);
     }
 
     public void updateAdjustmentFactor(String assetName, double numberOfAssets, int buyerId, int sellerId) {
@@ -170,14 +216,6 @@ public class RootRepository {
         Asset soldAsset = assetDao.getOneByName(assetSold);
         double soldAmount = (boughtAsset.getValueInUsd() * boughtAsset.getAdjustmentFactor() * numberOfAssets) / (soldAsset.getValueInUsd() * soldAsset.getAdjustmentFactor());
 
-//        TransactionLog tempTransactionLog = new TransactionLog();
-//        tempTransactionLog.setBoughtAssetTransactionRate(boughtAsset.getValueInUsd());
-//        tempTransactionLog.setSoldAssetTransactionRate(soldAsset.getValueInUsd());
-//        tempTransactionLog.setBoughtAssetAdjustmentFactor(boughtAsset.getAdjustmentFactor());
-//        tempTransactionLog.setSoldAssetAdjustmentFactor(soldAsset.getAdjustmentFactor());
-//        tempTransactionLog.setNumberOfAssetsBought(numberOfAssets);
-//        tempTransactionLog.setNumberOfAssetsSold(soldAmount);
-//        tempTransactionLog.setTransactionCost(transactionCost);
         return new TransactionLog(boughtAsset.getValueInUsd(), soldAsset.getValueInUsd(), boughtAsset.getAdjustmentFactor(), soldAsset.getAdjustmentFactor(), numberOfAssets, soldAmount, transactionCost);
     }
 
