@@ -52,14 +52,12 @@ public class JdbcTransactionDao implements TransactionDao {
 
     private PreparedStatement insertTransactionStatement(Transaction transaction, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("insert into transaction (timestamp, seller, buyer, " +
-                "numberOfAssets, transactionCost, assetSold, assetBought) values (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                "assetSold, assetBought) values (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setString(1, transaction.getTimestamp());
         preparedStatement.setInt(2, transaction.getSeller());
         preparedStatement.setInt(3, transaction.getBuyer());
-        preparedStatement.setDouble(4, transaction.getTransactionLog().getNumberOfAssetsBought());
-        preparedStatement.setDouble(5, transaction.getTransactionLog().getTransactionCost());
-        preparedStatement.setString(6, transaction.getAssetSold());
-        preparedStatement.setString(7, transaction.getAssetBought());
+        preparedStatement.setString(4, transaction.getAssetSold());
+        preparedStatement.setString(5, transaction.getAssetBought());
         return preparedStatement;
     }
 

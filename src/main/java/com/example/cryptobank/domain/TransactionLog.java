@@ -13,7 +13,6 @@ public class TransactionLog {
     private double numberOfAssetsBought;
     private double numberOfAssetsSold;
     private double transactionCost;
-    AssetDao assetDao;
 
     private final Logger logger = LoggerFactory.getLogger(TransactionLog.class);
 
@@ -32,15 +31,7 @@ public class TransactionLog {
         super();
     }
 
-//    public TransactionLog createTransactionLog(String assetBought, String assetSold, double boughtAmount, double transactionCost) {
-//        JdbcAssetDao jdbcAssetDao;
-//        Asset boughtAsset = assetDao.getOneByName(assetBought);
-//        Asset soldAsset = assetDao.getOneByName(assetSold);
-//        double soldAmount = (boughtAsset.getValueInUsd() * boughtAsset.getAdjustmentFactor() * boughtAmount) / (soldAsset.getValueInUsd() * soldAsset.getAdjustmentFactor());
-//
-//        return new TransactionLog(boughtAsset.getValueInUsd(), soldAsset.getValueInUsd(), boughtAsset.getAdjustmentFactor(), soldAsset.getAdjustmentFactor(), boughtAmount, soldAmount, transactionCost);
-//    }
-
+    //    MB: Veel setters worden niet gebruikt. Deze mogen weg als ze niet nodig zijn.
     public double getBoughtAssetTransactionRate() {
         return boughtAssetTransactionRate;
     }
