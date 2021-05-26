@@ -1,6 +1,6 @@
 package com.example.cryptobank;
 
-import com.example.cryptobank.service.MethodRunOnScheduleHelper;
+import com.example.cryptobank.service.currency.MethodRunOnScheduleHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
