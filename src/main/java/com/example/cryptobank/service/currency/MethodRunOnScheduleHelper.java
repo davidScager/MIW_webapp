@@ -71,7 +71,7 @@ public class MethodRunOnScheduleHelper {
             asset.setValueYesterday(currencyHistory.historyValuefrom(currencyHistory.dateYesterday(),asset.getName()));
             asset.setValueLastWeek(currencyHistory.historyValuefrom(currencyHistory.dateLasteWeek(),asset.getName()));
             asset.setValueLastMonth(currencyHistory.historyValuefrom(currencyHistory.dateLastMonth(), asset.getName()));
-            /*collector.makeRequestPerAsset(jdbcTemplate, asset);*/
+            /*collector.makeRequestPerAsset(jdbcTemplate, asset);*/  //deze moet later
             logger.info(asset.getName() + " history has been updated");
         } catch (IOException e) {
             e.printStackTrace();
