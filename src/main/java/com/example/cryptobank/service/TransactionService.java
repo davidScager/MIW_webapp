@@ -53,4 +53,5 @@ public class TransactionService {
         rootRepository.updateAdjustmentFactor(assetName, numberOfAssets, buyerId, sellerId);
     }
 
+
 }
