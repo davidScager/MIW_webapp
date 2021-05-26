@@ -26,13 +26,15 @@ public class JdbcLogDao implements LogDao {
 
     private PreparedStatement insertLogStatement(Transaction transaction, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("insert into log (transactionId, soldAssetTransactionRate, boughtAssetTransactionRate, " +
-                "soldAssetAdjustmentFactor, boughtAssetAdjustmentFactor, amount) values (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                "soldAssetAdjustmentFactor, boughtAssetAdjustmentFactor, soldAssetAmount, boughtAssetAmount, transactionCost) values (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setInt(1, transaction.getTransactionId());
         preparedStatement.setDouble(2, transaction.getTransactionLog().getSoldAssetTransactionRate());
         preparedStatement.setDouble(3, transaction.getTransactionLog().getBoughtAssetTransactionRate());
         preparedStatement.setDouble(4, transaction.getTransactionLog().getSoldAssetAdjustmentFactor());
         preparedStatement.setDouble(5, transaction.getTransactionLog().getBoughtAssetAdjustmentFactor());
         preparedStatement.setDouble(6, transaction.getTransactionLog().getNumberOfAssetsSold());
+        preparedStatement.setDouble(7, transaction.getTransactionLog().getNumberOfAssetsBought());
+        preparedStatement.setDouble(8, transaction.getTransactionLog().getTransactionCost());
         return preparedStatement;
     }
 

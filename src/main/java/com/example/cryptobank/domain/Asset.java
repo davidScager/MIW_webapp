@@ -10,8 +10,6 @@ public class Asset {
     private String description;
     private double valueInUsd;
 
-
-
     private double adjustmentFactor;
     private double valueYesterday;
     private double valueLastWeek;
@@ -41,7 +39,6 @@ public class Asset {
         this(name, apiName,"Abbreviation", "Description");
         logger.info("New Asset created");
     }
-
 
     public Asset() {
          logger.info("New Empty Asset created");
