@@ -30,4 +30,12 @@ public class Portfolio {
     public void setActor(Actor actor) {
         this.actor = actor;
     }
+
+    @Override
+    public String toString() {
+        return "Portfolio{" +
+                "portfolioID ='" + portfolioId +
+                ", actor ='" + actor +
+                '}';
+    }
 }
