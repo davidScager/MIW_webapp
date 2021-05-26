@@ -7,7 +7,6 @@ use BitBankDB;
 CREATE TABLE LoginAccount(
     username        VARCHAR(100) NOT NULL PRIMARY KEY,
     password        VARCHAR(100) NOT NULL,
-    salt            VARCHAR(45)  NOT NULL,
     token           VARCHAR(500)
     );
 
@@ -32,7 +31,11 @@ CREATE TABLE User(
     infix           VARCHAR(45) NULL,
     surname         VARCHAR(45) NOT NULL,
     dateOfBirth     DATE        NOT NULL,
-    address         VARCHAR(45) NOT NULL,
+    streetName      VARCHAR(45) NOT NULL,
+    houseNr         INT         NOT NULL,
+    addition        varchar(5)  NULL,
+    postalCode      varchar(6)  NOT NULL,
+    residence       varchar(45) NOT NULL,
     email           VARCHAR(100) NOT NULL,
     FOREIGN KEY (email)
         REFERENCES LoginAccount (username)
@@ -69,6 +72,7 @@ CREATE TABLE AssetPortfolio(
     assetName       VARCHAR(45) NOT NULL,
     portfolioId     INT         NOT NULL,
     amount          DOUBLE      NOT NULL,
+    forSale         DOUBLE      NULL,
     PRIMARY KEY (assetName, portfolioId),
     FOREIGN KEY (portfolioId)
         REFERENCES Portfolio (portfolioId)

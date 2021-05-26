@@ -1,7 +1,6 @@
 package com.example.cryptobank.controller;
 
 import com.example.cryptobank.domain.User;
-import com.example.cryptobank.service.security.SaltMaker;
 import com.example.cryptobank.service.security.TokenService;
 import com.example.cryptobank.service.login.UserService;
 import org.slf4j.Logger;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LoginController {
-    private Logger logger = LoggerFactory.getLogger(SaltMaker.class);
+    private Logger logger = LoggerFactory.getLogger(LoginController.class);
     private final UserService userService;
     private final TokenService tokenService;
 

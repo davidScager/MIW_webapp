@@ -2,7 +2,6 @@ package com.example.cryptobank.repository;
 
 import com.example.cryptobank.domain.LoginAccount;
 import com.example.cryptobank.repository.daointerfaces.LoginDao;
-import com.example.cryptobank.service.security.HashAndSalt;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,14 +20,13 @@ class LoginDaoTest {
     private LoginDao loginDao;
     private final String USERNAME = "Somebody";
     private final String HASH = "hash";
-    private final String SALT = "salt";
-    private HashAndSalt testHashAndSalt;
+    private String testHash;
 
     @Autowired
     public LoginDaoTest(LoginDao loginDao){
         this.loginDao = loginDao;
         logger.info("New LoginDaoTest Started");
-        testHashAndSalt = new HashAndSalt(HASH, SALT);
+        testHash = HASH;
     }
 
     @Test @Order(1)
@@ -38,12 +36,12 @@ class LoginDaoTest {
 
     @Test @Order(2)
     void createTest1() {
-        loginDao.create(USERNAME, testHashAndSalt);
+        loginDao.create(USERNAME, testHash);
     }
 
     @Test @Order(3)
     void get() {
-        LoginAccount expectedLoginAccount = new LoginAccount(USERNAME, HASH, SALT, null);
+        LoginAccount expectedLoginAccount = new LoginAccount(USERNAME, HASH, null);
         LoginAccount actualLoginAccount = loginDao.get(USERNAME).orElse(null);
         assertEquals(expectedLoginAccount, actualLoginAccount);
     }
@@ -51,7 +49,7 @@ class LoginDaoTest {
     @Test @Order(4)
     void update1() {
         String expectedUsername = "Somebody";
-        loginDao.update(expectedUsername, testHashAndSalt, null);
+        loginDao.update(expectedUsername, testHash, null);
         String actualUsername = loginDao.get(expectedUsername).get().getUsername();
         assertEquals(expectedUsername, actualUsername);
     }

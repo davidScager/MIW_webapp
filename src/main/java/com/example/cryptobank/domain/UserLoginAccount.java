@@ -5,10 +5,8 @@ public class UserLoginAccount {
     private String email;
     private String password;
 
-    public UserLoginAccount(int bsn, String firstname, String infix, String surname, String dateofbirth,
-                String streetName, int houseNr, String addition, String postalCode, String residence, String email, String password){
-        UserAddress userAddress = new UserAddress(streetName, houseNr, addition, postalCode, residence);
-        this.user = new User(bsn, firstname, infix, surname, dateofbirth, userAddress, email);
+    public UserLoginAccount(int bsn, String firstname, String infix, String surname, String dateofbirth, String streetName, int houseNr, String addition, String postalCode, String residence, String email, String password){
+        this.user = new User(bsn, new FullName(firstname, infix, surname), dateofbirth, new UserAddress(streetName, houseNr, addition, postalCode, residence), email);
         this.email = email;
         this.password = password;
     }

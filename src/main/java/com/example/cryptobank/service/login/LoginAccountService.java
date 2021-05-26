@@ -2,7 +2,6 @@ package com.example.cryptobank.service.login;
 
 import com.example.cryptobank.domain.LoginAccount;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
-import com.example.cryptobank.service.security.HashAndSalt;
 import com.example.cryptobank.service.security.HashService;
 import com.example.cryptobank.service.security.TokenService;
 import org.slf4j.Logger;
@@ -36,8 +35,8 @@ public class LoginAccountService {
     }
 
     public void updateResetPassword(String username, String password) {
-        HashAndSalt hashAndSalt = hashService.argon2idHash(password);
-        rootRepository.updateLoginAccount(username, hashAndSalt, null);
+        String hash = hashService.argon2idHash(password);
+        rootRepository.updateLoginAccount(username, hash, null);
     }
 
     public boolean isTokenStored(String username) {

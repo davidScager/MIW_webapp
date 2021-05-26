@@ -2,10 +2,9 @@ package com.example.cryptobank.service.login;
 
 import com.example.cryptobank.domain.Role;
 import com.example.cryptobank.domain.User;
+import com.example.cryptobank.domain.UserLoginAccount;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
-import com.example.cryptobank.service.security.HashAndSalt;
 import com.example.cryptobank.service.security.HashService;
-import com.example.cryptobank.service.security.SaltMaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RegistrationService {
-    private Logger logger = LoggerFactory.getLogger(SaltMaker.class);
+    private Logger logger = LoggerFactory.getLogger(RegistrationService.class);
     private RootRepository rootRepository;
     private HashService hashService;
 
@@ -31,27 +30,26 @@ public class RegistrationService {
      * Check that user is not yet registered,
      * register user, hash password and store login account
      * Relay result message back to client
-     * @param bsn (int)
-     * @param firstname (String)
-     * @param infix (String)
-     * @param surname (String)
-     * @param dateofbirth (String)
-     * @param address (String)
-     * @param email (String)
-     * @param password (String)
+     * @param userLoginAccount (UserLoginAccount)
      * @param role (Role)
      * @return (String) message for client
      */
-    public String register(int bsn, String firstname, String infix, String surname, String dateofbirth, String address, String email, String password, Role role){
-        if (rootRepository.getLoginByUsername(email) == null && rootRepository.getUserByBsn(bsn) == null){
-            User user = new User(bsn, firstname, infix, surname, dateofbirth, address, email);
-            HashAndSalt hashAndSalt = hashService.argon2idHash(password);
-            rootRepository.registerLogin(user, hashAndSalt);
+    public User register(UserLoginAccount userLoginAccount, Role role){
+        User user = userLoginAccount.getUser();
+        if (rootRepository.getLoginByUsername(userLoginAccount.getEmail()) == null && rootRepository.getUserByBsn(user.getBSN()) == null){
+            rootRepository.registerLogin(user, hashService.argon2idHash(userLoginAccount.getPassword()));
             rootRepository.registerUser(user, role);
-            return "New user registered. You can now login to your new account.";
+            return user;
         } else {
-            return "You are already registered.";
+            return null;
         }
+    }
+
+    public boolean validate(UserLoginAccount userLoginAccount){
+        if (userLoginAccount.getUser().getAddress() == null){
+            return false;
+        }
+        return true;
     }
 
 }

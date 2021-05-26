@@ -2,7 +2,6 @@ package com.example.cryptobank.repository.jdbcklasses;
 
 import com.example.cryptobank.domain.*;
 import com.example.cryptobank.repository.daointerfaces.*;
-import com.example.cryptobank.service.security.HashAndSalt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -83,18 +82,18 @@ public class RootRepository {
     public void storeResetToken(String username, String token) {
         Optional<LoginAccount> loginAccount = loginDAO.get(username);
         LoginAccount loginAccount1 = loginAccount.orElse(null);
-        loginDAO.update(loginAccount1.getUsername(), new HashAndSalt(loginAccount1.getHash(), loginAccount1.getSalt()), token);
+        loginDAO.update(loginAccount1.getUsername(), loginAccount1.getHash(), token);
     }
 
     /**
      * Register new login account
      * @param user (User)
-     * @param hashAndSalt (HashAndSalt)
+     * @param hash (String)
      *
      * @author David_Scager
      */
-    public void registerLogin(User user, HashAndSalt hashAndSalt){
-        loginDAO.create(user.getEmail(), hashAndSalt);
+    public void registerLogin(User user, String hash){
+        loginDAO.create(user.getEmail(), hash);
     }
 
     public void saveActor(Actor actor){
@@ -274,8 +273,8 @@ public class RootRepository {
         return portfolioValueOutput.toString();
     }
 
-    public void updateLoginAccount(String username, HashAndSalt hashAndSalt, String token) {
-        loginDAO.update(username, hashAndSalt, token);
+    public void updateLoginAccount(String username, String hash, String token) {
+        loginDAO.update(username, hash, token);
     }
 
     public Optional<LoginAccount> getLoginAccount(String username) {

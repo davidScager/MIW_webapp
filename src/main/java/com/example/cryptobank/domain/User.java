@@ -11,23 +11,19 @@ public class User {
     private final Logger logger = LoggerFactory.getLogger(User.class);
     private int BSN;
     private long id;
-    private String firstName;
-    private String infix;
-    private String surname;
+    private FullName fullName;
     private String dateOfBirth;
-    private UserAddress address;
+    private UserAddress userAddress;
 
     @Email
     @NotNull
     private String email;
 
-    public User(int BSN, String firstName, String infix, String surname, String dateOfBirth, UserAddress address, String email) {
+    public User(int BSN, FullName fullName, String dateOfBirth, UserAddress userAddress, String email) {
         this.BSN = BSN;
-        this.firstName = firstName;
-        this.infix = infix;
-        this.surname = surname;
+        this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
-        this.address = address;
+        this.userAddress = userAddress;
         this.email = email;
         this.id = 0;
         logger.info("New User");
@@ -38,11 +34,9 @@ public class User {
         return "User{" +
                 "BSN=" + BSN +
                 ", id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", infix='" + infix + '\'' +
-                ", surname='" + surname + '\'' +
+                ", fullName='" + fullName + '\'' +
                 ", dateOfBirth='" + dateOfBirth + '\'' +
-                ", address='" + address + '\'' +
+                ", address='" + userAddress + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }
@@ -50,28 +44,12 @@ public class User {
     public User() {
     }
 
-    public String getFirstName() {
-        return firstName;
+    public FullName getFullName() {
+        return fullName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getInfix() {
-        return infix;
-    }
-
-    public void setInfix(String infix) {
-        this.infix = infix;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setFullName(FullName fullName) {
+        this.fullName = fullName;
     }
 
     public String getDateOfBirth() {
@@ -83,11 +61,11 @@ public class User {
     }
 
     public UserAddress getAddress() {
-        return address;
+        return userAddress;
     }
 
-    public void setAddress(UserAddress address) {
-        this.address = address;
+    public void setAddress(UserAddress userAddress) {
+        this.userAddress = userAddress;
     }
 
     public String getEmail() {
