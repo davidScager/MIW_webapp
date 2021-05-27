@@ -7,6 +7,7 @@ import com.example.cryptobank.service.transaction.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,12 +37,12 @@ public class TransactionController {
         Map <String, Map> bankAndClientAssets = transactionService.authorizeAndGetAssets(token);
         if (bankAndClientAssets == null) {
             URI uri = URI.create("http://localhost:8080/login");
-            return ResponseEntity.notFound().location(uri).header("Authorization").build(); //responseEntity werkt niet
+            ResponseEntity responseEntity = ResponseEntity.status(HttpStatus.UNAUTHORIZED).location(uri).build();
+            logger.info(responseEntity.toString());
+            return responseEntity;
         }
-        return ResponseEntity.ok().header("Authorization").body(bankAndClientAssets);
+        return ResponseEntity.ok().body(bankAndClientAssets);
     }
-
-
 
     @GetMapping("/assetoverviewfrombank")
     public Map<Asset, Double> getAssetOverviewWithAmount() {
@@ -67,7 +68,4 @@ public class TransactionController {
         Transaction newTransaction = transactionService.createNewTransaction(seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought);
         return newTransaction;
     }
-
-
-
 }

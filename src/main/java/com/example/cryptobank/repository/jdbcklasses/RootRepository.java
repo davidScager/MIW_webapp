@@ -6,11 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Root for all repository functionalities
@@ -283,9 +279,11 @@ public class RootRepository {
 
 
     public Map<String, Map> getAssetPortfolioByUsername(String username) {
-        Map<String, Map> bankAndClientAssets = null;
+        Map<String, Map> bankAndClientAssets = new HashMap<>();
         long userId = userDao.get(username).getId();
+        logger.info("userId: " + userId);
         int portfolioId = portfolioDao.getPortfolioIdByUserId((int)userId).getPortfolioId();
+        logger.info("portoflioId: " + portfolioId);
         bankAndClientAssets.put("bank", getAssetOverviewWithAmount(101));
         bankAndClientAssets.put(username, getAssetOverviewWithAmount(portfolioId));
         return bankAndClientAssets;
