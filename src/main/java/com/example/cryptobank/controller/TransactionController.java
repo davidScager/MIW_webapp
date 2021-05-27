@@ -2,8 +2,7 @@ package com.example.cryptobank.controller;
 
 import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.domain.Transaction;
-import com.example.cryptobank.service.TokenService;
-import com.example.cryptobank.service.TransactionService;
+import com.example.cryptobank.service.security.TokenService;
 import com.example.cryptobank.service.transaction.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

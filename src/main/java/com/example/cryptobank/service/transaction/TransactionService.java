@@ -4,6 +4,7 @@ import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.domain.Transaction;
 import com.example.cryptobank.domain.TransactionLog;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
+import com.example.cryptobank.service.security.TokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +42,6 @@ public class TransactionService {
         return rootRepository.getAssetPortfolioByUsername(username);
     }
 
-
-
-    public Map<Asset, Double> getAssetOverVieuwWithAmount(int portfolioId) {
-        return rootRepository.getAssetOverVieuwWithAmount(portfolioId);
     public Map<Asset, Double> getAssetOverviewWithAmount(int portfolioId) {
         return rootRepository.getAssetOverviewWithAmount(portfolioId);
     }
