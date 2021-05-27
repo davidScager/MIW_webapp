@@ -17,16 +17,34 @@ import java.io.IOException;
 public class TransactionService {
 
     private final RootRepository rootRepository;
+    private final TokenService tokenService;
 
     private final Logger logger = LoggerFactory.getLogger(TransactionService.class);
 
     @Autowired
-    public TransactionService(RootRepository rootRepository) {
+    public TransactionService(RootRepository rootRepository, TokenService tokenService) {
         super();
         this.rootRepository = rootRepository;
+        this.tokenService = tokenService;
         logger.info("New TransactionService");
     }
 
+    public Map authorizeAndGetAssets(String token) {
+        String username;
+        try {
+            username = tokenService.parseToken(token, "session");
+            logger.info(username + "vanuit Token");
+        } catch (Exception e) {
+            logger.info("token is ongeldig");
+            return null;
+        }
+        return rootRepository.getAssetPortfolioByUsername(username);
+    }
+
+
+
+    public Map<Asset, Double> getAssetOverVieuwWithAmount(int portfolioId) {
+        return rootRepository.getAssetOverVieuwWithAmount(portfolioId);
     public Map<Asset, Double> getAssetOverviewWithAmount(int portfolioId) {
         return rootRepository.getAssetOverviewWithAmount(portfolioId);
     }
@@ -50,5 +68,6 @@ public class TransactionService {
     public void updateAdjustmentFactor(String assetName, double numberOfAssets, int buyerId, int sellerId) {
         rootRepository.updateAdjustmentFactor(assetName, numberOfAssets, buyerId, sellerId);
     }
+
 
 }
