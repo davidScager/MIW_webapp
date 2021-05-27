@@ -282,4 +282,12 @@ public class RootRepository {
     }
 
 
+    public Map<String, Map> getAssetPortfolioByUsername(String username) {
+        Map<String, Map> bankAndClientAssets = null;
+        long userId = userDao.get(username).getId();
+        int portfolioId = portfolioDao.getPortfolioIdByUserId((int)userId).getPortfolioId();
+        bankAndClientAssets.put("bank", getAssetOverviewWithAmount(101));
+        bankAndClientAssets.put(username, getAssetOverviewWithAmount(portfolioId));
+        return bankAndClientAssets;
+    }
 }

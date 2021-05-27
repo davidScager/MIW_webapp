@@ -2,32 +2,46 @@ package com.example.cryptobank.controller;
 
 import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.domain.Transaction;
+import com.example.cryptobank.service.security.TokenService;
 import com.example.cryptobank.service.transaction.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.Map;
 
 import java.io.IOException;
 
 @RestController
+@RequestMapping("/transaction")
 public class TransactionController {
 
     private final Logger logger = LoggerFactory.getLogger(TransactionController.class);
-
     private final TransactionService transactionService;
+    private final TokenService tokenService;
 
     @Autowired
-    public TransactionController(TransactionService transactionService) {
+    public TransactionController(TransactionService transactionService, TokenService tokenService) {
         super();
         this.transactionService = transactionService;
+        this.tokenService = tokenService;
         logger.info("New TransactionController");
     }
+
+    @PostMapping("/transactionorder")
+    public ResponseEntity<Map> authorizeAndGetAssets(@RequestParam("Authorization") String token) {
+        Map <String, Map> bankAndClientAssets = transactionService.authorizeAndGetAssets(token);
+        if (bankAndClientAssets == null) {
+            URI uri = URI.create("http://localhost:8080/login");
+            return ResponseEntity.notFound().location(uri).header("Authorization").build(); //responseEntity werkt niet
+        }
+        return ResponseEntity.ok().header("Authorization").body(bankAndClientAssets);
+    }
+
+
 
     @GetMapping("/assetoverviewfrombank")
     public Map<Asset, Double> getAssetOverviewWithAmount() {

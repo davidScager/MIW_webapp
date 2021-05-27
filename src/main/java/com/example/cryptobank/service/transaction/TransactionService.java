@@ -4,6 +4,7 @@ import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.domain.Transaction;
 import com.example.cryptobank.domain.TransactionLog;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
+import com.example.cryptobank.service.security.TokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,28 @@ import java.io.IOException;
 public class TransactionService {
 
     private final RootRepository rootRepository;
+    private final TokenService tokenService;
 
     private final Logger logger = LoggerFactory.getLogger(TransactionService.class);
 
     @Autowired
-    public TransactionService(RootRepository rootRepository) {
+    public TransactionService(RootRepository rootRepository, TokenService tokenService) {
         super();
         this.rootRepository = rootRepository;
+        this.tokenService = tokenService;
         logger.info("New TransactionService");
+    }
+
+    public Map authorizeAndGetAssets(String token) {
+        String username;
+        try {
+            username = tokenService.parseToken(token, "session");
+            logger.info(username + "vanuit Token");
+        } catch (Exception e) {
+            logger.info("token is ongeldig");
+            return null;
+        }
+        return rootRepository.getAssetPortfolioByUsername(username);
     }
 
     public Map<Asset, Double> getAssetOverviewWithAmount(int portfolioId) {

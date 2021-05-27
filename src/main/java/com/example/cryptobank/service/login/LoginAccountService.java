@@ -44,6 +44,4 @@ public class LoginAccountService {
         logger.info(loginAccount.getToken());
         return loginAccount.getToken() != null;
     }
-
-
 }
