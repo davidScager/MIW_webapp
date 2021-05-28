@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>BitBank - Registreren</title>
+    <link href="registreren.css" rel="stylesheet" type="text/css"/>
+    <link href="BaseLayout.css" rel="stylesheet" type="text/css"/>
+    <script src="registreren.js"></script>
+</head>
+
+<body style="background-color: #2B2B2B";>
+<header>
+    <div class="navbar">
+        <img src="images/logo.png" class="logo" alt="BitBank-logo">
+    </div>
+</header>
+
+<main class="registration-box">
+    <div class="registration-form">
+        <h1>Registratie formulier nieuwe klant</h1>
+        <p>Als u zich wilt registreren voor een nieuw account, vul dan a.u.b. het onderstaande formulier in.</p>
+        <form class="flex-box" action="registerclient" method="POST">
+            <label for="firstName">Voornaam*</label><br>
+            <input id="firstName"><br>
+            <label for="infix">tussenvoegsel</label><br>
+            <input id="infix"><br>
+            <label for="surname">Achternaam*</label><br>
+            <input id="surname"><hr>
+            <label for="postalCode">Postcode*</label><br>
+            <input id="postalCode"><br>
+            <label for="houseNr">Huisnummer*</label><br>
+            <input id="houseNr"><br>
+            <label for="addition">Toevoeging*</label><br>
+            <input id="addition"><br>
+            <label for="streetName">Straat*</label><br>
+            <input id="streetName"><br>
+            <label for="residence">Woonplaats*</label><br>
+            <input id="residence"><hr>
+            <label for="email">Email*</label><br>
+            <input id="email"><br>
+            <label for="password">Wachtwoord*</label><br>
+            <input type="password" id="password"><hr>
+        </form>
+        <button type="submit">Registreren</button>
+    </div>
+</main>
+
+<footer>
+    <img class="BLeft" src="images/B left.png" alt="BLeft">
+    <img class="BRight" src="images/B right.png" alt="Bright">
+</footer>
+</body>
+</html>
