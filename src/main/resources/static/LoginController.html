@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+  <link href="LoginController.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <nav>
+      <ul class="nav_links ">
+        <li><a href="#">Handelen</a></li>
+        <li><a href="#">Portfolio</a></li>
+        <li><a href="#">Transacties</a></li>
+        <li> <img class="logo" src="images/logo.png"  alt="logo"></li>
+        <li><a href="#">Login</a></li>
+        <li><a href="#">Registreren</a></li>
+        <li> <a class="cta" href="#"><button>Contact</button> </a> </li>
+      </ul>
+    </nav>
+
+    </div>
+  </header>
+
+
+
+
+
+  <div class="box">
+    <h1>Login</h1>
+    <form action="http://localhost:8080/login" method="post">
+    <input id="email" type="text" max="50" name="username" placeholder="Email">
+    <br>
+    <input id="password" type="password" max="50" min="8" name="password" placeholder="Wachtwoord">
+    <br>
+    <button type="submit">Bevestig</button>
+    <button type="reset">Reset</button>
+      <br>
+      <a href="PasswordReset.html" id="passwordReset">Wachtwoord vergeten?</a>
+  </form>
+  </div>
+
+  <footer>
+    <img class="BLeft" src="images/B left.png" alt="BLeft">
+    <img class="BRight" src="images/B right.png" alt="Bright">
+  </footer>
+</body>
+</html>
