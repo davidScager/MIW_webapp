@@ -58,3 +58,60 @@ form {
     height: 100px;       /* Just for the demo          */
     overflow-y: auto;    /* Trigger vertical scroll    */
  }
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-header{
+    width: 100%;
+    height:60px;
+    background-color: #f7931a;
+}
+
+.as_h1 {
+  float: left;
+  padding-left: 15px;
+  padding-top: 12px;
+  font-size: 28px;
+  font-weight: bold;
+}
+/* Modal Content/Box */
+.asset-buy {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 0px;
+  border: 2px solid #888;
+  width: 350px; /* Could be more or less, depending on screen size */
+  height: 350px;
+}
+
+/* The Close Button */
+.close {
+  padding-right: 15px;
+  padding-top: 12px;
+
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+
