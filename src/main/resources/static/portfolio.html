@@ -11,12 +11,33 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
+
+        // When the user clicks on <span> (x), close the modal
+
+        function closeAssetBuy() {
+            var modal = document.getElementById("assetBuy");
+            modal.style.display = "none";
+         }
+
+
+         // When the user clicks anywhere outside of the modal, close it
+         window.onclick = function(event) {
+            var modal = document.getElementById("assetBuy");
+            if (event.target == modal) {
+                var modal = document.getElementById("assetBuy");
+                modal.style.display = "none";
+            }
+         }
         $( window ).resize(function() {
             setHeights();
         });
 
         function buyAsset(symbol, name){
-            alert("Buy "+symbol+" name "+name)
+            //alert("Buy "+symbol+" name "+name)
+            var element = document.getElementById("asset_buy_header");
+            element.innerText = "Buy: "+ symbol;
+            var modal = document.getElementById("assetBuy");
+            modal.style.display = "block";
         }
 
         function setHeights(){
@@ -112,4 +133,17 @@
     <img class="BRight" src="images/B right.png" alt="Bright">
 </footer>
 </body>
+
+<!-- The Modal -->
+<div id="assetBuy" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content asset-buy">
+        <div class="modal-header">
+            <div id="asset_buy_header" class="as_h1"></div>
+            <div class="close" onclick="closeAssetBuy();">&times;</div>
+        </div>
+    </div>
+
+</div>
 </html>s
