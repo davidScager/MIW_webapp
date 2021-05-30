@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>BitBank - Registreren</title>
+    <link href="portfolio.css" rel="stylesheet" type="text/css"/>
+    <link href="BaseLayout.css" rel="stylesheet" type="text/css"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        $( window ).resize(function() {
+            setHeights();
+        });
+
+        function buyAsset(symbol, name){
+            alert("Buy "+symbol+" name "+name)
+        }
+
+        function setHeights(){
+            // Viewport
+            var new_height = $( window ).height();
+            new_height = new_height -400
+            $(".scroll_tbody").height(new_height);
+        }
+        $( document ).ready(function() {
+            console.log( "ready!" );
+            loadAssets();
+        });
+        function loadAssets(){
+            setHeights();
+            $('#selectable > tbody').empty();
+            $.getJSON( "http://localhost:8080/updateassetsbyapi", function( data ) {
+                var json_str = JSON.stringify(data);
+                var element = document.getElementById("asset_row");
+                //var element = $(".asset_row");
+                var asset_row = '';
+                for (i in data) {
+                    console.log( "json row" );
+                    console.log( JSON.stringify(data[i]) );
+                    asset_row += '<tr onclick="buyAsset(\''+data[i].abbreviation+'\',\''+data[i].name+'\');" id="asset_row" class="ui-widget-content asset_row">';
+                    asset_row += '   <td>'+data[i].abbreviation+'</td>';
+                    asset_row += '   <td  title="'+data[i].description+'">'+data[i].name+'</td>';
+                    asset_row += '   <td>'+data[i].valueInUsd+'</td>';
+                    asset_row += '   <td>'+data[i].valueYesterday+'</td>';
+                    asset_row += '   <td>'+data[i].valueLastWeek+'</td>';
+                    asset_row += '   <td>'+data[i].valueLastMonth+'</td>';
+                    asset_row += '</tr>';
+                }
+                console.log(asset_row );
+                $('#selectable > tbody').append(asset_row);
+            });
+        }
+    </script>
+</head>
+
+<body style="background-color: #2B2B2B";>
+
+<header>
+    <div class="container">
+        <nav>
+            <ul class="nav_links ">
+                <li><a href="#">Handelen</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+                <li><a href="#">Transacties</a></li>
+                <li> <img class="logo" src="images/logo.png"  alt="logo"></li>
+                <li><a href="#">Logout</a></li>
+                <li> <a class="cta" href="#"><button>Contact</button> </a> </li>
+            </ul>
+        </nav>
+
+    </div>
+</header>
+
+<!-- Portfolio page.-->
+<main class="asset-box">
+    <!-- Portfolio block.-->
+    <div class="asset-form">
+        <h1>Portfolio</h1>
+        <p>Uw huidige assets:</p>
+        <form class="flex-box" action="assets" method="POST">
+        </form>
+        <button type="submit">Registreren</button>
+    </div>
+    <!-- Asset page.-->
+    <div class="koers-form">
+        <h1>Live Koers</h1>
+            <table id="selectable" class="scroll_table" >
+                <thead class="scroll_thead">
+                    <tr class="ui-widget-content">
+                        <th>Coin</th>
+                        <th>Naam</th>
+                        <th>Prijs</th>
+                        <th>Gisteren</th>
+                        <th>Last week</th>
+                        <th>Last maand</th>
+                    </tr>
+                </thead>
+                <tbody class="scroll_tbody">
+                </tbody>
+            </table>
+
+         <button  onclick="loadAssets();">Ververs koers</button>
+    </div>
+</main>
+<!-- End Portfolio page.-->
+
+<footer>
+    <img class="BLeft" src="images/B left.png" alt="BLeft">
+    <img class="BRight" src="images/B right.png" alt="Bright">
+</footer>
+</body>
+</html>s
