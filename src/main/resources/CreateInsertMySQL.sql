@@ -157,6 +157,17 @@ INSERT INTO actor (userId, checkingAccount, role) Values (1,12345678,'bank');
 
 INSERT INTO portfolio (portfolioId, actor) Values (101,1);
 
+
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('BTC',106,0.67, 0);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('ETH',102,3000000, 0);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('FIL',106,2,0);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('XMR',102,6,0);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('ADA',104,31,0);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('TRX',104,26,0);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('THETA',104,7,0);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('TRX',105,6321,0);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('VET',103,11,0);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('DASH',103,986,0);
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BTC',101,3030);
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ADA',101,1030);
 INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BCH',101,2396);
