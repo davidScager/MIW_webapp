@@ -44,6 +44,15 @@ public class TransactionController {
         return ResponseEntity.ok().body(bankAndClientAssets);
     }
 
+    @PostMapping("/plantransaction")
+    public ResponseEntity<Map> planTransaction(@RequestBody int seller,
+                                               @RequestBody int buyer, @RequestBody double numberOfAssets,
+                                               @RequestBody String assetSold,
+                                               @RequestBody String assetBought,@RequestBody boolean setinFuture, @RequestBody double value, String username) throws InterruptedException, IOException {
+        transactionService.setTransaction(seller, buyer, numberOfAssets, assetSold, assetBought, setinFuture, value, username);
+        return null;
+    }
+
     @GetMapping("/assetoverviewfrombank")
     public Map<Asset, Double> getAssetOverviewWithAmount() {
         return transactionService.getAssetOverviewWithAmount(101);//dit is de portfolioId van de bank
@@ -60,7 +69,7 @@ public class TransactionController {
     }
 
     @PostMapping("/createtransaction")
-    public Transaction createTransactionHandler(@RequestParam int seller,
+    public Transaction createTransaction(@RequestParam int seller,
                                                 @RequestParam int buyer, @RequestParam double numberOfAssets,
                                                 @RequestParam String assetSold,
                                                 @RequestParam String assetBought) throws IOException {

@@ -1,6 +1,7 @@
 package com.example.cryptobank;
 
 import com.example.cryptobank.service.currency.MethodRunOnScheduleHelper;
+import com.example.cryptobank.service.transaction.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -10,10 +11,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CryptoBankApplication implements CommandLineRunner {
 
     MethodRunOnScheduleHelper methodRunOnScheduleHelper;
+    private final TransactionService transactionService;
 
     @Autowired
-    public CryptoBankApplication(MethodRunOnScheduleHelper methodRunOnScheduleHelper) {
+    public CryptoBankApplication(MethodRunOnScheduleHelper methodRunOnScheduleHelper, TransactionService transactionService) {
         this.methodRunOnScheduleHelper = methodRunOnScheduleHelper;
+        this.transactionService = transactionService;
     }
 
     public static void main(String[] args) {
@@ -24,5 +27,7 @@ public class CryptoBankApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		//testmain
         /*methodRunOnScheduleHelper.getCurrencyDailyForHistoryValue();*/
+        /*methodRunOnScheduleHelper.getCurrencyDaily();
+        transactionService.ControlValueAsset(1, 2, 1, "ETH", "BTC", 37000, "niekmol1994@gmail.com");*/
 	}
 }

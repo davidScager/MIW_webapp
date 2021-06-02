@@ -1,7 +1,9 @@
 package com.example.cryptobank.service.currency;
 
 import com.example.cryptobank.domain.Asset;
+import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import com.example.cryptobank.service.assetenportfolio.AssetService;
+import com.example.cryptobank.service.transaction.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,27 +22,30 @@ import java.util.TimerTask;
 public class MethodRunOnScheduleHelper {
     private CurrencyCollector collector = new CurrencyCollector();
     private AssetService assetService;
+    private final RootRepository rootRepository;
     private JdbcTemplate jdbcTemplate;
 
+
     @Autowired
-    public MethodRunOnScheduleHelper(AssetService assetService, JdbcTemplate jdbcTemplate) {
+    public MethodRunOnScheduleHelper(AssetService assetService, RootRepository rootRepository, JdbcTemplate jdbcTemplate) {
         this.assetService = assetService;
+        this.rootRepository = rootRepository;
         this.jdbcTemplate = jdbcTemplate;
         logger.info("ubvievb iwv e");
     }
     private final Logger logger = LoggerFactory.getLogger(MethodRunOnScheduleHelper.class);
 
     public void getCurrencyDaily() {
-
         final Timer timer = new Timer();
         timer.schedule(
                 new TimerTask() {
                     @Override
                     public void run() {
                         try {
-                            collector.makeRequest();
-                            //here comes the method that you want to run on scheduled day/time
-
+                            Asset btc = rootRepository.getAsset("BTC");
+                            Asset eth = rootRepository.getAsset("ETH");
+                            collector.makeRequestPerAsset(jdbcTemplate, btc);
+                            collector.makeRequestPerAsset(jdbcTemplate, eth);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -50,6 +55,7 @@ public class MethodRunOnScheduleHelper {
                 Duration.ofSeconds(20).toMillis() //The timer. You can also choose onHours, onDays etc.
         );
     }
+
 
     public void getCurrencyDailyForHistoryValue() {
         System.out.println("Asset history is updating");
@@ -71,7 +77,6 @@ public class MethodRunOnScheduleHelper {
             asset.setValueYesterday(currencyHistory.historyValuefrom(currencyHistory.dateYesterday(),asset.getName()));
             asset.setValueLastWeek(currencyHistory.historyValuefrom(currencyHistory.dateLasteWeek(),asset.getName()));
             asset.setValueLastMonth(currencyHistory.historyValuefrom(currencyHistory.dateLastMonth(), asset.getName()));
-            /*collector.makeRequestPerAsset(jdbcTemplate, asset);*/  //deze moet later
             logger.info(asset.getName() + " history has been updated");
         } catch (IOException e) {
             e.printStackTrace();
