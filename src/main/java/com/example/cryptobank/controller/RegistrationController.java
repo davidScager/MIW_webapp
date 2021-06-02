@@ -11,10 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-
 @RestController
 public class RegistrationController {
     private Logger logger = LoggerFactory.getLogger(RegistrationController.class);

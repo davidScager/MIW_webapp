@@ -1,21 +1,18 @@
 package com.example.cryptobank.controller;
 
+import com.example.cryptobank.service.login.RegistrationServiceClass;
 import com.example.cryptobank.service.login.RegistrationService;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
 import com.example.cryptobank.domain.*;
 
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class RegistrationControllerTest {
@@ -25,7 +22,7 @@ class RegistrationControllerTest {
 
     @BeforeEach
     public void initRestAssuredMockMvcStandAlone(){
-        this.registrationService = Mockito.mock(RegistrationService.class);
+        this.registrationService = Mockito.mock(RegistrationServiceClass.class);
         RestAssuredMockMvc.standaloneSetup(new RegistrationController(registrationService));
     }
 

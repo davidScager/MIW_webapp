@@ -15,6 +15,7 @@ public class UserAddress {
     }
 
     public UserAddress(String postalCode, int houseNr, String addition, String streetName, String residence) {
+        this();
         logger.info("New UserAddress");
         this.postalCode = postalCode;
         this.houseNr = houseNr;

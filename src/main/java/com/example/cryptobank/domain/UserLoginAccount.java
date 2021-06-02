@@ -5,10 +5,8 @@ public class UserLoginAccount {
     private String email;
     private String password;
 
-/*
-    public UserLoginAccount(){}
-*/
-
+    // default const. needed for testing/mocking, but doesn't work with client requests
+    //public UserLoginAccount(){}
 
     public UserLoginAccount(int bsn, String firstname, String infix, String surname, String dateofbirth, String postalCode, int houseNr, String addition, String streetName, String residence, String email, String password){
         this.user = new User(bsn, new FullName(firstname, infix, surname), dateofbirth, new UserAddress(postalCode, houseNr, addition, streetName, residence), email);
