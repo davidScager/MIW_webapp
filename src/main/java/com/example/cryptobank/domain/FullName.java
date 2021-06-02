@@ -5,6 +5,9 @@ public class FullName {
     private String infix;
     private String surname;
 
+    public FullName(){
+    }
+
     public FullName(String firstName, String infix, String surname) {
         this.firstName = firstName;
         this.infix = infix;

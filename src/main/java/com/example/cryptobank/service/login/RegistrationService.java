@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Service for registering new users
  * @author David_Scager
@@ -35,7 +37,7 @@ public class RegistrationService {
      * @return (String) message for client
      */
     public User register(UserLoginAccount userLoginAccount, Role role){
-        User user = userLoginAccount.getUser();
+        User user = userLoginAccount.getUser() ;
         if (rootRepository.getLoginByUsername(userLoginAccount.getEmail()) == null && rootRepository.getUserByBsn(user.getBSN()) == null){
             rootRepository.registerLogin(user, hashService.argon2idHash(userLoginAccount.getPassword()));
             rootRepository.registerUser(user, role);

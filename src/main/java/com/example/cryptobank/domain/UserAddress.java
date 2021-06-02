@@ -5,18 +5,21 @@ import org.slf4j.LoggerFactory;
 
 public class UserAddress {
     private Logger logger = LoggerFactory.getLogger(UserAddress.class);
-    private String streetName;
+    private String postalCode;
     private int houseNr;
     private String addition;
-    private String postalCode;
+    private String streetName;
     private String residence;
 
-    public UserAddress(String streetName, int houseNr, String addition, String postalCode, String residence) {
+    public UserAddress(){
+    }
+
+    public UserAddress(String postalCode, int houseNr, String addition, String streetName, String residence) {
         logger.info("New UserAddress");
-        this.streetName = streetName;
+        this.postalCode = postalCode;
         this.houseNr = houseNr;
         this.addition = addition;
-        this.postalCode = postalCode;
+        this.streetName = streetName;
         this.residence = residence;
     }
 
