@@ -5,7 +5,11 @@ public class FullName {
     private String infix;
     private String surname;
 
+    public FullName(){
+    }
+
     public FullName(String firstName, String infix, String surname) {
+        this();
         this.firstName = firstName;
         this.infix = infix;
         this.surname = surname;

@@ -31,7 +31,7 @@ public class MethodRunOnScheduleHelper {
         this.assetService = assetService;
         this.rootRepository = rootRepository;
         this.jdbcTemplate = jdbcTemplate;
-        logger.info("ubvievb iwv e");
+        logger.info("New MethodRunOnScheduleHelper");
     }
     private final Logger logger = LoggerFactory.getLogger(MethodRunOnScheduleHelper.class);
 
