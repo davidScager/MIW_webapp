@@ -234,7 +234,7 @@ public class GenerateMailContext {
                 "\n" +
                 "\n" +
                 "<h1>Geachte klant,\n\nKlik op de onderstaande knop om uw registratie bij BitBank af te ronden.\n Doe dit a.u.b. binnen een uur na ontvangst van deze email. </h1>\n" +
-                "<button class=\"button\" style=\"vertical-align:middle\" ><span><a href=\"" + CreateURLHelper.generateToken(registerationURL, token) + "\">Reset je wachtwoord</a></span></button>\n" +
+                "<button class=\"button\" method=\"POST\" style=\"vertical-align:middle\" ><span><a href=\"" + CreateURLHelper.generateToken(registerationURL, token) + "\">Bevestigen</a></span></button>\n" +
                 "\n" +
                 "\n" +
                 "<footer></footer>\n" +

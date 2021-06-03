@@ -1,6 +1,10 @@
 package com.example.cryptobank.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class FullName {
+    private final Logger logger = LoggerFactory.getLogger(FullName.class);
     private String firstName;
     private String infix;
     private String surname;
@@ -10,6 +14,7 @@ public class FullName {
 
     public FullName(String firstName, String infix, String surname) {
         this();
+        logger.info("New FullName");
         this.firstName = firstName;
         this.infix = infix;
         this.surname = surname;

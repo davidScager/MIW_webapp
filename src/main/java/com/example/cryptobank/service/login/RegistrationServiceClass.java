@@ -7,6 +7,7 @@ import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import com.example.cryptobank.service.security.HashService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,6 +20,7 @@ public class RegistrationServiceClass implements RegistrationService {
     private final RootRepository rootRepository;
     private final HashService hashService;
 
+    @Autowired
     public RegistrationServiceClass(RootRepository rootRepository, HashService hashService){
         super();
         logger.info("New RegistrationService");
