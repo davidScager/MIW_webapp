@@ -34,19 +34,22 @@ public class RegistrationServiceClass implements RegistrationService {
      * @param role (Role)
      * @return (String) message for client
      */
+    @Override
     public User register(UserLoginAccount userLoginAccount, Role role){
         User user = userLoginAccount.getUser() ;
-        if (rootRepository.getLoginByUsername(userLoginAccount.getEmail()) == null && rootRepository.getUserByBsn(user.getBSN()) == null){
             rootRepository.registerLogin(user, hashService.argon2idHash(userLoginAccount.getPassword()));
             rootRepository.registerUser(user, role);
             return user;
-        } else {
-            return null;
-        }
     }
 
+    @Override
     public boolean validate(UserLoginAccount userLoginAccount){
-        return userLoginAccount.getUser().getAddress() != null;
+        User user = userLoginAccount.getUser() ;
+        return rootRepository.getLoginByUsername(userLoginAccount.getEmail()) == null && rootRepository.getUserByBsn(user.getBSN()) == null;
     }
 
+    @Override
+    public boolean validateToken(String token, String subject) {
+        return false;
+    }
 }

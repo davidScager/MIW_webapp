@@ -22,20 +22,28 @@ public class RegistrationController {
         this.registrationService = registrationService;
     }
 
+    @PostMapping("/registrationrequest")
+    public ResponseEntity<?> registrationRequestHandler(@RequestBody UserLoginAccount userLoginAccount){
+        String message;
+        if(registrationService.validate(userLoginAccount)){
+            message = "Om registratie af te ronden is er een bevestigingslink verstuurd naar het opgegeven emailadres.";
+            return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
+        }
+        message = "Registratie mislukt.";
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
+
     /**
      * Register a new client
-     * Request Json/application format
-     * Return json parsed user object
-     * @param userLoginAccount (UserLoginAccount) wrapper class for user and loginAccount objects
-     * @return ResponseEntity<User></User>
+     * @return ResponseEntity<Object></Object>
      *
      * @author David_Scager
      */
     @PostMapping("/registerclient")
-    public ResponseEntity<User> clientRegistrationHandler(@RequestBody UserLoginAccount userLoginAccount){
-        if (registrationService.validate(userLoginAccount)){
-            User user = registrationService.register(userLoginAccount, Role.CLIENT);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<?> clientRegistrationHandler(@RequestParam("Authorization") String token){
+        String subject = "Register";
+        if (registrationService.validateToken(token, subject)){
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
@@ -50,7 +58,7 @@ public class RegistrationController {
      * @author David_Scager
      */
     @PostMapping("/registeradmin")
-    public ResponseEntity<User> adminRegistrationHandler(@RequestBody UserLoginAccount userLoginAccount){
+    public ResponseEntity<?> adminRegistrationHandler(@RequestBody UserLoginAccount userLoginAccount){
         if (registrationService.validate(userLoginAccount)){
             User user = registrationService.register(userLoginAccount, Role.ADMINISTRATOR);
             return new ResponseEntity<>(user, HttpStatus.OK);
