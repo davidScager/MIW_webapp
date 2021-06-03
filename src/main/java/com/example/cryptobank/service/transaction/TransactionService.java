@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.net.MalformedURLException;
 import java.time.Duration;
 import java.time.Instant;
@@ -132,7 +133,7 @@ public class TransactionService {
                                 }
                             }
 
-                        } catch (IOException e) {
+                        } catch (IOException | MessagingException e) {
                             e.printStackTrace();
                         }
                     }
@@ -143,7 +144,7 @@ public class TransactionService {
     }
 
 
-    public void ControlREcoursesAndExecute(int seller, int buyer, double numberOfAssets, String assetSold, String assetBought, String username, double value) throws IOException {
+    public void ControlREcoursesAndExecute(int seller, int buyer, double numberOfAssets, String assetSold, String assetBought, String username, double value) throws IOException, MessagingException {
         Map<String, Map> bankAndClient = rootRepository.getAssetPortfolioByUsername(username);
         double amountBoughtAssets = rootRepository.getAsset(assetBought).getValueInUsd() / rootRepository.getAsset(assetSold).getValueInUsd();
         List<Boolean> sufficientAmount;
@@ -164,7 +165,7 @@ public class TransactionService {
 
     }
     //alles klopt
-    private void executeTransaction(int seller, int buyer, double numberOfAssets, String assetSold, String assetBought, String username, double value) throws IOException {
+    private void executeTransaction(int seller, int buyer, double numberOfAssets, String assetSold, String assetBought, String username, double value) throws IOException, MessagingException {
         double tranasctioncost= calculateTransactionCost(numberOfAssets, assetBought);
         createNewTransaction(seller, buyer, numberOfAssets, tranasctioncost, assetSold, assetBought);
         if (buyer ==1){
@@ -175,18 +176,18 @@ public class TransactionService {
 
     }
     //bank heeft niet genoeg assets al koper
-    private void executeTransactionInDollars(int seller, int buyer, double numberOfAssets, String assetBought, String username, double value) throws IOException {
+    private void executeTransactionInDollars(int seller, int buyer, double numberOfAssets, String assetBought, String username, double value) throws IOException, MessagingException {
         double tranasctioncost= calculateTransactionCost(numberOfAssets, assetBought);
         createNewTransaction(seller, buyer, numberOfAssets, tranasctioncost, "USD", assetBought);
         mailSenderService.sendMail(username, generateMailContext.transactionOrderInDollars(username, assetBought, value), "Succesvole transactie in dollars:)");
     }
 
     //klant heeft niet genoeg
-    private void sendMailInsufficentAmount(String assetBought, String username, double value) throws MalformedURLException {
+    private void sendMailInsufficentAmount(String assetBought, String username, double value) throws MalformedURLException, MessagingException {
             mailSenderService.sendMail(username, generateMailContext.transactionOrderCancelledDueToClient(username, assetBought, value), "Transactie geannuleerd");
     }
 
-    private void sendMailWithExcuse(String assetBought, String username, double value) throws MalformedURLException {
+    private void sendMailWithExcuse(String assetBought, String username, double value) throws MalformedURLException, MessagingException {
         mailSenderService.sendMail(username, generateMailContext.transactionOrderCancelledDueToBank(username, assetBought, value), "Transactie geannuleerd");
 
     }
