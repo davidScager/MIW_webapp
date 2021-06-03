@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class CurrencyHistory {
                 if (cryptocoin.equals("Dollar")) return 1.0;
                 objectMapper = new ObjectMapper();
                 String url = adress + getStringForApi(cryptocoin) + finishadress + date;
-                Map<String, Object> coinwithcurrency = objectMapper.readValue(new URL(url), Map.class);
+                Map<String, Object> coinwithcurrency = objectMapper.readValue(new URL(url), Map.class);//jackson object mapper
                 String stringtoSplit = String.valueOf(coinwithcurrency.get("market_data"));//dit moet map zijn
                 /*Map<String, Object> marketData = coinwithcurrency.get("market_data");*/
                 String[] strings = stringtoSplit.split(",");
@@ -48,7 +49,7 @@ public class CurrencyHistory {
                 cryptocoin.equals("Tron") || cryptocoin.equals("Vechain")) {
                         String teruggave = cryptocoin.toLowerCase(Locale.ROOT);
                         return teruggave;
-                }
+                }//maar hier een array en zet dit om naar lowercase
                 else if (cryptocoin.equals("Bitcoin Cash") || cryptocoin.equals("Ethereum Classic") || cryptocoin.equals("Internet Computer"))
                         return cryptocoin.toLowerCase(Locale.ROOT).replace(" ", "-");
                 else if (cryptocoin.equals("XRP")) return "xrp-classic";
@@ -58,23 +59,14 @@ public class CurrencyHistory {
         }
 
         public String dateYesterday(){
-                String dateUsa = String.valueOf(LocalDate.now().minusDays(1));
-                String[] strings = dateUsa.split("-");
-                String dateAPI = strings[2] + "-" + strings[1] + "-" + strings[0];
-                return dateAPI;
+                return LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern("dd-mm-yy"));
         }
 
         public String dateLasteWeek(){
-                String dateUsa = String.valueOf(LocalDate.now().minusWeeks(1));
-                String[] strings = dateUsa.split("-");
-                String dateAPI = strings[2] + "-" + strings[1] + "-" + strings[0];
-                return dateAPI;
+                return LocalDate.now().minusWeeks(1).format(DateTimeFormatter.ofPattern("dd-mm-yy"));
         }
 
         public String dateLastMonth(){
-                String dateUsa = String.valueOf(LocalDate.now().minusMonths(1));
-                String[] strings = dateUsa.split("-");
-                String dateAPI = strings[2] + "-" + strings[1] + "-" + strings[0];
-                return dateAPI;
+                return LocalDate.now().minusMonths(1).format(DateTimeFormatter.ofPattern("dd-mm-yy"));
         }
 }

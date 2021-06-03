@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>BitBank - Transactie</title>
+    <link href="BaseLayout.css" type="text/css" rel="stylesheet">
+    <link href="transaction.css" rel="stylesheet" type="text/css"/>
+    <script>
+
+        function loadAssetsBankAndMyself(){
+            const response = fetch( "http://localhost:8080/transaction/assetoverviewfrombank");
+            const data = response.json();
+            console.log(data)
+        }
+    </script>
+</head>
+<body style="background-color: #2B2B2B"; onload="loadAssetsBankAndMyself()">
+<header>
+    <div class="container">
+        <nav>
+            <ul class="nav_links ">
+                <li><a href="#">Handelen</a></li>
+                <li><a href="#">Portfolio</a></li>
+                <li><a href="#">Transacties</a></li>
+                <li> <img class="logo" src="images/logo.png"  alt="logo"></li>
+                <li><a href="#">Login</a></li>
+                <li><a href="#">Registreren</a></li>
+                <li> <a class="cta" href="#"><button>Contact</button> </a> </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<main class="flex-container">
+<form class="flex-box-left">
+<h3 style="text-align: center">Dit zijn uw assets:</h3>
+    <table id="MyTable" class="scroll_table" >
+        <thead class="scroll_thead">
+        <tr class="ui-widget-content">
+            <th>Naam</th>
+            <th>Aantal</th>
+            <th>Waarde</th>
+        </tr>
+        </thead>
+        <tbody class="scroll_tbody">
+        </tbody>
+    </table>
+</form>
+    <form class="flex-box-middle">
+        <h3 style="text-align: center">Wilt u kopen of verkopen?</h3>
+        <button>Kopen</button> <button>Verkopen</button>
+        <input id="seller" width="250px" placeholder="verkoper" style="text-align: center"><br>
+        <input id="buyer" placeholder="koper" style="text-align: center"><br>
+        <label>Kies een asset om te verkopen</label><br>
+        <select id="assetToSell">
+            <option value="BTC">Bitcoin</option>
+            <option value="ETH">Ethereum</option>
+            <option value="TRX">Tron</option>
+        </select><br>
+        <label>Kies een asset om te kopen</label><br>
+        <select id="assetTobuy">
+            <option value="BTC">Bitcoin</option>
+            <option value="ETH">Ethereum</option>
+            <option value="TRX">Tron</option>
+        </select><br>
+        <input id="numberOfAssets" placeholder="Hoeveel assets?" style="text-align: center"><br>
+        <button id="transactioncost" type="submit">Transactie kosten bereken</button>
+        <input id="transactiekosten" placeholder="Druk hiervoor op de knop" style="text-align: center"><br>
+        <button id="futureTransaction" type="button">Wilt u kopen/verkopen op een bepaalde waarde?</button><br>
+        <input id="valueToBuyOrSellAt" placeholder="Gewenste waarde?" style="text-align: center"><br>
+
+        <button id="execcutTransaction" type="submit" on>Voer de transactie uit</button><br>
+    </form>
+    <form class="flex-box-right">
+        <h3 style="text-align: center">Dit zijn de assets van de bank:</h3>
+        <table id="BankTable" class="scroll_table" >
+            <thead class="scroll_thead">
+            <tr class="ui-widget-content">
+                <th>Naam</th>
+                <th>Prijs</th>
+                <th>Prijs gister</th>
+                <th>Beschikbaar</th>
+            </tr>
+            </thead>
+            <tbody class="scroll_tbody">
+            </tbody>
+        </table>
+    </form>
+</main>
+<footer>
+    <img class="BLeft" src="images/B left.png" alt="BLeft">
+    <img class="BRight" src="images/B right.png" alt="Bright">
+</footer>
+</body>
+
+</html>
