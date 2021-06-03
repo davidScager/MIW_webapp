@@ -1,0 +1,34 @@
+.flex-container{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.flex-box-left{
+    display: flex;
+    flex-flow: column nowrap;
+    width: 300px;
+    margin: 40px;
+    font-family: Calibri, sans-serif;
+    background-color: white;
+
+}
+
+.flex-box-middle{
+    display: flex;
+    flex-flow: column nowrap;
+    width: auto;
+    margin: 40px;
+    font-family: Calibri, sans-serif;
+    background-color: white;
+    text-align: center;
+}
+
+.flex-box-right{
+    display: flex;
+    flex-flow: column nowrap;
+    width: 350px;
+    margin: 40px;
+    font-family: Calibri, sans-serif;
+    background-color: white;
+}
