@@ -195,9 +195,9 @@ public class TransactionService {
     private List sufficientTransactionValue(double numberOfAssetsCient, double numberOfAssetsBank, Map<String, Map> bankAndClient, String assetCient, String assetBank, String username){
         Map<Asset, Double> clientAssets = bankAndClient.get(username);
         Map<Asset, Double> bankAssets = bankAndClient.get("bank");
-        Optional<Double> numberOfOwnedassetsCient = clientAssets.entrySet().stream().filter(e -> e.getKey().getName().equals(assetCient)).map(Map.Entry::getValue).findFirst();
-        Optional<Double> numberOfOwnedDolarsCient = clientAssets.entrySet().stream().filter(e -> e.getKey().getName().equals("USD")).map(Map.Entry::getValue).findFirst();
-        Optional<Double> numberOfOwnedassetsBank = bankAssets.entrySet().stream().filter(e -> e.getKey().getName().equals(assetBank)).map(Map.Entry::getValue).findFirst();
+        Optional<Double> numberOfOwnedassetsCient = clientAssets.entrySet().stream().filter(e -> e.getKey().getAbbreviation().equals(assetCient)).map(Map.Entry::getValue).findFirst();
+        Optional<Double> numberOfOwnedDolarsCient = clientAssets.entrySet().stream().filter(e -> e.getKey().getAbbreviation().equals("USD")).map(Map.Entry::getValue).findFirst();
+        Optional<Double> numberOfOwnedassetsBank = bankAssets.entrySet().stream().filter(e -> e.getKey().getAbbreviation().equals(assetBank)).map(Map.Entry::getValue).findFirst();
         List<Boolean> isSufficient = new ArrayList<>();
         double trasactioncost = calculateTransactionCost(numberOfAssetsCient, assetCient);
         isSufficient.add(numberOfOwnedassetsCient.get() >= numberOfAssetsCient);

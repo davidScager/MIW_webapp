@@ -46,7 +46,6 @@ public class JdbcTransactionDao implements TransactionDao {
 
     @Override
     public double calculateTransactionCost(double dollarAmount) {
-
         return dollarAmount * TRANSACTION_COST_PERCENTAGE;
     }
 
