@@ -7,7 +7,9 @@ import com.example.cryptobank.service.login.RegistrationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,16 +25,18 @@ public class RegistrationController {
         this.registrationService = registrationService;
     }
 
+/*    @GetMapping
+    public ResponseEntity<?> viewHtmlHandler(){
+        return ResponseEntity.ok().contentType(MediaType.TEXT_HTML).body(registreren.html)
+    }*/
+
     @PostMapping("/request")
     public ResponseEntity<?> registrationRequestHandler(@RequestBody UserLoginAccount userLoginAccount){
-        String message;
         if(registrationService.validate(userLoginAccount)){
-
-            message = "Om registratie af te ronden is er een bevestigingslink verstuurd naar het opgegeven emailadres.";
+            String message = "Om registratie af te ronden is er een bevestigingslink naar het opgegeven emailadres verstuurd.";
             return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
         }
-        message = "Registratie mislukt.";
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -45,7 +49,9 @@ public class RegistrationController {
     public ResponseEntity<?> clientRegistrationHandler(@RequestParam("Authorization") String token){
         String subject = "Register";
         if (registrationService.validateToken(token, subject)){
-            return new ResponseEntity<>(HttpStatus.OK);
+            UserLoginAccount userLoginAccount = null;
+            User user = registrationService.register(userLoginAccount, Role.CLIENT, token);
+            return new ResponseEntity<>(user, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
@@ -53,7 +59,8 @@ public class RegistrationController {
     @PostMapping("/client")
     public ResponseEntity<?> tempClientRegistrationHandler(@RequestBody UserLoginAccount userLoginAccount){
         if (registrationService.validate(userLoginAccount)){
-            User user = registrationService.register(userLoginAccount, Role.CLIENT);
+            String token = "token";
+            User user = registrationService.register(userLoginAccount, Role.CLIENT, token);
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -71,7 +78,8 @@ public class RegistrationController {
     @PostMapping("/registeradmin")
     public ResponseEntity<?> adminRegistrationHandler(@RequestBody UserLoginAccount userLoginAccount){
         if (registrationService.validate(userLoginAccount)){
-            User user = registrationService.register(userLoginAccount, Role.ADMINISTRATOR);
+            String token = "token";
+            User user = registrationService.register(userLoginAccount, Role.ADMINISTRATOR, token);
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

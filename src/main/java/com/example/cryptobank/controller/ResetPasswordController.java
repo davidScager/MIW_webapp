@@ -64,7 +64,7 @@ public class ResetPasswordController {
         if (loginAccountService.isTokenStored(email)) {
                 loginAccountService.updateResetPassword(email, password);
                 return ResponseEntity.ok().header("Authorization").body("wachtwoord is gereset");
-            }
+        }
 
         return ResponseEntity.ok().header("Authorization").body("Token is al gebruikt");
     }
