@@ -167,7 +167,7 @@ public class RootRepository {
     }
 
     public void handleTransactionCost(Portfolio buyer, Portfolio seller, Transaction transaction) {
-        System.out.println("" + buyer.getActor().getRole());
+//        System.out.println("" + buyer.getActor().getRole());
         if(buyer.getActor().getRole().equals(Role.CLIENT) && seller.getActor().getRole().equals(Role.CLIENT)) {
             double tempTransactionCost = transaction.getTransactionLog().getTransactionCost() / 2;
             updateClientForTransactionCost(buyer, tempTransactionCost);
@@ -221,21 +221,30 @@ public class RootRepository {
         return transactionDao.calculateTransactionCost(cost);
     }
 
-    public List<String> showPortfolioOverview(int portfolioId) {
+    public List<Asset> showPortfolioOverview(int portfolioId) {
         List<Asset> tempPortfolioOverview = assetPortfolioDao.getAssetOverview(portfolioId);
-        List<String> tempAssetOverview = new ArrayList();
-        tempAssetOverview.add("Portefeuille-overzicht voor portfolio " + portfolioId + ": ");
-        for (Asset asset : tempPortfolioOverview) {
-            double tempAmount = assetPortfolioDao.getAmountByAssetName(asset.getAbbreviation(), portfolioId);
-            int tempTransactionId = transactionDao.getTransactionIdMostRecentTrade(asset.getAbbreviation());
-            double tradedRate = logDao.getTradedRateByTransactionId(tempTransactionId);
-            double stijgingDaling = Math.round((asset.getValueInUsd() / tradedRate - 1) * 100);
-            tempAssetOverview.add("Asset: /" + asset.getName() + ", huidige koers (in USD): " + asset.getValueInUsd() + ", aantal in portefeuille: " + tempAmount +
-                    ". De waarde van deze positie is: " + Math.round(asset.getValueInUsd() * tempAmount * 100) / 100 +
-                    " USD. Sinds uw laatste aankoop is deze positie met " + stijgingDaling + " % gestegen.");
-        }
-        return tempAssetOverview;
+
+//        List<String> tempAssetOverview = new ArrayList();
+//        tempAssetOverview.add("Portefeuille-overzicht voor portfolio " + portfolioId + ": ");
+//        for (Asset asset : tempPortfolioOverview) {
+//            double tempAmount = assetPortfolioDao.getAmountByAssetName(asset.getAbbreviation(), portfolioId);
+//            int tempTransactionId = transactionDao.getTransactionIdMostRecentTrade(asset.getAbbreviation());
+//            double tradedRate = logDao.getTradedRateByTransactionId(tempTransactionId);
+//            double stijgingDaling = Math.round((asset.getValueInUsd() / tradedRate - 1) * 100);
+//            tempAssetOverview.add("Asset: /" + asset.getName() + ", huidige koers (in USD): " + asset.getValueInUsd() + ", aantal in portefeuille: " + tempAmount +
+//                    ". De waarde van deze positie is: " + Math.round(asset.getValueInUsd() * tempAmount * 100) / 100 +
+//                    " USD. Sinds uw laatste aankoop is deze positie met " + stijgingDaling + " % gestegen.");
+//        }
+        return tempPortfolioOverview;
     }
+
+    public List<Transaction> getTradesForUser(int userID) {
+        return transactionDao.getTransactionsForUser(userID);
+    }
+
+//    public List<Transaction> getMostRecentSell(String assetName) {
+//        return transactionDao.getSellsForAsset(assetName);
+//    }
 
     public Map<Asset, Double> getAssetOverviewWithAmount(int portfolioId) {
         return assetPortfolioDao.getAssetOverviewWithAmount(portfolioId);

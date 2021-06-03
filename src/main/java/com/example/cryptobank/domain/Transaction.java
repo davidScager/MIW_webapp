@@ -31,6 +31,10 @@ public class Transaction {
         this(0, LocalDateTime.now().toString(), seller, buyer, assetSold, assetBought, transactionLog);
     }
 
+    public Transaction() {
+        super();
+    }
+
 //    MB: Veel setters worden niet gebruikt. Deze mogen weg als ze niet nodig zijn.
     public int getTransactionId() {
         return transactionId;
