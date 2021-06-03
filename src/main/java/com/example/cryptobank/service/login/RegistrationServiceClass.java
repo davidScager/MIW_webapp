@@ -35,15 +35,17 @@ public class RegistrationServiceClass implements RegistrationService {
      * @return (String) message for client
      */
     @Override
-    public User register(UserLoginAccount userLoginAccount, Role role){
+    public User register(UserLoginAccount userLoginAccount, Role role, String token){
         User user = userLoginAccount.getUser() ;
-            rootRepository.registerLogin(user, hashService.argon2idHash(userLoginAccount.getPassword()));
-            rootRepository.registerUser(user, role);
-            return user;
+        rootRepository.registerLogin(user, hashService.argon2idHash(userLoginAccount.getPassword()));
+        rootRepository.registerUser(user, role);
+        logger.info("New Client registered");
+        return user;
     }
 
     @Override
     public boolean validate(UserLoginAccount userLoginAccount){
+        logger.info("Validating registration information with database");
         User user = userLoginAccount.getUser() ;
         return rootRepository.getLoginByUsername(userLoginAccount.getEmail()) == null && rootRepository.getUserByBsn(user.getBSN()) == null;
     }
