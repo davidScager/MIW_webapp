@@ -10,20 +10,31 @@
     <script src="registreren.js"></script>
 </head>
 
-<body style="background-color: #2B2B2B";>
-<header>
-    <div class="navbar">
-        <img src="images/logo.png" class="logo" alt="BitBank-logo">
+<body class="page">
+
+<div class="header navbar">
+    <div class="navbar sideNav">
+        <a href="#">Handelen</a>
+        <a href="#">Portfolio</a>
+        <a href="#">Transacties</a>
     </div>
-</header>
+    <img src="images/logo.png" class="logo" alt="BitBank-logo">
+    <div class="navbar sideNav">
+        <a href="#">Login</a>
+        <a href="#">Registreren</a>
+        <a class="cta" href="#"><button>Contact</button> </a>
+    </div>
+</div>
 
 <main class="registration-box">
+    <div class="column side"></div>
+    <div class="column middle">
     <div class="registration-form">
         <h1>Registratie formulier nieuwe klant</h1>
         <p>Als u zich wilt registreren voor een nieuw account, vul dan a.u.b. het onderstaande formulier in.</p>
         <form class="flex-box" action="registerclient" method="POST">
             <label for="firstName">Voornaam*</label><br>
-            <input id="firstName"><br>
+            <input id="firstName" placeholder="Voornaam*"><br>
             <label for="infix">tussenvoegsel</label><br>
             <input id="infix"><br>
             <label for="surname">Achternaam*</label><br>
@@ -45,11 +56,13 @@
         </form>
         <button type="submit">Registreren</button>
     </div>
+    </div>
+    <div class="column side"></div>
 </main>
 
-<footer>
-    <img class="BLeft" src="images/B left.png" alt="BLeft">
-    <img class="BRight" src="images/B right.png" alt="Bright">
-</footer>
+<div class="footer">
+    <img class="footer img" src="images/B left.png" alt="BLeft">
+    <img class="footer img" src="images/B right.png" alt="Bright">
+</div>
 </body>
 </html>
