@@ -1,0 +1,141 @@
+nav {
+    width: max-content;
+    margin: auto;
+    word-spacing: 4vw;
+    font-size: large;
+    letter-spacing: 2px;
+
+}
+
+header {
+    background-color: #f7931a;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    height: 90px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background-color: #f7931a;
+}
+
+.logo {
+    width: 170px;
+    height: 120px;
+    vertical-align: -70px;
+    left: 10px;
+    top: 100px;
+    border-radius: 40%;
+    cursor: pointer;
+}
+
+.BLeft {
+    height: 37px;
+    width: 45px;
+    bottom: 0;
+}
+
+.BRight {
+    height: 37px;
+    width: 45px;
+    bottom: 3px;
+    position: absolute;
+    right: 0;
+}
+
+.nav_links {
+    list-style: none;
+    margin: 0;
+}
+
+.nav_links li {
+    display: inline-block;
+    padding: 0 20px;
+
+}
+
+.nav_links li a {
+    transition: all 0.3s ease 0s;
+    text-decoration-line: none;
+    font-family: Calibri;
+    color: #2B2B2B;
+}
+
+.nav_links li a:hover {
+    color: chocolate;
+}
+
+button {
+    padding: 9px 25px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+button:hover {
+    background-color: darkslategrey;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.nijntje {
+    width: 100%;
+    padding-top: 200px;
+}
+
+.nijntje {
+    background-image: url("images/nijntje in de ruimte.jpg");
+    background-color: #cccccc;
+    height: 500px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+h1 {
+    text-align: left;
+    color: #ffffff;
+    font-size: 50px;
+}
+
+h2, h3 {
+    text-align: center;
+    color: #ffffff;
+    font-size: 40px;
+}
+
+h4 {
+    text-align: right;
+    color: #ffffff;
+    font-size: 30px;
+}
+
+p {
+    line-height: 2;
+    color: #cccccc;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.flex-container > div {
+    background-color: #f1f1f1;
+    margin: 150px;
+    padding: 80px;
+    font-size: 50px;
+}
+
+#page-container {
+    position: relative;
+    min-height: 100vh;
+}
