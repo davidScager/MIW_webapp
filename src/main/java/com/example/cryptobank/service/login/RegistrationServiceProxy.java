@@ -17,14 +17,14 @@ import java.util.Map;
 @Proxy
 public class RegistrationServiceProxy implements RegistrationService{
     private final Logger logger = LoggerFactory.getLogger(RegistrationServiceClass.class);
-    private final RegistrationService registrationService;
+    private final RegistrationServiceClass realRegistrationService;
     private final TokenService tokenService;
     //contains tokens as key
     private Map<String, UserLoginAccount> registrationCache;
 
     @Autowired
-    public RegistrationServiceProxy(RegistrationService registrationService, TokenService tokenService) {
-        this.registrationService = registrationService;
+    public RegistrationServiceProxy(RegistrationServiceClass realRegistrationService, TokenService tokenService) {
+        this.realRegistrationService = realRegistrationService;
         this.tokenService = tokenService;
         registrationCache = new HashMap<>();
         logger.info("RegistrationProxy active");
@@ -37,12 +37,12 @@ public class RegistrationServiceProxy implements RegistrationService{
 
     @Override
     public User register(UserLoginAccount userLoginAccount, Role role) {
-        return registrationService.register(userLoginAccount, role);
+        return realRegistrationService.register(userLoginAccount, role);
     }
 
     @Override
     public boolean validate(UserLoginAccount userLoginAccount) {
-        if (registrationService.validate(userLoginAccount)){
+        if (realRegistrationService.validate(userLoginAccount)){
             cacheNewUser(userLoginAccount);
             return true;
         }
@@ -55,7 +55,7 @@ public class RegistrationServiceProxy implements RegistrationService{
             tokenService.parseToken(token, subject);
             if (registrationCache.containsKey(token)) {
                 UserLoginAccount userLoginAccount = registrationCache.get(token);
-                registrationService.register(userLoginAccount, Role.CLIENT);
+                realRegistrationService.register(userLoginAccount, Role.CLIENT);
                 return true;
             } else {
                 return false;

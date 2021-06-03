@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/register")
 public class RegistrationController {
     private Logger logger = LoggerFactory.getLogger(RegistrationController.class);
     private RegistrationService registrationService;
@@ -22,10 +23,11 @@ public class RegistrationController {
         this.registrationService = registrationService;
     }
 
-    @PostMapping("/registrationrequest")
+    @PostMapping("/request")
     public ResponseEntity<?> registrationRequestHandler(@RequestBody UserLoginAccount userLoginAccount){
         String message;
         if(registrationService.validate(userLoginAccount)){
+
             message = "Om registratie af te ronden is er een bevestigingslink verstuurd naar het opgegeven emailadres.";
             return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
         }
@@ -39,11 +41,20 @@ public class RegistrationController {
      *
      * @author David_Scager
      */
-    @PostMapping("/registerclient")
+    @PostMapping("/finalize")
     public ResponseEntity<?> clientRegistrationHandler(@RequestParam("Authorization") String token){
         String subject = "Register";
         if (registrationService.validateToken(token, subject)){
             return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/client")
+    public ResponseEntity<?> tempClientRegistrationHandler(@RequestBody UserLoginAccount userLoginAccount){
+        if (registrationService.validate(userLoginAccount)){
+            User user = registrationService.register(userLoginAccount, Role.CLIENT);
+            return new ResponseEntity<>(user, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
