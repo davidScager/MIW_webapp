@@ -34,7 +34,7 @@ class RegistrationControllerTest {
     @Test @Order(1)
     public void registrationRequest_returns_200_OK(){
         Mockito.when(registrationService.validate(Mockito.any(UserLoginAccount.class))).thenReturn(true);
-        Mockito.when(registrationService.register(Mockito.any(UserLoginAccount.class), Mockito.any(Role.class)))
+        Mockito.when(registrationService.register(Mockito.any(UserLoginAccount.class), Mockito.any(Role.class), Mockito.any(String.class)))
                 .thenReturn(new User(1234567, new FullName("Johnny", "", "Bravo"), "1997-11-01",
                         new UserAddress("dorpstraat", 10, "bis", "1234AB", "Zaltbommel"), "johnny.bravo@cartoonnetwork.com"));
         String jsonBody = """
@@ -57,7 +57,7 @@ class RegistrationControllerTest {
                 .body(jsonBody)
                 .contentType("application/json")
         .when()
-                .post("/registerclient")
+                .post("/register/client")
         .then()
                 .statusCode(200);
     }
@@ -68,7 +68,7 @@ class RegistrationControllerTest {
                 .body("")
                 .contentType("application/json")
         .when()
-                .post("/registerclient")
+                .post("/register/client")
         .then()
                 .statusCode(400);
     }

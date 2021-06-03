@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface RegistrationService {
-    User register(UserLoginAccount userLoginAccount, Role role);
+    User register(UserLoginAccount userLoginAccount, Role role, String token);
     boolean validate(UserLoginAccount userLoginAccount);
     boolean validateToken(String token, String subject);
 }
