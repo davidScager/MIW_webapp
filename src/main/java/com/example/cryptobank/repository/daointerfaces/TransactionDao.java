@@ -3,10 +3,14 @@ package com.example.cryptobank.repository.daointerfaces;
 import com.example.cryptobank.domain.Transaction;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TransactionDao {
 
-    public int getTransactionIdMostRecentTrade(String assetName);
+    public List<Transaction> getTransactionsForUser(int userId);
+
+//    public List<Transaction> getSellsForAsset(String assetName);
 
     public void saveTransaction(Transaction transaction);
 

@@ -4,6 +4,7 @@ import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.domain.Transaction;
 import com.example.cryptobank.service.security.TokenService;
 import com.example.cryptobank.service.transaction.TransactionService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 import java.io.IOException;
@@ -57,6 +59,23 @@ public class TransactionController {
     @GetMapping("/transactioncost")
     public double transactionCost(@RequestParam double numberOfAssets, @RequestParam String assetBought) throws IOException {
         return transactionService.calculateTransactionCost(numberOfAssets, assetBought);
+    }
+
+    @GetMapping("/mostrecenttransaction")
+    public Transaction mostRecentTransactionHandler(@RequestParam int userId, @RequestParam String assetName) throws IOException {
+        return transactionService.getMostRecentBuyOrSell(userId, assetName);
+    }
+
+    @GetMapping("/transactionhistory")
+    public List<String> transactionHistoryHandler(@RequestParam int userId) throws IOException {
+        List<Transaction> tempTransationList = transactionService.getTransactionHistory(userId);
+        List<String> transactionHistoryAsJsonString = null;
+        ObjectMapper mapper = new ObjectMapper();
+        for (Transaction transaction :tempTransationList) {
+            String jsonString = mapper.writeValueAsString(transaction);
+            transactionHistoryAsJsonString.add(jsonString);
+        }
+        return transactionHistoryAsJsonString;
     }
 
     @PostMapping("/createtransaction")

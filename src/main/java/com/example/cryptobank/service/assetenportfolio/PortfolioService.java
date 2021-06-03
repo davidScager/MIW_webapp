@@ -1,5 +1,6 @@
 package com.example.cryptobank.service.assetenportfolio;
 
+import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.domain.Portfolio;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import com.example.cryptobank.service.assetenportfolio.AssetService;
@@ -24,9 +25,9 @@ public class PortfolioService {
         logger.info("New PortfolioService");
     }
 
-    public List<String> showAssetOverview(int userId) {
+    public List<Asset> showAssetOverview(int userId) {
         Portfolio portfolio = rootRepository.getPortfolioIdByUserId(userId);
-        List<String> overviewPortfolioList = rootRepository.showPortfolioOverview(portfolio.getPortfolioId());
+        List<Asset> overviewPortfolioList = rootRepository.showPortfolioOverview(portfolio.getPortfolioId());
         return overviewPortfolioList;
     }
 

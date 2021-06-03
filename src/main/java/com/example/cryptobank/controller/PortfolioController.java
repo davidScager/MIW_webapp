@@ -1,5 +1,6 @@
 package com.example.cryptobank.controller;
 
+import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.service.assetenportfolio.PortfolioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,7 @@ public class PortfolioController {
     }
 
     @GetMapping("/portfoliooverview")
-    public List<String> portfolioOverviewHandler(@RequestParam int userId) {
+    public List<Asset> portfolioOverviewHandler(@RequestParam int userId) {
         return portfolioService.showAssetOverview(userId);
     }
 
