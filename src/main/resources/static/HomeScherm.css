@@ -107,7 +107,31 @@ h1 {
     font-size: 50px;
 }
 
-h2, h3 {
+h2 {
+    text-align: center;
+    color: #ffffff;
+    font-size: 40px;
+}
+
+a:visited {
+    color: #ffffff;
+    text-decoration: none;
+    text-decoration-line: none;
+}
+
+a:link {
+    color: #ffffff;
+    text-decoration: none;
+    text-decoration-line: none;
+}
+
+a:hover {
+    color: #FF9416;
+    text-decoration: none;
+    text-decoration-line: none;
+}
+
+h3 {
     text-align: center;
     color: #ffffff;
     font-size: 40px;
