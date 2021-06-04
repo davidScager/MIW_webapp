@@ -11,6 +11,8 @@ import org.hibernate.annotations.Proxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
 import javax.validation.constraints.Email;
@@ -19,22 +21,24 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Proxy
+@Primary
+@Component
 public class RegistrationServiceProxy implements RegistrationService{
     private final Logger logger = LoggerFactory.getLogger(RegistrationServiceClass.class);
-    private final RegistrationServiceClass realRegistrationService;
+    private final RegistrationService realRegistrationService;
     private final TokenService tokenService;
     private final GenerateMailContext generateMailContext;
     private final MailSenderService mailSenderService;
     //contains tokens as key
-    private Map<String, UserLoginAccount> registrationCache;
+    private final Map<String, UserLoginAccount> registrationCache;
 
     @Autowired
-    public RegistrationServiceProxy(RegistrationServiceClass realRegistrationService, TokenService tokenService) {
-        this.realRegistrationService = realRegistrationService;
+    public RegistrationServiceProxy(RegistrationService registrationService, TokenService tokenService,
+                                    GenerateMailContext generateMailContext, MailSenderService mailSenderService) {
+        this.realRegistrationService = registrationService;
         this.tokenService = tokenService;
-        this.generateMailContext = new GenerateMailContext();
-        this.mailSenderService = new MailSenderService(new EmailConfig());
+        this.generateMailContext = generateMailContext;
+        this.mailSenderService = mailSenderService;
         this.registrationCache = new HashMap<>();
         logger.info("RegistrationProxy active");
     }
