@@ -59,14 +59,23 @@ public class CurrencyHistory {
         }
 
         public String dateYesterday(){
-                return LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern("dd-mm-yy"));
+                String dateUsa = String.valueOf(LocalDate.now().minusDays(1));
+                String[] strings = dateUsa.split("-");
+                String dateAPI = strings[2] + "-" + strings[1] + "-" + strings[0];
+                return dateAPI;
         }
 
         public String dateLasteWeek(){
-                return LocalDate.now().minusWeeks(1).format(DateTimeFormatter.ofPattern("dd-mm-yy"));
+                String dateUsa = String.valueOf(LocalDate.now().minusWeeks(1));
+                String[] strings = dateUsa.split("-");
+                String dateAPI = strings[2] + "-" + strings[1] + "-" + strings[0];
+                return dateAPI;
         }
 
         public String dateLastMonth(){
-                return LocalDate.now().minusMonths(1).format(DateTimeFormatter.ofPattern("dd-mm-yy"));
+                String dateUsa = String.valueOf(LocalDate.now().minusMonths(1));
+                String[] strings = dateUsa.split("-");
+                String dateAPI = strings[2] + "-" + strings[1] + "-" + strings[0];
+                return dateAPI;
         }
 }

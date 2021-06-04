@@ -58,4 +58,10 @@ public class AssetController {
         Asset asset = assetService.updateAssetByApi(apiname);
         return asset;
     }
+
+    @GetMapping("/getHistoryValue")
+    @CrossOrigin
+    public double getHistoryValue(@RequestParam String assetname, @RequestParam String date) throws IOException {
+        return currencyHistory.historyValuefrom(date, assetService.getAsset(assetname).getName());
+    }
 }

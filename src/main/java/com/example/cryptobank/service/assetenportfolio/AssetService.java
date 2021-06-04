@@ -58,4 +58,8 @@ public class AssetService {
         return asset;
     }
 
+    public Asset getAsset(String abbriviation){
+       return rootReposistory.getAsset(abbriviation);
+    }
+
 }

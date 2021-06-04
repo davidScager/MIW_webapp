@@ -9,9 +9,25 @@
     <script>
 
         function loadAssetsBankAndMyself(){
-            const response = fetch( "http://localhost:8080/transaction/assetoverviewfrombank");
-            const data = response.json();
-            console.log(data)
+            let bankTable = document.querySelector("table")
+            fetch( "http://localhost:8080/transaction/assetoverviewfrombank")
+            .then(response => response.json())
+            .then(data =>{
+            let bankMap = data
+            Object.entries(bankMap.assets).forEach(([k,v])=> {
+                console.log(`${k} -> ${v}`)
+                let row = document.createElement(`tr`)
+                let tdAsset = document.createElement(`tr`)
+                let tdValueToday = document.createElement(`tr`)
+                let tdValueYesterday = document.createElement(`tr`)
+                let tdAmount = document.createElement(`tr`)
+                tdAsset.innerHTML = k
+                tdAmount.innerHTML = v
+                row.appendChild(tdAsset)
+                row.appendChild(tdAmount)
+                bankTable.appendChild(row)
+            })}
+        )
         }
     </script>
 </head>
@@ -71,7 +87,7 @@
 
         <button id="execcutTransaction" type="submit" on>Voer de transactie uit</button><br>
     </form>
-    <form class="flex-box-right">
+    <form class="flex-box-right" onload="loadAssetsBankAndMyself()">
         <h3 style="text-align: center">Dit zijn de assets van de bank:</h3>
         <table id="BankTable" class="scroll_table" >
             <thead class="scroll_thead">
