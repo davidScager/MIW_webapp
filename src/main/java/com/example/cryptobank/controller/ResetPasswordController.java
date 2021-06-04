@@ -9,15 +9,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.net.MalformedURLException;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/reset")
 public class ResetPasswordController {
     private Logger logger = LoggerFactory.getLogger(ResetPasswordController.class);
@@ -39,7 +37,9 @@ public class ResetPasswordController {
     }
 
     @PostMapping("/resetpassword")
-    public HttpEntity<? extends Object> sendResetPassword(@RequestParam String email) throws MalformedURLException, MessagingException {
+    public HttpEntity<? extends Object> sendResetPassword(@RequestBody String email) throws MalformedURLException, MessagingException {
+        String emailWithout = email.substring(1, email.length()-1);
+        logger.info(emailWithout);
         if (loginAccountService.verifyAccount(email)) {
             logger.info("LoginAccount contains " + email);
             token = loginAccountService.addTokenToLoginAccount(email);
