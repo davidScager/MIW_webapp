@@ -19,6 +19,7 @@ import java.util.Map;
 import java.io.IOException;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/transaction")
 public class TransactionController {
 
