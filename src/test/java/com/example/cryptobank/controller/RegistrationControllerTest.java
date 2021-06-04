@@ -20,10 +20,13 @@ class RegistrationControllerTest {
     @Mock
     private RegistrationService registrationService;
 
+    @Mock
+    private RegistrationServiceClass registrationServiceClass;
+
     @BeforeEach
     public void initRestAssuredMockMvcStandAlone(){
         this.registrationService = Mockito.mock(RegistrationServiceClass.class);
-        RestAssuredMockMvc.standaloneSetup(new RegistrationController(registrationService));
+        RestAssuredMockMvc.standaloneSetup(new RegistrationController(registrationService, registrationServiceClass));
     }
 
     // requirement registering client

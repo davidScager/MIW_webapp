@@ -4,6 +4,7 @@ import com.example.cryptobank.domain.Role;
 import com.example.cryptobank.domain.User;
 import com.example.cryptobank.domain.UserLoginAccount;
 import com.example.cryptobank.service.login.RegistrationService;
+import com.example.cryptobank.service.login.RegistrationServiceClass;
 import org.hibernate.annotations.Proxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +20,13 @@ import org.springframework.web.bind.annotation.*;
 public class RegistrationController {
     private Logger logger = LoggerFactory.getLogger(RegistrationController.class);
     private RegistrationService registrationService;
+    private RegistrationServiceClass registrationServiceClass;
 
     @Autowired
-    public RegistrationController(RegistrationService registrationService) {
+    public RegistrationController(RegistrationService registrationService, RegistrationServiceClass registrationServiceClass) {
         logger.info("New RegistrationController");
         this.registrationService = registrationService;
+        this.registrationServiceClass = registrationServiceClass;
     }
 
 /*    @GetMapping
@@ -59,9 +62,9 @@ public class RegistrationController {
 
     @PostMapping("/client")
     public ResponseEntity<?> tempClientRegistrationHandler(@RequestBody UserLoginAccount userLoginAccount){
-        if (registrationService.validate(userLoginAccount)){
+        if (registrationServiceClass.validate(userLoginAccount)){
             String token = "token";
-            User user = registrationService.register(userLoginAccount, Role.CLIENT, token);
+            User user = registrationServiceClass.register(userLoginAccount, Role.CLIENT, token);
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
