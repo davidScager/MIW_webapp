@@ -3,12 +3,19 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Portfolio Overview</title>
-<!--    <link href="BaseLayout.css" type="text/css" rel="stylesheet">-->
+    <link href="BaseLayout.css" type="text/css" rel="stylesheet">
     <link rel="stylesheet" href="TransactionHistory.css" type="text/css">
+    <link rel="stylesheet" href="portfolio.css" type="text/css">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
+
+        $( window ).resize(function() {
+            setHeights();
+        });
 
         function setHeights(){
             var new_height = $( window ).height();
@@ -17,12 +24,29 @@
         }
         function loadTransactionOverview() {
             setHeights();
-            $.getJSON("localhost:8080/transaction/mostrecenttransaction?userId=2&assetName=ETH", userdId, function( data ) {
+            let user = 3;
+            let queryString = "http://localhost:8080/transaction/transactionhistory?userId=" + user;
+            $('#selectable > tbody').empty();
+            $.getJSON(queryString, function( data ) {
+                // var json_str = JSON.stringify(data);
+                var element = document.getElementById("asset_row");
+                var asset_row = '';
+                for (i in data) {
+                    console.log( "json row");
+                    console.log(JSON.stringify(data[i]));
+                    asset_row += '<tr " id="asset_row" class="ui-widget-content asset_row">';
+                    asset_row += ' <td>'+data[i].assetBought+'</td>';
+                    asset_row += ' <td>'+data[i].assetSold+'</td>';
+                    asset_row += ' <td>'+data[i].numberOfAssetsBought+'</td>';
+                    asset_row += ' <td>'+data[i].boughtAssetTransactionRate+'</td>';
+                    asset_row += ' <td>'+data[i].timestamp+'</td>';
+                    asset_row += '</tr>';
 
-                 }
-            )
+                }
+                console.log(asset_row);
+                $('#selectable > tbody').append(asset_row);
+            });
         }
-
 
 
     </script>
@@ -60,23 +84,10 @@
             <th>Aankoop/Verkoop</th>
             <th>Koersverandering sinds laatste Transactie</th>
         </tr>
-        <tr>
-            <td>Bitcoin</td>
-            <td>BTC</td>
-        </tr>
-        <tr>
-            <td>Etherium</td>
-            <td>ETH</td>
-        </tr>
-        <tr>
-            <td>Dogecoin</td>
-        </tr>
-        <tr>
-            <td>Banksaldo</td>
-            <td>USD</td>
-        </tr>
 
     </table>
+
+    <button onclick="loadTransactionOverview();"> Laad Transacties </button>
 
 </main>
 

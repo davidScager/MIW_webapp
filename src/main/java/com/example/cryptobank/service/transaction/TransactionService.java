@@ -8,6 +8,8 @@ import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import com.example.cryptobank.service.mailSender.GenerateMailContext;
 import com.example.cryptobank.service.mailSender.MailSenderService;
 import com.example.cryptobank.service.security.TokenService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,8 +84,17 @@ public class TransactionService {
         return getMostRecentTrade(rootRepository.getTradesForUser(userId), assetName);
     }
 
-    public List<Transaction> getTransactionHistory(int userId) {
-        return rootRepository.getTradesForUser(userId);
+    public List<String> getTransactionHistory(int userId) throws JsonProcessingException {
+
+        List<Transaction> tempTransactionList = rootRepository.getTradesForUser(userId);
+        List<String> transactionHistoryAsJsonString = new ArrayList<>();
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString;
+        for (Transaction transaction :tempTransactionList) {
+            jsonString = mapper.writeValueAsString(transaction);
+            transactionHistoryAsJsonString.add(jsonString);
+        }
+        return transactionHistoryAsJsonString;
     }
 
     public Boolean determineBuyOrSell(Transaction transaction, String assetName) {
