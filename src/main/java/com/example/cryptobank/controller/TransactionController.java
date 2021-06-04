@@ -13,11 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import java.io.IOException;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/transaction")
@@ -78,14 +80,7 @@ public class TransactionController {
 
     @GetMapping("/transactionhistory")
     public List<String> transactionHistoryHandler(@RequestParam int userId) throws IOException {
-        List<Transaction> tempTransationList = transactionService.getTransactionHistory(userId);
-        List<String> transactionHistoryAsJsonString = null;
-        ObjectMapper mapper = new ObjectMapper();
-        for (Transaction transaction :tempTransationList) {
-            String jsonString = mapper.writeValueAsString(transaction);
-            transactionHistoryAsJsonString.add(jsonString);
-        }
-        return transactionHistoryAsJsonString;
+        return transactionService.getTransactionHistory(userId);
     }
 
     @PostMapping("/createtransaction")

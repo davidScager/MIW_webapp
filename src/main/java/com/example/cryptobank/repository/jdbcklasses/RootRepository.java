@@ -222,29 +222,18 @@ public class RootRepository {
     }
 
     public List<Asset> showPortfolioOverview(int portfolioId) {
-        List<Asset> tempPortfolioOverview = assetPortfolioDao.getAssetOverview(portfolioId);
-
-//        List<String> tempAssetOverview = new ArrayList();
-//        tempAssetOverview.add("Portefeuille-overzicht voor portfolio " + portfolioId + ": ");
-//        for (Asset asset : tempPortfolioOverview) {
-//            double tempAmount = assetPortfolioDao.getAmountByAssetName(asset.getAbbreviation(), portfolioId);
-//            int tempTransactionId = transactionDao.getTransactionIdMostRecentTrade(asset.getAbbreviation());
-//            double tradedRate = logDao.getTradedRateByTransactionId(tempTransactionId);
-//            double stijgingDaling = Math.round((asset.getValueInUsd() / tradedRate - 1) * 100);
-//            tempAssetOverview.add("Asset: /" + asset.getName() + ", huidige koers (in USD): " + asset.getValueInUsd() + ", aantal in portefeuille: " + tempAmount +
-//                    ". De waarde van deze positie is: " + Math.round(asset.getValueInUsd() * tempAmount * 100) / 100 +
-//                    " USD. Sinds uw laatste aankoop is deze positie met " + stijgingDaling + " % gestegen.");
-//        }
-        return tempPortfolioOverview;
+        return assetPortfolioDao.getAssetOverview(portfolioId);
     }
 
     public List<Transaction> getTradesForUser(int userID) {
-        return transactionDao.getTransactionsForUser(userID);
-    }
+        List<Transaction> tempTransactionList = transactionDao.getTransactionsForUser(userID);
+        for (Transaction transaction:tempTransactionList ) {
+            TransactionLog tempTransactionLog = logDao.getTransactionLogByTransactionId(transaction.getTransactionId());
+            transaction.setTransactionLog(tempTransactionLog);
+        }
 
-//    public List<Transaction> getMostRecentSell(String assetName) {
-//        return transactionDao.getSellsForAsset(assetName);
-//    }
+        return tempTransactionList;
+    }
 
     public Map<Asset, Double> getAssetOverviewWithAmount(int portfolioId) {
         return assetPortfolioDao.getAssetOverviewWithAmount(portfolioId);

@@ -2,6 +2,7 @@ package com.example.cryptobank.controller;
 
 import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.service.assetenportfolio.PortfolioService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class PortfolioController {
     }
 
     @GetMapping("/portfoliooverview")
-    public List<Asset> portfolioOverviewHandler(@RequestParam int userId) {
+    public List<String> portfolioOverviewHandler(@RequestParam int userId) throws JsonProcessingException {
         return portfolioService.showAssetOverview(userId);
     }
 
