@@ -45,9 +45,9 @@ form {
     justify-content: left;
 }
 
-.scroll_table, .scroll_thead, .scroll_tbody  {
+.scroll_table, .scroll_thead, .scroll_tbody, .scroll_tr  {
     display: block;
-     width: 100%;
+    width: 100%;
  }
 
 .scroll_tbody .scroll_thead, .asset_row, .scroll_tbale {
