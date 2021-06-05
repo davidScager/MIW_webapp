@@ -3,6 +3,7 @@ package com.example.cryptobank.service.assetenportfolio;
 import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.domain.Portfolio;
 import com.example.cryptobank.domain.Transaction;
+import com.example.cryptobank.repository.daointerfaces.PortfolioDao;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import com.example.cryptobank.service.assetenportfolio.AssetService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,13 +20,15 @@ import java.util.List;
 public class PortfolioService {
 
     private final RootRepository rootRepository;
+    private final PortfolioDao portfolioDao;
 
     private final Logger logger = LoggerFactory.getLogger(AssetService.class);
 
     @Autowired
-    public PortfolioService(RootRepository rootReposistory) {
+    public PortfolioService(RootRepository rootReposistory, PortfolioDao portfolioDao) {
         super();
         this.rootRepository = rootReposistory;
+        this.portfolioDao = portfolioDao;
         logger.info("New PortfolioService");
     }
 
@@ -46,5 +49,9 @@ public class PortfolioService {
         Portfolio portfolio = rootRepository.getPortfolioIdByUserId(userId);
         String portfolioValueString = rootRepository.showPortfolioValue(portfolio.getPortfolioId());
         return portfolioValueString;
+    }
+
+    public Portfolio getByActor(int actor) {
+        return portfolioDao.getPortfolioIdByUserId(actor);
     }
 }
