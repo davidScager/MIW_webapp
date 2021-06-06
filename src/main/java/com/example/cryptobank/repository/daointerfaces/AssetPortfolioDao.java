@@ -24,6 +24,8 @@ public interface AssetPortfolioDao {
 
     public void delete(int id);
 
+    void updateAssetsForSale(String Symbol, int portfolioId, double forSale);
+
     public void create(AssetPortfolio assetPortfolio);
 
     /*public void update(AssetPortfolio assetPortfolio);*/

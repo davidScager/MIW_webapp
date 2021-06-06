@@ -53,7 +53,7 @@ public class PortfolioController {
         int userId = 2;
         int portfolioId = portfolioDao.getPortfolioIdByUserId((int)userId).getPortfolioId();
         //Portfolio portfolio = portfolioService.getByActor(userId);
-        //System.out.println("portfolio "+ portfolio);
+        System.out.println("portfolio "+ portfolioId);
         List<AssetPortfolioView> assetPortfolioView = assetPortfolioDao.getOverviewWithAmount(portfolioId);
         return new ResponseEntity<>(assetPortfolioView, HttpStatus.OK);
     }
