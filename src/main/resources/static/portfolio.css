@@ -42,7 +42,7 @@ form {
 .asset-box {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: left;
+    justify-content: center;
 }
 
 .scroll_table, .scroll_thead, .scroll_tbody, .scroll_tr  {
@@ -113,5 +113,19 @@ form {
   cursor: pointer;
 }
 
+table {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+tr {
+    width: 100%;
+}
 
+td {
+    text-align: left;
+}
+
+th {
+    text-align: left;
+}
 
