@@ -98,6 +98,11 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         String sql = "update bitbankdb.assetportfolio set amount = ? where portfolioId = ? and assetName = ?";
         jdbcTemplate.update(sql, amount, portfolio.getPortfolioId(), asset.getAbbreviation());
     }
+    @Override
+    public void updateAssetsForSale(String Symbol, int portfolioId, double forSale) {
+        String sql = "update bitbankdb.assetportfolio set forSale = ? where portfolioId = ? and assetName = ?";
+        jdbcTemplate.update(sql, forSale, portfolioId, Symbol);
+    }
 
     //maak methode UpdateAvailableForSale
 
