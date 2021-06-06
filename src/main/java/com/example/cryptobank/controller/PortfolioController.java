@@ -50,11 +50,11 @@ public class PortfolioController {
     public ResponseEntity<List<AssetPortfolioView>> listPortFolio(@RequestParam("token") String token) {
         //TODO get token
         System.out.println("fake token "+token);
-        int userId = 1;
+        int userId = 2;
         int portfolioId = portfolioDao.getPortfolioIdByUserId((int)userId).getPortfolioId();
-        Portfolio portfolio = portfolioService.getByActor(userId);
-        System.out.println("portfolio "+ portfolio);
-        List<AssetPortfolioView> assetPortfolioView = assetPortfolioDao.getOverviewWithAmount(userId);
+        //Portfolio portfolio = portfolioService.getByActor(userId);
+        //System.out.println("portfolio "+ portfolio);
+        List<AssetPortfolioView> assetPortfolioView = assetPortfolioDao.getOverviewWithAmount(portfolioId);
         return new ResponseEntity<>(assetPortfolioView, HttpStatus.OK);
     }
 
