@@ -135,36 +135,14 @@ public class TransactionService {
     }
 
 
-    public void setTransaction(int seller, int buyer, double numberOfAssets, String assetSold, String assetBought, boolean setinFuture, double value, String username) throws InterruptedException, IOException {
-            /*boolean valueReached = false;
-            boolean bankIsBuyer = buyer == 1;
-            while (valueReached = false) {
-                if (bankIsBuyer) {
-                    valueReached = checkValueAsset(value, assetSold, buyer);
-                } else {
-                    valueReached = checkValueAsset(value, assetBought, buyer);
-                }
-                Thread.sleep(60000); //TODO hier moet timer ipv sleep daarna alles hieronder in een apparte methode
-            }*/
-        ControlValueAsset(seller,buyer, numberOfAssets, assetSold, assetBought, value, username);
-            /*Map<String, Map> bankAndClient = rootRepository.getAssetPortfolioByUsername(username);
-            double amountBoughtAssets = rootRepository.getAsset(assetBought).getValueInUsd() / rootRepository.getAsset(assetSold).getValueInUsd();
-            List<Boolean> sufficientAmount;
-            if (bankIsBuyer){
-                sufficientAmount = sufficientTransactionValue(numberOfAssets, amountBoughtAssets, bankAndClient, assetSold, assetBought, username);
-            } else {
-                sufficientAmount = sufficientTransactionValue(amountBoughtAssets, numberOfAssets, bankAndClient, assetBought, assetSold, username);
-            }
-            if (sufficientAmount.get(0) == false || sufficientAmount.get(1) == false){
-                sendMailInsufficentAmount(username);
-            } else if (bankIsBuyer && sufficientAmount.get(2) == false){
-                executeTransactionInDollars(sufficientAmount, seller, buyer,numberOfAssets,assetBought);
-            } else if(sufficientAmount.get(2) == false){
-
-            }
-            else {
-                executeTransaction(sufficientAmount, seller, buyer, numberOfAssets, assetSold, assetBought);
-            }*/
+    public void setTransaction(Map transactionData, String username) { // raw map. problemen bij casten??
+        int seller = (int) transactionData.get(0);
+        int buyer = (int) transactionData.get(1);
+        double numberOfAssets = (double)  transactionData.get(2);
+        String assetSold = (String) transactionData.get(3);
+        String assetBought = (String) transactionData.get(4);
+        double value = (double) transactionData.get(5);
+        ControlValueAsset(seller, buyer, numberOfAssets, assetSold, assetBought, value, username);
     }
 
     public void ControlValueAsset(int seller, int buyer, double numberOfAssets, String assetSold, String assetBought, double value, String username) {
@@ -179,16 +157,18 @@ public class TransactionService {
                                 System.out.println(asset.getName() + value);
                                 if (asset.getValueInUsd() >= value) {
                                     ControlREcoursesAndExecute(seller, buyer, numberOfAssets, assetSold, assetBought, username, value);
-
+                                    timer.cancel();
+                                    timer.purge();
                                 }
                             } else {
                                 Asset asset = rootRepository.getAsset(assetBought);
                                 System.out.println(asset.getName() + value);
                                 if (asset.getValueInUsd() <= value) {
                                     ControlREcoursesAndExecute(seller, buyer, numberOfAssets, assetSold, assetBought, username, value);
+                                    timer.cancel();
+                                    timer.purge();
                                 }
                             }
-
                         } catch (IOException | MessagingException e) {
                             e.printStackTrace();
                         }
@@ -211,9 +191,9 @@ public class TransactionService {
         }
         if (sufficientAmount.get(0) == false || sufficientAmount.get(1) == false) {
             sendMailInsufficentAmount(assetBought, username, value);
-        } else if (buyer == 1 && sufficientAmount.get(2) == false) {
+        } else if (buyer == 1 && !sufficientAmount.get(2)) {
             executeTransactionInDollars(seller, buyer, numberOfAssets, assetBought, username, value);
-        } else if (sufficientAmount.get(2) == false) {
+        } else if (!sufficientAmount.get(2)) {
             sendMailWithExcuse(assetBought, username, value);
         } else {
             executeTransaction(seller, buyer, numberOfAssets, assetSold, assetBought, username, value);

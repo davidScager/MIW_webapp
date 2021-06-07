@@ -27,7 +27,7 @@ public class CryptoBankApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		//testmain
         /*methodRunOnScheduleHelper.getCurrencyDailyForHistoryValue();*/
-//        methodRunOnScheduleHelper.getCurrencyDaily();
-//        transactionService.ControlValueAsset(1, 7, 1, "ETH", "BTC", 37000, "johnny.bravo@cartoonnetwork.com");
+        methodRunOnScheduleHelper.getCurrencyDaily();
+
 	}
 }
