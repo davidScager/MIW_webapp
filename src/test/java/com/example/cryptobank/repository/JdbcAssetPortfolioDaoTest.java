@@ -1,6 +1,6 @@
 package com.example.cryptobank.repository;
 
-import com.example.cryptobank.domain.AssetPortfolio;
+import com.example.cryptobank.domain.*;
 import com.example.cryptobank.repository.daointerfaces.AssetPortfolioDao;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -15,20 +15,22 @@ import org.springframework.test.context.ActiveProfiles;
 class JdbcAssetPortfolioDaoTest {
     private final AssetPortfolioDao assetPortfolioDao;
 
+
     @Autowired
     JdbcAssetPortfolioDaoTest(AssetPortfolioDao assetPortfolioDao) {
         this.assetPortfolioDao = assetPortfolioDao;
     }
-
+    AssetPortfolio assetPortfolio = new AssetPortfolio("Test", 1, 2, 1);
 
     @Test
     void create() {
-        AssetPortfolio assetPortfolio = new AssetPortfolio("BTC", 1, 2, 1);
         assetPortfolioDao.create(assetPortfolio);
     }
 
     @Test
     void update() {
+        assetPortfolioDao.update(new Asset("Test", "test"), new Portfolio(new Actor(Role.CLIENT)), 1);
+
     }
 
     @Test
