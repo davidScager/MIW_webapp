@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:bgcolor="http://www.w3.org/1999/xhtml">
+<html xmlns:bgcolor="http://www.w3.org/1999/xhtml" xmlns:color="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -22,23 +22,29 @@
             new_height = new_height -400
             $(".scroll_tbody").height(new_height);
         }
+
+        $( document ).ready(function() {
+            console.log( "ready!" );
+            loadTransactionOverview();
+        });
+
         function loadTransactionOverview() {
             setHeights();
-            let user = 3;
+            let user = 4;
             let queryString = "http://localhost:8080/transaction/transactionhistory?userId=" + user;
             $('#selectable > tbody').empty();
             $.getJSON(queryString, function( data ) {
                 // var json_str = JSON.stringify(data);
-                var element = document.getElementById("asset_row");
+                // var element = document.getElementById("asset_row");
                 var asset_row = '';
                 for (i in data) {
                     console.log( "json row");
                     console.log(JSON.stringify(data[i]));
-                    asset_row += '<tr " id="asset_row" class="ui-widget-content asset_row">';
+                    asset_row += '<tr id="asset_row" class="ui-widget-content asset_row">';
                     asset_row += ' <td>'+data[i].assetBought+'</td>';
                     asset_row += ' <td>'+data[i].assetSold+'</td>';
-                    asset_row += ' <td>'+data[i].numberOfAssetsBought+'</td>';
-                    asset_row += ' <td>'+data[i].boughtAssetTransactionRate+'</td>';
+                    asset_row += ' <td>'+data[i].transactionLog.numberOfAssetsBought+'</td>';
+                    asset_row += ' <td>'+data[i].transactionLog.boughtAssetTransactionRate+'</td>';
                     asset_row += ' <td>'+data[i].timestamp+'</td>';
                     asset_row += '</tr>';
 
@@ -48,14 +54,13 @@
             });
         }
 
-
     </script>
 </head>
 
-<body>
+<body style="background-color: #3C3F41";>
 
 <header>
-    <div class="container" bgcolor:#2B2B2B>>
+    <div class="container" >>
         <nav>
             <ul class="nav_links ">
                 <li><a href="Transaction.html">Handelen</a></li>
@@ -64,31 +69,37 @@
                 <li> <a href="HomeScherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></li>
                 <li><a href="LoginController.html">Login</a></li>
                 <li><a href="registreren.html">Registreren</a></li>
-                <li> <a class="cta" href="#"><button>Contact</button> </a> </li>
+                <li> <a class="cta" href="contact.html"><button>Contact</button> </a> </li>
             </ul>
         </nav>
 
     </div>
 </header>
 
-<p style="font-size : 150%">Transactie-overzicht van (portfolio#):</p>
+<p style="font-size : 150%; color: white" >Transactie-overzicht van (portfolio#):</p>
 
 <main class="transactie-overview">
-    <table style="width:75%" bgcolor="#3C3F41">
-        <tr>
-            <th>Naam Asset</th>
-            <th>Code</th>
-            <th>Aantal verhandeld</th>
-            <th>Transactiekoers</th>
-            <th>Datum Transactie</th>
-            <th>Aankoop/Verkoop</th>
-            <th>Koersverandering sinds laatste Transactie</th>
-        </tr>
 
-    </table>
+    <div class="list-transactions">
+        <h1 style="color: white">Transacties tot heden</h1>
+            <table style="width:75%" bgcolor="#FFFFFF" id="selectable" class="scroll_table">
+                <thead class="scroll_thead">
+                  <tr class="ui-widget-content">
+                    <th>Code Asset gekocht /</th>
+                    <th>Code Asset verkocht /</th>
+                    <th>Aantal gekocht /</th>
+                    <th>Transactiekoers gekochte asset /</th>
+                    <th>Datum Transactie /</th>
+<!--                    <th>Aankoop/Verkoop</th>-->
+<!--                    <th>Koersverandering sinds laatste Transactie</th>-->
+                  </tr>
+                </thead>
+                <tbody class="scroll_tbody">
+                </tbody>
+            </table>
 
-    <button onclick="loadTransactionOverview();"> Laad Transacties </button>
-
+<!--        <button onclick="loadTransactionOverview();"> Laad Transacties </button>-->
+    </div>
 </main>
 
 

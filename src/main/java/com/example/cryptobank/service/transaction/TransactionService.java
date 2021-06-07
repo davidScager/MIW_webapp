@@ -84,17 +84,17 @@ public class TransactionService {
         return getMostRecentTrade(rootRepository.getTradesForUser(userId), assetName);
     }
 
-    public List<String> getTransactionHistory(int userId) throws JsonProcessingException {
+    public List<Transaction> getTransactionHistory(int userId) throws JsonProcessingException {
 
-        List<Transaction> tempTransactionList = rootRepository.getTradesForUser(userId);
-        List<String> transactionHistoryAsJsonString = new ArrayList<>();
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonString;
-        for (Transaction transaction :tempTransactionList) {
-            jsonString = mapper.writeValueAsString(transaction);
-            transactionHistoryAsJsonString.add(jsonString);
-        }
-        return transactionHistoryAsJsonString;
+//        List<Transaction> tempTransactionList = ;
+//        List<String> transactionHistoryAsJsonString = new ArrayList<>();
+//        ObjectMapper mapper = new ObjectMapper();
+//        String jsonString;
+//        for (Transaction transaction :tempTransactionList) {
+//            jsonString = mapper.writeValueAsString(transaction);
+//            transactionHistoryAsJsonString.add(jsonString);
+//        }
+        return rootRepository.getTradesForUser(userId);
     }
 
     public Boolean determineBuyOrSell(Transaction transaction, String assetName) {
