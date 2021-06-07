@@ -8,26 +8,29 @@
     <link href="transaction.css" rel="stylesheet" type="text/css"/>
     <script>
 
-        function loadAssetsBankAndMyself(){
+        function loadAssetsBankAndMyself() {
             let bankTable = document.querySelector("table")
-            fetch( "http://localhost:8080/transaction/assetoverviewfrombank")
-            .then(response => response.json())
-            .then(data =>{
-            let bankMap = data
-            Object.entries(bankMap.assets).forEach(([k,v])=> {
-                console.log(`${k} -> ${v}`)
-                let row = document.createElement(`tr`)
-                let tdAsset = document.createElement(`tr`)
-                let tdValueToday = document.createElement(`tr`)
-                let tdValueYesterday = document.createElement(`tr`)
-                let tdAmount = document.createElement(`tr`)
-                tdAsset.innerHTML = k
-                tdAmount.innerHTML = v
-                row.appendChild(tdAsset)
-                row.appendChild(tdAmount)
-                bankTable.appendChild(row)
-            })}
-        )
+            fetch("http://localhost:8080/transaction/assetoverviewfrombank")
+                .then(response => response.json())
+                .then(data => {
+                        console.log(data);
+                        let bankMap = data
+                        Object.entries(bankMap).forEach(([k, v]) => {
+                                console.log(`${k} -> ${v}`)
+                                let row = document.createElement(`tr`)
+                                let tdAsset = document.createElement(`tr`)
+                                let tdValueToday = document.createElement(`tr`)
+                                let tdValueYesterday = document.createElement(`tr`)
+                                let tdAmount = document.createElement(`tr`)
+                                tdAsset.innerHTML = k
+                                tdAmount.innerHTML = v
+                                row.appendChild(tdAsset)
+                                row.appendChild(tdAmount)
+                                bankTable.appendChild(row)
+                            }
+                        )
+                    }
+                )
         }
     </script>
 </head>

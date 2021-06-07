@@ -178,27 +178,27 @@ INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('TH
 INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('TRX',105,6321,0);
 INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('VET',103,11,0);
 INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('DASH',103,986,0);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BTC',101,3030);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ADA',101,1030);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BCH',101,2396);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('BNB',101,4132);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('DASH',101,1030);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('DOGE',101,3240);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('DOT',101,3395);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('EOS',101,3030);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ETC',101,1030);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ETH',101,2396);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('FIL',101,4132);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('ICP',101,1030);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('LTC',101,3240);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('NEO',101,3395);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('THETA',101,3030);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('TRX',101,1030);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('VET',101,2396);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('XLM',101,4132);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('XMR',101,1030);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('XRP',101,3240);
-INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('USD',101,5000000);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('BTC',101,3030, 3030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('ADA',101,1030, 1030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('BCH',101,2396, 2396);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('BNB',101,4132, 4132);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('DASH',101,1030, 1030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('DOGE',101,3240, 3240);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('DOT',101,3395, 3395);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('EOS',101,3030, 3030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('ETC',101,1030, 1030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('ETH',101,2396, 2396);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('FIL',101,4132, 4132);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('ICP',101,1030, 1030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('LTC',101,3240, 3240);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('NEO',101,3395, 3395);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('THETA',101,3030, 3030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('TRX',101,1030, 1030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('VET',101,2396, 2396);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('XLM',101,4132, 4132);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('XMR',101,1030, 1030);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('XRP',101,3240, 3240);
+INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('USD',101,5000000, 5000000);
 
 -- CREATE USER
 
