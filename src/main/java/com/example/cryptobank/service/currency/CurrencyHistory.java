@@ -15,6 +15,8 @@ import java.util.Map;
 @Service
 public class CurrencyHistory {
         private final Logger logger = LoggerFactory.getLogger(CurrencyHistory.class);
+        private final String[] tolowwerCase = {"Bitcoin", "Cardano", "Dash", "Dogecoin", "Eos", "Ethereum","Filecoin",
+        "Litecoin", "Monero", "Neo", "Polkadot", "Stellar", "Tron", "Vechain"};
 
         private ObjectMapper objectMapper;
         private String adress = "https://api.coingecko.com/api/v3/coins/";
@@ -59,23 +61,15 @@ public class CurrencyHistory {
         }
 
         public String dateYesterday(){
-                String dateUsa = String.valueOf(LocalDate.now().minusDays(1));
-                String[] strings = dateUsa.split("-");
-                String dateAPI = strings[2] + "-" + strings[1] + "-" + strings[0];
-                return dateAPI;
+               return LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         }
 
         public String dateLasteWeek(){
-                String dateUsa = String.valueOf(LocalDate.now().minusWeeks(1));
-                String[] strings = dateUsa.split("-");
-                String dateAPI = strings[2] + "-" + strings[1] + "-" + strings[0];
-                return dateAPI;
+                return LocalDate.now().minusWeeks(1).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+
         }
 
         public String dateLastMonth(){
-                String dateUsa = String.valueOf(LocalDate.now().minusMonths(1));
-                String[] strings = dateUsa.split("-");
-                String dateAPI = strings[2] + "-" + strings[1] + "-" + strings[0];
-                return dateAPI;
+                return LocalDate.now().minusMonths(1).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         }
 }
