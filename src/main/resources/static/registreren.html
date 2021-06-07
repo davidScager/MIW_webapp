@@ -8,6 +8,18 @@
     <link href="registreren.css" rel="stylesheet" type="text/css"/>
     <link href="BaseLayout.css" rel="stylesheet" type="text/css"/>
     <script src="registreren.js"></script>
+    <script>
+        function register(){
+
+        }
+
+        function afterRegister() {
+            document.getElementById('form').style.display='none';
+            document.getElementById('footer').style.position='absolute';
+            document.getElementById('regInfo').innerHTML="Er is een email naar het opgegeven emailadres gestuurd met een bevestigingslink. Reageer a.u.b. binnen 30 minuten.";
+
+        }
+    </script>
 </head>
 
 <body class="page">
@@ -26,35 +38,37 @@
     </div>
 </div>
 
-<main class="registration-box">
+<div class="registration-box">
     <div class="column side"></div>
     <div class="column middle">
     <div class="registration-form">
         <h1>Registratie formulier nieuwe klant</h1>
-        <p>Als u zich wilt registreren voor een nieuw account, vul dan a.u.b. het onderstaande formulier in. <br>(velden met een * zijn verplicht)</p>
-        <form class="flex-box" action="registerclient" method="POST">
+        <p id="regInfo">Als u zich wilt registreren voor een nieuw account, vul dan a.u.b. het onderstaande formulier in. <br>(velden met een * zijn verplicht)</p>
+        <form class="flex-box" id="form" action="/register/registerclient" method="post">
             <label>Persoonsgegevens</label><br>
-            <input id="firstName" placeholder="Voornaam*"><br>
-            <input id="infix" placeholder="Tussenvoegsel"><br>
-            <input id="surname" placeholder="Achternaam*"><hr>
+            <input id="firstName" placeholder="Voornaam*" maxlength="64" required><br>
+            <input id="infix" placeholder="Tussenvoegsel" maxlength="64"><br>
+            <input id="surname" placeholder="Achternaam*" maxlength="64" required><hr>
             <label>Adres</label><br>
-            <input id="postalCode" placeholder="Postcode*"><br>
-            <input id="houseNr" placeholder="Huisnummer*"><br>
-            <input id="addition" placeholder="Toevoeging*"><br>
-            <input id="streetName" placeholder="Straat*"><br>
-            <input id="residence" placeholder="Woonplaats*"><hr>
-            <label for="email">Email*</label><br>
-            <input id="email"><br>
-            <label for="password">Wachtwoord*</label><br>
-            <input type="password" id="password"><hr>
+            <input id="postalCode" placeholder="Postcode*" maxlength="6" required><br>
+            <input id="houseNr" placeholder="Huisnummer*" maxlength="4" type="number" required><br>
+            <input id="addition" placeholder="Toevoeging" maxlength="4"><br>
+            <input id="streetName" placeholder="Straat*" maxlength="64" required><br>
+            <input id="residence" placeholder="Woonplaats*" maxlength="64" required><hr>
+            <label for="email" >Email*</label><br>
+            <input id="email" maxlength="64" required><br>
+            <label for="password" >Wachtwoord*</label><br>
+            <input type="password" id="password" maxlength="64" required><br>
+            <label for="repassword">Type uw wachtwoord opnieuw*</label><br>
+            <input type="password" id="repassword" maxlength="64" required><hr>
         </form>
-        <button type="submit">Registreren</button>
+        <button id="regButton" type="submit" >Registreren</button>
     </div>
     </div>
     <div class="column side"></div>
-</main>
+</div>
 
-<div class="footer">
+<div class="footer" id="footer">
     <img class="footer img" src="images/B left.png" alt="BLeft">
     <img class="footer img" src="images/B right.png" alt="Bright">
 </div>
