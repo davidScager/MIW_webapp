@@ -49,12 +49,9 @@ public class TransactionController {
     }
 
     @PostMapping("/plantransaction")
-    public ResponseEntity<Map> planTransaction(@RequestBody int seller,
-                                               @RequestBody int buyer, @RequestBody double numberOfAssets,
-                                               @RequestBody String assetSold,
-                                               @RequestBody String assetBought,@RequestBody boolean setinFuture, @RequestBody double value, String username) throws InterruptedException, IOException {
-        transactionService.setTransaction(seller, buyer, numberOfAssets, assetSold, assetBought, setinFuture, value, username);
-        return null;
+    public void planTransaction(@RequestParam("Authorization") String token, @RequestBody Map<String, String> transActionData) throws InterruptedException, IOException {
+        String username = tokenService.parseToken(token, "session");
+        transactionService.setTransaction(transActionData, username);
     }
 
     @GetMapping("/assetoverviewfrombank")
