@@ -13,13 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import java.io.IOException;
 
-@RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@RestController
 @RequestMapping("/transaction")
 public class TransactionController {
 
@@ -48,12 +49,9 @@ public class TransactionController {
     }
 
     @PostMapping("/plantransaction")
-    public ResponseEntity<Map> planTransaction(@RequestBody int seller,
-                                               @RequestBody int buyer, @RequestBody double numberOfAssets,
-                                               @RequestBody String assetSold,
-                                               @RequestBody String assetBought,@RequestBody boolean setinFuture, @RequestBody double value, String username) throws InterruptedException, IOException {
-        transactionService.setTransaction(seller, buyer, numberOfAssets, assetSold, assetBought, setinFuture, value, username);
-        return null;
+    public void planTransaction(@RequestParam("Authorization") String token, @RequestBody Map<String, String> transActionData) throws InterruptedException, IOException {
+        String username = tokenService.parseToken(token, "session");
+        transactionService.setTransaction(transActionData, username);
     }
 
     @GetMapping("/assetoverviewfrombank")
@@ -77,15 +75,8 @@ public class TransactionController {
     }
 
     @GetMapping("/transactionhistory")
-    public List<String> transactionHistoryHandler(@RequestParam int userId) throws IOException {
-        List<Transaction> tempTransationList = transactionService.getTransactionHistory(userId);
-        List<String> transactionHistoryAsJsonString = null;
-        ObjectMapper mapper = new ObjectMapper();
-        for (Transaction transaction :tempTransationList) {
-            String jsonString = mapper.writeValueAsString(transaction);
-            transactionHistoryAsJsonString.add(jsonString);
-        }
-        return transactionHistoryAsJsonString;
+    public List<Transaction> transactionHistoryHandler(@RequestParam int userId) throws IOException {
+        return transactionService.getTransactionHistory(userId);
     }
 
     @PostMapping("/createtransaction")

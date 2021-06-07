@@ -1,36 +1,61 @@
-
-
-function resetPassword() {
-    console.log("hoi")
-    document.querySelector('#email').addEventListener('focusout', checkEmailPart());
+function initiateReset() {
+    const password = new Password(new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i),
+        "http://localhost:8080/reset/resetpassword", "http://localhost:8080/confirmed.html", ["email"]
+    )
+    password.resetPassword()
 }
 
-function checkEmailPart(){
-    let regex = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i);
+class Password {
+    dataHasWrongInput
+    mailRegex
+    backEndPoint
+    websiteRedirect
+    arrayOfInserts
 
-    let email = document.querySelector('#email').value
-    console.log('email is valide: ' + regex.test(email));
+    constructor(mailRegex, backEndPoint, websiteRedirect, arrayOfInserts) {
 
-    if(regex.test(email)) {
-        // var data = { postcode: postcode, nr: huisnummer};
-        // stuur data als form data ipv json, want backend accepteert alleen form
-        let formData = `${email}`
-        console.log(formData);
-        window.location.replace("http://localhost:8080/confirmed.html");
+        this.mailRegex = mailRegex;
+        this.backEndPoint = backEndPoint;
+        this.websiteRedirect = websiteRedirect;
+        this.arrayOfInserts = arrayOfInserts;
+        this.dataHasWrongInput = false;
+    }
 
-        fetch("http://localhost:8080/reset/resetpassword", {
+resetPassword() {
+
+    for (var i=0; i < this.arrayOfInserts.length; i++) {
+       document.querySelector('#' + this.arrayOfInserts[i]).addEventListener('focusout', this.checkInserts(this.arrayOfInserts[i]));
+       console.log(this.dataHasWrongInput)
+    }
+
+    if (this.dataHasWrongInput === false) {
+        this.sendData(document.querySelector('#'+(this.arrayOfInserts)[0]).value, this.backEndPoint, this.websiteRedirect);
+    }
+}
+
+//algemene functie om velden in formulieren te checken op legitimiteit
+checkInserts(insert) {
+    let insertToCheck = document.querySelector('#'+insert).value
+    console.log('insert is valide: ' + this.mailRegex.test(insertToCheck)+ insertToCheck);
+    if (!this.mailRegex.test(insertToCheck)) {
+        this.dataHasWrongInput = true;
+    }
+}
+
+sendData(dataForBackEnd) {
+        fetch(this.backEndPoint, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(formData)  // moet worden omgezet naar een string
+            body: JSON.stringify({email: dataForBackEnd})
         })
             .then(response => {
-                    console.log(response)
-                    return response.json()
-                })
-            .then()
+                console.log(response)
+                return response.json()
+            })
+            .then(window.location.replace(this.websiteRedirect))
             .catch((error) => {
                 console.error('Foutje', error);
             });

@@ -13,7 +13,7 @@ public class Transaction {
     private int buyer;
     private String assetSold;
     private String assetBought;
-    TransactionLog transactionLog;
+    private TransactionLog transactionLog;
 
     private final Logger logger = LoggerFactory.getLogger(Transaction.class);
 

@@ -89,8 +89,6 @@ CREATE TABLE Transaction(
     timestamp       DATETIME    NOT NULL,
     seller          INT         NOT NULL,
     buyer           INT         NOT NULL,
-    numberOfAssets  DOUBLE      NOT NULL,
-    transactionCost DOUBLE      NOT NULL,
     assetSold       VARCHAR(45) NOT NULL,
     assetBought     VARCHAR(45) NOT NULL,
     FOREIGN KEY (seller)
@@ -111,19 +109,21 @@ CREATE TABLE Transaction(
             ON UPDATE NO ACTION
     );
 
-CREATE TABLE Log(
-    transactionId               INT    NOT NULL,
-    soldAssetTransactionRate    DOUBLE NOT NULL,
-    boughtAssetTransactionRate  DOUBLE NOT NULL,
-    soldAssetAdjustmentFactor   DOUBLE NOT NULL,
-    boughtAssetAdjustmentFactor DOUBLE NOT NULL,
-    amount                      DOUBLE NOT NULL,
-    PRIMARY KEY (transactionId),
-    FOREIGN KEY (transactionId)
-        REFERENCES Transaction (transactionId)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION
-    );
+CREATE TABLE IF NOT EXISTS Log(
+                                  transactionId               INT    NOT NULL,
+                                  soldAssetTransactionRate    DOUBLE NOT NULL,
+                                  boughtAssetTransactionRate  DOUBLE NOT NULL,
+                                  soldAssetAdjustmentFactor   DOUBLE NOT NULL,
+                                  boughtAssetAdjustmentFactor DOUBLE NOT NULL,
+                                  soldAssetAmount             DOUBLE NOT NULL,
+                                  boughtAssetAmount           DOUBLE NOT NULL,
+                                  transactionCost             DOUBLE NOT NULL,
+                                  PRIMARY KEY (transactionId),
+                                  FOREIGN KEY (transactionId)
+                                      REFERENCES Transaction (transactionId)
+                                      ON DELETE NO ACTION
+                                      ON UPDATE NO ACTION
+);
 
 -- INSERT DATA
 
@@ -153,13 +153,27 @@ INSERT INTO role VALUES ('administrator');
 INSERT INTO role VALUES ('bank');
 INSERT INTO role VALUES ('client');
 
+INSERT INTO loginaccount (username, password, token) VALUES ('niekmol1994@gmail.com', '$argon2id$v=19$m=15360,t=2,p=1$0trGK6yztdFqZJtZdbmYig$IcdrP4+vTchnFQ1Gr0ZmFEfF5ic8jSdgmLG0uk6clLA', null);
+
 INSERT INTO actor (userId, checkingAccount, role) Values (1,12345678,'bank');
+INSERT INTO actor (userId, checkingAccount, role) Values (2,87654321,'client');
+INSERT INTO actor (userId, checkingAccount, role) Values (3,45612387,'client');
+INSERT INTO actor (userId, checkingAccount, role) Values (4,32145678,'client');
+INSERT INTO actor (userId, checkingAccount, role) Values (5,32187456,'client');
+INSERT INTO actor (userId, checkingAccount, role) Values (6,32187456,'client');
 
-INSERT INTO Portfolio(portfolioId, actor) values (101, 1);
-
+INSERT INTO User (BSN, userId, firstName, infix, surname, dateOfBirth, streetName, houseNr, addition, postalCode, residence, email) values
+(636363, 2, 'Niek', null, 'Mol', '1994-05-04', 'HIERRRRR', 2, null, '1234AA', 'UUUUUUUU', 'niekmol1994@gmail.com');
+INSERT INTO portfolio (portfolioId, actor) Values (101,1);
+INSERT INTO portfolio (portfolioId, actor) Values (102,2);
+INSERT INTO portfolio (portfolioId, actor) Values (103,3);
+INSERT INTO portfolio (portfolioId, actor) Values (104,4);
+INSERT INTO portfolio (portfolioId, actor) Values (105,5);
+INSERT INTO portfolio (portfolioId, actor) Values (106,6);
 INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('BTC',106,0.67, 0);
 INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('ETH',102,3000000, 0);
 INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('BTC',102,6363, 0);
+INSERT INTO assetportfolio (assetName, portfolioId, amount) Values ('USD',102,1000000);
 INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('FIL',106,2,0);
 INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('XMR',102,6,0);
 INSERT INTO assetportfolio (assetName, portfolioId, amount, forSale) Values ('ADA',104,31,0);

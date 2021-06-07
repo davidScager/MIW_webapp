@@ -5,79 +5,183 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>BitBank - Registreren</title>
-    <link href="portfolio.css" rel="stylesheet" type="text/css"/>
     <link href="BaseLayout.css" rel="stylesheet" type="text/css"/>
+    <link href="portfolio.css" rel="stylesheet" type="text/css"/>
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
 
-        // When the user clicks on <span> (x), close the modal
+       $( document ).ready(function() {
+            console.log( "ready!" );
+            loadPortfolio();
+            loadAssets();
+       });
 
-        function closeAssetBuy() {
-            var modal = document.getElementById("assetBuy");
-            modal.style.display = "none";
-         }
+       $( window ).resize(function() {
+            setHeightsWidths();
+       });
 
-
-         // When the user clicks anywhere outside of the modal, close it
-         window.onclick = function(event) {
-            var modal = document.getElementById("assetBuy");
-            if (event.target == modal) {
-                var modal = document.getElementById("assetBuy");
-                modal.style.display = "none";
-            }
-         }
-        $( window ).resize(function() {
-            setHeights();
-        });
-
-        function buyAsset(symbol, name){
-            //alert("Buy "+symbol+" name "+name)
-            var element = document.getElementById("asset_buy_header");
-            element.innerText = "Buy: "+ symbol;
-            var modal = document.getElementById("assetBuy");
-            modal.style.display = "block";
-        }
-
-        function setHeights(){
+        function setHeightsWidths(){
             // Viewport
             var new_height = $( window ).height();
             new_height = new_height -400
             $(".scroll_tbody").height(new_height);
+
+            // Scrollable table shit, column can only set correct with a width
+            setColumnWidth("#selectable_portfolio",".col_1", 15)
+            setColumnWidth("#selectable_portfolio",".col_2", 45)
+            setColumnWidth("#selectable_portfolio",".col_3", 15)
+            setColumnWidth("#selectable_portfolio",".col_4", 15)
+            setColumnWidth("#selectable_portfolio",".col_5", 10)
+
+            setColumnWidth("#selectable_assets",".col_1", 15)
+            setColumnWidth("#selectable_assets",".col_2", 45)
+            setColumnWidth("#selectable_assets",".col_3", 10)
+            setColumnWidth("#selectable_assets",".col_4", 10)
+            setColumnWidth("#selectable_assets",".col_5", 10)
+            setColumnWidth("#selectable_assets",".col_6", 10)
+       }
+
+       // Scrollable table column can only set correct with a width
+        function setColumnWidth(tableId, columnClass, percentage){
+            var tableWidth = $(tableId).width();
+            console.log( "tableWidth " +tableWidth);
+            // VB $('#selectable_portfolio  .col_1').width(parseInt(600/3))
+            var columnRef = tableId+" "+columnClass;
+            // Width moet int zijn
+            console.log( "columnRef " +columnRef +" width "+parseInt((tableWidth/100) * percentage));
+            $(columnRef).width(parseInt((tableWidth/100) * percentage))
+
         }
-        $( document ).ready(function() {
-            console.log( "ready!" );
-            loadAssets();
-        });
+
+        // When the user clicks on <span> (x), close the modal
+        function closeDialog() {
+            var modal = document.getElementById("assetDialog");
+            modal.style.display = "none";
+        }
+
+         // When the user clicks anywhere outside of the modal, close it
+         window.onclick = function(event) {
+            var modal = document.getElementById("assetDialog");
+            if (event.target == modal) {
+                var modal = document.getElementById("assetDialog");
+                modal.style.display = "none";
+            }
+         }
+
+        function buyAsset(symbol, name){
+            //alert("Buy "+symbol+" name "+name)
+            var element = document.getElementById("dialog_header");
+            element.innerText = "Buy: "+ symbol;
+            var modal = document.getElementById("assetDialog");
+            modal.style.display = "block";
+            var assetName = document.getElementById("dialog_asset_name");
+            assetName.innerText = name;
+        }
+
+        function assetForSale(symbol, name){
+            //alert("Buy "+symbol+" name "+name)
+            var element = document.getElementById("dialog_header");
+            element.innerText = "For sale: "+ symbol;
+            var modal = document.getElementById("assetDialog");
+            modal.style.display = "block";
+            var assetName = document.getElementById("dialog_asset_name");
+            assetName.innerText = name;
+            var symbolElem = document.getElementById("symbol_for_sale");
+            symbolElem.value = symbol;
+
+
+        }
+        function updateAssetForSale(){
+            // url
+            var symbolElem = document.getElementById("symbol_for_sale");
+            var amountForSaleElem = document.getElementById("amountForSale");
+            //alert("symbolElem "+ amountForSaleElem.value+"  "+ symbolElem.value)
+            $.post("http://localhost:8080/updateassetforsale",
+                // postvars
+                {
+                    token: "tokenshit",
+                    symbol: symbolElem.value,
+                    amount: amountForSaleElem.value
+
+                },
+
+                function(data, status){
+                    //console.log( data );
+                    //var json_str = JSON.stringify(data);
+                    //console.log( JSON.stringify(data) );
+                    loadPortfolio();
+                    alert(data);
+                    closeDialog();
+                 }
+
+            );
+
+        }
+
+
         function loadAssets(){
-            setHeights();
-            $('#selectable > tbody').empty();
+
+            $('#selectable_assets > tbody').empty();
             $.getJSON( "http://localhost:8080/updateassetsbyapi", function( data ) {
                 var json_str = JSON.stringify(data);
-                var element = document.getElementById("asset_row");
-                //var element = $(".asset_row");
                 var asset_row = '';
                 for (i in data) {
                     console.log( "json row" );
                     console.log( JSON.stringify(data[i]) );
                     asset_row += '<tr onclick="buyAsset(\''+data[i].abbreviation+'\',\''+data[i].name+'\');" id="asset_row" class="ui-widget-content asset_row">';
-                    asset_row += '   <td>'+data[i].abbreviation+'</td>';
-                    asset_row += '   <td  title="'+data[i].description+'">'+data[i].name+'</td>';
-                    asset_row += '   <td>'+data[i].valueInUsd+'</td>';
-                    asset_row += '   <td>'+data[i].valueYesterday+'</td>';
-                    asset_row += '   <td>'+data[i].valueLastWeek+'</td>';
-                    asset_row += '   <td>'+data[i].valueLastMonth+'</td>';
+                    asset_row += '   <td class="col_1">'+data[i].abbreviation+'</td>';
+                    asset_row += '   <td class="col_2"  title="'+data[i].description+'">'+data[i].name+'</td>';
+                    asset_row += '   <td class="col_3">'+data[i].valueInUsd+'</td>';
+                    asset_row += '   <td class="col_4">'+data[i].valueYesterday+'</td>';
+                    asset_row += '   <td class="col_5">'+data[i].valueLastWeek+'</td>';
+                    asset_row += '   <td class="col_6">'+data[i].valueLastMonth+'</td>';
                     asset_row += '</tr>';
                 }
                 console.log(asset_row );
-                $('#selectable > tbody').append(asset_row);
+                $('#selectable_assets > tbody').append(asset_row);
+                setHeightsWidths();
             });
+
         }
+
+        function loadPortfolio(){
+
+            $('#selectable_portfolio > tbody').empty();
+            $.post("http://localhost:8080/listportfolio",
+                {
+                    token: "tokenshit",
+                    extra: "hille"
+                },
+                function(data, status){
+                    var json_str = JSON.stringify(data);
+                    console.log( JSON.stringify(data) );
+                    var asset_row = '';
+                    for (i in data) {
+                        console.log( "json row" );
+                        console.log( JSON.stringify(data[i]) );
+                        asset_row += '<tr onclick="assetForSale(\''+data[i].assetName+'\',\''+data[i].assetDescription+'\');" id="asset_row" class="ui-widget-content asset_row">';
+                        asset_row += '   <td class="col_1">'+data[i].assetName+'</td>';
+                        asset_row += '   <td class="col_2">'+data[i].assetDescription+'</td>';
+                        asset_row += '   <td class="col_3">'+data[i].amount+'</td>';
+                        asset_row += '   <td class="col_4">'+Math.round((data[i].amountUSD * data[i].amount * 100)) / 100+'</td>';
+                        asset_row += '   <td class="col_5">'+data[i].forSale+'</td>';
+                       asset_row += '</tr>';
+                    }
+                    $('#selectable_portfolio > tbody').append(asset_row);
+                    setHeightsWidths();
+                }
+            );
+
+       }
+
+
     </script>
 </head>
 
-<body style="background-color: #2B2B2B";>
+<body style="background-color: #2B2B2B" ;>
 
 <header>
     <div class="container">
@@ -86,9 +190,11 @@
                 <li><a href="Transaction.html">Handelen</a></li>
                 <li><a href="portfolio.html">Portfolio</a></li>
                 <li><a href="TransactionHistory.html">Transacties</a></li>
-                <li> <a href="HomeScherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></li>
+                <li><a href="HomeScherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></li>
                 <li><a href="LoginController.html">Logout</a></li>
-                <li> <a class="cta" href="#"><button>Contact</button> </a> </li>
+                <li><a class="cta" href="contact.html">
+                    <button>Contact</button>
+                </a></li>
             </ul>
         </nav>
 
@@ -97,33 +203,46 @@
 
 <!-- Portfolio page.-->
 <main class="asset-box">
+    <input type="hidden" id="token_id" name="token_id" value="my_hidden_token">
     <!-- Portfolio block.-->
     <div class="asset-form">
         <h1>Portfolio</h1>
-        <p>Uw huidige assets:</p>
-        <form class="flex-box" action="assets" method="POST">
-        </form>
-        <button type="submit">Registreren</button>
+        <table id="selectable_portfolio" class="scroll_table">
+            <thead class="scroll_thead">
+            <tr class="ui-widget-content scroll_tr">
+                <th class="col_1">Coin</th>
+                <th class="col_2">Naam</th>
+                <th class="col_3">Aantal</th>
+                <th class="col_4">Value USD</th>
+                <th class="col_5">For sale</th>
+            </tr>
+            </thead>
+            <tbody class="scroll_tbody">
+
+            </tbody>
+        </table>
+
+        <button onclick="loadPortfolio();">Ververs portfolio</button>
     </div>
     <!-- Asset page.-->
     <div class="koers-form">
         <h1>Live Koers</h1>
-            <table id="selectable" class="scroll_table" >
-                <thead class="scroll_thead">
-                    <tr class="ui-widget-content">
-                        <th>Coin</th>
-                        <th>Naam</th>
-                        <th>Prijs</th>
-                        <th>Gisteren</th>
-                        <th>Last week</th>
-                        <th>Last maand</th>
-                    </tr>
-                </thead>
-                <tbody class="scroll_tbody">
-                </tbody>
-            </table>
+        <table id="selectable_assets" class="scroll_table">
+            <thead class="scroll_thead">
+            <tr class="ui-widget-content">
+                <th class="col_1">Coin</th>
+                <th class="col_2">Naam</th>
+                <th class="col_3">Prijs</th>
+                <th class="col_4">Gisteren</th>
+                <th class="col_5" title="Last Week">L/W</th>
+                <th class="col_6" title="Last Month">L/M</th>
+            </tr>
+            </thead>
+            <tbody class="scroll_tbody">
+            </tbody>
+        </table>
 
-         <button  onclick="loadAssets();">Ververs koers</button>
+        <button onclick="loadAssets();">Ververs koers</button>
     </div>
 </main>
 <!-- End Portfolio page.-->
@@ -135,15 +254,25 @@
 </body>
 
 <!-- The Modal -->
-<div id="assetBuy" class="modal">
-
+<div id="assetDialog" class="modal">
     <!-- Modal content -->
     <div class="modal-content asset-buy">
         <div class="modal-header">
-            <div id="asset_buy_header" class="as_h1"></div>
-            <div class="close" onclick="closeAssetBuy();">&times;</div>
+            <div id="dialog_header" class="as_h1"></div>
+            <div class="close" onclick="closeDialog();">&times;</div>
         </div>
+        <div class="body_dialog_sale">
+            <h2 id="dialog_asset_name"> </h2>
+            <label for="forSale">For Sale:</label>
+            <input type="text" id="amountForSale" name="amountForSale" value="0" required>
+            <hidden id="symbol_for_sale" name="symbol_for_sale" value=""/>
+            <button onclick="updateAssetForSale();">Available for sale!</button>
+        </div>
+
+
     </div>
 
 </div>
+
+
 </html>s

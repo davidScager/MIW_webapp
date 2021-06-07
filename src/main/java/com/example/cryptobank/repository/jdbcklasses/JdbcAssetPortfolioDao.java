@@ -2,6 +2,7 @@ package com.example.cryptobank.repository.jdbcklasses;
 
 import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.domain.AssetPortfolio;
+import com.example.cryptobank.domain.AssetPortfolioView;
 import com.example.cryptobank.domain.Portfolio;
 import com.example.cryptobank.repository.daointerfaces.AssetPortfolioDao;
 import org.slf4j.Logger;
@@ -48,6 +49,7 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         tempList.forEach(assetPortfolio -> resultMap.put(jdbcAssetDao.getOneByName(assetPortfolio.getAssetName()), assetPortfolio.getAmount()));
         return resultMap;
     }
+
 
     public class AssetPortfolioRowMapper implements RowMapper<String> {
         @Override
@@ -96,6 +98,11 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         String sql = "update bitbankdb.assetportfolio set amount = ? where portfolioId = ? and assetName = ?";
         jdbcTemplate.update(sql, amount, portfolio.getPortfolioId(), asset.getAbbreviation());
     }
+    @Override
+    public void updateAssetsForSale(String Symbol, int portfolioId, double forSale) {
+        String sql = "update bitbankdb.assetportfolio set forSale = ? where portfolioId = ? and assetName = ?";
+        jdbcTemplate.update(sql, forSale, portfolioId, Symbol);
+    }
 
     //maak methode UpdateAvailableForSale
 
@@ -108,6 +115,28 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
     public void delete(int id) {
         //TODO
     }
+
+    @Override
+    public List<AssetPortfolioView> getOverviewWithAmount(int portfolioId) {
+        String query = "SELECT assetName, portfolioId, amount, forSale , name as assetDescription, valueInUsd as amountUSD FROM BitBankDB.AssetPortfolio LEFT JOIN BitBankDB.Asset on assetName=abbreviation  WHERE portfolioId = ?";
+        List<AssetPortfolioView> overView = jdbcTemplate.query(query, new AssetPortfolioViewRowMapper(), portfolioId);
+        return overView;
+    }
+
+    public class AssetPortfolioViewRowMapper implements RowMapper<AssetPortfolioView> {
+        @Override
+        public AssetPortfolioView mapRow(ResultSet rs, int rowNum) throws SQLException {
+            String assetName = rs.getString("assetName");
+            int portfolioId = rs.getInt("portfolioId");
+            double amount = rs.getDouble("amount");
+            double forSale = rs.getDouble("forSale");
+            double amountUSD = rs.getDouble("amountUSD");
+            String assetDescription = rs.getString("assetDescription");
+            AssetPortfolioView assetPortfolio = new AssetPortfolioView(assetName, portfolioId, amount, forSale, amountUSD, assetDescription);
+            return assetPortfolio;
+        }
+    }
+
 
     private PreparedStatement insertStatement(AssetPortfolio assetPortfolio, Connection connection) throws SQLException {
         PreparedStatement ps = connection.prepareStatement(

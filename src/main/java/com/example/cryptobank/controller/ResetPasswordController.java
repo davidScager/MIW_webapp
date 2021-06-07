@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.net.MalformedURLException;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -37,9 +38,9 @@ public class ResetPasswordController {
     }
 
     @PostMapping("/resetpassword")
-    public HttpEntity<? extends Object> sendResetPassword(@RequestBody String email) throws MalformedURLException, MessagingException {
-        String emailWithout = email.substring(1, email.length()-1);
-        logger.info(emailWithout);
+    public HttpEntity<? extends Object> sendResetPassword(@RequestBody Map<String, String> mailMap) throws MalformedURLException, MessagingException {
+        String email = mailMap.values().stream().findFirst().orElse(null);
+        logger.info(email);
         if (loginAccountService.verifyAccount(email)) {
             logger.info("LoginAccount contains " + email);
             token = loginAccountService.addTokenToLoginAccount(email);

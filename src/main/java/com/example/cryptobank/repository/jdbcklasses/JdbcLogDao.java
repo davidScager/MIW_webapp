@@ -1,6 +1,7 @@
 package com.example.cryptobank.repository.jdbcklasses;
 
 import com.example.cryptobank.domain.Transaction;
+import com.example.cryptobank.domain.TransactionLog;
 import com.example.cryptobank.repository.daointerfaces.LogDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +53,12 @@ public class JdbcLogDao implements LogDao {
         return tradedRate;
     }
 
+    @Override
+    public TransactionLog getTransactionLogByTransactionId(int transactionId) {
+        String query = "SELECT * FROM log WHERE transactionId = ?";
+        return jdbcTemplate.queryForObject(query, new Object[] { transactionId }, new TransactionLogRowMapper());
+    }
+
     public class TradedRateRowMapper implements RowMapper<Double> {
         @Override
         public Double mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -61,4 +68,21 @@ public class JdbcLogDao implements LogDao {
             return tempTradedRate;
         }
     }
+
+    public class TransactionLogRowMapper implements RowMapper<TransactionLog> {
+        @Override
+        public TransactionLog mapRow(ResultSet rs, int rowNum) throws SQLException {
+            TransactionLog transactionLog = new TransactionLog();
+            transactionLog.setSoldAssetTransactionRate(rs.getDouble("soldAssetTransactionRate"));
+            transactionLog.setBoughtAssetTransactionRate(rs.getDouble("boughtAssetTransactionRate"));
+            transactionLog.setSoldAssetAdjustmentFactor(rs.getDouble("soldAssetAdjustmentFactor"));
+            transactionLog.setBoughtAssetAdjustmentFactor(rs.getDouble("boughtAssetAdjustmentFactor"));
+            transactionLog.setNumberOfAssetsSold(rs.getDouble("soldAssetAmount"));
+            transactionLog.setNumberOfAssetsBought(rs.getDouble("boughtAssetAmount"));
+            transactionLog.setTransactionCost(rs.getDouble("transactionCost"));
+            return transactionLog;
+        }
+    }
+
+
 }
