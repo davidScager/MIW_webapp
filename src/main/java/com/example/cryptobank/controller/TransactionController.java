@@ -78,7 +78,7 @@ public class TransactionController {
     }
 
     @GetMapping("/transactionhistory")
-    public List<String> transactionHistoryHandler(@RequestParam int userId) throws IOException {
+    public List<Transaction> transactionHistoryHandler(@RequestParam int userId) throws IOException {
         return transactionService.getTransactionHistory(userId);
     }
 
