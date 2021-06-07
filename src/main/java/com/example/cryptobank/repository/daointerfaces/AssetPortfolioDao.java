@@ -2,6 +2,7 @@ package com.example.cryptobank.repository.daointerfaces;
 
 import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.domain.AssetPortfolio;
+import com.example.cryptobank.domain.AssetPortfolioView;
 import com.example.cryptobank.domain.Portfolio;
 import org.springframework.stereotype.Repository;
 
@@ -15,11 +16,15 @@ public interface AssetPortfolioDao {
 
     public Map<Asset, Double> getAssetOverviewWithAmount(int portfolioId);
 
+    public List<AssetPortfolioView> getOverviewWithAmount(int portfolioId);
+
     public double getAmountByAssetName(String name, int portfolioId);
 
     public void update(Asset asset, Portfolio portfolio, double amount);
 
     public void delete(int id);
+
+    void updateAssetsForSale(String Symbol, int portfolioId, double forSale);
 
     public void create(AssetPortfolio assetPortfolio);
 

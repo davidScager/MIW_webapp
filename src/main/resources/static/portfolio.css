@@ -42,12 +42,12 @@ form {
 .asset-box {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: left;
+    justify-content: center;
 }
 
-.scroll_table, .scroll_thead, .scroll_tbody  {
+.scroll_table, .scroll_thead, .scroll_tbody, .scroll_tr  {
     display: block;
-     width: 100%;
+    width: 100%;
  }
 
 .scroll_tbody .scroll_thead, .asset_row, .scroll_tbale {
@@ -106,6 +106,8 @@ form {
   font-weight: bold;
 }
 
+
+
 .close:hover,
 .close:focus {
   color: black;
@@ -113,5 +115,19 @@ form {
   cursor: pointer;
 }
 
+table {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+tr {
+    width: 100%;
+}
 
+td {
+    text-align: left;
+}
+
+th {
+    text-align: left;
+}
 

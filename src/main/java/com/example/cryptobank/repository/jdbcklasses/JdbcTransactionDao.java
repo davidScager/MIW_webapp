@@ -33,10 +33,9 @@ public class JdbcTransactionDao implements TransactionDao {
 
     @Override
     public List<Transaction> getTransactionsForUser(int userId) {
-        List<Transaction> tempTransactionBuyList = new ArrayList<Transaction>();
         String query = "SELECT * FROM transaction WHERE buyer = ? OR seller = ?";
 
-        return tempTransactionBuyList = jdbcTemplate.query(query, new Object[] { userId, userId }, new TransactionRowMapper());
+        return jdbcTemplate.query(query, new Object[] { userId, userId }, new TransactionRowMapper());
     }
 
 //    @Override
