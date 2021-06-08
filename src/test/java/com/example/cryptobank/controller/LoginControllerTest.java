@@ -3,106 +3,110 @@ package com.example.cryptobank.controller;
 import com.example.cryptobank.domain.FullName;
 import com.example.cryptobank.domain.User;
 import com.example.cryptobank.domain.UserAddress;
-import com.example.cryptobank.service.security.TokenService;
 import com.example.cryptobank.service.login.UserService;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import com.example.cryptobank.service.security.TokenService;
+import io.restassured.http.ContentType;
+import io.restassured.module.mockmvc.RestAssuredMockMvc;
+import org.junit.jupiter.api.*;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static io.restassured.module.mockmvc.RestAssuredMockMvc.*;
 
 /**
  @Auth HvS
  **/
 
-@WebMvcTest(LoginController.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class LoginControllerTest {
 
-    private MockMvc mockMvc;
-
-    @MockBean
+    @Mock
     private static UserService mockUserService;
-    @MockBean
+    @Mock
     private static TokenService mockTokenService;
 
-    public LoginController loginController= new LoginController(mockUserService, mockTokenService);
-
-    @Autowired
-    public LoginControllerTest(MockMvc mockMvc) {
-        this.mockMvc = mockMvc;
-    }
-
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    public void initRestAssuredMockMvcStandAlone() {
+        mockUserService = Mockito.mock(UserService.class);
+        mockTokenService = Mockito.mock(TokenService.class);
+        RestAssuredMockMvc.standaloneSetup(new LoginController(mockUserService, mockTokenService));
         Mockito.when(mockUserService.verifyUser("huibvanstraten@gmail.com", "biuh")).thenReturn(
                 new User(13167, new FullName("huib", "van", "Straten"), "29-01-1982",
                         new UserAddress("van lierdreef", 10, "a", "1234ab", "Blaricum"), "huibvanstraten@gmail.com"));
-        Mockito.when(mockTokenService.generateJwtToken("huibvanstraten@gmail.com","session" , 60)).thenReturn("DitIsEenToken");
-
-    }
-
-//    @Test //test is TDD geschreven. Na slagen test is methode veranderd.
-//    void loginUser() {
-//        User user = loginController.loginUser("huib", "biuh");
-//        int expectedBSN = 13167;
-//        int actualBSN = user.getBSN();
-//        assertEquals(expectedBSN, actualBSN);
-//    }
-
-//    @Test //test is TDD geschreven. Na slagen test is methode veranderd.
-//    void getToken() {
-//        String actualToken = loginController.loginUser("huib", "biuh");
-//        String expectedToken = "DitIsEenToken";
-//        assertEquals(expectedToken, actualToken);
-//    }
-
-/*
-    @Test
-    void responseEntityIsNotNull() {
-        ResponseEntity<User> actualEntity = loginController.loginUser("huib", "biuh");
-        assertNotNull(actualEntity);
+        Mockito.when(mockTokenService.generateJwtToken("huibvanstraten@gmail.com", "session", 60 )).thenReturn("ditiseentoken");
     }
 
     @Test
-    void responseEntityIs200() {
-        ResponseEntity<User> actualEntity = loginController.loginUser("huib", "biuh");
-        assertTrue(actualEntity.getStatusCode().is2xxSuccessful());
+    public void method_doesnt_allow_get() {
+        when()
+                .get("/login")
+        .then()
+                .statusCode(405);
     }
-*/
-
-//    @Test
-//    void responseEntityContainsKey() {
-//        assertTrue(loginController.loginUser("huib", "biuh").getHeaders(). // sth ..);
-//    }
 
     @Test
-    void loginTest() {
-        try {
+    public void login_required_parameters_not_present_returns_400() {
+        when()
+                .post("/login")
+        .then()
+                .statusCode(400);
+    }
 
-            MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/login");
-            request.param("username", "huib");
-            request.param("password", "biuh");
+    @Test
+    public void wrong_login_params_returns_401_UNAUTHORIZED() {
+        given()
+                .param("username", "huib")
+                .param("password", "biuh").
+        when()
+                .post("/login")
+        .then()
+                .statusCode(401);
+    }
 
-            // stuur die request naar de server en vang de response op
-            ResultActions response = mockMvc.perform(request);
+    @Test
+    public void with_right_login_returns_200() {
+        given()
+                .param("username", "huibvanstraten@gmail.com")
+                .param("password", "biuh").
+                when()
+                .post("/login")
+                .then()
+                .statusCode(200);
+    }
 
-            // test of de response aan de verwachtingen voldoet
-            response
-                    .andExpect(status().isOk())
-                    .andExpect(header().exists("authorization"))
-                    .andExpect(header().string("authorization", "987654"))
-                    .andDo(print());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @Test
+    public void with_right_login_returns_JSON() {
+        given()
+                .param("username", "huibvanstraten@gmail.com")
+                .param("password", "biuh").
+                when()
+                .post("/login")
+                .then()
+                .contentType(ContentType.JSON);
+    }
+
+
+    @Test
+    public void with_right_login_returns_User() {
+        given()
+                .param("username", "huibvanstraten@gmail.com")
+                .param("password", "biuh").
+        when()
+                .post("/login").
+        then()
+                .extract()
+                .body()
+                .as(User.class);
+    }
+
+    @Test
+    public void with_right_login_returns_token() {
+        given()
+                .param("username", "huibvanstraten@gmail.com")
+                .param("password", "biuh").
+        when()
+                .post("/login").
+        then()
+                .header("Authorization", "ditiseentoken");
     }
 }

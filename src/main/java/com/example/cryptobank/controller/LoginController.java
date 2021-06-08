@@ -7,7 +7,12 @@ import com.example.cryptobank.service.login.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -27,7 +32,8 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> loginUser (
+    @ResponseBody
+    public ResponseEntity loginUser (
             @RequestBody Map<String, String> requestParams
     ) {
         logger.info("Login request received from client");
@@ -37,9 +43,7 @@ public class LoginController {
         if (user != null) {
             String token = tokenService.generateJwtToken(username, "session", 60);
             return ResponseEntity.ok().header("Authorization", token).body(user);
-        } else {
-            logger.info("Het ging fout");
-            return ResponseEntity.notFound().build();
         }
+        return new ResponseEntity(HttpStatus.UNAUTHORIZED);
     }
 }
