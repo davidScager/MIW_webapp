@@ -4,49 +4,45 @@ import com.example.cryptobank.domain.Role;
 import com.example.cryptobank.domain.User;
 import com.example.cryptobank.domain.UserLoginAccount;
 import com.example.cryptobank.service.login.RegistrationService;
-import com.example.cryptobank.service.login.RegistrationServiceClass;
-import org.apache.catalina.connector.Response;
-import org.hibernate.annotations.Proxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpClient;
-
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/register")
 public class RegistrationController {
-    private Logger logger = LoggerFactory.getLogger(RegistrationController.class);
-    private RegistrationService registrationService;
-    private RegistrationServiceClass registrationServiceClass;
+    private final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
+    private final RegistrationService registrationService;
 
     @Autowired
-    public RegistrationController(RegistrationService registrationService, RegistrationServiceClass registrationServiceClass) {
+    public RegistrationController(RegistrationService registrationService) {
         logger.info("New RegistrationController");
         this.registrationService = registrationService;
-        this.registrationServiceClass = registrationServiceClass;
     }
 
-/*
+
     @GetMapping
-    public ResponseEntity<?> viewHtmlHandler(){
-        return ;
+    public String viewHtmlHandler(){
+        return "<html>" +
+                "<script>window.location.replace('http://localhost:8080/registreren.html')</script>" +
+                "</html>";
     }
-*/
+
 
     @PostMapping("/request")
     public ResponseEntity<?> registrationRequestHandler(@RequestBody UserLoginAccount userLoginAccount){
         if(registrationService.validate(userLoginAccount)){
-            String message = "Om registratie af te ronden is er een bevestigingslink naar het opgegeven emailadres verstuurd.";
-            return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
+            logger.info("Registratie gevalideerd");
+            String token = registrationService.cacheNewUserWithToken(userLoginAccount);
+            registrationService.sendConfirmationEmail(token, userLoginAccount.getEmail());
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
-        logger.info("registration rejected");
-        return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+        logger.info("Registratie geweigerd");
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -56,40 +52,19 @@ public class RegistrationController {
      * @author David_Scager
      */
     @PostMapping("/finalize")
-    public ResponseEntity<?> clientRegistrationHandler(@RequestParam("Authorization") String token){
+    public ResponseEntity<?> clientRegistrationHandler(@RequestHeader("Authorization") String token){
         String subject = "Register";
         if (registrationService.validateToken(token, subject)){
-            UserLoginAccount userLoginAccount = null;
-            User user = registrationService.register(userLoginAccount, Role.CLIENT, token);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            registrationService.registerUser(token);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/client")
     public ResponseEntity<?> tempClientRegistrationHandler(@RequestBody UserLoginAccount userLoginAccount){
-        if (registrationServiceClass.validate(userLoginAccount)){
-            String token = "token";
-            User user = registrationServiceClass.register(userLoginAccount, Role.CLIENT, token);
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
-    /**
-     * Register a new administrator
-     * Request Json/application format
-     * Return json parsed user object
-     * @param userLoginAccount (UserLoginAccount) wrapper class for user and loginAccount objects
-     * @return ResponseEntity<User></User>
-     *
-     * @author David_Scager
-     */
-    @PostMapping("/registeradmin")
-    public ResponseEntity<?> adminRegistrationHandler(@RequestBody UserLoginAccount userLoginAccount){
         if (registrationService.validate(userLoginAccount)){
-            String token = "token";
-            User user = registrationService.register(userLoginAccount, Role.ADMINISTRATOR, token);
+            User user = registrationService.register(userLoginAccount, Role.CLIENT);
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

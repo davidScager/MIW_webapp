@@ -1,6 +1,5 @@
 package com.example.cryptobank.controller;
 
-import com.example.cryptobank.service.login.RegistrationServiceClass;
 import com.example.cryptobank.service.login.RegistrationService;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.*;
@@ -20,13 +19,10 @@ class RegistrationControllerTest {
     @Mock
     private RegistrationService registrationService;
 
-    @Mock
-    private RegistrationServiceClass registrationServiceClass;
-
     @BeforeEach
     public void initRestAssuredMockMvcStandAlone(){
-        this.registrationService = Mockito.mock(RegistrationServiceClass.class);
-        RestAssuredMockMvc.standaloneSetup(new RegistrationController(registrationService, registrationServiceClass));
+        this.registrationService = Mockito.mock(RegistrationService.class);
+        RestAssuredMockMvc.standaloneSetup(new RegistrationController(registrationService));
     }
 
     // requirement registering client
@@ -37,7 +33,7 @@ class RegistrationControllerTest {
     @Test @Order(1)
     public void registrationRequest_returns_200_OK(){
         Mockito.when(registrationService.validate(Mockito.any(UserLoginAccount.class))).thenReturn(true);
-        Mockito.when(registrationService.register(Mockito.any(UserLoginAccount.class), Mockito.any(Role.class), Mockito.any(String.class)))
+        Mockito.when(registrationService.register(Mockito.any(UserLoginAccount.class), Mockito.any(Role.class)))
                 .thenReturn(new User(1234567, new FullName("Johnny", "", "Bravo"), "1997-11-01",
                         new UserAddress("dorpstraat", 10, "bis", "1234AB", "Zaltbommel"), "johnny.bravo@cartoonnetwork.com"));
         String jsonBody = """

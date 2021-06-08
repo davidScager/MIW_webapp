@@ -162,8 +162,6 @@ INSERT INTO actor (userId, checkingAccount, role) Values (4,32145678,'client');
 INSERT INTO actor (userId, checkingAccount, role) Values (5,32187456,'client');
 INSERT INTO actor (userId, checkingAccount, role) Values (6,32187456,'client');
 
-INSERT INTO User (BSN, userId, firstName, infix, surname, dateOfBirth, streetName, houseNr, addition, postalCode, residence, email) values
-(636363, 2, 'Niek', null, 'Mol', '1994-05-04', 'HIERRRRR', 2, null, '1234AA', 'UUUUUUUU', 'niekmol1994@gmail.com');
 INSERT INTO portfolio (portfolioId, actor) Values (101,1);
 INSERT INTO portfolio (portfolioId, actor) Values (102,2);
 INSERT INTO portfolio (portfolioId, actor) Values (103,3);
