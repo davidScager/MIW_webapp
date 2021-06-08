@@ -49,7 +49,10 @@ public class RegistrationServiceClass implements RegistrationService {
     public boolean validate(UserLoginAccount userLoginAccount){
         logger.info("Validating registration information with database");
         User user = userLoginAccount.getUser() ;
-        return rootRepository.getLoginByUsername(userLoginAccount.getEmail()) == null && rootRepository.getUserByBsn(user.getBSN()) == null;
+        if (userLoginAccount != null && user != null) {
+            return rootRepository.getLoginByUsername(userLoginAccount.getEmail()) == null && rootRepository.getUserByBsn(user.getBSN()) == null;
+        }
+        return false;
     }
 
     @Override
