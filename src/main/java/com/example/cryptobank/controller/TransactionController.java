@@ -39,7 +39,7 @@ public class TransactionController {
     }
 
     @PostMapping("/transactionorder")
-    public ResponseEntity<ArrayList<TransactionHTMLClient>> authorizeAndGetAssets(@RequestParam("Authorization") String token) {
+    public ResponseEntity<ArrayList<TransactionHTMLClient>> authorizeAndGetAssets(@RequestHeader("Authorization") String token) {
         ArrayList<TransactionHTMLClient> transactionHTMLClients = transactionService.authorizeAndGetAssets(token);
         if (transactionHTMLClients == null) {
             URI uri = URI.create("http://localhost:8080/login");
