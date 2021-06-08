@@ -2,6 +2,7 @@ package com.example.cryptobank;
 
 import com.example.cryptobank.service.currency.MethodRunOnScheduleHelper;
 import com.example.cryptobank.service.transaction.TransactionService;
+import org.junit.jupiter.api.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -26,8 +27,17 @@ public class CryptoBankApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		//testmain
-        /*methodRunOnScheduleHelper.getCurrencyDailyForHistoryValue();*/
-        methodRunOnScheduleHelper.getCurrencyDaily();
-
+        setHistory();
+        setEveryminute();
 	}
+
+	@Order(1)
+	public void setHistory(){
+        methodRunOnScheduleHelper.getCurrencyDailyForHistoryValue();
+    }
+
+    @Order(2)
+    public void setEveryminute(){
+        methodRunOnScheduleHelper.getCurrencyDaily();
+    }
 }

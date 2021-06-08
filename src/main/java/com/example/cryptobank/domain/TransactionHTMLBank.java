@@ -3,14 +3,14 @@ package com.example.cryptobank.domain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TransActionHTMLBank {
+public class TransactionHTMLBank {
     private String AssetName;
     private double assetUSDValue;
     private double getAssetUSDValueYesterday;
     private double avalable;
-    private final Logger logger = LoggerFactory.getLogger(TransActionHTMLBank.class);
+    private final Logger logger = LoggerFactory.getLogger(TransactionHTMLBank.class);
 
-    public TransActionHTMLBank(String assetName, double assetUSDValue, double getAssetUSDValueYesterday, double avalable) {
+    public TransactionHTMLBank(String assetName, double assetUSDValue, double getAssetUSDValueYesterday, double avalable) {
         AssetName = assetName;
         this.assetUSDValue = assetUSDValue;
         this.getAssetUSDValueYesterday = getAssetUSDValueYesterday;

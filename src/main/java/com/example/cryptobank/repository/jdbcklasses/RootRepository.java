@@ -126,6 +126,7 @@ public class RootRepository {
     }
 
     public List<Asset> updateAssetsByApi() {
+        assetDao.updateAssetsByApi();
         return assetDao.getAssetOverview();
     }
 
@@ -285,5 +286,21 @@ public class RootRepository {
         bankAndClientAssets.put("bank", getAssetOverviewWithAmount(101));
         bankAndClientAssets.put(username, getAssetOverviewWithAmount(portfolioId));
         return bankAndClientAssets;
+    }
+
+    public ArrayList<TransactionHTMLClient> clientListForTransactionHTML(String username){
+        ArrayList<TransactionHTMLClient> assetList = new ArrayList<>();
+        long userId = userDao.get(username).getId();
+        int portfolioId = portfolioDao.getPortfolioIdByUserId((int)userId).getPortfolioId();
+        Map<Asset, Double> clientAssets = getAssetOverviewWithAmount(portfolioId);
+        clientAssets.forEach((asset, aDouble) -> assetList.add(new TransactionHTMLClient(asset.getName(), aDouble, asset.getValueInUsd())));
+        return assetList;
+    }
+
+    public ArrayList<TransactionHTMLBank> bankListForTransactionHTML(){
+        ArrayList<TransactionHTMLBank> assetList = new ArrayList<>();
+        Map<Asset, Double> clientAssets = getAssetOverviewWithAmount(101);//portfolioId from bank
+        clientAssets.forEach((asset, aDouble) -> assetList.add(new TransactionHTMLBank(asset.getName(), asset.getValueInUsd(), asset.getValueYesterday(), aDouble)));
+        return assetList;
     }
 }

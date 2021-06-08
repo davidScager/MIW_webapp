@@ -1,9 +1,6 @@
 package com.example.cryptobank.service.transaction;
 
-import com.example.cryptobank.domain.Asset;
-import com.example.cryptobank.domain.Portfolio;
-import com.example.cryptobank.domain.Transaction;
-import com.example.cryptobank.domain.TransactionLog;
+import com.example.cryptobank.domain.*;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import com.example.cryptobank.service.mailSender.GenerateMailContext;
 import com.example.cryptobank.service.mailSender.MailSenderService;
@@ -51,7 +48,7 @@ public class TransactionService {
         logger.info("New TransactionService");
     }
 
-    public Map authorizeAndGetAssets(String token) {
+    public ArrayList<TransactionHTMLClient> authorizeAndGetAssets(String token) {
         String username;
         try {
             username = tokenService.parseToken(token, "session");
@@ -60,11 +57,15 @@ public class TransactionService {
             logger.info("token is ongeldig");
             return null;
         }
-        return rootRepository.getAssetPortfolioByUsername(username);
+        return rootRepository.clientListForTransactionHTML(username);
     }
 
     public Map<Asset, Double> getAssetOverviewWithAmount(int portfolioId) {
         return rootRepository.getAssetOverviewWithAmount(portfolioId);
+    }
+
+    public ArrayList<TransactionHTMLBank> bankArrayList(){
+        return rootRepository.bankListForTransactionHTML();
     }
 
     public Transaction createNewTransaction(int seller, int buyer, double numberOfAssets, double transactionCost, String assetSold, String assetBought) throws IOException {
