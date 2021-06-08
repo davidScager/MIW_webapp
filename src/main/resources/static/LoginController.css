@@ -125,3 +125,13 @@ input{
     padding: 1px;
 }
 
+#loginError{
+    color: red;
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    font-family: Arial;
+    visibility: hidden;
+}
+
