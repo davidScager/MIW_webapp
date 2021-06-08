@@ -9,11 +9,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- @Auth HvS
- //todo work in progress
- **/
-
 class TokenServiceTest {
 
     @Test

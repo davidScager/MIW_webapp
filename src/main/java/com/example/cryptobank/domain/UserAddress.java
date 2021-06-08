@@ -3,6 +3,8 @@ package com.example.cryptobank.domain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 public class UserAddress {
     private Logger logger = LoggerFactory.getLogger(UserAddress.class);
     private String postalCode;
@@ -14,13 +16,13 @@ public class UserAddress {
     public UserAddress(){
     }
 
-    public UserAddress(String postalCode, int houseNr, String addition, String streetName, String residence) {
+    public UserAddress(String streetName, int houseNr, String addition, String postalCode, String residence) {
         this();
         logger.info("New UserAddress");
-        this.postalCode = postalCode;
+        this.streetName = streetName;
         this.houseNr = houseNr;
         this.addition = addition;
-        this.streetName = streetName;
+        this.postalCode = postalCode;
         this.residence = residence;
     }
 
@@ -73,5 +75,18 @@ public class UserAddress {
 
     public String getResidence() {
         return residence;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserAddress)) return false;
+        UserAddress that = (UserAddress) o;
+        return getHouseNr() == that.getHouseNr() && Objects.equals(getPostalCode(), that.getPostalCode()) && Objects.equals(getAddition(), that.getAddition()) && Objects.equals(getStreetName(), that.getStreetName()) && Objects.equals(getResidence(), that.getResidence());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPostalCode(), getHouseNr(), getAddition(), getStreetName(), getResidence());
     }
 }
