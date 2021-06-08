@@ -6,6 +6,7 @@ import com.example.cryptobank.domain.UserAddress;
 import com.example.cryptobank.service.login.UserService;
 import com.example.cryptobank.service.security.TokenService;
 import io.restassured.http.ContentType;
+import io.restassured.mapper.ObjectMapperType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
@@ -54,9 +55,11 @@ class LoginControllerTest {
 
     @Test
     public void wrong_login_params_returns_401_UNAUTHORIZED() {
+        String requestBody = "{\"username\": \"huib\",\n" +
+                "\"password\": \"biuh\"}";
         given()
-                .param("username", "huib")
-                .param("password", "biuh").
+                .header("Content-type", "application/json")
+                .body(requestBody).
         when()
                 .post("/login")
         .then()
@@ -65,32 +68,37 @@ class LoginControllerTest {
 
     @Test
     public void with_right_login_returns_200() {
+        String requestBody = "{\"username\": \"huibvanstraten@gmail.com\",\n" +
+                "\"password\": \"biuh\"}";
         given()
-                .param("username", "huibvanstraten@gmail.com")
-                .param("password", "biuh").
-                when()
-                .post("/login")
-                .then()
+                .header("Content-type", "application/json")
+                .body(requestBody).
+        when()
+                .post("/login").
+        then()
                 .statusCode(200);
     }
 
     @Test
     public void with_right_login_returns_JSON() {
+        String requestBody = "{\"username\": \"huibvanstraten@gmail.com\",\n" +
+                "\"password\": \"biuh\"}";
         given()
-                .param("username", "huibvanstraten@gmail.com")
-                .param("password", "biuh").
-                when()
-                .post("/login")
-                .then()
+                .header("Content-type", "application/json")
+                .body(requestBody).
+        when()
+                .post("/login").
+        then()
                 .contentType(ContentType.JSON);
     }
 
-
     @Test
     public void with_right_login_returns_User() {
+        String requestBody = "{\"username\": \"huibvanstraten@gmail.com\",\n" +
+                "\"password\": \"biuh\"}";
         given()
-                .param("username", "huibvanstraten@gmail.com")
-                .param("password", "biuh").
+                .header("Content-type", "application/json")
+                .body(requestBody).
         when()
                 .post("/login").
         then()
@@ -101,9 +109,11 @@ class LoginControllerTest {
 
     @Test
     public void with_right_login_returns_token() {
+        String requestBody = "{\"username\": \"huibvanstraten@gmail.com\",\n" +
+                "\"password\": \"biuh\"}";
         given()
-                .param("username", "huibvanstraten@gmail.com")
-                .param("password", "biuh").
+                .header("Content-type", "application/json")
+                .body(requestBody).
         when()
                 .post("/login").
         then()
