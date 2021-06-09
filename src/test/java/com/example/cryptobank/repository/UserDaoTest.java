@@ -14,10 +14,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * @auth HvS
- */
-
 @SpringBootTest
 @ActiveProfiles("test")
 class UserDaoTest {
@@ -84,7 +80,12 @@ class UserDaoTest {
     }
 
     @Test
-    void delete() {
+    void user_is_deleted() {
+        userExpected.setId(7);
+        userTestDao.delete(123456);
+        userTestDao.create(userExpected);
+        List<User> actualList = userTestDao.list();
+        assertThat(actualList.size()).isEqualTo(3);
     }
 }
 

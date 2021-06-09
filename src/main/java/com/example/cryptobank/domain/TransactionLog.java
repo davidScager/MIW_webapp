@@ -4,6 +4,8 @@ import com.example.cryptobank.repository.daointerfaces.AssetDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 public class TransactionLog {
 
     private double boughtAssetTransactionRate;
@@ -97,5 +99,18 @@ public class TransactionLog {
                 ", amount sold" + numberOfAssetsSold +
                 ", transaction cost " + transactionCost +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TransactionLog)) return false;
+        TransactionLog that = (TransactionLog) o;
+        return Double.compare(that.getBoughtAssetTransactionRate(), getBoughtAssetTransactionRate()) == 0 && Double.compare(that.getSoldAssetTransactionRate(), getSoldAssetTransactionRate()) == 0 && Double.compare(that.getBoughtAssetAdjustmentFactor(), getBoughtAssetAdjustmentFactor()) == 0 && Double.compare(that.getSoldAssetAdjustmentFactor(), getSoldAssetAdjustmentFactor()) == 0 && Double.compare(that.getNumberOfAssetsBought(), getNumberOfAssetsBought()) == 0 && Double.compare(that.getNumberOfAssetsSold(), getNumberOfAssetsSold()) == 0 && Double.compare(that.getTransactionCost(), getTransactionCost()) == 0 && Objects.equals(logger, that.logger);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getBoughtAssetTransactionRate(), getSoldAssetTransactionRate(), getBoughtAssetAdjustmentFactor(), getSoldAssetAdjustmentFactor(), getNumberOfAssetsBought(), getNumberOfAssetsSold(), getTransactionCost(), logger);
     }
 }
