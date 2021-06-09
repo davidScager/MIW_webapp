@@ -4,12 +4,18 @@ import com.example.cryptobank.domain.Role;
 import com.example.cryptobank.domain.User;
 import com.example.cryptobank.domain.UserLoginAccount;
 import com.example.cryptobank.service.login.RegistrationService;
+import org.apache.catalina.connector.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -26,10 +32,13 @@ public class RegistrationController {
 
 
     @GetMapping
-    public String viewHtmlHandler(){
-        return "<html>" +
-                "<script>window.location.replace('http://localhost:8080/registreren.html')</script>" +
-                "</html>";
+    public RedirectView viewHtmlRegisterHandler(){
+        return new RedirectView("http://localhost:8080/registreren.html");
+    }
+
+    @GetMapping("/failed")
+    public RedirectView viewHtmlRegisterFailedHandler(){
+        return new RedirectView("http://localhost:8080/registreren-mislukt.html");
     }
 
 
@@ -51,14 +60,14 @@ public class RegistrationController {
      *
      * @author David_Scager
      */
-    @PostMapping("/finalize")
-    public ResponseEntity<?> clientRegistrationHandler(@RequestHeader("Authorization") String token){
+    @GetMapping("/finalize")
+    public RedirectView clientRegistrationHandler(@RequestParam("Authorization") String token){
         String subject = "Register";
         if (registrationService.validateToken(token, subject)){
             registrationService.registerUser(token);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new RedirectView("http://localhost:8080/loginredirect");
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new RedirectView("http://localhost:8080/register/failed");
     }
 
     @PostMapping("/client")

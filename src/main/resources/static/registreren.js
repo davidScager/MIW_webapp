@@ -13,7 +13,7 @@ function register(){
     let email = document.querySelector('#email').value;
     let password = document.querySelector('#password').value;
     console.log();
-    fetch('http://localhost:8080/register/client',
+    fetch('http://localhost:8080/register/request',
         {
             method: 'POST',
             headers: {
@@ -37,15 +37,18 @@ function register(){
         })
         .then(response => {
             console.log(response)
-            if(response.ok){
-                //window.location.replace()
-                return response.json()
-            }
         })
         .catch((error) => {
             console.error('Foutje', error);
             alert("Registratie mislukt")
         })
+}
+
+function afterRegister() {
+    document.getElementById('form').style.visibility = 'hidden';
+    document.getElementById('regButton').style.visibility = 'hidden';
+    document.getElementById('regInfo').innerHTML = 'Er is een bevestigingsmail naar het opgegeven email adres gestuurd. ' +
+        '\nBevestig je registratie a.u.b. binnen 30 minuten.'
 }
 
 function sendToken(token) {

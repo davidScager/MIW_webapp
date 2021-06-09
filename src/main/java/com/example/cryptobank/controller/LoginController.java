@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Map;
 
@@ -29,6 +30,12 @@ public class LoginController {
         logger.info("New LoginController");
         this.userService = userService;
         this.tokenService = tokenService;
+    }
+
+    // was nodig voor redirect vanuit registratie -David
+    @GetMapping("/loginredirect")
+    public RedirectView viewHtmlLoginHandler(){
+        return new RedirectView("http://localhost:8080/LoginController.html");
     }
 
     @PostMapping("/login")

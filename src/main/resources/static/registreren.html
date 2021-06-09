@@ -37,7 +37,7 @@
             <input id="bsn" placeholder="BSN*" maxlength="9" required><br>
             <input id="firstName" placeholder="Voornaam*" maxlength="64" required><br>
             <input id="infix" placeholder="Tussenvoegsel" maxlength="64"><br>
-            <input id="surname" placeholder="Achternaam*" maxlength="64" required><hr>
+            <input id="surname" placeholder="Achternaam*" maxlength="64" required><br>
             <input id="dateOfBirth" placeholder="jjjj-mm-dd*" maxlength="64" required><hr>
             <label>Adres</label><br>
             <input id="postalCode" placeholder="Postcode*" maxlength="6" required><br>
@@ -52,7 +52,7 @@
             <label for="repassword">Type uw wachtwoord opnieuw*</label><br>
             <input id="repassword" maxlength="64" required><hr>
         </form>
-        <button id="regButton" type="button" onclick="register()">Registreren</button>
+        <button id="regButton" type="button" onclick="register(); afterRegister();">Registreren</button>
     </div>
     </div>
     <div class="column side"></div>

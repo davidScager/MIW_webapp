@@ -215,6 +215,8 @@ public class GenerateMailContext {
                 "    top: 30%;\n" +
                 "    left: 50%;\n" +
                 "    text-align: center;\n" +
+                "    font-family: Calibri, sans-serif;\n" +
+                "    font-size: medium;\n" +
                 "    -ms-transform: translate(-50%, -50%);\n" +
                 "    transform: translate(-50%, -50%);\n" +
                 "}\n" +
@@ -233,8 +235,8 @@ public class GenerateMailContext {
                 "</header>\n" +
                 "\n" +
                 "\n" +
-                "<h1>Geachte klant,\n\nKlik op de onderstaande knop om uw registratie bij BitBank af te ronden.\n Doe dit a.u.b. binnen een uur na ontvangst van deze email. </h1>\n" +
-                "<button class=\"button\" style=\"vertical-align:middle\" onclick=\"sendToken('" + token + "')\" ><span>Bevestigen</a></span></button>\n" +
+                "<h1>Geachte klant,<br> Klik op de onderstaande knop om uw registratie bij BitBank af te ronden. <br> Doe dit a.u.b. binnen 30 minuten na ontvangst van deze email. </h1>\n" +
+                "<button class=\"button\" style=\"vertical-align:middle\" ><span><a href=\"" + CreateURLHelper.generateToken(registerationURL, token) + "\">Bevestig email.</a></span></span></button>\n" +
                 "\n" +
                 "\n" +
                 "<footer></footer>\n" +

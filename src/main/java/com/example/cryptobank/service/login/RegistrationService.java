@@ -59,9 +59,10 @@ public class RegistrationService {
             @Override
             public void run() {
                 registrationCache.remove(token);
+                logger.info("Cache cleared");
             }
         }, 1800000);
-        logger.info(userLoginAccount.toString());
+        logger.info(registrationCache.get(token).toString());
         return token;
     }
 
@@ -72,6 +73,7 @@ public class RegistrationService {
             logger.info("Registration confirmation email sent to new client");
         } catch (MalformedURLException | MessagingException urlMessageError) {
             urlMessageError.printStackTrace();
+            logger.info("Failed to send email.");
         }
     }
 
@@ -79,6 +81,8 @@ public class RegistrationService {
         UserLoginAccount userLoginAccount = registrationCache.get(token) ;
         rootRepository.registerLogin(userLoginAccount.getUser(), userLoginAccount.getPassword());
         rootRepository.registerUser(userLoginAccount.getUser(), Role.CLIENT);
+        registrationCache.remove(token);
+        logger.info("Cache cleared");
         logger.info("New Client registered");
     }
 
@@ -86,12 +90,13 @@ public class RegistrationService {
         try {
             tokenService.parseToken(token, subject);
             if (registrationCache.containsKey(token)){
-                registrationCache.remove(token);
                 return true;
             }
             return false;
         } catch (Exception e) {
             logger.info("Invalid token");
+            registrationCache.remove(token);
+            logger.info("Cache cleared");
             return false;
         }
     }
