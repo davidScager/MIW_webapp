@@ -44,7 +44,6 @@ public class TransactionService {
         this.tokenService = tokenService;
         this.mailSenderService = mailSenderService;
         this.generateMailContext = generateMailContext;
-
         logger.info("New TransactionService");
     }
 
@@ -68,7 +67,7 @@ public class TransactionService {
         return rootRepository.bankListForTransactionHTML();
     }
 
-    public Transaction createNewTransaction(int seller, int buyer, double numberOfAssets, double transactionCost, String assetSold, String assetBought) throws IOException {
+    public Transaction createNewTransaction(int seller, int buyer, double numberOfAssets, double transactionCost, String assetSold, String assetBought) {
         TransactionLog tempTransactionLog = rootRepository.createNewTransactionLog(assetSold, assetBought, numberOfAssets, transactionCost);
         Transaction newTransaction = new Transaction(seller, buyer, assetSold, assetBought, tempTransactionLog);
         rootRepository.saveTransactionAndLog(newTransaction);
@@ -123,18 +122,8 @@ public class TransactionService {
                 }
             }
         }
-
         return tempMostRecentTransaction;
     }
-
-    public void deleteTransaction(int id) {
-        rootRepository.deleteTransaction(id);
-    }
-
-    public void updateAdjustmentFactor(String assetName, double numberOfAssets, int buyerId, int sellerId) {
-        rootRepository.updateAdjustmentFactor(assetName, numberOfAssets, buyerId, sellerId);
-    }
-
 
     public void setTransaction(Map transactionData, String username) { // raw map. problemen bij casten??
         int seller = (int) transactionData.get(0);
