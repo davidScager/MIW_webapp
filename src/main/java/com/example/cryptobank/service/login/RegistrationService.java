@@ -47,12 +47,12 @@ public class RegistrationService {
         logger.info("Validating registration information with database");
         User user = userLoginAccount.getUser();
         return user != null
-                && rootRepository.getLoginByUsername(userLoginAccount.getEmail()) == null
+                && rootRepository.getLoginByUsername(userLoginAccount.getUser().getEmail()) == null
                 && rootRepository.getUserByBsn(user.getBSN()) == null;
     }
 
     public String cacheNewUserWithToken(UserLoginAccount userLoginAccount){
-        String token = tokenService.generateJwtToken(userLoginAccount.getEmail(), "Register", 30);
+        String token = tokenService.generateJwtToken(userLoginAccount.getUser().getEmail(), "Register", 30);
         registrationCache.put(token, userLoginAccount);
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {

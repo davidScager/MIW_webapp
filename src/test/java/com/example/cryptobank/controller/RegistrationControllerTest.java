@@ -17,12 +17,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 class RegistrationControllerTest {
 
     @Mock
-    private RegistrationService registrationService;
+    private RegistrationService mockRegistrationService;
+
+    @Mock
+    private UserLoginAccount mockUserLoginAccount;
 
     @BeforeEach
     public void initRestAssuredMockMvcStandAlone(){
-        this.registrationService = Mockito.mock(RegistrationService.class);
-        RestAssuredMockMvc.standaloneSetup(new RegistrationController(registrationService));
+        this.mockRegistrationService = Mockito.mock(RegistrationService.class);
+        this.mockUserLoginAccount = Mockito.mock(UserLoginAccount.class);
+        RestAssuredMockMvc.standaloneSetup(new RegistrationController(mockRegistrationService));
     }
 
     // requirement registering client
@@ -32,8 +36,8 @@ class RegistrationControllerTest {
     // 3- application/json body format in response
     @Test @Order(1)
     public void registrationRequest_returns_200_OK(){
-        Mockito.when(registrationService.validate(Mockito.any(UserLoginAccount.class))).thenReturn(true);
-        Mockito.when(registrationService.register(Mockito.any(UserLoginAccount.class), Mockito.any(Role.class)))
+        Mockito.when(mockRegistrationService.validate(Mockito.any(UserLoginAccount.class))).thenReturn(true);
+        Mockito.when(mockRegistrationService.register(Mockito.any(UserLoginAccount.class), Mockito.any(Role.class)))
                 .thenReturn(new User(1234567, new FullName("Johnny", "", "Bravo"), "1997-11-01",
                         new UserAddress("dorpstraat", 10, "bis", "1234AB", "Zaltbommel"), "johnny.bravo@cartoonnetwork.com"));
         String jsonBody = """
