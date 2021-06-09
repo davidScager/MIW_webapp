@@ -8,18 +8,6 @@
     <link href="registreren.css" rel="stylesheet" type="text/css"/>
     <link href="BaseLayout.css" rel="stylesheet" type="text/css"/>
     <script src="registreren.js"></script>
-    <script>
-        function register(){
-
-        }
-
-        function afterRegister() {
-            document.getElementById('form').style.display='none';
-            document.getElementById('footer').style.position='absolute';
-            document.getElementById('regInfo').innerHTML="Er is een email naar het opgegeven emailadres gestuurd met een bevestigingslink. Reageer a.u.b. binnen 30 minuten.";
-
-        }
-    </script>
 </head>
 
 <body class="page">
@@ -44,11 +32,13 @@
     <div class="registration-form">
         <h1>Registratie formulier nieuwe klant</h1>
         <p id="regInfo">Als u zich wilt registreren voor een nieuw account, vul dan a.u.b. het onderstaande formulier in. <br>(velden met een * zijn verplicht)</p>
-        <form class="flex-box" id="form" action="/register/registerclient" method="post">
+        <form class="flex-box" id="form" >
             <label>Persoonsgegevens</label><br>
+            <input id="bsn" placeholder="BSN*" maxlength="9" required><br>
             <input id="firstName" placeholder="Voornaam*" maxlength="64" required><br>
             <input id="infix" placeholder="Tussenvoegsel" maxlength="64"><br>
-            <input id="surname" placeholder="Achternaam*" maxlength="64" required><hr>
+            <input id="surname" placeholder="Achternaam*" maxlength="64" required><br>
+            <input id="dateOfBirth" placeholder="jjjj-mm-dd*" maxlength="64" required><hr>
             <label>Adres</label><br>
             <input id="postalCode" placeholder="Postcode*" maxlength="6" required><br>
             <input id="houseNr" placeholder="Huisnummer*" maxlength="4" type="number" required><br>
@@ -58,11 +48,11 @@
             <label for="email" >Email*</label><br>
             <input id="email" maxlength="64" required><br>
             <label for="password" >Wachtwoord*</label><br>
-            <input type="password" id="password" maxlength="64" required><br>
+            <input id="password" maxlength="64" required><br>
             <label for="repassword">Type uw wachtwoord opnieuw*</label><br>
-            <input type="password" id="repassword" maxlength="64" required><hr>
+            <input id="repassword" maxlength="64" required><hr>
         </form>
-        <button id="regButton" type="submit" >Registreren</button>
+        <button id="regButton" type="button" onclick="register(); afterRegister();">Registreren</button>
     </div>
     </div>
     <div class="column side"></div>

@@ -56,11 +56,14 @@ public class RootRepository {
         logger.debug("RootRepository.registerUser aangeroepen voor user " + user.getBSN());
         Actor newActor = new Actor(role);
         actorDao.create(newActor);
+        logger.info("Actor registered");
         user.setId(newActor.getUserId());
         userDao.create(user);
         Portfolio portfolio = new Portfolio(newActor);
         savePortfolio(portfolio);
         assetPortfolioDao.create(new AssetPortfolio("USD", portfolio.getPortfolioId(), STARTKAPITAAL));
+        logger.info("Portfolio registered");
+        logger.info("User registered");
     }
 
     public User getUserByUsername(String username) {
@@ -90,6 +93,7 @@ public class RootRepository {
      */
     public void registerLogin(User user, String hash){
         loginDAO.create(user.getEmail(), hash);
+        logger.info("LoginAccount registered");
     }
 
     public void saveActor(Actor actor){

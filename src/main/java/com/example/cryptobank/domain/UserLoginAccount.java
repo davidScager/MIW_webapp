@@ -1,5 +1,8 @@
 package com.example.cryptobank.domain;
 
+import com.example.cryptobank.service.security.HashService;
+import com.example.cryptobank.service.security.PepperService;
+
 public class UserLoginAccount {
     private User user;
     private String email;
@@ -8,10 +11,20 @@ public class UserLoginAccount {
     // default const. needed for testing/mocking, but doesn't work with client requests
     //public UserLoginAccount(){}
 
-    public UserLoginAccount(int bsn, String firstname, String infix, String surname, String dateofbirth, String postalCode, int houseNr, String addition, String streetName, String residence, String email, String password){
-        this.user = new User(bsn, new FullName(firstname, infix, surname), dateofbirth, new UserAddress(postalCode, houseNr, addition, streetName, residence), email);
+    public UserLoginAccount(int bsn, String firstName, String infix, String surname, String dateOfBirth, String postalCode, int houseNr, String addition, String streetName, String residence, String email, String password){
+        this.user = new User(bsn, new FullName(firstName, infix, surname), dateOfBirth, new UserAddress(postalCode, houseNr, addition, streetName, residence), email);
+        HashService hashService = new HashService(new PepperService());
         this.email = email;
-        this.password = password;
+        this.password = hashService.argon2idHash(password);
+    }
+
+    @Override
+    public String toString() {
+        return "UserLoginAccount{" +
+                "user=" + user +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 
     public void setUser(User user) {

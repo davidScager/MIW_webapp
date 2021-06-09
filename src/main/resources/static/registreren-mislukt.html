@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>BitBank - Registreren Mislukt</title>
+    <link href="registreren.css" rel="stylesheet" type="text/css"/>
+    <link href="BaseLayout.css" rel="stylesheet" type="text/css"/>
+    <script src="registreren.js"></script>
+</head>
+
+<body class="page">
+
+<div class="header navbar">
+    <div class="navbar sideNav">
+        <a href="Transaction.html">Handelen</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="TransactionHistory.html">Transacties</a>
+    </div>
+    <div> <a href="HomeScherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
+    <div class="navbar sideNav">
+        <a href="LoginController.html">Login</a>
+        <a href="registreren.html">Registreren</a>
+        <a class="cta" href="contact.html"><button>Contact</button> </a>
+    </div>
+</div>
+
+<div class="registration-box">
+    <div class="column side"></div>
+    <div class="column middle">
+        <div class="registration-form">
+            <h1>Registratie Mislukt</h1>
+            <p id="regInfo">Het is helaas niet gelukt om uw registratie af te ronden. <br> Probeer het a.u.b. opnieuw. </p>
+            <form class="flex-box" id="form" >
+                <label>Persoonsgegevens</label><br>
+                <input id="bsn" placeholder="BSN*" maxlength="9" required><br>
+                <input id="firstName" placeholder="Voornaam*" maxlength="64" required><br>
+                <input id="infix" placeholder="Tussenvoegsel" maxlength="64"><br>
+                <input id="surname" placeholder="Achternaam*" maxlength="64" required><br>
+                <input id="dateOfBirth" placeholder="jjjj-mm-dd*" maxlength="64" required><hr>
+                <label>Adres</label><br>
+                <input id="postalCode" placeholder="Postcode*" maxlength="6" required><br>
+                <input id="houseNr" placeholder="Huisnummer*" maxlength="4" type="number" required><br>
+                <input id="addition" placeholder="Toevoeging" maxlength="4"><br>
+                <input id="streetName" placeholder="Straat*" maxlength="64" required><br>
+                <input id="residence" placeholder="Woonplaats*" maxlength="64" required><hr>
+                <label for="email" >Email*</label><br>
+                <input id="email" maxlength="64" required><br>
+                <label for="password" >Wachtwoord*</label><br>
+                <input id="password" maxlength="64" required><br>
+                <label for="repassword">Type uw wachtwoord opnieuw*</label><br>
+                <input id="repassword" maxlength="64" required><hr>
+            </form>
+            <button id="regButton" type="button" onclick="register(); afterRegister();" >Registreren</button>
+        </div>
+    </div>
+    <div class="column side"></div>
+</div>
+
+<div class="footer" id="footer">
+    <img class="footer img" src="images/B left.png" alt="BLeft">
+    <img class="footer img" src="images/B right.png" alt="Bright">
+</div>
+</body>
+
+</html>

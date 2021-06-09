@@ -16,23 +16,23 @@ public class UserAddress {
     public UserAddress(){
     }
 
-    public UserAddress(String streetName, int houseNr, String addition, String postalCode, String residence) {
+    public UserAddress(String postalCode, int houseNr, String addition, String streetName, String residence) {
         this();
         logger.info("New UserAddress");
-        this.streetName = streetName;
+        this.postalCode = postalCode;
         this.houseNr = houseNr;
         this.addition = addition;
-        this.postalCode = postalCode;
+        this.streetName = streetName;
         this.residence = residence;
     }
 
     @Override
     public String toString() {
         return "UserAddress{" +
-                "streetName='" + streetName + '\'' +
+                "postalCode='" + postalCode + '\'' +
                 ", houseNr=" + houseNr +
                 ", addition='" + addition + '\'' +
-                ", postalCode='" + postalCode + '\'' +
+                ", streetName='" + streetName + '\'' +
                 ", residence='" + residence + '\'' +
                 '}';
     }
