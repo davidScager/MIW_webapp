@@ -153,8 +153,6 @@ INSERT INTO role VALUES ('administrator');
 INSERT INTO role VALUES ('bank');
 INSERT INTO role VALUES ('client');
 
-INSERT INTO loginaccount (username, password, token) VALUES ('niekmol1994@gmail.com', '$argon2id$v=19$m=15360,t=2,p=1$0trGK6yztdFqZJtZdbmYig$IcdrP4+vTchnFQ1Gr0ZmFEfF5ic8jSdgmLG0uk6clLA', null);
-
 INSERT INTO actor (userId, checkingAccount, role) Values (1,12345678,'bank');
 INSERT INTO actor (userId, checkingAccount, role) Values (2,87654321,'client');
 INSERT INTO actor (userId, checkingAccount, role) Values (3,45612387,'client');

@@ -28,15 +28,15 @@ public class JdbcLoginDao implements LoginDao {
     }
 
     @Override
-    public void create(String username, String hash) {
-        jdbcTemplate.update(connection -> insertLoginStatement(username, hash, null, connection));
+    public void create(String username, String password) {
+        jdbcTemplate.update(connection -> insertLoginStatement(username, password, /*null,*/ connection));
     }
 
-    private PreparedStatement insertLoginStatement(String username, String hash, String token, Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("insert into loginaccount values (?, ?, ?)");
+    private PreparedStatement insertLoginStatement(String username, String password, /*String token,*/ Connection connection) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("insert into loginaccount values (?, ?)");
         ps.setString(1, username);
-        ps.setString(2, hash);
-        ps.setString(3, token);
+        ps.setString(2, password);
+        //ps.setString(3, token);
         return ps;
     }
 
@@ -53,9 +53,9 @@ public class JdbcLoginDao implements LoginDao {
     }
 
     @Override
-    public void update(String username, String hash, String token) {
+    public void update(String username, String password, String token) {
         jdbcTemplate.update("update loginaccount set username = ?, password  = ?, token = ? where username = ?",
-                username, hash, token, username);
+                username, password, token, username);
     }
 
     @Override
