@@ -199,7 +199,6 @@ public class TransactionService {
         } else {
             executeTransaction(seller, buyer, numberOfAssets, assetSold, assetBought, username, value);
         }
-
     }
     //alles klopt
     private void executeTransaction(int seller, int buyer, double numberOfAssets, String assetSold, String assetBought, String username, double value) throws IOException, MessagingException {
@@ -210,7 +209,6 @@ public class TransactionService {
         } else {
             mailSenderService.sendMail(username, generateMailContext.transactionOrderConfirmed(username, assetBought, value), "Succesvole transactie:)");
         }
-
     }
     //bank heeft niet genoeg assets al koper
     private void executeTransactionInDollars(int seller, int buyer, double numberOfAssets, String assetBought, String username, double value) throws IOException, MessagingException {
@@ -243,22 +241,4 @@ public class TransactionService {
         isSufficient.add(numberOfOwnedassetsBank.get() >= numberOfAssetsBank);
         return isSufficient;
     }
-
-    /*@Scheduled(fixedDelay = 60000)*/
-    private boolean checkValueAsset(double value, String assetName, int buyer) {
-        Asset asset = rootRepository.getAsset(assetName);
-        if (buyer == 1) {
-            if (asset.getValueInUsd() >= value) {
-                return true;
-                //stop
-            }
-        } else {
-            if (asset.getValueInUsd() <= value) {
-                return true;
-                //stop
-            }
-        }
-        return false;
-    }
-
 }

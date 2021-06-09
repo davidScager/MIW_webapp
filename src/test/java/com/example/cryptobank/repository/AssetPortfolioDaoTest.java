@@ -19,27 +19,26 @@ import java.util.Map;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class JdbcAssetPortfolioDaoTest {
+class AssetPortfolioDaoTest {
     private static AssetPortfolio assetPortfolio;
+    private AssetPortfolioDao assetPortfolioDao;
     private static Actor actor;
-    private static ActorDao actorDao;
+    private ActorDao actorDao;
     private static Asset asset;
-    private final AssetPortfolioDao assetPortfolioDao;
-    private static AssetDao assetDao;
+    private AssetDao assetDao;
 
     @Autowired
-    JdbcAssetPortfolioDaoTest(AssetPortfolioDao assetPortfolioDao, ActorDao actorDao, AssetDao assetDao) {
+    AssetPortfolioDaoTest(AssetPortfolioDao assetPortfolioDao, ActorDao actorDao, AssetDao assetDao) {
         this.assetPortfolioDao = assetPortfolioDao;
         this.actorDao = actorDao;
         this.assetDao = assetDao;
     }
     @BeforeAll
     static void setup(){
-        asset = new Asset("Test", "test", "tt", "bla", 1, 1, 1, 1, 1);
+        /*asset = new Asset("Test", "test", "tt", "bla", 1, 1, 1, 1, 1);
         assetDao.create(asset);
         assetPortfolio = new AssetPortfolio("Test", 1, 2, 1);
-        actor = actorDao.get(1).get();
+        actor = actorDao.get(1).get();*/
     }
 
 
