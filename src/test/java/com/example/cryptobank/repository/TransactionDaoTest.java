@@ -4,6 +4,7 @@ import com.example.cryptobank.domain.Transaction;
 import com.example.cryptobank.domain.TransactionLog;
 import com.example.cryptobank.repository.daointerfaces.TransactionDao;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,8 +20,8 @@ import org.slf4j.LoggerFactory;
 @ActiveProfiles("test")
 public class TransactionDaoTest {
 
-    private RootRepository rootRepository;
     private TransactionDao transactionDao;
+    private static Transaction transaction;
     private final Logger logger = LoggerFactory.getLogger(TransactionDaoTest.class);
 
     @Autowired
@@ -30,6 +31,12 @@ public class TransactionDaoTest {
         logger.info("New instance of TransactionDaoTest created.");
     }
 
+    @BeforeAll
+    public static void setup() {
+        transaction = new Transaction(3, 1, "USD", "BTC", new TransactionLog());
+        transaction.setTransactionId(2013);
+    }
+
     @Test
     public void transaction_dao_is_available() {
         assertThat(transactionDao).isNotNull();
@@ -37,25 +44,25 @@ public class TransactionDaoTest {
 
     @Test
     public void saveTransactionTest() {
-        Transaction transaction = new Transaction(3, 1, "USD", "BTC", new TransactionLog());
+        transaction.setTransactionId(2013);
         transactionDao.saveTransaction(transaction);
-        assertThat(transaction).isEqualTo(transaction);
     }
 
     @Test
     public void getTransactionsForUserTest() {
-
+//        Transaction transactionActual = transactionDao.getTransactionsForUser(3);
+//        assertThat(transactionActual).isEqualTo(transaction);
     }
 
     @Test
     public void calculateTransactionCostTest() {
-
+        transaction.setTransactionId(2013);
+        transactionDao.calculateTransactionCost(30.0);
     }
 
     @Test
     public void deleteTest() {
-
+        transaction.setTransactionId(2013);
+        transactionDao.delete(2013);
     }
-
 }
-
