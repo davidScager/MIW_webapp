@@ -47,7 +47,6 @@ public class TransactionService {
         this.tokenService = tokenService;
         this.mailSenderService = mailSenderService;
         this.generateMailContext = generateMailContext;
-
         logger.info("New TransactionService");
     }
 
@@ -125,15 +124,6 @@ public class TransactionService {
 
         return tempMostRecentTransaction;
     }
-
-    public void deleteTransaction(int id) {
-        rootRepository.deleteTransaction(id);
-    }
-
-    public void updateAdjustmentFactor(String assetName, double numberOfAssets, int buyerId, int sellerId) {
-        rootRepository.updateAdjustmentFactor(assetName, numberOfAssets, buyerId, sellerId);
-    }
-
 
     public void setTransaction(Map transactionData, String username) { // raw map. problemen bij casten??
         int seller = (int) transactionData.get(0);
@@ -242,22 +232,4 @@ public class TransactionService {
         isSufficient.add(numberOfOwnedassetsBank.get() >= numberOfAssetsBank);
         return isSufficient;
     }
-
-    /*@Scheduled(fixedDelay = 60000)*/
-    private boolean checkValueAsset(double value, String assetName, int buyer) {
-        Asset asset = rootRepository.getAsset(assetName);
-        if (buyer == 1) {
-            if (asset.getValueInUsd() >= value) {
-                return true;
-                //stop
-            }
-        } else {
-            if (asset.getValueInUsd() <= value) {
-                return true;
-                //stop
-            }
-        }
-        return false;
-    }
-
 }

@@ -4,18 +4,15 @@ import com.example.cryptobank.domain.FullName;
 import com.example.cryptobank.domain.User;
 import com.example.cryptobank.domain.UserAddress;
 import com.example.cryptobank.repository.daointerfaces.UserDao;
-import com.example.cryptobank.repository.jdbcklasses.JdbcUserDao;
-import com.example.cryptobank.repository.jdbcklasses.RootRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Optional;
+import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @auth HvS
@@ -46,9 +43,23 @@ class UserDaoTest {
     }
 
     @Test
-    void addUserTest() {
+    public void check_list_not_null() {
+         List<User> actualList = userTestDao.list();
+         assertThat(actualList).isNotNull();
+    }
+
+    @Test
+    public void list_size_is_correct() {
+        List<User> actualList = userTestDao.list();
+        assertThat(actualList.size()).isEqualTo(2);
+    }
+
+    @Test
+    void user_is_added() {
         userExpected.setId(8);
         userTestDao.create(userExpected);
+        List<User> actualList = userTestDao.list();
+        assertThat(actualList.size()).isEqualTo(3);
     }
 
     @Test
@@ -64,7 +75,12 @@ class UserDaoTest {
     }
 
     @Test
-    void update() {
+    public void update_changes_value() {
+        userExpected.setId(7);
+        userExpected.setDateOfBirth("1982-01-30");
+        userTestDao.update(userExpected, 123456);
+        User userActual = userTestDao.get("huib@huib.com");
+        assertThat(userActual.getDateOfBirth()).isEqualTo(userExpected.getDateOfBirth());
     }
 
     @Test

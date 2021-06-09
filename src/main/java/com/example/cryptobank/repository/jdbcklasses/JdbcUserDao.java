@@ -74,7 +74,7 @@ public class JdbcUserDao implements UserDao {
                 user.getFullName().getFirstName(), user.getFullName().getInfix(), user.getFullName().getSurname(),
                 user.getDateOfBirth(),
                 user.getAddress().getStreetName(), user.getAddress().getHouseNr(), user.getAddress().getAddition(), user.getAddress().getPostalCode(), user.getAddress().getResidence(),
-                user.getEmail());
+                user.getEmail(), bsn);
     }
 
     @Override
