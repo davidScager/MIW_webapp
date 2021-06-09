@@ -42,7 +42,8 @@ function sendData() {
                 if(response.ok){
                     let token = response.headers.get("Authorization")
                     console.log(token)
-                    // window.location.replace("http://localhost:8080/HomeScherm.html")
+                    localStorage.setItem("token", token)
+                    window.location.replace("http://localhost:8080/homeSchermIngelogd.html")
                 } else {
                     emailElement.style.boxShadow = "0 0 3px #CC0000"
                     passwordElement.style.boxShadow = "0 0 3px #CC0000"

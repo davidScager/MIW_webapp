@@ -41,7 +41,9 @@ public class TokenService {
 
 
     public String parseToken(String token, String subject) {
-
+        if(token.contains("Bearer")){
+            token = token.substring(7);
+        }
         Jws<Claims> result = Jwts.parserBuilder()
                 .requireSubject(subject)
                 .setAllowedClockSkewSeconds(10)
