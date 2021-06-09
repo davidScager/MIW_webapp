@@ -3,6 +3,7 @@ package com.example.cryptobank.controller;
 import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.domain.AssetPortfolioView;
 import com.example.cryptobank.domain.Portfolio;
+import com.example.cryptobank.domain.PortfolioReturnData;
 import com.example.cryptobank.repository.daointerfaces.AssetPortfolioDao;
 import com.example.cryptobank.repository.daointerfaces.PortfolioDao;
 import com.example.cryptobank.service.assetenportfolio.PortfolioService;
@@ -15,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class PortfolioController {
 
@@ -36,13 +39,18 @@ public class PortfolioController {
     }
 
     @GetMapping("/portfoliooverview")
-    public List<String> portfolioOverviewHandler(@RequestParam int userId) throws JsonProcessingException {
+    public List<Asset> portfolioOverviewHandler(@RequestParam int userId) throws JsonProcessingException {
         return portfolioService.showAssetOverview(userId);
     }
 
     @GetMapping("/portfoliovalue")
     public String portfolioValueHandler(@RequestParam int userId) {
         return portfolioService.showValueOfPortfolio(userId);
+    }
+
+    @GetMapping("/portfolioreturns")
+    public List<PortfolioReturnData> portfolioReturnsHandler(@RequestParam int userId) {
+        return portfolioService.showListOfAssets(userId);
     }
 
     @PostMapping("/listportfolio")

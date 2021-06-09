@@ -125,6 +125,10 @@ public class RootRepository {
         assetDao.update(asset);
     }
 
+    public Asset getAssetByAbbreviation(String assetAbbreviation) {
+        return assetDao.getOneBySymbol(assetAbbreviation);
+    }
+
     public List<Asset> updateAssetsByApi() {
         return assetDao.getAssetOverview();
     }
@@ -147,9 +151,11 @@ public class RootRepository {
         updateAdjustmentFactor(transaction.getAssetBought(), transaction.getTransactionLog().getNumberOfAssetsBought(), transaction.getBuyer(), transaction.getSeller());
         updateAdjustmentFactor(transaction.getAssetSold(), transaction.getTransactionLog().getNumberOfAssetsSold(), transaction.getSeller(), transaction.getBuyer());
     }
+
     public Asset getAsset(String assetName){
         return assetDao.getOneByName(assetName);
     }
+
     public void updateAssetPortfolioForTransaction(Transaction transaction) {
         Optional<Portfolio> tempPortfolioBuyer = portfolioDao.get(portfolioDao.getPortfolioIdByUserId(transaction.getBuyer()).getPortfolioId());
         Portfolio buyer = tempPortfolioBuyer.get();
@@ -239,6 +245,8 @@ public class RootRepository {
         return assetPortfolioDao.getAssetOverviewWithAmount(portfolioId);
     }
 
+
+//    waarschijnlijk niet meer nodig -MB
     public String showPortfolioValue(int portfolioId) {
         List<Asset> tempPortfolioValue = assetPortfolioDao.getAssetOverview(portfolioId);
         double tempTotalPortfolioValue = 0;
@@ -255,6 +263,7 @@ public class RootRepository {
         return buildString(tempTotalPortfolioValue, tempValueYesterday, tempValueLastWeek, tempValueLastMonth);
     }
 
+//    zeer waarschijnlijk niet meer nodig - MB
     private String buildString(double now, double yesterday, double week, double month) {
         StringBuilder portfolioValueOutput = new StringBuilder();
         portfolioValueOutput.append("De waarde van uw portefeuille is momenteel " + now + " dollar. \n" +

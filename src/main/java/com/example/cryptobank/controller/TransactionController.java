@@ -2,6 +2,7 @@ package com.example.cryptobank.controller;
 
 import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.domain.Transaction;
+import com.example.cryptobank.domain.TransactionHistory;
 import com.example.cryptobank.service.security.TokenService;
 import com.example.cryptobank.service.transaction.TransactionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,7 +76,7 @@ public class TransactionController {
     }
 
     @GetMapping("/transactionhistory")
-    public List<Transaction> transactionHistoryHandler(@RequestParam int userId) throws IOException {
+    public List<TransactionHistory> transactionHistoryHandler(@RequestParam int userId) throws IOException {
         return transactionService.getTransactionHistory(userId);
     }
 

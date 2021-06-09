@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Portfolio Overview</title>
+    <title>BitBank - Transactiehistorie</title>
     <link href="BaseLayout.css" type="text/css" rel="stylesheet">
     <link rel="stylesheet" href="TransactionHistory.css" type="text/css">
     <link rel="stylesheet" href="portfolio.css" type="text/css">
@@ -34,23 +34,24 @@
             let queryString = "http://localhost:8080/transaction/transactionhistory?userId=" + user;
             $('#selectable > tbody').empty();
             $.getJSON(queryString, function( data ) {
-                // var json_str = JSON.stringify(data);
-                // var element = document.getElementById("asset_row");
-                var asset_row = '';
+                var transaction_row = '';
+                var koersStijging = { 'up': function( x, y) { return Math.round(((y-x)/ x) * 100)}};
                 for (i in data) {
                     console.log( "json row");
                     console.log(JSON.stringify(data[i]));
-                    asset_row += '<tr id="asset_row" class="ui-widget-content asset_row">';
-                    asset_row += ' <td>'+data[i].assetBought+'</td>';
-                    asset_row += ' <td>'+data[i].assetSold+'</td>';
-                    asset_row += ' <td>'+data[i].transactionLog.numberOfAssetsBought+'</td>';
-                    asset_row += ' <td>'+data[i].transactionLog.boughtAssetTransactionRate+'</td>';
-                    asset_row += ' <td>'+data[i].timestamp+'</td>';
-                    asset_row += '</tr>';
+                    transaction_row += '<tr id="asset_row" class="ui-widget-content transaction_row">';
+                    transaction_row += ' <td>'+data[i].asset.name+'</td>';
+                    transaction_row += ' <td>'+data[i].asset.abbreviation+'</td>';
+                    transaction_row += ' <td>'+data[i].numberOfAssetsTraded+'</td>';
+                    transaction_row += ' <td>'+data[i].assetTransactionRate+'</td>';
+                    transaction_row += ' <td>'+data[i].timestamp+'</td>';
+                    transaction_row += ' <td>'+data[i].aankoopVerkoop+'</td>';
+                    transaction_row += ' <td>'+koersStijging['up'](data[i].assetTransactionRate, data[i].asset.valueInUsd)+'%'+ '</td>';
+                    transaction_row += '</tr>';
 
                 }
-                console.log(asset_row);
-                $('#selectable > tbody').append(asset_row);
+                console.log(transaction_row);
+                $('#selectable > tbody').append(transaction_row);
             });
         }
 
@@ -87,13 +88,13 @@
 <!--                <caption>Transacties voor portfolio #</caption>-->
                   <tr class="ui-widget-content">
                       <td></td>
-                    <th>Code Asset gekocht /</th>
-                    <th>Code Asset verkocht /</th>
-                    <th>Aantal gekocht /</th>
-                    <th>Transactiekoers gekochte asset /</th>
+                    <th>Naam cryptovaluta /</th>
+                    <th>Code crypto /</th>
+                    <th>Aantal verhandeld /</th>
+                    <th>Transactiekoers /</th>
                     <th>Datum Transactie /</th>
-<!--                    <th>Aankoop/Verkoop</th>-->
-<!--                    <th>Koersverandering sinds laatste Transactie</th>-->
+                    <th>Soort Transactie /</th>
+                    <th>Koersverandering sinds laatste Transactie</th>
                   </tr>
                 </thead>
                 <tbody class="scroll_tbody">
