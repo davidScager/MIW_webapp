@@ -1,14 +1,10 @@
-package com.example.cryptobank.service;
+package com.example.cryptobank.service.security;
 
-import com.example.cryptobank.service.security.PepperService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * @author David_Scager
- */
 class PepperServiceTest {
     private PepperService pepperService;
 

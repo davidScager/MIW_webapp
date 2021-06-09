@@ -30,7 +30,7 @@ public class JdbcUserDao implements UserDao {
         user.setId(rs.getLong("userid"));
         user.setFullName(new FullName(rs.getString("firstname"), rs.getString("infix"), rs.getString("surname")));
         user.setDateOfBirth(rs.getString("dateofbirth"));
-        user.setAddress(new UserAddress(rs.getString("streetName"), rs.getInt("houseNr"), rs.getString("addition"),
+        user.setUserAddress(new UserAddress(rs.getString("streetName"), rs.getInt("houseNr"), rs.getString("addition"),
                 rs.getString("postalCode"), rs.getString("residence")));
         user.setEmail(rs.getString("email"));
 
@@ -49,7 +49,7 @@ public class JdbcUserDao implements UserDao {
         logger.debug("JdbcUserDao.create aangeroepen voor user " + user.getBSN());
         String sql = "insert into bitbankdb.user(bsn, userid, firstname, infix, surname, dateofbirth, streetName, houseNr, addition, postalCode, residence, email) values(?,?,?,?,?,?,?,?,?,?,?,?)";
         jdbcTemplate.update(sql, user.getBSN(), user.getId(), user.getFullName().getFirstName(), user.getFullName().getInfix(), user.getFullName().getSurname(),
-                user.getDateOfBirth(), user.getAddress().getStreetName(), user.getAddress().getHouseNr(), user.getAddress().getAddition(), user.getAddress().getPostalCode(), user.getAddress().getResidence(), user.getEmail());
+                user.getDateOfBirth(), user.getUserAddress().getStreetName(), user.getUserAddress().getHouseNr(), user.getUserAddress().getAddition(), user.getUserAddress().getPostalCode(), user.getUserAddress().getResidence(), user.getEmail());
     }
 
     @Override
@@ -73,7 +73,7 @@ public class JdbcUserDao implements UserDao {
         jdbcTemplate.update(sql, user.getBSN(), user.getId(),
                 user.getFullName().getFirstName(), user.getFullName().getInfix(), user.getFullName().getSurname(),
                 user.getDateOfBirth(),
-                user.getAddress().getStreetName(), user.getAddress().getHouseNr(), user.getAddress().getAddition(), user.getAddress().getPostalCode(), user.getAddress().getResidence(),
+                user.getUserAddress().getStreetName(), user.getUserAddress().getHouseNr(), user.getUserAddress().getAddition(), user.getUserAddress().getPostalCode(), user.getUserAddress().getResidence(),
                 user.getEmail());
     }
 

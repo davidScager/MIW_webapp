@@ -21,17 +21,23 @@ function register(){
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                bsn: bsn,
-                firstName: firstName,
-                infix: infix,
-                surname: surname,
-                dateOfBirth: dateOfBirth,
-                postalCode: postalCode,
-                houseNr: houseNr,
-                addition: addition,
-                streetName: streetName,
-                residence: residence,
-                email: email,
+                user: {
+                    bsn: bsn,
+                    fullName: {
+                        firstName: firstName,
+                        infix: infix,
+                        surname: surname
+                    },
+                    dateOfBirth: dateOfBirth,
+                    userAddress: {
+                        postalCode: postalCode,
+                        houseNr: houseNr,
+                        addition: addition,
+                        streetName: streetName,
+                        residence: residence
+                    },
+                    email: email
+                },
                 password: password
             })
         })

@@ -71,4 +71,15 @@ public class HashService {
         this.memSize = memSize;
     }
 
+    public int getIterations() {
+        return iterations;
+    }
+
+    public int getMemSize() {
+        return memSize;
+    }
+
+    public int getParallelDeg() {
+        return parallelDeg;
+    }
 }

@@ -44,10 +44,11 @@ public class RegistrationController {
 
     @PostMapping("/request")
     public ResponseEntity<?> registrationRequestHandler(@RequestBody UserLoginAccount userLoginAccount){
+        logger.info(userLoginAccount.toString());
         if(registrationService.validate(userLoginAccount)){
             logger.info("Registratie gevalideerd");
             String token = registrationService.cacheNewUserWithToken(userLoginAccount);
-            registrationService.sendConfirmationEmail(token, userLoginAccount.getEmail());
+            registrationService.sendConfirmationEmail(token, userLoginAccount.getUser().getEmail());
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
         logger.info("Registratie geweigerd");
