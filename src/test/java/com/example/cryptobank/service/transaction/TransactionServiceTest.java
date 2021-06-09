@@ -75,6 +75,8 @@ class TransactionServiceTest {
 
     @Test
     void createNewTransaction() {
+        Transaction actualTransaction = transactionTest.createNewTransaction(1,2,2,0.3, "BTC", "ETH");
+        assertThat(actualTransaction.getTransactionLog()).isEqualTo(new TransactionLog(2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1));
     }
 
     @Test
