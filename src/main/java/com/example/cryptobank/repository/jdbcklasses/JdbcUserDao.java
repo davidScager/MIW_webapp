@@ -47,13 +47,9 @@ public class JdbcUserDao implements UserDao {
     @Override
     public void create(User user) {
         logger.debug("JdbcUserDao.create aangeroepen voor user " + user.getBSN());
-        String sql = "insert into bitbankdb.user(bsn, userid, firstname, infix, surname, dateofbirth, " +
-                "streetName, houseNr, addition, postalCode, residence, email) values(?,?,?,?,?,?,?,?,?,?,?,?)";
-        jdbcTemplate.update(sql, user.getBSN(), user.getId(),
-                user.getFullName().getFirstName(), user.getFullName().getInfix(), user.getFullName().getSurname(),
-                user.getDateOfBirth(),
-                user.getAddress().getStreetName(), user.getAddress().getHouseNr(), user.getAddress().getAddition(), user.getAddress().getPostalCode(), user.getAddress().getResidence(),
-                user.getEmail());
+        String sql = "insert into bitbankdb.user(bsn, userid, firstname, infix, surname, dateofbirth, streetName, houseNr, addition, postalCode, residence, email) values(?,?,?,?,?,?,?,?,?,?,?,?)";
+        jdbcTemplate.update(sql, user.getBSN(), user.getId(), user.getFullName().getFirstName(), user.getFullName().getInfix(), user.getFullName().getSurname(),
+                user.getDateOfBirth(), user.getAddress().getStreetName(), user.getAddress().getHouseNr(), user.getAddress().getAddition(), user.getAddress().getPostalCode(), user.getAddress().getResidence(), user.getEmail());
     }
 
     @Override

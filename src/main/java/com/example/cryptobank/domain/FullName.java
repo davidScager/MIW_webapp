@@ -3,6 +3,8 @@ package com.example.cryptobank.domain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 public class FullName {
     private final Logger logger = LoggerFactory.getLogger(FullName.class);
     private String firstName;
@@ -53,5 +55,18 @@ public class FullName {
 
     public String getSurname() {
         return surname;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FullName)) return false;
+        FullName fullName = (FullName) o;
+        return Objects.equals(getFirstName(), fullName.getFirstName()) && Objects.equals(getInfix(), fullName.getInfix()) && Objects.equals(getSurname(), fullName.getSurname());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFirstName(), getInfix(), getSurname());
     }
 }
