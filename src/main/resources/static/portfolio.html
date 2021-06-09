@@ -148,11 +148,19 @@
         }
 
         function loadPortfolio(){
+            let token = localStorage.getItem("token")
+
+            $.ajaxSetup({
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    "Authorization": "Bearer " + token
+                }
+            });
 
             $('#selectable_portfolio > tbody').empty();
             $.post("http://localhost:8080/listportfolio",
                 {
-                    token: "tokenshit",
                     extra: "hille"
                 },
                 function(data, status){
