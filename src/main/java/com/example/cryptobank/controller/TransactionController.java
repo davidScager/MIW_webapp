@@ -2,6 +2,8 @@ package com.example.cryptobank.controller;
 
 import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.domain.Transaction;
+import com.example.cryptobank.domain.TransactionHTMLBank;
+import com.example.cryptobank.domain.TransactionHTMLClient;
 import com.example.cryptobank.service.security.TokenService;
 import com.example.cryptobank.service.transaction.TransactionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,15 +39,15 @@ public class TransactionController {
     }
 
     @PostMapping("/transactionorder")
-    public ResponseEntity<Map> authorizeAndGetAssets(@RequestParam("Authorization") String token) {
-        Map <String, Map> bankAndClientAssets = transactionService.authorizeAndGetAssets(token);
-        if (bankAndClientAssets == null) {
+    public ResponseEntity<ArrayList<TransactionHTMLClient>> authorizeAndGetAssets(@RequestHeader("Authorization") String token) {
+        ArrayList<TransactionHTMLClient> transactionHTMLClients = transactionService.authorizeAndGetAssets(token);
+        if (transactionHTMLClients == null) {
             URI uri = URI.create("http://localhost:8080/login");
             ResponseEntity responseEntity = ResponseEntity.status(HttpStatus.UNAUTHORIZED).location(uri).build();
             logger.info(responseEntity.toString());
             return responseEntity;
         }
-        return ResponseEntity.ok().body(bankAndClientAssets);
+        return ResponseEntity.ok().body(transactionHTMLClients);
     }
 
     @PostMapping("/plantransaction")
@@ -55,8 +57,8 @@ public class TransactionController {
     }
 
     @GetMapping("/assetoverviewfrombank")
-    public Map<Asset, Double> getAssetOverviewWithAmount() {
-        return transactionService.getAssetOverviewWithAmount(101);//dit is de portfolioId van de bank
+    public ArrayList<TransactionHTMLBank> getAssetOverviewWithAmount() {
+        return transactionService.bankArrayList();
     }
 
     @GetMapping("/myavalableassetstosell") //available

@@ -89,6 +89,7 @@ public class JdbcAssetDao implements AssetDao {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        update(asset);
         return asset;
     }
 

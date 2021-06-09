@@ -24,6 +24,7 @@ public class MethodRunOnScheduleHelper {
     private AssetService assetService;
     private final RootRepository rootRepository;
     private JdbcTemplate jdbcTemplate;
+    private CurrencyHistory currencyHistory = new CurrencyHistory();
 
 
     @Autowired
@@ -41,18 +42,11 @@ public class MethodRunOnScheduleHelper {
                 new TimerTask() {
                     @Override
                     public void run() {
-                        try {
-                            Asset btc = rootRepository.getAsset("BTC");
-                            Asset eth = rootRepository.getAsset("ETH");
-                            collector.makeRequestPerAsset(jdbcTemplate, btc);
-                            collector.makeRequestPerAsset(jdbcTemplate, eth);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        rootRepository.updateAssetsByApi();
                     }
                 },
                 Date.from(Instant.now()),
-                Duration.ofSeconds(20).toMillis() //The timer. You can also choose onHours, onDays etc.
+                Duration.ofSeconds(60).toMillis() //The timer. You can also choose onHours, onDays etc.
         );
     }
 
@@ -60,23 +54,21 @@ public class MethodRunOnScheduleHelper {
     public void getCurrencyDailyForHistoryValue() {
         System.out.println("Asset history is updating");
         List<Asset> assetList = assetService.showAssetList();
-        System.out.println(assetList);
-        CurrencyHistory currencyHistory = new CurrencyHistory();
         final Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                assetList.forEach(asset -> setAssetHelper(asset, currencyHistory));
-                assetList.forEach(asset -> assetService.update(asset));
+                assetList.forEach(asset -> setAssetHelper(asset));
             }
         }, Date.from(Instant.now()), Duration.ofDays(1).toMillis());
     }
 
-    private void setAssetHelper(Asset asset, CurrencyHistory currencyHistory){
+    private void setAssetHelper(Asset asset){
         try {
             asset.setValueYesterday(currencyHistory.historyValuefrom(currencyHistory.dateYesterday(),asset.getName()));
-            asset.setValueLastWeek(currencyHistory.historyValuefrom(currencyHistory.dateLasteWeek(),asset.getName()));
-            asset.setValueLastMonth(currencyHistory.historyValuefrom(currencyHistory.dateLastMonth(), asset.getName()));
+            /*asset.setValueLastWeek(currencyHistory.historyValuefrom(currencyHistory.dateLasteWeek(),asset.getName()));*/
+           /* asset.setValueLastMonth(currencyHistory.historyValuefrom(currencyHistory.dateLastMonth(), asset.getName()));*/
+            assetService.update(asset);
             logger.info(asset.getName() + " history has been updated");
         } catch (IOException e) {
             e.printStackTrace();

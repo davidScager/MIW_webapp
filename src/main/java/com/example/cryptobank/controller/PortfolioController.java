@@ -1,11 +1,12 @@
 package com.example.cryptobank.controller;
 
-import com.example.cryptobank.domain.Asset;
 import com.example.cryptobank.domain.AssetPortfolioView;
-import com.example.cryptobank.domain.Portfolio;
+import com.example.cryptobank.domain.User;
 import com.example.cryptobank.repository.daointerfaces.AssetPortfolioDao;
 import com.example.cryptobank.repository.daointerfaces.PortfolioDao;
 import com.example.cryptobank.service.assetenportfolio.PortfolioService;
+import com.example.cryptobank.service.login.UserService;
+import com.example.cryptobank.service.security.TokenService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,14 +25,16 @@ public class PortfolioController {
     private final PortfolioService portfolioService;
     private final PortfolioDao portfolioDao;
     private final AssetPortfolioDao assetPortfolioDao;
+    private final UserService userService;
 
     @Autowired
     public PortfolioController(PortfolioService portfolioService, PortfolioDao portfolioDao,
-                               AssetPortfolioDao assetPortfolioDao) {
+                               AssetPortfolioDao assetPortfolioDao, TokenService tokenService, UserService userService) {
         super();
         this.portfolioService = portfolioService;
         this.portfolioDao = portfolioDao;
         this.assetPortfolioDao = assetPortfolioDao;
+        this.userService = userService;
         logger.info("New PortfolioController");
     }
 
@@ -47,15 +50,17 @@ public class PortfolioController {
 
     @PostMapping("/listportfolio")
     @CrossOrigin
-    public ResponseEntity<List<AssetPortfolioView>> listPortFolio(@RequestParam("token") String token) {
+    public ResponseEntity<List<AssetPortfolioView>> listPortFolio(@RequestHeader(value = "Authorization") String token) {
         //TODO get token
-        System.out.println("fake token "+token);
-        int userId = 2;
-        int portfolioId = portfolioDao.getPortfolioIdByUserId((int)userId).getPortfolioId();
+//        System.out.println("fake token "+token);
+        User user = userService.getUserFromToken(token);
+        int portfolioId = portfolioDao.getPortfolioIdByUserId((int)user.getId()).getPortfolioId();
         //Portfolio portfolio = portfolioService.getByActor(userId);
         System.out.println("portfolio "+ portfolioId);
         List<AssetPortfolioView> assetPortfolioView = assetPortfolioDao.getOverviewWithAmount(portfolioId);
         return new ResponseEntity<>(assetPortfolioView, HttpStatus.OK);
     }
+
+
 
 }
