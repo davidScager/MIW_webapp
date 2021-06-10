@@ -14,14 +14,13 @@ import de.mkammerer.argon2.*;
  */
 @Service
 public class HashService {
-    private Logger logger = LoggerFactory.getLogger(HashService.class);
-    private final int DEFAULT_ROUNDS = 10;
-    private final int DEFAULT_ITERATIONS = 2;
-    private final int DEFAULT_MEM_SIZE = 15 * 1024;
-    private final int DEFAULT_PARALLEL_DEG = 1;
+    private final Logger logger = LoggerFactory.getLogger(HashService.class);
+    private static final int DEFAULT_ITERATIONS = 2;
+    private static final int DEFAULT_MEM_SIZE = 15;
+    private static final int DEFAULT_PARALLEL_DEG = 1;
+    private static final int MB_KB_CONVERSION = 1024;
     private final PepperService pepperService;
-    private final Argon2 argon2;
-    private int rounds;
+    private final Argon2 argon2id;
     private int iterations;
     private int memSize;
     private int parallelDeg;
@@ -31,7 +30,7 @@ public class HashService {
         super();
         logger.info("New HashService");
         this.pepperService = pepperService;
-        argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
+        argon2id = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
         setIterations(DEFAULT_ITERATIONS);
         setMemSize(DEFAULT_MEM_SIZE);
         setParallelDeg(DEFAULT_PARALLEL_DEG);
@@ -46,7 +45,7 @@ public class HashService {
      */
     public String argon2idHash(String password){
         String pepperedPw = pepperService.getPepper() + password;
-        return argon2.hash(iterations, memSize, parallelDeg, pepperedPw);
+        return argon2id.hash(iterations, memSize, parallelDeg, pepperedPw);
     }
 
     /**
@@ -56,19 +55,19 @@ public class HashService {
      * @return (boolean)
      */
     public boolean argon2idVerify(String hash, String password){
-        return argon2.verify(hash, pepperService.getPepper() + password);
+        return argon2id.verify(hash, pepperService.getPepper() + password);
     }
 
-    public void setIterations(int iterations) {
-        this.iterations = iterations;
+    public void setIterations(int iterationsNr) {
+        this.iterations = iterationsNr;
     }
 
-    public void setParallelDeg(int parallelDeg) {
-        this.parallelDeg = parallelDeg;
+    public void setParallelDeg(int parallelDegNr) {
+        this.parallelDeg = parallelDegNr;
     }
 
-    public void setMemSize(int memSize) {
-        this.memSize = memSize;
+    public void setMemSize(int memSizeAmount) {
+        this.memSize = memSizeAmount * MB_KB_CONVERSION;
     }
 
     public int getIterations() {

@@ -73,8 +73,8 @@ public class RegistrationService {
             mailSenderService.sendMail(email, mailText, "Bevestig BitBank-registratie");
             logger.info("Registration confirmation email sent to new client");
         } catch (MalformedURLException | MessagingException urlMessageError) {
-            urlMessageError.printStackTrace();
             logger.info("Failed to send email.");
+            logger.error("URL or Messaging error caught.", urlMessageError);
         }
     }
 
