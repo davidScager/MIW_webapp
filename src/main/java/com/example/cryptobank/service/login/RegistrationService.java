@@ -40,7 +40,7 @@ public class RegistrationService {
         this.generateMailContext = generateMailContext;
         this.mailSenderService = mailSenderService;
         this.registrationCache = new HashMap<>();
-        logger.info("RegistrationProxy active");
+        logger.info("RegistrationService active");
     }
 
     public boolean validate(UserLoginAccount userLoginAccount){
@@ -54,6 +54,7 @@ public class RegistrationService {
     public String cacheNewUserWithToken(UserLoginAccount userLoginAccount){
         String token = tokenService.generateJwtToken(userLoginAccount.getUser().getEmail(), "Register", 30);
         registrationCache.put(token, userLoginAccount);
+        logger.info("Registration Cached");
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override

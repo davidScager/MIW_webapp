@@ -22,6 +22,7 @@ public class TokenService {
     private Logger logger = LoggerFactory.getLogger(TokenService.class);
     private Instant now = Instant.now();
     private byte[] secret = Base64.getDecoder().decode("wf397i3th324m94j32832miuvuiububzduvabiovasrvnesonoe7632bfvn");
+    //added for testing purposes -David
     private ChronoUnit chronoUnit = ChronoUnit.MINUTES;
     private int clockSkewSec = 10;
 
@@ -55,6 +56,8 @@ public class TokenService {
         logger.info(id);
         return id;
     }
+
+    //added for testing purposes -David
 
     public void setChronoUnit(ChronoUnit chronoUnit) {
         this.chronoUnit = chronoUnit;
