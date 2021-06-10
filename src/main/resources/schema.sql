@@ -16,11 +16,7 @@ CREATE TABLE Role(
 CREATE TABLE Actor(
                       userId          INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
                       checkingAccount VARCHAR(45) NULL,
-                      role            VARCHAR(45) NOT NULL,
-                      FOREIGN KEY (role)
-                          REFERENCES Role (role)
-                          ON DELETE NO ACTION
-                          ON UPDATE NO ACTION
+                      role            VARCHAR(45) NOT NULL
 );
 
 CREATE TABLE User(
@@ -53,11 +49,7 @@ CREATE TABLE Asset(
 
 CREATE TABLE Portfolio(
                           portfolioId     INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                          actor           INT NOT NULL,
-                          FOREIGN KEY (actor)
-                              REFERENCES Actor (userId)
-                              ON DELETE NO ACTION
-                              ON UPDATE NO ACTION
+                          actor           INT NOT NULL
 );
 
 CREATE TABLE AssetPortfolio(
@@ -65,15 +57,7 @@ CREATE TABLE AssetPortfolio(
                                portfolioId     INT         NOT NULL,
                                amount          DOUBLE      NOT NULL,
                                forSale         DOUBLE      NULL,
-                               PRIMARY KEY (assetName, portfolioId),
-                               FOREIGN KEY (portfolioId)
-                                   REFERENCES Portfolio (portfolioId)
-                                   ON DELETE NO ACTION
-                                   ON UPDATE NO ACTION,
-                               FOREIGN KEY (assetName)
-                                   REFERENCES Asset (abbreviation)
-                                   ON DELETE NO ACTION
-                                   ON UPDATE NO ACTION
+                               PRIMARY KEY (assetName, portfolioId)
 );
 
 CREATE TABLE Transaction(
@@ -82,35 +66,13 @@ CREATE TABLE Transaction(
                             seller          INT         NOT NULL,
                             buyer           INT         NOT NULL,
                             assetSold       VARCHAR(45) NOT NULL,
-                            assetBought     VARCHAR(45) NOT NULL,
-                            FOREIGN KEY (seller)
-                                REFERENCES Actor (userId)
-                                ON DELETE NO ACTION
-                                ON UPDATE NO ACTION,
-                            FOREIGN KEY (buyer)
-                                REFERENCES Actor (userId)
-                                ON DELETE NO ACTION
-                                ON UPDATE NO ACTION,
-                            FOREIGN KEY (assetSold)
-                                REFERENCES Asset (abbreviation)
-                                ON DELETE NO ACTION
-                                ON UPDATE NO ACTION,
-                            FOREIGN KEY (assetBought)
-                                REFERENCES Asset (abbreviation)
-                                ON DELETE NO ACTION
-                                ON UPDATE NO ACTION
-);
-
+                            assetBought     VARCHAR(45) NOT NULL
 );
 
 CREATE TABLE Actor(
                       userId          INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
                       checkingAccount VARCHAR(45) NULL,
-                      role            VARCHAR(45) NOT NULL,
-                      FOREIGN KEY (role)
-                          REFERENCES Role (role)
-                          ON DELETE NO ACTION
-                          ON UPDATE NO ACTION
+                      role            VARCHAR(45) NOT NULL
 );
 
 CREATE TABLE User(
@@ -125,15 +87,7 @@ CREATE TABLE User(
                      addition        varchar(5)  NULL,
                      postalCode      varchar(6)  NOT NULL,
                      residence       varchar(45) NOT NULL,
-                     email           VARCHAR(100) NOT NULL,
-                     FOREIGN KEY (email)
-                         REFERENCES LoginAccount (username)
-                         ON DELETE NO ACTION
-                         ON UPDATE NO ACTION,
-                     FOREIGN KEY (userId)
-                         REFERENCES Actor (userId)
-                         ON DELETE NO ACTION
-                         ON UPDATE NO ACTION
+                     email           VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE Asset(
@@ -150,11 +104,7 @@ CREATE TABLE Asset(
 
 CREATE TABLE Portfolio(
                           portfolioId     INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                          actor           INT NOT NULL,
-                          FOREIGN KEY (actor)
-                              REFERENCES Actor (userId)
-                              ON DELETE NO ACTION
-                              ON UPDATE NO ACTION
+                          actor           INT NOT NULL
 );
 
 CREATE TABLE AssetPortfolio(
@@ -162,15 +112,7 @@ CREATE TABLE AssetPortfolio(
                                portfolioId     INT         NOT NULL,
                                amount          DOUBLE      NOT NULL,
                                forSale         DOUBLE      NULL,
-                               PRIMARY KEY (assetName, portfolioId),
-                               FOREIGN KEY (portfolioId)
-                                   REFERENCES Portfolio (portfolioId)
-                                   ON DELETE NO ACTION
-                                   ON UPDATE NO ACTION,
-                               FOREIGN KEY (assetName)
-                                   REFERENCES Asset (abbreviation)
-                                   ON DELETE NO ACTION
-                                   ON UPDATE NO ACTION
+                               PRIMARY KEY (assetName, portfolioId)
 );
 
 CREATE TABLE Transaction(
@@ -179,23 +121,7 @@ CREATE TABLE Transaction(
                             seller          INT         NOT NULL,
                             buyer           INT         NOT NULL,
                             assetSold       VARCHAR(45) NOT NULL,
-                            assetBought     VARCHAR(45) NOT NULL,
-                            FOREIGN KEY (seller)
-                                REFERENCES Actor (userId)
-                                ON DELETE NO ACTION
-                                ON UPDATE NO ACTION,
-                            FOREIGN KEY (buyer)
-                                REFERENCES Actor (userId)
-                                ON DELETE NO ACTION
-                                ON UPDATE NO ACTION,
-                            FOREIGN KEY (assetSold)
-                                REFERENCES Asset (abbreviation)
-                                ON DELETE NO ACTION
-                                ON UPDATE NO ACTION,
-                            FOREIGN KEY (assetBought)
-                                REFERENCES Asset (abbreviation)
-                                ON DELETE NO ACTION
-                                ON UPDATE NO ACTION
+                            assetBought     VARCHAR(45) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Log(
@@ -207,9 +133,5 @@ CREATE TABLE IF NOT EXISTS Log(
                                   soldAssetAmount             DOUBLE NOT NULL,
                                   boughtAssetAmount           DOUBLE NOT NULL,
                                   transactionCost             DOUBLE NOT NULL,
-                                  PRIMARY KEY (transactionId),
-                                  FOREIGN KEY (transactionId)
-                                      REFERENCES Transaction (transactionId)
-                                      ON DELETE NO ACTION
-                                      ON UPDATE NO ACTION
+                                  PRIMARY KEY (transactionId)
 );
