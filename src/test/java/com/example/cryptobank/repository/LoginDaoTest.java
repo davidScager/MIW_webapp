@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author David
@@ -27,6 +26,7 @@ class LoginDaoTest {
 
     @Autowired
     public LoginDaoTest(LoginDao loginDao) {
+        super();
         testLoginDao = loginDao;
         logger.info("New LoginDaoTest Started");
     }
