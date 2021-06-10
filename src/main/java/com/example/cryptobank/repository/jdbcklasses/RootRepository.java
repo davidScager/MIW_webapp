@@ -87,12 +87,12 @@ public class RootRepository {
     /**
      * Register new login account
      * @param user (User)
-     * @param hash (String)
+     * @param password (String)
      *
      * @author David_Scager
      */
-    public void registerLogin(User user, String hash){
-        loginDAO.create(user.getEmail(), hash);
+    public void registerLogin(User user, String password){
+        loginDAO.create(user.getEmail(), password);
         logger.info("LoginAccount registered");
     }
 
