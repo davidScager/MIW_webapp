@@ -40,20 +40,21 @@ public class RegistrationService {
         this.generateMailContext = generateMailContext;
         this.mailSenderService = mailSenderService;
         this.registrationCache = new HashMap<>();
-        logger.info("RegistrationProxy active");
+        logger.info("RegistrationService active");
     }
 
     public boolean validate(UserLoginAccount userLoginAccount){
         logger.info("Validating registration information with database");
         User user = userLoginAccount.getUser();
         return user != null
-                && rootRepository.getLoginByUsername(userLoginAccount.getEmail()) == null
+                && rootRepository.getLoginByUsername(userLoginAccount.getUser().getEmail()) == null
                 && rootRepository.getUserByBsn(user.getBSN()) == null;
     }
 
     public String cacheNewUserWithToken(UserLoginAccount userLoginAccount){
-        String token = tokenService.generateJwtToken(userLoginAccount.getEmail(), "Register", 30);
+        String token = tokenService.generateJwtToken(userLoginAccount.getUser().getEmail(), "Register", 30);
         registrationCache.put(token, userLoginAccount);
+        logger.info("Registration Cached");
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -72,8 +73,8 @@ public class RegistrationService {
             mailSenderService.sendMail(email, mailText, "Bevestig BitBank-registratie");
             logger.info("Registration confirmation email sent to new client");
         } catch (MalformedURLException | MessagingException urlMessageError) {
-            urlMessageError.printStackTrace();
             logger.info("Failed to send email.");
+            logger.error("URL or Messaging error caught.", urlMessageError);
         }
     }
 

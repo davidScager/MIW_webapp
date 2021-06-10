@@ -32,8 +32,9 @@ public class TransactionService {
     private final MailSenderService mailSenderService;
     private final GenerateMailContext generateMailContext;
 
-
     private final String START_DATE = "2000-01-01 00:16:26";
+    private final String BUY = "Aankoop";
+    private final String SELL = "Verkoop";
 
     private final Logger logger = LoggerFactory.getLogger(TransactionService.class);
 
@@ -44,7 +45,6 @@ public class TransactionService {
         this.tokenService = tokenService;
         this.mailSenderService = mailSenderService;
         this.generateMailContext = generateMailContext;
-
         logger.info("New TransactionService");
     }
 
@@ -68,7 +68,7 @@ public class TransactionService {
         return rootRepository.bankListForTransactionHTML();
     }
 
-    public Transaction createNewTransaction(int seller, int buyer, double numberOfAssets, double transactionCost, String assetSold, String assetBought) throws IOException {
+    public Transaction createNewTransaction(int seller, int buyer, double numberOfAssets, double transactionCost, String assetSold, String assetBought) {
         TransactionLog tempTransactionLog = rootRepository.createNewTransactionLog(assetSold, assetBought, numberOfAssets, transactionCost);
         Transaction newTransaction = new Transaction(seller, buyer, assetSold, assetBought, tempTransactionLog);
         rootRepository.saveTransactionAndLog(newTransaction);
@@ -85,17 +85,44 @@ public class TransactionService {
         return getMostRecentTrade(rootRepository.getTradesForUser(userId), assetName);
     }
 
-    public List<Transaction> getTransactionHistory(int userId) throws JsonProcessingException {
+    public List<TransactionHistory> getTransactionHistory(int userId) throws JsonProcessingException {
 
-//        List<Transaction> tempTransactionList = ;
-//        List<String> transactionHistoryAsJsonString = new ArrayList<>();
-//        ObjectMapper mapper = new ObjectMapper();
-//        String jsonString;
-//        for (Transaction transaction :tempTransactionList) {
-//            jsonString = mapper.writeValueAsString(transaction);
-//            transactionHistoryAsJsonString.add(jsonString);
-//        }
-        return rootRepository.getTradesForUser(userId);
+        List<Transaction> tempTransactionList = rootRepository.getTradesForUser(userId);
+        List<TransactionHistory> tempTransactionHistoryList = new ArrayList<>();
+        boolean buy;
+        for (Transaction transaction: tempTransactionList) {
+            if(transaction.getAssetBought()!="USD") {
+                buy = true;
+                tempTransactionHistoryList.add(makeTransactionHistoryObject(transaction, buy));
+            }
+            if(transaction.getAssetSold()!="USD") {
+                buy = false;
+                tempTransactionHistoryList.add(makeTransactionHistoryObject(transaction, buy));
+            }
+        }
+
+        return tempTransactionHistoryList;
+    }
+
+    public TransactionHistory makeTransactionHistoryObject(Transaction transaction, boolean buy) {
+        TransactionHistory tempTransactionHistory = new TransactionHistory();
+        tempTransactionHistory.setTransactionId(transaction.getTransactionId());
+        tempTransactionHistory.setTimestamp(transaction.getTimestamp());
+        if(buy) {
+            tempTransactionHistory.setAsset(rootRepository.getAssetByAbbreviation(transaction.getAssetBought()));
+            tempTransactionHistory.setAssetTransactionRate(transaction.getTransactionLog().getBoughtAssetTransactionRate());
+            tempTransactionHistory.setAssetAdjustmentFactor(transaction.getTransactionLog().getBoughtAssetAdjustmentFactor());
+            tempTransactionHistory.setNumberOfAssetsTraded(transaction.getTransactionLog().getNumberOfAssetsBought());
+            tempTransactionHistory.setAankoopVerkoop(BUY);
+        } else {
+            tempTransactionHistory.setAsset(rootRepository.getAssetByAbbreviation(transaction.getAssetSold()));
+            tempTransactionHistory.setAssetTransactionRate(transaction.getTransactionLog().getSoldAssetTransactionRate());
+            tempTransactionHistory.setAssetAdjustmentFactor(transaction.getTransactionLog().getSoldAssetAdjustmentFactor());
+            tempTransactionHistory.setNumberOfAssetsTraded(transaction.getTransactionLog().getNumberOfAssetsSold());
+            tempTransactionHistory.setAankoopVerkoop(SELL);
+        }
+
+        return tempTransactionHistory;
     }
 
     public Boolean determineBuyOrSell(Transaction transaction, String assetName) {
@@ -123,18 +150,8 @@ public class TransactionService {
                 }
             }
         }
-
         return tempMostRecentTransaction;
     }
-
-    public void deleteTransaction(int id) {
-        rootRepository.deleteTransaction(id);
-    }
-
-    public void updateAdjustmentFactor(String assetName, double numberOfAssets, int buyerId, int sellerId) {
-        rootRepository.updateAdjustmentFactor(assetName, numberOfAssets, buyerId, sellerId);
-    }
-
 
     public void setTransaction(Map transactionData, String username) { // raw map. problemen bij casten??
         int seller = (int) transactionData.get(0);

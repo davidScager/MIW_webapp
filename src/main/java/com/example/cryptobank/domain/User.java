@@ -37,7 +37,7 @@ public class User {
                 ", id=" + id +
                 ", fullName='" + fullName + '\'' +
                 ", dateOfBirth='" + dateOfBirth + '\'' +
-                ", address='" + userAddress + '\'' +
+                ", userAddress='" + userAddress + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }
@@ -61,11 +61,11 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public UserAddress getAddress() {
+    public UserAddress getUserAddress() {
         return userAddress;
     }
 
-    public void setAddress(UserAddress userAddress) {
+    public void setUserAddress(UserAddress userAddress) {
         this.userAddress = userAddress;
     }
 

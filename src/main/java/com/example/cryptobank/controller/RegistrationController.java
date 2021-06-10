@@ -4,18 +4,13 @@ import com.example.cryptobank.domain.Role;
 import com.example.cryptobank.domain.User;
 import com.example.cryptobank.domain.UserLoginAccount;
 import com.example.cryptobank.service.login.RegistrationService;
-import org.apache.catalina.connector.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -44,10 +39,11 @@ public class RegistrationController {
 
     @PostMapping("/request")
     public ResponseEntity<?> registrationRequestHandler(@RequestBody UserLoginAccount userLoginAccount){
+        logger.info(userLoginAccount.toString());
         if(registrationService.validate(userLoginAccount)){
             logger.info("Registratie gevalideerd");
             String token = registrationService.cacheNewUserWithToken(userLoginAccount);
-            registrationService.sendConfirmationEmail(token, userLoginAccount.getEmail());
+            registrationService.sendConfirmationEmail(token, userLoginAccount.getUser().getEmail());
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
         logger.info("Registratie geweigerd");

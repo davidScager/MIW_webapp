@@ -9,8 +9,8 @@ import java.util.Optional;
  * @author David_Scager
  */
 public interface LoginDao {
-    void create(String username, String hash);
+    void create(String username, String password);
     Optional<LoginAccount> get(String username);
-    void update(String username, String hash, String token);
+    void update(String username, String password, String token);
     void delete(String username);
 }
