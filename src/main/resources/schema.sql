@@ -16,7 +16,7 @@ CREATE TABLE if not exists Role(
 CREATE TABLE if not exists Actor(
     userId          INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
     checkingAccount VARCHAR(45) NULL,
-    role            VARCHAR(45) NOT NULL,
+    role            VARCHAR(45) NOT NULL
 );
 
 CREATE TABLE if not exists User(
@@ -56,8 +56,7 @@ CREATE TABLE if not exists Asset(
 
 CREATE TABLE if not exists Portfolio(
     portfolioId     INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    actor           INT NOT NULL,
-
+    actor           INT NOT NULL
 );
 
 CREATE TABLE if not exists AssetPortfolio(

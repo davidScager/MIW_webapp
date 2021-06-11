@@ -11,10 +11,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+
+@WebMvcTest(TransactionController.class)
 class TransactionControllerTest {
 
     private Object TransactionHTMLBank;
+
+    private MockMvc mockMvc;
 
     @Mock
     private static TokenService mockTokenService;
@@ -25,13 +33,13 @@ class TransactionControllerTest {
     @Mock
     private static UserService mockUserService;
 
-
+    @Autowired
+    public TransactionControllerTest(MockMvc mockMvc) {
+        this.mockMvc = mockMvc;
+    }
 
     @BeforeEach
     public void initRestAssuredMockMvcStandAlone() {
-        mockTransactionService = Mockito.mock(TransactionService.class);
-        mockTokenService = Mockito.mock(TokenService.class);
-        mockUserService = Mockito.mock(UserService.class);
         RestAssuredMockMvc.standaloneSetup(new LoginController(mockUserService, mockTokenService));
         Mockito.when(mockUserService.verifyUser("niek@mol.com", "kaas")).thenReturn(
                 new User(1, new FullName("Niek", null, "Mol"), "01-01-0000",
@@ -42,7 +50,7 @@ class TransactionControllerTest {
 
     @Test
     void authorizeAndGetAssets() {
-
+        Mockito.when(mockTransactionService.authorizeAndGetAssets("niek")).thenReturn(new ArrayList<>());
     }
 
     @Test
