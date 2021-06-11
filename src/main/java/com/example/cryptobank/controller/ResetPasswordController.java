@@ -55,7 +55,8 @@ public class ResetPasswordController {
     }
 
     @PostMapping("/createnewpassword") //javascript haalt token uit url
-    public HttpEntity<? extends Object> setNewPassword(@RequestParam("Authorization") String token,@RequestParam String password) {
+    public HttpEntity<? extends Object> setNewPassword(@RequestParam("Authorization") String token, @RequestBody Map<String, String> mailMap) {
+        String password = mailMap.values().stream().findFirst().orElse(null);
         try {
             email = tokenService.parseToken(token, "reset");
             logger.info(email + "vanuit Token");
