@@ -3,12 +3,12 @@
 }
 
 .page {
-    background-color: #2B2B2B;
-    font-family: Calibri, sans-serif;
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: stretch;
-}
+     background-color: #2B2B2B;
+     font-family: Calibri, sans-serif;
+     display: flex;
+     flex-flow: column nowrap;
+     justify-content: stretch;
+ }
 
 .header{
     background-color: #f7931a;

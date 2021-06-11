@@ -1,11 +1,9 @@
-
-nav{
-    width: max-content;
-    margin: auto;
-    word-spacing: 4vw;
-    font-size: large;
-    letter-spacing: 2px;
-
+body {
+    background-color: #2B2B2B;
+    font-family: Calibri, sans-serif;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: stretch;
 }
 
 header{
@@ -48,28 +46,6 @@ footer{
     right: 0;
 }
 
-.nav_links{
-    list-style: none;
-    margin: 0;
-}
-
-.nav_links li{
-    display: inline-block;
-    padding: 0 20px;
-
-}
-
-.nav_links li a {
-    transition: all 0.3s ease 0s;
-    text-decoration-line: none;
-    font-family: Calibri;
-    color: #2B2B2B;
-}
-
-.nav_links li a:hover {
-    color: chocolate;
-}
-
 button{
     padding: 9px 25px;
     border: none;
@@ -82,11 +58,28 @@ button:hover{
     background-color: darkslategrey;
 }
 
-body{
-    margin: 0;
-    padding: 0;
+
+.navbar {
+    display: flex;
+    flex-flow: row nowrap;
+    height: 100px;
+    justify-content: space-evenly;
 }
 
+.navbar.sideNav{
+    width: 50%;
+    align-items: center;
+}
+
+.navbar.sideNav > a {
+    justify-content: space-evenly;
+    color: #2B2B2B;
+    text-decoration-line: none;
+}
+
+.sideNav a:hover {
+    color: white;
+}
 
 
 

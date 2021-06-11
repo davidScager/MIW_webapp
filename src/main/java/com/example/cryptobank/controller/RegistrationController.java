@@ -25,14 +25,13 @@ public class RegistrationController {
         this.registrationService = registrationService;
     }
 
-/*
+
     @GetMapping
     public RedirectView viewHtmlRegisterHandler(){
         RedirectView redirectView = new RedirectView("http://localhost:8080/registreren.html");
         redirectView.setStatusCode(HttpStatus.OK);
         return redirectView;
     }
-*/
 
     @GetMapping("/failed")
     public RedirectView viewHtmlRegisterFailedHandler(){
