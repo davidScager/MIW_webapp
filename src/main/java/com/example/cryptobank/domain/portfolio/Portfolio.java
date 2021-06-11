@@ -1,4 +1,6 @@
-package com.example.cryptobank.domain;
+package com.example.cryptobank.domain.portfolio;
+
+import com.example.cryptobank.domain.user.Actor;
 
 public class Portfolio {
 

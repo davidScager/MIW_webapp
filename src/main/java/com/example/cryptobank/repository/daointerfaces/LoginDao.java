@@ -1,6 +1,6 @@
 package com.example.cryptobank.repository.daointerfaces;
 
-import com.example.cryptobank.domain.LoginAccount;
+import com.example.cryptobank.domain.login.LoginAccount;
 
 import java.util.Optional;
 

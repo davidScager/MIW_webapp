@@ -1,9 +1,8 @@
 package com.example.cryptobank.controller;
 
-import com.example.cryptobank.domain.FullName;
-import com.example.cryptobank.domain.TransactionHTMLBank;
-import com.example.cryptobank.domain.User;
-import com.example.cryptobank.domain.UserAddress;
+import com.example.cryptobank.domain.user.FullName;
+import com.example.cryptobank.domain.user.User;
+import com.example.cryptobank.domain.user.UserAddress;
 import com.example.cryptobank.service.login.UserService;
 import com.example.cryptobank.service.security.TokenService;
 import com.example.cryptobank.service.transaction.TransactionService;
@@ -12,11 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-
-import java.util.ArrayList;
-
-import static io.restassured.module.mockmvc.RestAssuredMockMvc.when;
-import static org.junit.jupiter.api.Assertions.*;
 
 class TransactionControllerTest {
 

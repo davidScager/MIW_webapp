@@ -1,4 +1,4 @@
-package com.example.cryptobank.domain;
+package com.example.cryptobank.domain.user;
 
 public enum Role {
     ADMINISTRATOR ,

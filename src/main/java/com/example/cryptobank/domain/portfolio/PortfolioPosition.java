@@ -1,9 +1,7 @@
-package com.example.cryptobank.domain;
+package com.example.cryptobank.domain.portfolio;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.time.LocalDateTime;
 
 public class PortfolioPosition {
 

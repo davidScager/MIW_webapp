@@ -1,4 +1,4 @@
-package com.example.cryptobank.domain;
+package com.example.cryptobank.domain.user;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

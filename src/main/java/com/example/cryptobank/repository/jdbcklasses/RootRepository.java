@@ -1,6 +1,16 @@
 package com.example.cryptobank.repository.jdbcklasses;
 
-import com.example.cryptobank.domain.*;
+import com.example.cryptobank.domain.asset.Asset;
+import com.example.cryptobank.domain.asset.AssetPortfolio;
+import com.example.cryptobank.domain.login.LoginAccount;
+import com.example.cryptobank.domain.portfolio.Portfolio;
+import com.example.cryptobank.domain.transaction.Transaction;
+import com.example.cryptobank.domain.transaction.TransactionHTMLBank;
+import com.example.cryptobank.domain.transaction.TransactionHTMLClient;
+import com.example.cryptobank.domain.transaction.TransactionLog;
+import com.example.cryptobank.domain.user.Actor;
+import com.example.cryptobank.domain.user.Role;
+import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.repository.daointerfaces.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

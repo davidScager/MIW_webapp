@@ -1,12 +1,8 @@
 package com.example.cryptobank.repository;
 
 
-import com.example.cryptobank.domain.Asset;
-import com.example.cryptobank.domain.FullName;
-import com.example.cryptobank.domain.User;
-import com.example.cryptobank.domain.UserAddress;
+import com.example.cryptobank.domain.asset.Asset;
 import com.example.cryptobank.repository.daointerfaces.AssetDao;
-import com.example.cryptobank.repository.daointerfaces.UserDao;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

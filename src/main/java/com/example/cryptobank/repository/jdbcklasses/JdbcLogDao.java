@@ -1,7 +1,7 @@
 package com.example.cryptobank.repository.jdbcklasses;
 
-import com.example.cryptobank.domain.Transaction;
-import com.example.cryptobank.domain.TransactionLog;
+import com.example.cryptobank.domain.transaction.Transaction;
+import com.example.cryptobank.domain.transaction.TransactionLog;
 import com.example.cryptobank.repository.daointerfaces.LogDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

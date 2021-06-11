@@ -1,5 +1,10 @@
 package com.example.cryptobank.controller;
 
+import com.example.cryptobank.domain.login.UserLoginAccount;
+import com.example.cryptobank.domain.user.FullName;
+import com.example.cryptobank.domain.user.Role;
+import com.example.cryptobank.domain.user.User;
+import com.example.cryptobank.domain.user.UserAddress;
 import com.example.cryptobank.service.login.RegistrationService;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.*;
@@ -7,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import com.example.cryptobank.domain.*;
 
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.*;

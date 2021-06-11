@@ -1,4 +1,4 @@
-package com.example.cryptobank.domain;
+package com.example.cryptobank.domain.asset;
 
 public class AssetPortfolioView {
 

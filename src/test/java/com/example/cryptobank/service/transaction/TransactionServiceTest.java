@@ -1,8 +1,8 @@
 package com.example.cryptobank.service.transaction;
 
-import com.example.cryptobank.domain.Transaction;
-import com.example.cryptobank.domain.TransactionHTMLClient;
-import com.example.cryptobank.domain.TransactionLog;
+import com.example.cryptobank.domain.transaction.Transaction;
+import com.example.cryptobank.domain.transaction.TransactionHTMLClient;
+import com.example.cryptobank.domain.transaction.TransactionLog;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import com.example.cryptobank.service.mailSender.GenerateMailContext;
 import com.example.cryptobank.service.mailSender.MailSenderService;

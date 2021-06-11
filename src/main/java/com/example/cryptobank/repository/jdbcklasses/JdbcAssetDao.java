@@ -1,6 +1,6 @@
 package com.example.cryptobank.repository.jdbcklasses;
 
-import com.example.cryptobank.domain.Asset;
+import com.example.cryptobank.domain.asset.Asset;
 import com.example.cryptobank.repository.daointerfaces.AssetDao;
 import com.example.cryptobank.service.currency.CurrencyCollector;
 import org.slf4j.Logger;

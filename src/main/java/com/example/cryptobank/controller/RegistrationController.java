@@ -1,8 +1,8 @@
 package com.example.cryptobank.controller;
 
-import com.example.cryptobank.domain.Role;
-import com.example.cryptobank.domain.User;
-import com.example.cryptobank.domain.UserLoginAccount;
+import com.example.cryptobank.domain.user.Role;
+import com.example.cryptobank.domain.user.User;
+import com.example.cryptobank.domain.login.UserLoginAccount;
 import com.example.cryptobank.service.login.RegistrationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

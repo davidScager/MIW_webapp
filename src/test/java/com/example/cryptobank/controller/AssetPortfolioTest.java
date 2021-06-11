@@ -1,12 +1,8 @@
 package com.example.cryptobank.controller;
 
 
-import com.example.cryptobank.domain.FullName;
-import com.example.cryptobank.domain.User;
-import com.example.cryptobank.domain.UserAddress;
 import com.example.cryptobank.service.login.UserService;
 import com.example.cryptobank.service.security.TokenService;
-import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;

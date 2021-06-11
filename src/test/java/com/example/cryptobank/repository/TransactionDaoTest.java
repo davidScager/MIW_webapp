@@ -1,9 +1,8 @@
 package com.example.cryptobank.repository;
 
-import com.example.cryptobank.domain.Transaction;
-import com.example.cryptobank.domain.TransactionLog;
+import com.example.cryptobank.domain.transaction.Transaction;
+import com.example.cryptobank.domain.transaction.TransactionLog;
 import com.example.cryptobank.repository.daointerfaces.TransactionDao;
-import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

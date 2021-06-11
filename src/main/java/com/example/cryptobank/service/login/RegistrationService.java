@@ -1,8 +1,8 @@
 package com.example.cryptobank.service.login;
 
-import com.example.cryptobank.domain.Role;
-import com.example.cryptobank.domain.User;
-import com.example.cryptobank.domain.UserLoginAccount;
+import com.example.cryptobank.domain.user.Role;
+import com.example.cryptobank.domain.user.User;
+import com.example.cryptobank.domain.login.UserLoginAccount;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import com.example.cryptobank.service.mailSender.GenerateMailContext;
 import com.example.cryptobank.service.mailSender.MailSenderService;

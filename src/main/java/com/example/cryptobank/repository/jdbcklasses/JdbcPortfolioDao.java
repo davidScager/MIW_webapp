@@ -1,7 +1,7 @@
 package com.example.cryptobank.repository.jdbcklasses;
 
-import com.example.cryptobank.domain.Actor;
-import com.example.cryptobank.domain.Portfolio;
+import com.example.cryptobank.domain.user.Actor;
+import com.example.cryptobank.domain.portfolio.Portfolio;
 import com.example.cryptobank.repository.daointerfaces.ActorDao;
 import com.example.cryptobank.repository.daointerfaces.PortfolioDao;
 import org.springframework.beans.factory.annotation.Autowired;

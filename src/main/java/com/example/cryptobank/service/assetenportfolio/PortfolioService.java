@@ -1,9 +1,9 @@
 package com.example.cryptobank.service.assetenportfolio;
 
-import com.example.cryptobank.domain.Asset;
-import com.example.cryptobank.domain.Portfolio;
-import com.example.cryptobank.domain.PortfolioReturnData;
-import com.example.cryptobank.domain.Transaction;
+import com.example.cryptobank.domain.asset.Asset;
+import com.example.cryptobank.domain.portfolio.Portfolio;
+import com.example.cryptobank.domain.portfolio.PortfolioReturnData;
+import com.example.cryptobank.domain.transaction.Transaction;
 import com.example.cryptobank.repository.daointerfaces.PortfolioDao;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import com.example.cryptobank.service.transaction.TransactionService;
