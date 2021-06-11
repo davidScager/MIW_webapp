@@ -1,13 +1,12 @@
 package com.example.cryptobank.controller;
 
-import com.example.cryptobank.domain.Asset;
-import com.example.cryptobank.domain.Transaction;
-import com.example.cryptobank.domain.TransactionHTMLBank;
-import com.example.cryptobank.domain.TransactionHTMLClient;
-import com.example.cryptobank.domain.TransactionHistory;
+import com.example.cryptobank.domain.asset.Asset;
+import com.example.cryptobank.domain.transaction.Transaction;
+import com.example.cryptobank.domain.transaction.TransactionHTMLBank;
+import com.example.cryptobank.domain.transaction.TransactionHTMLClient;
+import com.example.cryptobank.domain.transaction.TransactionHistory;
 import com.example.cryptobank.service.security.TokenService;
 import com.example.cryptobank.service.transaction.TransactionService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

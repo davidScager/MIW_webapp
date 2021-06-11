@@ -1,6 +1,6 @@
 package com.example.cryptobank.controller;
 
-import com.example.cryptobank.domain.Asset;
+import com.example.cryptobank.domain.asset.Asset;
 import com.example.cryptobank.service.assetenportfolio.AssetService;
 import com.example.cryptobank.service.currency.CurrencyHistory;
 import org.slf4j.Logger;

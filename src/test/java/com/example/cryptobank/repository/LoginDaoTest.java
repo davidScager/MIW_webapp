@@ -1,6 +1,5 @@
 package com.example.cryptobank.repository;
 
-import com.example.cryptobank.domain.LoginAccount;
 import com.example.cryptobank.repository.daointerfaces.LoginDao;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;

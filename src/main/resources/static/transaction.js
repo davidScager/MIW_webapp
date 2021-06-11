@@ -17,7 +17,7 @@ function transactionCost(){
         .then(data => {
             console.log(data)
 
-            document.getElementById("#transactioncostfield").value = data
+            document.getElementById("transactioncostfield").value = data
         })
 }
 

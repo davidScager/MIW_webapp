@@ -1,5 +1,6 @@
-package com.example.cryptobank.domain;
+package com.example.cryptobank.domain.transaction;
 
+import com.example.cryptobank.domain.asset.Asset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

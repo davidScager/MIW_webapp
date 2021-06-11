@@ -1,6 +1,6 @@
 package com.example.cryptobank.service.currency;
 
-import com.example.cryptobank.domain.Asset;
+import com.example.cryptobank.domain.asset.Asset;
 import com.example.cryptobank.repository.jdbcklasses.JdbcAssetDao;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;

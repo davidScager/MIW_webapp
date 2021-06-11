@@ -1,7 +1,7 @@
 package com.example.cryptobank.service.login;
 
-import com.example.cryptobank.domain.LoginAccount;
-import com.example.cryptobank.domain.User;
+import com.example.cryptobank.domain.login.LoginAccount;
+import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import com.example.cryptobank.service.security.HashService;
 import com.example.cryptobank.service.security.TokenService;

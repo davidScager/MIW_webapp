@@ -1,8 +1,8 @@
 package com.example.cryptobank.repository.jdbcklasses;
 
-import com.example.cryptobank.domain.FullName;
-import com.example.cryptobank.domain.User;
-import com.example.cryptobank.domain.UserAddress;
+import com.example.cryptobank.domain.user.FullName;
+import com.example.cryptobank.domain.user.User;
+import com.example.cryptobank.domain.user.UserAddress;
 import com.example.cryptobank.repository.daointerfaces.UserDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

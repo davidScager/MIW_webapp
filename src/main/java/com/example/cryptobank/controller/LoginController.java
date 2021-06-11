@@ -1,7 +1,6 @@
 package com.example.cryptobank.controller;
 
-import com.example.cryptobank.domain.User;
-import com.example.cryptobank.domain.UserLoginAccount;
+import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.service.security.TokenService;
 import com.example.cryptobank.service.login.UserService;
 import org.slf4j.Logger;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;

@@ -1,12 +1,11 @@
 package com.example.cryptobank.controller;
 
-import com.example.cryptobank.domain.FullName;
-import com.example.cryptobank.domain.User;
-import com.example.cryptobank.domain.UserAddress;
+import com.example.cryptobank.domain.user.FullName;
+import com.example.cryptobank.domain.user.User;
+import com.example.cryptobank.domain.user.UserAddress;
 import com.example.cryptobank.service.login.UserService;
 import com.example.cryptobank.service.security.TokenService;
 import io.restassured.http.ContentType;
-import io.restassured.mapper.ObjectMapperType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;

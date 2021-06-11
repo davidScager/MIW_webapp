@@ -1,8 +1,10 @@
-package com.example.cryptobank.domain;
+package com.example.cryptobank.domain.login;
 
+import com.example.cryptobank.domain.user.FullName;
+import com.example.cryptobank.domain.user.User;
+import com.example.cryptobank.domain.user.UserAddress;
 import com.example.cryptobank.service.security.HashService;
 import com.example.cryptobank.service.security.PepperService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class UserLoginAccount {
     private User user;

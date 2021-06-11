@@ -1,6 +1,6 @@
 package com.example.cryptobank.repository.daointerfaces;
 
-import com.example.cryptobank.domain.Transaction;
+import com.example.cryptobank.domain.transaction.Transaction;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

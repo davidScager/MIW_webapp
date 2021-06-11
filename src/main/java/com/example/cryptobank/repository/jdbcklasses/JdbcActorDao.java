@@ -1,7 +1,7 @@
 package com.example.cryptobank.repository.jdbcklasses;
 
-import com.example.cryptobank.domain.Actor;
-import com.example.cryptobank.domain.Role;
+import com.example.cryptobank.domain.user.Actor;
+import com.example.cryptobank.domain.user.Role;
 import com.example.cryptobank.repository.daointerfaces.ActorDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

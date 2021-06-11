@@ -1,9 +1,9 @@
 package com.example.cryptobank.repository.daointerfaces;
 
-import com.example.cryptobank.domain.Asset;
-import com.example.cryptobank.domain.AssetPortfolio;
-import com.example.cryptobank.domain.AssetPortfolioView;
-import com.example.cryptobank.domain.Portfolio;
+import com.example.cryptobank.domain.asset.Asset;
+import com.example.cryptobank.domain.asset.AssetPortfolio;
+import com.example.cryptobank.domain.asset.AssetPortfolioView;
+import com.example.cryptobank.domain.portfolio.Portfolio;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

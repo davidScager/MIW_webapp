@@ -1,8 +1,8 @@
 package com.example.cryptobank.service;
 
-import com.example.cryptobank.domain.FullName;
-import com.example.cryptobank.domain.User;
-import com.example.cryptobank.domain.UserAddress;
+import com.example.cryptobank.domain.user.FullName;
+import com.example.cryptobank.domain.user.User;
+import com.example.cryptobank.domain.user.UserAddress;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

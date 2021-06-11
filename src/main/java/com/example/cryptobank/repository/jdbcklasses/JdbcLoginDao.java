@@ -1,6 +1,6 @@
 package com.example.cryptobank.repository.jdbcklasses;
 
-import com.example.cryptobank.domain.LoginAccount;
+import com.example.cryptobank.domain.login.LoginAccount;
 import com.example.cryptobank.repository.daointerfaces.LoginDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
