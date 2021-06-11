@@ -1,15 +1,47 @@
+function getToken() {
+    const url = window.location;
+    const token = new URLSearchParams(url.search).get('Authorization');
+    localStorage.setItem("token", token);
+    fetch("http://localhost:8080/reset/createnewpassword", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({token: token})
+    })
+        .then(response => response.json())
+        .then(data => {
+            showPage(data);
+        })
+        .catch((error) => {
+            console.error('Foutje', error);
+        });
+    localStorage.clear();
+    localStorage.setItem("passwordreset", "yes");
+
+}
+
+function showPage(data) {
+    if (data === false) {
+        window.location.replace("http://localhost:8080/resetdenied.html");
+    }
+}
+
+
+
 let passwordMatches = false;
 
 function initiateReset() {
     const email = new FormDataInsert(new RegExp(/^[^ ]+@[^ ]+\.[a-z]{2,3}$/),
-        "http://localhost:8080/reset/resetpassword", "http://localhost:8080/confirmed.html", ["email"]
-    )
+        "http://localhost:8080/reset/resetpassword", ["email"])
+
     email.resetPassword();
 }
 
 function initiateNewPassword() {
-    const passwordReset = new FormDataInsert(new RegExp(/^.{8,100}$/), "http://localhost:8080/reset/createnewpassword",
-        "http://localhost:8080/logincontroller.html", ["password"])
+    const passwordReset = new FormDataInsert(new RegExp(/^.{8,100}$/), "http://localhost:8080/reset/setnewpassword",
+         ["password"])
     console.log(passwordMatches)
     if (passwordMatches === true) {
         passwordReset.resetPassword();
@@ -106,14 +138,12 @@ class FormDataInsert {
     dataHasWrongInput
     mailRegex
     backEndPoint
-    websiteRedirect
     arrayOfInserts
 
-    constructor(mailRegex, backEndPoint, websiteRedirect, arrayOfInserts) {
+    constructor(mailRegex, backEndPoint, arrayOfInserts) {
 
         this.mailRegex = mailRegex;
         this.backEndPoint = backEndPoint;
-        this.websiteRedirect = websiteRedirect;
         this.arrayOfInserts = arrayOfInserts;
         this.dataHasWrongInput = false;
     }
@@ -126,7 +156,7 @@ resetPassword() {
     }
 
     if (this.dataHasWrongInput === false) {
-        this.sendData(document.querySelector('#'+(this.arrayOfInserts)[0]).value, this.backEndPoint, this.websiteRedirect);
+        this.sendData(document.querySelector('#'+(this.arrayOfInserts)[0]).value, this.backEndPoint);
     }
 }
 
@@ -149,10 +179,11 @@ sendData(dataForBackEnd) {
             body: JSON.stringify({insert: dataForBackEnd})
         })
             .then(response => {
-                console.log(response)
-                return response.json()
+                if (response.redirected) {
+                    window.location.href = response.url;
+                }
             })
-            .then(window.location.replace(this.websiteRedirect))
+            .then()
             .catch((error) => {
                 console.error('Foutje', error);
             });

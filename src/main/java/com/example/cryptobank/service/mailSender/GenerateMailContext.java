@@ -11,7 +11,7 @@ public class GenerateMailContext {
 
 
     public GenerateMailContext() {
-        this.resetURL = "http://localhost:8080/createnewpassword";
+        this.resetURL = "http://localhost:8080/create_new_password.html";
         this.registerationURL = "http://localhost:8080/register/finalize";
     }
 

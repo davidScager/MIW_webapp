@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -26,26 +27,12 @@
     </div>
 </header>
 
-<main class="new_password-box" id="reset-box">
-    <div id="new_password-form" id="reset-form" >
-        <h1>Wachtwoord reset</h1>
-        <p>Vul hier uw emailadres in. <br>
-            Indien u een account bij ons hebt ontvangt u direct een mail met een link<br>
-            Let op: U dient binnen 10 minuten een nieuw wachtwoord aan te maken</p><br>
+<main class="new_password-box">
+    <div id="new_password-form">
+        <h1>Uw verzoek is geweigerd</h1>
+        <br>
+        <p>Uw resetlink is ongeldig of verlopen. Vraag opnieuw een reset aan via de login pagina.</p>
 
-        <form id="form" action="javascript:initiateReset();">
-            <div class="inputBox">
-                <input type="text" id="email" required
-                placeholder="Voer emailadres in" onkeyup="emailValidation()">
-                <span id="text"></span>
-            </div>
-            <br>
-            <input class="button" type="submit" value ="Vraag reset aan"/>
-        </form>
-
-    </div>
-    <div id="error" hidden>
-        <p>Dit is geen emailadres</p>
     </div>
 </main>
 
