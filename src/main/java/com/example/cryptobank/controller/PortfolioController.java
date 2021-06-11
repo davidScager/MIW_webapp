@@ -1,9 +1,6 @@
 package com.example.cryptobank.controller;
 
-import com.example.cryptobank.domain.AssetPortfolioView;
-import com.example.cryptobank.domain.Portfolio;
-import com.example.cryptobank.domain.PortfolioReturnData;
-import com.example.cryptobank.domain.User;
+import com.example.cryptobank.domain.*;
 import com.example.cryptobank.repository.daointerfaces.AssetPortfolioDao;
 import com.example.cryptobank.repository.daointerfaces.PortfolioDao;
 import com.example.cryptobank.service.assetenportfolio.PortfolioService;
