@@ -40,14 +40,14 @@ public class JdbcUserDao implements UserDao {
     @Override
     public List<User> list() {
         logger.debug("JdbcUserDao.list aangeroepen");
-        String sql = "select * from bitbankdb.user";
+        String sql = "select * from user";
         return jdbcTemplate.query(sql,rowMapper);
     }
 
     @Override
     public void create(User user) {
         logger.debug("JdbcUserDao.create aangeroepen voor user " + user.getBSN());
-        String sql = "insert into bitbankdb.user(bsn, userid, firstname, infix, surname, dateofbirth, streetName, houseNr, addition, postalCode, residence, email) values(?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into user(bsn, userid, firstname, infix, surname, dateofbirth, streetName, houseNr, addition, postalCode, residence, email) values(?,?,?,?,?,?,?,?,?,?,?,?)";
         jdbcTemplate.update(sql, user.getBSN(), user.getId(), user.getFullName().getFirstName(), user.getFullName().getInfix(), user.getFullName().getSurname(),
                 user.getDateOfBirth(), user.getUserAddress().getStreetName(), user.getUserAddress().getHouseNr(), user.getUserAddress().getAddition(), user.getUserAddress().getPostalCode(), user.getUserAddress().getResidence(), user.getEmail());
     }
@@ -56,7 +56,7 @@ public class JdbcUserDao implements UserDao {
     public User get(String username){
         logger.debug("JdbcUserDao.get aangeroepen voor user " + username);
         List<User> users = jdbcTemplate.query(
-                "select * from bitbankdb.user where email = ?",
+                "select * from user where email = ?",
                 rowMapper, username);
         if (users.size() != 1){
             return null;
@@ -68,7 +68,7 @@ public class JdbcUserDao implements UserDao {
     @Override
     public void update(User user, int bsn) {
         logger.debug("JdbcUserDao.update aangeroepen voor user " + user.getBSN());
-        String sql = "update bitbankdb.user set bsn = ?, userid = ?, firstname = ?, infix = ?, surname = ?, dateofbirth = ?, " +
+        String sql = "update user set bsn = ?, userid = ?, firstname = ?, infix = ?, surname = ?, dateofbirth = ?, " +
                 "streetName = ? , houseNr = ? , addition = ? , postalCode = ?, residence = ?, email = ? where bsn = ?";
         jdbcTemplate.update(sql, user.getBSN(), user.getId(),
                 user.getFullName().getFirstName(), user.getFullName().getInfix(), user.getFullName().getSurname(),
@@ -80,6 +80,6 @@ public class JdbcUserDao implements UserDao {
     @Override
     public void delete(int bsn) {
         logger.debug("JdbcUserDao.delete aangeroepen voor user " + bsn);
-        jdbcTemplate.update("delete from bitbankdb.user where bsn = ?",bsn);
+        jdbcTemplate.update("delete from user where bsn = ?",bsn);
     }
 }
