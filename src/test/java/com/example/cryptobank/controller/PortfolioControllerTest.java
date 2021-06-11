@@ -1,9 +1,8 @@
 package com.example.cryptobank.controller;
 
-import com.example.cryptobank.domain.Asset;
+import com.example.cryptobank.domain.asset.Asset;
 import com.example.cryptobank.service.assetenportfolio.PortfolioService;
 import com.example.cryptobank.service.login.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,10 +41,10 @@ public class PortfolioControllerTest {
     }
 
     @Test
-    public void portfolio_overview() throws JsonProcessingException {
+    public void portfolio_overview() {
         Mockito
                 .when(portfolioService.showAssetOverview(5))
-                .thenReturn((List<String>) asset);
+                .thenReturn((List<Asset>) asset);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/portfoliooverview");
         request.param("userId", String.valueOf(5));
