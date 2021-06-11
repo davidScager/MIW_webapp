@@ -1,6 +1,7 @@
 package com.example.cryptobank.controller;
 
 import com.example.cryptobank.service.login.LoginAccountService;
+import com.example.cryptobank.service.login.LoginAccountServiceClass;
 import com.example.cryptobank.service.security.TokenService;
 import com.example.cryptobank.service.mailSender.GenerateMailContext;
 import com.example.cryptobank.service.mailSender.MailSenderService;
@@ -21,6 +22,7 @@ import java.util.Map;
 public class ResetPasswordController {
     private Logger logger = LoggerFactory.getLogger(ResetPasswordController.class);
     private final LoginAccountService loginAccountService;
+    private final LoginAccountServiceClass loginAccountServiceClass;
     private final MailSenderService mailSenderService;
     private final GenerateMailContext generateMailContext;
     private final TokenService tokenService;
@@ -29,11 +31,12 @@ public class ResetPasswordController {
 
 
     @Autowired
-    public ResetPasswordController(LoginAccountService loginAccountService, MailSenderService mailSenderService, GenerateMailContext generateMailContext, TokenService tokenService) {
+    public ResetPasswordController(LoginAccountServiceClass loginAccountServiceClass, LoginAccountService loginAccountService, MailSenderService mailSenderService, GenerateMailContext generateMailContext, TokenService tokenService) {
         this.tokenService = tokenService;
         logger.info("New MailSenderController");
         this.generateMailContext = generateMailContext;
         this.loginAccountService = loginAccountService;
+        this.loginAccountServiceClass = loginAccountServiceClass;
         this.mailSenderService = mailSenderService;
     }
 

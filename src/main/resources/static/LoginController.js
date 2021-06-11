@@ -1,3 +1,9 @@
+window.onload=clearLocalStorage()
+
+function clearLocalStorage(){
+    localStorage.clear()
+}
+
 function loadReset() {
     console.log(localStorage.getItem("passwordreset"));
     if (localStorage.getItem("passwordreset") === "yes") {
@@ -51,8 +57,8 @@ function sendData() {
                 console.log(response)
                 if(response.ok){
                     let token = response.headers.get("Authorization")
-                    console.log(token)
-                    localStorage.clear()
+                    console.log("Token na inlog: " + token)
+                    // localStorage.clear()
                     localStorage.setItem("token", token)
                     window.location.replace("http://localhost:8080/homeSchermIngelogd.html")
                 } else {
