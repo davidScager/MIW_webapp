@@ -70,7 +70,7 @@ public class JdbcActorDao implements ActorDao {
     public Optional<Actor> get(long userId) {
         logger.debug("JdbcActorDao.get aangeroepen voor actor " + userId);
         List<Actor> actors = jdbcTemplate.query(
-                "select * from bitbankdb.actor where userId = ?",
+                "select * from actor where userId = ?",
                 rowMapper, userId);
         if (actors.size() != 1) {
             return Optional.empty();
