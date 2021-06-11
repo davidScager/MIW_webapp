@@ -5,17 +5,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@Controller
+//@Controller
 public class WebController {
     private final Logger logger = LoggerFactory.getLogger(WebController.class);
 
-    @Autowired
+    //@Autowired
     public WebController() {
         super();
         logger.info("New WebController");
     }
 
-    @GetMapping("/registertest")
+    //@GetMapping("/registertest")
     public String registrationPageHandler(){
         return "registreren";
     }
