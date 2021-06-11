@@ -1,3 +1,12 @@
+function loadReset() {
+    if (localStorage.getItem("passwordreset") === "yes") {
+        document.getElementById("login_als_reset").style.visibility="visible"
+    }
+}
+
+window.onload = loadReset();
+
+
 function sendData() {
 
     let emailElement = document.querySelector("#email")
