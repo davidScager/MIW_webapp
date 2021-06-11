@@ -1,3 +1,36 @@
+document.getElementById('postalCode').addEventListener('focusout', checkForAddress);
+document.getElementById('houseNr').addEventListener('focusout', checkForAddress);
+
+function checkForAddress() {
+    let regex = new RegExp(/[1-9]{4}[A-Za-z]{2}$/i);
+    let pc = document.querySelector('#postalCode').value;
+    let nr = document.querySelector('#houseNr').value;
+
+    console.log('pc is valid: ' + regex.test(pc));
+
+    let formData = `postcode=${pc}&number=${nr}`;
+    if (regex.test(pc) && nr) {
+        /*warning: `` not ''*/
+        fetch("https://postcode.tech/api/v1/postcode?" + formData,
+            {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer 5382a25d-6bbe-4b44-885e-7b4d3d0b5dff'
+                }
+            })
+            .then(response => response.json())
+            .then(json => processAddress(json))
+            .catch((error) => { console.error('could not GET request', error)});
+    }
+}
+
+function processAddress(json){
+    console.log(json);
+    let address = json;
+    document.getElementById('residence').value = address.city;
+    document.getElementById('streetName').value = address.street;
+}
+
 function register(){
     console.log("method call register()");
     let bsn = document.querySelector('#bsn').value;

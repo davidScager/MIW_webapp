@@ -29,15 +29,15 @@ public class JdbcLoginDao implements LoginDao {
 
     @Override
     public void create(String username, String password) {
-        jdbcTemplate.update(connection -> insertLoginStatement(username, password, /*null,*/ connection));
+        jdbcTemplate.update(connection -> insertLoginStatement(username, password, null, connection));
     }
 
     // waarom is hier een token toegevoegd? -David
-    private PreparedStatement insertLoginStatement(String username, String password, /*String token,*/ Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("insert into loginaccount values (?, ?)");
+    private PreparedStatement insertLoginStatement(String username, String password, String token, Connection connection) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("insert into loginaccount values (?, ?, ?)");
         ps.setString(1, username);
         ps.setString(2, password);
-        //ps.setString(3, token);
+        ps.setString(3, token);
         return ps;
     }
 
