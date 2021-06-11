@@ -125,6 +125,10 @@ input{
     padding: 1px;
 }
 
+#login_als_reset{
+    visibility: hidden;
+}
+
 #loginError{
     color: red;
     position: absolute;
