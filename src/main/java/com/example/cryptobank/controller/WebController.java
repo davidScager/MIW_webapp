@@ -15,7 +15,7 @@ public class WebController {
         logger.info("New WebController");
     }
 
-    @GetMapping("/register")
+    @GetMapping("/registertest")
     public String registrationPageHandler(){
         return "registreren";
     }
