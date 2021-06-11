@@ -53,7 +53,11 @@ public class PortfolioController {
     public ResponseEntity<List<AssetPortfolioView>> listPortFolio(@RequestHeader(value = "Authorization") String token) {
         //TODO get token
 //        System.out.println("fake token "+token);
+
         User user = userService.getUserFromToken(token);
+        if(user == null){
+
+        }
         int portfolioId = portfolioDao.getPortfolioIdByUserId((int)user.getId()).getPortfolioId();
         //Portfolio portfolio = portfolioService.getByActor(userId);
         System.out.println("portfolio "+ portfolioId);

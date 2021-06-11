@@ -1,3 +1,9 @@
+window.onload=clearLocalStorage()
+
+function clearLocalStorage(){
+    localStorage.clear()
+}
+
 function sendData() {
 
     let emailElement = document.querySelector("#email")
@@ -41,7 +47,7 @@ function sendData() {
                 console.log(response)
                 if(response.ok){
                     let token = response.headers.get("Authorization")
-                    console.log(token)
+                    console.log("Token na inlog: " + token)
                     localStorage.setItem("token", token)
                     window.location.replace("http://localhost:8080/homeSchermIngelogd.html")
                 } else {

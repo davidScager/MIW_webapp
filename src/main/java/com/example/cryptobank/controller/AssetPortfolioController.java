@@ -1,11 +1,13 @@
 package com.example.cryptobank.controller;
 
 import com.example.cryptobank.domain.AssetPortfolio;
+import com.example.cryptobank.domain.User;
 import com.example.cryptobank.repository.daointerfaces.AssetPortfolioDao;
 import com.example.cryptobank.repository.daointerfaces.PortfolioDao;
 import com.example.cryptobank.service.assetenportfolio.AssetPortfolioService;
 import com.example.cryptobank.service.assetenportfolio.AssetService;
 import com.example.cryptobank.service.assetenportfolio.PortfolioService;
+import com.example.cryptobank.service.login.UserService;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,15 +27,17 @@ public class AssetPortfolioController {
     private final AssetPortfolioService assetPortfolioService;
     private final PortfolioDao portfolioDao;
     private final AssetPortfolioDao assetPortfolioDao;
+    private final UserService userService;
 
     @Autowired
-    public AssetPortfolioController(AssetService assetService, PortfolioService portfolioService, AssetPortfolioService assetPortfolioService, PortfolioDao portfolioDao, AssetPortfolioDao assetPortfolioDao) {
+    public AssetPortfolioController(AssetService assetService, PortfolioService portfolioService, AssetPortfolioService assetPortfolioService, PortfolioDao portfolioDao, AssetPortfolioDao assetPortfolioDao, UserService userService) {
         super();
         this.portfolioService = portfolioService;
         this.assetService = assetService;
         this.assetPortfolioService = assetPortfolioService;
         this.portfolioDao = portfolioDao;
         this.assetPortfolioDao = assetPortfolioDao;
+        this.userService = userService;
         logger.info("New AssetPortofolioController");
     }
 
@@ -51,12 +55,14 @@ public class AssetPortfolioController {
 
     @PostMapping("/updateassetforsale")
     @CrossOrigin
-    public ResponseEntity<String> updateassetforsale(@RequestParam("token") String token, @RequestParam String symbol, @RequestParam double amount) {
+    public ResponseEntity<String> updateassetforsale(@RequestHeader(value = "Authorization") String token, @RequestParam String symbol, @RequestParam double amount) {
         JSONObject jsonObject = new JSONObject();
         System.out.println("symbol " + symbol + " amountForsale " + amount);
         //TODO get token
-        System.out.println("fake token " + token);
-        int userId = 2;
+//        System.out.println("fake token " + token);
+//        int userId = 2;
+        User user = userService.getUserFromToken(token);
+        long userId = user.getId();
         int portfolioId = portfolioDao.getPortfolioIdByUserId((int) userId).getPortfolioId();
         double amountAvailable = assetPortfolioDao.getAmountByAssetName(symbol, portfolioId);
         System.out.println(amountAvailable);

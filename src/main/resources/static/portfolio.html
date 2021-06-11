@@ -10,12 +10,19 @@
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="HomeSchermIngelogd.js"></script>
 
     <script>
 
        $( document ).ready(function() {
             console.log( "ready!" );
-            loadPortfolio();
+           let token = localStorage.getItem("token")
+           console.log("Token in portfolio.html: " + token)
+           if(token !== null){
+               loadPortfolio(token);
+           } else {
+               document.getElementById("login/logoutButton").innerHTML = "Login"
+           }
             loadAssets();
        });
 
@@ -91,99 +98,117 @@
             assetName.innerText = name;
             var symbolElem = document.getElementById("symbol_for_sale");
             symbolElem.value = symbol;
-
-
         }
-        function updateAssetForSale(){
+
+        function updateAssetForSale(token) {
             // url
-            var symbolElem = document.getElementById("symbol_for_sale");
-            var amountForSaleElem = document.getElementById("amountForSale");
+            let symbolElem = document.getElementById("symbol_for_sale");
+            let symbol = symbolElem.value
+            console.log(symbol)
+            let amountForSaleElem = document.getElementById("amountForSale");
+            let amount = amountForSaleElem.value
+            console.log(amount)
             //alert("symbolElem "+ amountForSaleElem.value+"  "+ symbolElem.value)
-            $.post("http://localhost:8080/updateassetforsale",
-                // postvars
-                {
-                    token: "tokenshit",
-                    symbol: symbolElem.value,
-                    amount: amountForSaleElem.value
 
-                },
-
-                function(data, status){
-                    //console.log( data );
-                    //var json_str = JSON.stringify(data);
-                    //console.log( JSON.stringify(data) );
-                    loadPortfolio();
-                    alert(data);
-                    closeDialog();
-                 }
-
-            );
-
+            console.log("updateAssetForSale() aangeroepen voor token " + token)
+            if (token === null) {
+                console.log("SessionNotValid() aangeroepen voor token " + token)
+                sessionNotValid()
+            } else {
+                $.ajaxSetup({
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        "Authorization": "Bearer " + token,
+                    }
+                });
+                $.post("http://localhost:8080/updateassetforsale",
+                    // postvars
+                    {
+                        symbol: symbol,
+                        amount: amount
+                    },
+                    function (data, status) {
+                        //console.log( data );
+                        //var json_str = JSON.stringify(data);
+                        //console.log( JSON.stringify(data) );
+                        loadPortfolio(token);
+                        alert(data);
+                        closeDialog();
+                    }
+                );
+            }
         }
 
 
-        function loadAssets(){
-
-            $('#selectable_assets > tbody').empty();
-            $.getJSON( "http://localhost:8080/updateassetsbyapi", function( data ) {
-                var json_str = JSON.stringify(data);
-                var asset_row = '';
-                for (i in data) {
-                    console.log( "json row" );
-                    console.log( JSON.stringify(data[i]) );
-                    asset_row += '<tr onclick="buyAsset(\''+data[i].abbreviation+'\',\''+data[i].name+'\');" id="asset_row" class="ui-widget-content asset_row">';
-                    asset_row += '   <td class="col_1">'+data[i].abbreviation+'</td>';
-                    asset_row += '   <td class="col_2"  title="'+data[i].description+'">'+data[i].name+'</td>';
-                    asset_row += '   <td class="col_3">'+data[i].valueInUsd+'</td>';
-                    asset_row += '   <td class="col_4">'+data[i].valueYesterday+'</td>';
-                    asset_row += '   <td class="col_5">'+data[i].valueLastWeek+'</td>';
-                    asset_row += '   <td class="col_6">'+data[i].valueLastMonth+'</td>';
-                    asset_row += '</tr>';
-                }
-                console.log(asset_row );
-                $('#selectable_assets > tbody').append(asset_row);
-                setHeightsWidths();
-            });
-
-        }
-
-        function loadPortfolio(){
-            let token = localStorage.getItem("token")
-
-            $.ajaxSetup({
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    "Authorization": "Bearer " + token
-                }
-            });
-
-            $('#selectable_portfolio > tbody').empty();
-            $.post("http://localhost:8080/listportfolio",
-                {
-                    extra: "hille"
-                },
-                function(data, status){
+            function loadAssets() {
+                $('#selectable_assets > tbody').empty();
+                $.getJSON("http://localhost:8080/updateassetsbyapi", function (data) {
                     var json_str = JSON.stringify(data);
-                    console.log( JSON.stringify(data) );
                     var asset_row = '';
                     for (i in data) {
-                        console.log( "json row" );
-                        console.log( JSON.stringify(data[i]) );
-                        asset_row += '<tr onclick="assetForSale(\''+data[i].assetName+'\',\''+data[i].assetDescription+'\');" id="asset_row" class="ui-widget-content asset_row">';
-                        asset_row += '   <td class="col_1">'+data[i].assetName+'</td>';
-                        asset_row += '   <td class="col_2">'+data[i].assetDescription+'</td>';
-                        asset_row += '   <td class="col_3">'+data[i].amount+'</td>';
-                        asset_row += '   <td class="col_4">'+Math.round((data[i].amountUSD * data[i].amount * 100)) / 100+'</td>';
-                        asset_row += '   <td class="col_5">'+data[i].forSale+'</td>';
-                       asset_row += '</tr>';
+                        console.log("json row");
+                        console.log(JSON.stringify(data[i]));
+                        asset_row += '<tr onclick="buyAsset(\'' + data[i].abbreviation + '\',\'' + data[i].name + '\');" id="asset_row" class="ui-widget-content asset_row">';
+                        asset_row += '   <td class="col_1">' + data[i].abbreviation + '</td>';
+                        asset_row += '   <td class="col_2"  title="' + data[i].description + '">' + data[i].name + '</td>';
+                        asset_row += '   <td class="col_3">' + data[i].valueInUsd + '</td>';
+                        asset_row += '   <td class="col_4">' + data[i].valueYesterday + '</td>';
+                        asset_row += '   <td class="col_5">' + data[i].valueLastWeek + '</td>';
+                        asset_row += '   <td class="col_6">' + data[i].valueLastMonth + '</td>';
+                        asset_row += '</tr>';
                     }
-                    $('#selectable_portfolio > tbody').append(asset_row);
+                    console.log(asset_row);
+                    $('#selectable_assets > tbody').append(asset_row);
                     setHeightsWidths();
-                }
-            );
+                });
 
-       }
+            }
+
+            function loadPortfolio(token) {
+                console.log("Loadportfolio() aangeroepen voor token " + token)
+                if (token === null) {
+                    console.log("SessionNotValid() aangeroepen voor token " + token)
+                    sessionNotValid()
+                } else {
+                    $.ajaxSetup({
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            "Authorization": "Bearer " + token
+                        }
+                    });
+
+                    $('#selectable_portfolio > tbody').empty();
+                    $.post("http://localhost:8080/listportfolio",
+                        {
+                            extra: "hille"
+                        },
+                        function (data, status) {
+                            var json_str = JSON.stringify(data);
+                            console.log(JSON.stringify(data));
+                            var asset_row = '';
+                            for (i in data) {
+                                console.log("json row");
+                                console.log(JSON.stringify(data[i]));
+                                asset_row += '<tr onclick="assetForSale(\'' + data[i].assetName + '\',\'' + data[i].assetDescription + '\');" id="asset_row" class="ui-widget-content asset_row">';
+                                asset_row += '   <td class="col_1">' + data[i].assetName + '</td>';
+                                asset_row += '   <td class="col_2">' + data[i].assetDescription + '</td>';
+                                asset_row += '   <td class="col_3">' + data[i].amount + '</td>';
+                                asset_row += '   <td class="col_4">' + Math.round((data[i].amountUSD * data[i].amount * 100)) / 100 + '</td>';
+                                asset_row += '   <td class="col_5">' + data[i].forSale + '</td>';
+                                asset_row += '</tr>';
+                            }
+                            $('#selectable_portfolio > tbody').append(asset_row);
+                            setHeightsWidths();
+                        }
+                    );
+                }
+            }
+
+            function sessionNotValid() {
+                alert("Sessie is niet geldig, log (opnieuw) in")
+        }
 
 
     </script>
@@ -199,7 +224,7 @@
                 <li><a href="portfolio.html">Portfolio</a></li>
                 <li><a href="TransactionHistory.html">Transacties</a></li>
                 <li><a href="HomeScherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></li>
-                <li><a href="LoginController.html">Logout</a></li>
+                <li id="login/logoutButton"><a href="LoginController.html">Logout</a></li>
                 <li><a class="cta" href="contact.html">
                     <button>Contact</button>
                 </a></li>
@@ -229,8 +254,7 @@
 
             </tbody>
         </table>
-
-        <button onclick="loadPortfolio();">Ververs portfolio</button>
+        <button onclick="loadPortfolio(checkToken());">Ververs portfolio</button>
     </div>
     <!-- Asset page.-->
     <div class="koers-form">
@@ -274,7 +298,7 @@
             <label for="forSale">For Sale:</label>
             <input type="text" id="amountForSale" name="amountForSale" value="0" required>
             <hidden id="symbol_for_sale" name="symbol_for_sale" value=""/>
-            <button onclick="updateAssetForSale();">Available for sale!</button>
+            <button onclick="updateAssetForSale(checkToken());">Available for sale!</button>
         </div>
 
 
