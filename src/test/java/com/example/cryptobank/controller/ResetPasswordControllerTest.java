@@ -1,7 +1,8 @@
 package com.example.cryptobank.controller;
 
 import com.example.cryptobank.service.currency.MethodRunOnScheduleHelper;
-import com.example.cryptobank.service.login.LoginAccountServiceClass;
+//import com.example.cryptobank.service.login.LoginAccountServiceClass;
+import com.example.cryptobank.service.login.LoginAccountService;
 import com.example.cryptobank.service.mailSender.GenerateMailContext;
 import com.example.cryptobank.service.mailSender.MailSenderService;
 import com.example.cryptobank.service.security.TokenService;
@@ -40,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ResetPasswordControllerTest {
 
     @MockBean
-    private LoginAccountServiceClass loginAccountService;
+    private LoginAccountService loginAccountService;
 
 //    @MockBean
 //    private LoginAccountServiceClass loginAccountServiceClass;

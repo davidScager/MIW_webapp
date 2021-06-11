@@ -1,9 +1,9 @@
 package com.example.cryptobank.repository;
 
 import com.example.cryptobank.controller.AssetController;
-import com.example.cryptobank.domain.Actor;
-import com.example.cryptobank.domain.Role;
-import com.example.cryptobank.domain.User;
+import com.example.cryptobank.domain.user.Actor;
+import com.example.cryptobank.domain.user.Role;
+import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.repository.daointerfaces.ActorDao;
 import com.example.cryptobank.repository.daointerfaces.UserDao;
 import com.example.cryptobank.service.currency.MethodRunOnScheduleHelper;
@@ -82,12 +82,12 @@ class ActorDaoTest {
         Actor actor = optionalActor.orElse(null);
         assert actor != null;
         long actorId = actor.getUserId();
-        String checkingAccount = actor.getCheckingaccount();
-        actor.setCheckingaccount("1234321");
+        String checkingAccount = actor.getCheckingAccount();
+        actor.setCheckingAccount("1234321");
         actorDao.update(actor, actorId);
         Optional<Actor> updatedOptionalActor = actorDao.get(7);
         Actor updatedActor = optionalActor.orElse(null);
-        String updatedCheckingAccount = updatedActor.getCheckingaccount();
+        String updatedCheckingAccount = updatedActor.getCheckingAccount();
         assertThat(updatedCheckingAccount).isNotEqualTo(checkingAccount);
     }
 
