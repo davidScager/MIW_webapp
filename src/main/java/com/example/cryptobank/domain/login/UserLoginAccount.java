@@ -13,8 +13,11 @@ public class UserLoginAccount {
     public UserLoginAccount(){
     }
 
-    public UserLoginAccount(int bsn, String firstName, String infix, String surname, String dateOfBirth, String postalCode, int houseNr, String addition, String streetName, String residence, String email, String password){
-        this.user = new User(bsn, new FullName(firstName, infix, surname), dateOfBirth, new UserAddress(postalCode, houseNr, addition, streetName, residence), email);
+    public UserLoginAccount(int bsn, String firstName, String infix, String surname, String dateOfBirth,
+                            String postalCode, int houseNr, String addition, String streetName,
+                            String residence, String email, String password){
+        this.user = new User(bsn, new FullName(firstName, infix, surname), dateOfBirth,
+                new UserAddress(postalCode, houseNr, addition, streetName, residence), email);
         setPassword(password);
     }
 
