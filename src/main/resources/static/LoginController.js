@@ -42,6 +42,7 @@ function sendData() {
                 if(response.ok){
                     let token = response.headers.get("Authorization")
                     console.log(token)
+                    localStorage.clear()
                     localStorage.setItem("token", token)
                     window.location.replace("http://localhost:8080/homeSchermIngelogd.html")
                 } else {
