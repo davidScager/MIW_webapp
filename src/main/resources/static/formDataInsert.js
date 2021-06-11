@@ -1,8 +1,19 @@
+let passwordMatches = false;
+
 function initiateReset() {
-    const password = new Password(new RegExp(/^[^ ]+@[^ ]+\.[a-z]{2,3}$/),
+    const email = new FormDataInsert(new RegExp(/^[^ ]+@[^ ]+\.[a-z]{2,3}$/),
         "http://localhost:8080/reset/resetpassword", "http://localhost:8080/confirmed.html", ["email"]
     )
-    password.resetPassword()
+    email.resetPassword();
+}
+
+function initiateNewPassword() {
+    const passwordReset = new FormDataInsert(new RegExp(/^.{8,100}$/), "http://localhost:8080/reset/createnewpassword",
+        "http://localhost:8080/logincontroller.html", ["password"])
+    console.log(passwordMatches)
+    if (passwordMatches === true) {
+        passwordReset.resetPassword();
+    }
 }
 
     function emailValidation() {
@@ -38,45 +49,37 @@ function passwordValidation() {
     let confirmPassword = document.getElementById("confirmpassword").value;
     let textblock = document.getElementById("text");
     let passwordblock = document.getElementById("password")
-    let pattern = /^.{6,}$/;
+    let pattern = /^.{8,100}$/;
 
     if (password.match(pattern)) {
         form.classList.add("valid")
         form.classList.remove("invalid")
         textblock.innerHTML = "Wachtwoord is goed"
-        textblock.style.color = "#03AC13";
+        textblock.style.color = "#f7931a";
         passwordblock.innerHTML = "Wachtwoord is goed"
-        passwordblock.style.color = "#03AC13";
-        if (password == confirmPassword) {
+        passwordblock.style.color = "#f7931a";
+        if (password === confirmPassword) {
             passwordblock.innerHTML = 'matching';
             passwordblock.style.color = "#03AC13";
             textblock.innerHTML = 'matching';
             textblock.style.color = "#03AC13";
+            passwordMatches = true;
+            console.log(passwordMatches)
         } else {
             passwordblock.innerHTML = 'not matching';
-            passwordblock.style.color = "#03AC13";
+            passwordblock.style.color = "#f7931a";
             textblock.innerHTML = 'not matching';
-            textblock.style.color = "#03AC13";
+            textblock.style.color = "#f7931a";
+            passwordMatches = false;
+            console.log(passwordMatches)
         }
     } else {
         form.classList.remove("valid")
         form.classList.add("invalid")
-        text.innerHTML = "Wachtwoord moet minimaal 8 en maximaal 100 tekens hebben"
+        text.innerHTML = "Wachtwoord moet minimaal 8 tekens hebben"
         text.style.color = "f7931a";
-        if (password == confirmPassword) {
-            passwordblock.innerHTML = 'matching';
-            passwordblock.style.color = "#03AC13";
-            textblock.innerHTML = 'matching';
-            textblock.style.color = "#03AC13";
-        } else {
-            passwordblock.innerHTML = 'not matching';
-            passwordblock.style.color = "#03AC13";
-            textblock.innerHTML = 'not matching';
-            textblock.style.color = "#03AC13";
-
-        }
     }
-    if (password == "") {
+    if (password === "") {
         form.classList.remove("valid")
         form.classList.remove("invalid")
         textblock.innerHTML = ""
@@ -99,7 +102,7 @@ function togglePassword(password, confirmpassword) {
     }
 }
 
-class Password {
+class FormDataInsert {
     dataHasWrongInput
     mailRegex
     backEndPoint
@@ -143,7 +146,7 @@ sendData(dataForBackEnd) {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({email: dataForBackEnd})
+            body: JSON.stringify({insert: dataForBackEnd})
         })
             .then(response => {
                 console.log(response)

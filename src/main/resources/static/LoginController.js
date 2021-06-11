@@ -1,11 +1,12 @@
 function loadReset() {
+    console.log(localStorage.getItem("passwordreset"));
     if (localStorage.getItem("passwordreset") === "yes") {
         document.getElementById("login_als_reset").style.visibility="visible"
+    localStorage.clear()
+    } else {
+        document.getElementById("login_als_reset").style.visibility="invisible"
     }
 }
-
-window.onload = loadReset();
-
 
 function sendData() {
 
