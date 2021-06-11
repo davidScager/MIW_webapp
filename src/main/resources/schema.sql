@@ -17,10 +17,6 @@ CREATE TABLE if not exists Actor(
     userId          INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
     checkingAccount VARCHAR(45) NULL,
     role            VARCHAR(45) NOT NULL,
-        FOREIGN KEY (role)
-            REFERENCES Role (role)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION
 );
 
 CREATE TABLE if not exists User(
@@ -61,10 +57,7 @@ CREATE TABLE if not exists Asset(
 CREATE TABLE if not exists Portfolio(
     portfolioId     INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     actor           INT NOT NULL,
-    FOREIGN KEY (actor)
-      REFERENCES Actor (userId)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
+
 );
 
 CREATE TABLE if not exists AssetPortfolio(
@@ -72,15 +65,7 @@ CREATE TABLE if not exists AssetPortfolio(
     portfolioId     INT         NOT NULL,
     amount          DOUBLE      NOT NULL,
     forSale         DOUBLE      NULL,
-    PRIMARY KEY (assetName, portfolioId),
-    FOREIGN KEY (portfolioId)
-       REFERENCES Portfolio (portfolioId)
-       ON DELETE NO ACTION
-       ON UPDATE NO ACTION,
-    FOREIGN KEY (assetName)
-       REFERENCES Asset (abbreviation)
-       ON DELETE NO ACTION
-       ON UPDATE NO ACTION
+    PRIMARY KEY (assetName, portfolioId)
 );
 
 CREATE TABLE if not exists Transaction(
