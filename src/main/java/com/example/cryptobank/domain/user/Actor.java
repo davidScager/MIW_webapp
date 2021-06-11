@@ -1,5 +1,6 @@
 package com.example.cryptobank.domain.user;
 
+import com.example.cryptobank.service.security.AccountNrService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,27 +9,27 @@ import java.util.Objects;
 public class Actor {
     private final Logger logger = LoggerFactory.getLogger(Actor.class);
     private long userId;
-    private String checkingaccount;
+    private String checkingAccount;
     private Role role;
 
-    private Actor(int userId, String checkingaccount, Role role) {
+    private Actor(int userId, String checkingAccount, Role role) {
         super();
         this.userId = userId;
-        this.checkingaccount = checkingaccount;
+        this.checkingAccount = checkingAccount;
         this.role = role;
         logger.info("New Actor");
     }
 
-    //provided simple account number. Eventually to be SecureRNG. -David
+    //uses SecureRNG to generate 10 numbers. Prefix set in service/security/AccountNrService.java -David
     public Actor(Role role) {
-        this(0, "NL88 BITB 1234 1234 12", role);
+        this(0, AccountNrService.randomAccountNr(), role);
     }
 
     @Override
     public String toString() {
         return "Actor{" +
                 "userId=" + userId +
-                ", checkingaccount='" + checkingaccount + '\'' +
+                ", checkingaccount='" + checkingAccount + '\'' +
                 ", role=" + role +
                 '}';
     }
@@ -38,12 +39,12 @@ public class Actor {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Actor actor = (Actor) o;
-        return userId == actor.userId && checkingaccount.equals(actor.checkingaccount) && role == actor.role;
+        return userId == actor.userId && checkingAccount.equals(actor.checkingAccount) && role == actor.role;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, checkingaccount, role);
+        return Objects.hash(userId, checkingAccount, role);
     }
 
     public Actor(){}
@@ -52,12 +53,12 @@ public class Actor {
         return userId;
     }
 
-    public String getCheckingaccount() {
-        return checkingaccount;
+    public String getCheckingAccount() {
+        return checkingAccount;
     }
 
-    public void setCheckingaccount(String checkingaccount) {
-        this.checkingaccount = checkingaccount;
+    public void setCheckingAccount(String checkingAccount) {
+        this.checkingAccount = checkingAccount;
     }
 
     public Role getRole() {
