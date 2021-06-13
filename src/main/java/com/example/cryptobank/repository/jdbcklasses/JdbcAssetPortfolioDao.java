@@ -98,10 +98,27 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         String sql = "update assetportfolio set amount = ? where portfolioId = ? and assetName = ?";
         jdbcTemplate.update(sql, amount, portfolio.getPortfolioId(), asset.getAbbreviation());
     }
+
     @Override
     public void updateAssetsForSale(String Symbol, int portfolioId, double forSale) {
         String sql = "update assetportfolio set forSale = ? where portfolioId = ? and assetName = ?";
         jdbcTemplate.update(sql, forSale, portfolioId, Symbol);
+    }
+
+    public List<Map<String,Object>> getAssetsForSale(String symbol) {
+        String sql = "select portfolioId,forSale from assetportfolio  where assetName = ?";
+        List<Map<String,Object>> overView = jdbcTemplate.query(sql, new AssetsForSaleRowMapper(), symbol);
+        return overView;
+    }
+
+    public class AssetsForSaleRowMapper implements RowMapper<Map<String,Object>> {
+        @Override
+        public Map<String,Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Map<String,Object> map =  new LinkedHashMap<>();
+            map.put("portfolioId",rs.getInt("portfolioId"));
+            map.put("forSale",rs.getDouble("forSale"));
+            return map;
+        }
     }
 
     //maak methode UpdateAvailableForSale

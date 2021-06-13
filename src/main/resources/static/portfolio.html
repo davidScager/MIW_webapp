@@ -15,7 +15,7 @@
     <script>
 
        $( document ).ready(function() {
-            console.log( "ready!" );
+           console.log( "ready!" );
            let token = localStorage.getItem("token")
            console.log("Token in portfolio.html: " + token)
            if(token !== null){
@@ -23,14 +23,15 @@
            } else {
                document.getElementById("login/logoutButton").innerHTML = "Login"
            }
-            loadAssets();
+           //loadAssets();
+           loadAssetsV2()
        });
 
        $( window ).resize(function() {
             setHeightsWidths();
        });
 
-        function setHeightsWidths(){
+       function setHeightsWidths(){
             // Viewport
             var new_height = $( window ).height();
             new_height = new_height -400
@@ -44,15 +45,14 @@
             setColumnWidth("#selectable_portfolio",".col_5", 10)
 
             setColumnWidth("#selectable_assets",".col_1", 15)
-            setColumnWidth("#selectable_assets",".col_2", 45)
-            setColumnWidth("#selectable_assets",".col_3", 10)
-            setColumnWidth("#selectable_assets",".col_4", 10)
-            setColumnWidth("#selectable_assets",".col_5", 10)
-            setColumnWidth("#selectable_assets",".col_6", 10)
+            setColumnWidth("#selectable_assets",".col_2", 40)
+            setColumnWidth("#selectable_assets",".col_3", 15)
+            setColumnWidth("#selectable_assets",".col_4", 15)
+            setColumnWidth("#selectable_assets",".col_5", 15)
        }
 
        // Scrollable table column can only set correct with a width
-        function setColumnWidth(tableId, columnClass, percentage){
+       function setColumnWidth(tableId, columnClass, percentage){
             var tableWidth = $(tableId).width();
             console.log( "tableWidth " +tableWidth);
             // VB $('#selectable_portfolio  .col_1').width(parseInt(600/3))
@@ -60,7 +60,6 @@
             // Width moet int zijn
             console.log( "columnRef " +columnRef +" width "+parseInt((tableWidth/100) * percentage));
             $(columnRef).width(parseInt((tableWidth/100) * percentage))
-
         }
 
         // When the user clicks on <span> (x), close the modal
@@ -115,6 +114,11 @@
                 console.log("SessionNotValid() aangeroepen voor token " + token)
                 sessionNotValid()
             } else {
+                let dataObj = {
+                    symbol: symbol,
+                    amount: amount
+                };
+                console.log("Start ajax");
                 $.ajaxSetup({
                     headers: {
                         'Content-Type': 'application/json',
@@ -122,22 +126,57 @@
                         "Authorization": "Bearer " + token,
                     }
                 });
-                $.post("http://localhost:8080/updateassetforsale",
-                    // postvars
-                    {
+                $.ajax({
+                    url: 'http://localhost:8080/updateassetforsale',
+                    type: 'POST',
+                    dataType: 'text',
+                    contentType: "application/json",
+                     data: JSON.stringify({
                         symbol: symbol,
                         amount: amount
-                    },
-                    function (data, status) {
+                    }),
+
+                    success: function (data) {
                         //console.log( data );
                         //var json_str = JSON.stringify(data);
                         //console.log( JSON.stringify(data) );
+                        let token = localStorage.getItem("token")
                         loadPortfolio(token);
                         alert(data);
                         closeDialog();
+                    },
+                    error: function(error, errorThrown){
+                        var json_str = JSON.stringify(error);
+                        console.log( JSON.stringify(error) );
+                        alert('error!'+json_str);
+                        closeDialog();
                     }
-                );
+                })
+
             }
+        }
+
+        function loadAssetsV2() {
+            $('#selectable_assets > tbody').empty();
+            $.getJSON("http://localhost:8080/updateassetsbyapiv2", function (data) {
+                var json_str = JSON.stringify(data);
+                var asset_row = '';
+                for (i in data) {
+                    console.log("json row");
+                    console.log(JSON.stringify(data[i]));
+                    asset_row += '<tr onclick="buyAsset(\'' + data[i].abbreviation + '\',\'' + data[i].name + '\');" id="asset_row" class="ui-widget-content asset_row">';
+                    asset_row += '   <td class="col_1">' + data[i].abbreviation + '</td>';
+                    asset_row += '   <td class="col_2"  title="' + data[i].description + '">' + data[i].name + '</td>';
+                    asset_row += '   <td class="col_3">' + data[i].valueInUsd + '</td>';
+                    asset_row += '   <td class="col_4">' + data[i].availableBank + '</td>';
+                    asset_row += '   <td class="col_5">' + data[i].availableOthers + '</td>';
+                    asset_row += '</tr>';
+                }
+                console.log(asset_row);
+                $('#selectable_assets > tbody').append(asset_row);
+                setHeightsWidths();
+            });
+
         }
 
 
@@ -211,6 +250,7 @@
         }
 
 
+
     </script>
 </head>
 
@@ -257,6 +297,7 @@
         <button onclick="loadPortfolio(checkToken());">Ververs portfolio</button>
     </div>
     <!-- Asset page.-->
+    <!--  old
     <div class="koers-form">
         <h1>Live Koers</h1>
         <table id="selectable_assets" class="scroll_table">
@@ -276,6 +317,26 @@
 
         <button onclick="loadAssets();">Ververs koers</button>
     </div>
+    --->
+    <div class="koers-form">
+        <h1>Live Koers en beschikbaar</h1>
+        <table id="selectable_assets" class="scroll_table">
+            <thead class="scroll_thead">
+            <tr class="ui-widget-content">
+                <th class="col_1">Coin</th>
+                <th class="col_2">Naam</th>
+                <th class="col_3">Prijs</th>
+                <th class="col_4">Bank</th>
+                <th class="col_5" title="Beschikbaar van ander klanten">Others</th>
+            </tr>
+            </thead>
+            <tbody class="scroll_tbody">
+            </tbody>
+        </table>
+
+        <button onclick="loadAssetsV@();">Ververs koers</button>
+    </div>
+
 </main>
 <!-- End Portfolio page.-->
 
@@ -294,7 +355,7 @@
             <div class="close" onclick="closeDialog();">&times;</div>
         </div>
         <div class="body_dialog_sale">
-            <h2 id="dialog_asset_name"> </h2>
+            <h2 id="dialog_asset_name"></h2>
             <label for="forSale">For Sale:</label>
             <input type="text" id="amountForSale" name="amountForSale" value="0" required>
             <hidden id="symbol_for_sale" name="symbol_for_sale" value=""/>

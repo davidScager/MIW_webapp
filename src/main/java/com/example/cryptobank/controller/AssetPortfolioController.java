@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Map;
 
 @RestController
 public class AssetPortfolioController {
@@ -55,14 +56,19 @@ public class AssetPortfolioController {
 
     @PostMapping("/updateassetforsale")
     @CrossOrigin
-    public ResponseEntity<String> updateassetforsale(@RequestHeader(value = "Authorization") String token, @RequestParam String symbol, @RequestParam double amount) {
+    public ResponseEntity<String> updateassetforsale(@RequestHeader(value = "Authorization") String token,@RequestBody Map<String, String> requestParams) {
         JSONObject jsonObject = new JSONObject();
+
+        String symbol = requestParams.get("symbol");
+        Double amount = Double.parseDouble(requestParams.get("amount"));
         System.out.println("symbol " + symbol + " amountForsale " + amount);
         //TODO get token
 //        System.out.println("fake token " + token);
 //        int userId = 2;
         User user = userService.getUserFromToken(token);
         long userId = user.getId();
+        System.out.println("Token "+token);
+        System.out.println("userId "+userId);
         int portfolioId = portfolioDao.getPortfolioIdByUserId((int) userId).getPortfolioId();
         double amountAvailable = assetPortfolioDao.getAmountByAssetName(symbol, portfolioId);
         System.out.println(amountAvailable);

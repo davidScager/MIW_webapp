@@ -1,6 +1,8 @@
 package com.example.cryptobank.controller;
 
 import com.example.cryptobank.domain.asset.Asset;
+import com.example.cryptobank.domain.asset.AssetViewForSale;
+import com.example.cryptobank.repository.jdbcklasses.JdbcAssetPortfolioDao;
 import com.example.cryptobank.service.assetenportfolio.AssetService;
 import com.example.cryptobank.service.currency.CurrencyHistory;
 import org.slf4j.Logger;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class AssetController {
@@ -20,12 +24,14 @@ public class AssetController {
     private final Logger logger = LoggerFactory.getLogger(AssetController.class);
     private final CurrencyHistory currencyHistory;
     private final AssetService assetService;
+    private final JdbcAssetPortfolioDao jdbcAssetPortfolioDao;
 
     @Autowired
-    public AssetController(CurrencyHistory currencyHistory, AssetService assetService) {
+    public AssetController(CurrencyHistory currencyHistory, AssetService assetService, JdbcAssetPortfolioDao jdbcAssetPortfolioDao) {
         super();
         this.currencyHistory = currencyHistory;
         this.assetService = assetService;
+        this.jdbcAssetPortfolioDao = jdbcAssetPortfolioDao;
         logger.info("New AssetController");
     }
 
@@ -51,6 +57,37 @@ public class AssetController {
         }
         return assetList;
     }
+
+    @GetMapping("/updateassetsbyapiv2")
+    @CrossOrigin
+    public List<AssetViewForSale> updateAssetsByApiV2() {
+        List<Asset> assetList = assetService.showAssetList();
+        List<AssetViewForSale> assetViewForSaleList = new ArrayList<>();
+        for (Asset asset : assetList){
+            //asset = assetService.updateAssetByApi(asset.getApiName());
+
+            AssetViewForSale assetViewForSale = new AssetViewForSale();
+            assetViewForSale.setAbbreviation(asset.getAbbreviation());
+            assetViewForSale.setDescription((asset.getDescription()));
+            assetViewForSale.setName(asset.getName());
+            assetViewForSale.setValueInUsd(asset.getValueInUsd());
+            System.out.println("Get coin "+asset.getName());
+            List<Map<String,Object>> forSale = jdbcAssetPortfolioDao.getAssetsForSale(asset.getAbbreviation());
+            double otherForSale = 0;
+            for (Map<String,Object> map : forSale){
+                if ((Integer)map.get("portfolioId") == 101){
+                    assetViewForSale.setAvailableBank((Double) map.get("forSale"));
+                } else {
+                    otherForSale += (Double) map.get("forSale");
+                }
+            }
+            assetViewForSale.setAvailableOthers(otherForSale);
+            assetViewForSaleList.add(assetViewForSale);
+             //
+        }
+        return assetViewForSaleList;
+    }
+
 
     @GetMapping("/updateassetbyapi")
     @CrossOrigin
