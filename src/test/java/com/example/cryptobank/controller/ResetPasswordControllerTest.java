@@ -3,7 +3,7 @@ package com.example.cryptobank.controller;
 import com.example.cryptobank.service.currency.MethodRunOnScheduleHelper;
 //import com.example.cryptobank.service.login.LoginAccountServiceClass;
 import com.example.cryptobank.service.login.LoginAccountService;
-import com.example.cryptobank.service.mailSender.GenerateMailContext;
+//import com.example.cryptobank.service.mailSender.GenerateMailContext;
 import com.example.cryptobank.service.mailSender.MailSenderService;
 import com.example.cryptobank.service.security.TokenService;
 import com.example.cryptobank.service.transaction.TransactionService;
@@ -46,8 +46,8 @@ class ResetPasswordControllerTest {
 //    @MockBean
 //    private LoginAccountServiceClass loginAccountServiceClass;
 
-    @MockBean
-    private GenerateMailContext generateMailContext;
+//    @MockBean
+   // private GenerateMailContext generateMailContext;
 
     @MockBean
     private MailSenderService mailSenderService;
@@ -78,7 +78,7 @@ class ResetPasswordControllerTest {
             final boolean[] mailIsSent = new boolean[1];
             Mockito.when(loginAccountService.verifyAccount(emailAddress)).thenReturn(true);
             Mockito.when(loginAccountService.addTokenToLoginAccount(emailAddress)).thenReturn(token);
-            Mockito.when(generateMailContext.setResetText(token)).thenReturn(mailContext);
+         //   Mockito.when(generateMailContext.setResetText(token)).thenReturn(mailContext);
 
             Answer answer = new Answer() {
                 @Override
@@ -89,7 +89,7 @@ class ResetPasswordControllerTest {
                     return null;
                 }
             };
-            Mockito.doAnswer(answer).when(mailSenderService).sendMail(emailAddress, mailContext, "Change your password");
+         //   Mockito.doAnswer(answer).when(mailSenderService).sendMail(emailAddress, mailContext, "Change your password");
 
             MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/reset/resetpassword");
 
@@ -117,7 +117,7 @@ class ResetPasswordControllerTest {
             final boolean[] mailIsSent = new boolean[1];
             Mockito.when(loginAccountService.verifyAccount(emailAddress)).thenReturn(true);
             Mockito.when(loginAccountService.addTokenToLoginAccount(emailAddress)).thenReturn(token);
-            Mockito.when(generateMailContext.setResetText(token)).thenReturn(mailContext);
+         //   Mockito.when(generateMailContext.setResetText(token)).thenReturn(mailContext);
 
             Answer answer = new Answer() {
                 @Override
@@ -128,7 +128,7 @@ class ResetPasswordControllerTest {
                     return null;
                 }
             };
-            Mockito.doAnswer(answer).when(mailSenderService).sendMail(emailAddress, mailContext, "Change your password");
+           // Mockito.doAnswer(answer).when(mailSenderService).sendMail(emailAddress, mailContext, "Change your password");
 
             MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/reset/resetpassword");
 
