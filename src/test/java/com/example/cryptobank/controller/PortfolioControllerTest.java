@@ -34,7 +34,7 @@ public class PortfolioControllerTest {
     }
 
     @BeforeEach
-    public static void setUp() {
+    public void setUp() {
         asset = new Asset("Tron", "Tron", "TRX",
                 "Aims to build a free digital entertainment system",
                 0.076064, 1.0, 1.0, 1.0, 1.0);
