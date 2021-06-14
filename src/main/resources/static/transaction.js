@@ -55,20 +55,21 @@ function loadMyAssets() {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            "Authorization": "Bearer " + token,
+            "Authorization": token
         },
     })
         .then(response => response.json())
         .then(data => {
                 console.log(data)
                 Object.entries(data).forEach((assets) => {
+                    console.log(assets)
                         let row = document.createElement(`tr`)
                         let tdAsset = document.createElement(`td`)
                         let tdValueToday = document.createElement(`td`)
                         let tdAmount = document.createElement(`td`)
 
-                        tdAsset.innerHTML = `${assets[1].AssetName}`
-                        tdAmount.innerHTML = `${assets[1].available}`
+                        tdAsset.innerHTML = `${assets[1].assetName}`
+                        tdAmount.innerHTML = `${assets[1].avalable}`
                         tdValueToday.innerHTML = `${assets[1].assetUSDValue}`
 
                         row.appendChild(tdAsset)
