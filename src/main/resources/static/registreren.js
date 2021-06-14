@@ -1,3 +1,35 @@
+//strength meter by: https://gabrieleromanato.name/javascript-password-strength-meter-with-the-zxcvbn-library
+'use strict';
+
+class PasswordMeter {
+    constructor(selector) {
+        this.wrappers = document.querySelectorAll(selector);
+        if(this.wrappers.length > 0) {
+            this.init(this.wrappers);
+        }
+    }
+    init(wrappers) {
+        wrappers.forEach(wrapper => {
+            let bar = wrapper.querySelector('.password-meter-bar');
+            let input = wrapper.previousElementSibling;
+
+            input.addEventListener('keyup', () => {
+                let value = input.value;
+                bar.classList.remove('level0', 'level1', 'level2', 'level3', 'level4');
+                let result = zxcvbn(value);
+                let cls = `level${result.score}`;
+                bar.classList.add(cls);
+            }, false);
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const passwordMeter = new PasswordMeter('.password-meter-wrap');
+}, false);
+//end strength meter
+
+//checkForAddress: Remi de Boer
 function checkForAddress() {
     let regex = new RegExp(/[1-9]{4}[A-Za-z]{2}$/i);
     let pc = document.querySelector('#postalCode').value;
@@ -26,22 +58,13 @@ function processAddress(json){
     document.querySelector('#residence').value = address.city;
     document.querySelector('#streetName').value = address.street;
 }
+//end checkForAddress
 
+//author: David Scager
 function register(){
     console.log("method call register()");
-    let bsn = document.querySelector('#bsn').value;
-    let firstName = document.querySelector('#firstName').value;
-    let infix = document.querySelector('#infix').value;
-    let surname = document.querySelector('#surname').value;
-    let dateOfBirth = document.querySelector('#dateOfBirth').value;
-    let postalCode = document.querySelector('#postalCode').value;
-    let houseNr = document.querySelector('#houseNr').value;
-    let addition = document.querySelector('#addition').value;
-    let streetName = document.querySelector('#streetName').value;
-    let residence = document.querySelector('#residence').value;
     let email = document.querySelector('#email').value;
     let password = document.querySelector('#password').value;
-    console.log();
     fetch('http://localhost:8080/register/request',
         {
             method: 'POST',
@@ -51,19 +74,19 @@ function register(){
             },
             body: JSON.stringify({
                 user: {
-                    bsn: bsn,
+                    bsn: document.querySelector('#bsn').value,
                     fullName: {
-                        firstName: firstName,
-                        infix: infix,
-                        surname: surname
+                        firstName: document.querySelector('#firstName').value,
+                        infix: document.querySelector('#infix').value,
+                        surname: document.querySelector('#surname').value
                     },
-                    dateOfBirth: dateOfBirth,
+                    dateOfBirth: document.querySelector('#dateOfBirth').value,
                     userAddress: {
-                        postalCode: postalCode,
-                        houseNr: houseNr,
-                        addition: addition,
-                        streetName: streetName,
-                        residence: residence
+                        postalCode: document.querySelector('#postalCode').value,
+                        houseNr:document.querySelector('#houseNr').value,
+                        addition: document.querySelector('#addition').value,
+                        streetName: document.querySelector('#streetName').value,
+                        residence: document.querySelector('#residence').value
                     },
                     email: email
                 },
@@ -82,6 +105,25 @@ function register(){
             console.error('Foutje', error);
             alert("Registratie mislukt");
         })
+}
+
+function checkEmail(){
+    let emailInput = document.querySelector('#email');
+    let email = emailInput.textContent
+    let regExp = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i);
+    if (!regExp.test(email)){
+        emailInput.style.borderColor = "red";
+    }
+    emailInput.style.borderColor = "black";
+}
+
+function checkPassword() {
+    let passwordInput = document.querySelector('#password');
+    let password = passwordInput.textContent;
+    if (password.length < 8) {
+        passwordInput.style.borderColor = "red";
+    }
+    passwordInput.style.borderColor = "black";
 }
 
 function afterRegister() {

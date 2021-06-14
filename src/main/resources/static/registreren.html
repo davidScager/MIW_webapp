@@ -5,15 +5,17 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>BitBank - Registreren</title>
-    <link href="registreren.css" rel="stylesheet" type="text/css"/>
     <link href="BaseLayout.css" rel="stylesheet" type="text/css"/>
+    <link href="registreren.css" rel="stylesheet" type="text/css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://gabrieleromanato.dev/demo/javascript-password-meter-zxcbn/js/zxcvbn.js"></script>
+    <script src="registreren.js"></script>
 
 </head>
 
-<body class="page">
-
-<div class="header navbar">
+<body>
+<header>
+    <div class="navbar">
     <div class="navbar sideNav">
         <a href="Transaction.html">Handelen</a>
         <a href="portfolio.html">Portfolio</a>
@@ -25,48 +27,49 @@
         <a href="registreren.html">Registreren</a>
         <a class="cta" href="contact.html"><button>Contact</button> </a>
     </div>
-</div>
-
-<div class="registration-box">
-    <div class="column side"></div>
-    <div class="column middle">
+    </div>
+</header>
+<div class="form-box item" style="min-width: 500px">
     <div class="registration-form">
         <h1>Registratie formulier nieuwe klant</h1>
         <p id="regInfo">Als u zich wilt registreren voor een nieuw account, vul dan a.u.b. het onderstaande formulier in. <br>(velden met een * zijn verplicht)</p>
-        <form class="flex-box" id="form" >
+        <form id="form">
             <label>Persoonsgegevens</label><br>
             <input id="bsn" placeholder="BSN*" maxlength="9" required><br>
             <input id="firstName" placeholder="Voornaam*" maxlength="64" required><br>
             <input id="infix" placeholder="Tussenvoegsel" maxlength="64"><br>
             <input id="surname" placeholder="Achternaam*" maxlength="64" required><br>
-            <input id="dateOfBirth" placeholder="jjjj-mm-dd*" maxlength="64" required><hr>
+            <input type="date" id="dateOfBirth" maxlength="64" required><br><br>
             <label>Adres</label><br>
             <input id="postalCode" placeholder="Postcode*" maxlength="6" required><br>
             <input id="houseNr" placeholder="Huisnummer*" maxlength="4" type="number" required><br>
             <input id="addition" placeholder="Toevoeging" maxlength="4"><br>
             <input id="streetName" placeholder="Straat*" maxlength="64" required><br>
-            <input id="residence" placeholder="Woonplaats*" maxlength="64" required><hr>
-            <label for="email" >Email*</label><br>
-            <input id="email" maxlength="64" required><br>
-            <label for="password" >Wachtwoord*</label><br>
-            <input id="password" maxlength="64" required><br>
-            <label for="repassword">Type uw wachtwoord opnieuw*</label><br>
-            <input id="repassword" maxlength="64" required><hr>
+            <input id="residence" placeholder="Woonplaats*" maxlength="64" required><br><br>
+            <label >Account</label><br>
+            <input id="email" placeholder="email@mailservice.foo" maxlength="64" required>
+            <div class="form-group">
+            <input type="text" placeholder="wachtwoord" name="password" id="password" class="form-control" maxlength="64" required>
+                <div class="password-meter-wrap">
+                    <div class="password-meter-bar"></div>
+                </div>
+            </div>
+            <input id="repassword" placeholder="type opnieuw" maxlength="64" required><br>
+        <button id="regButton" class="button form-button" onclick="register();">Registreren</button>
         </form>
-        <button id="regButton" type="button" onclick="register();">Registreren</button>
     </div>
-    </div>
-    <div class="column side"></div>
 </div>
 
-<div class="footer" id="footer">
+<footer>
     <img class="footer img" src="images/B left.png" alt="BLeft">
     <img class="footer img" src="images/B right.png" alt="Bright">
-</div>
+</footer>
 </body>
 <script>
     document.querySelector('#postalCode').addEventListener('focusout', checkForAddress);
     document.querySelector('#houseNr').addEventListener('focusout', checkForAddress);
+    document.querySelector('#email').addEventListener('focusout', checkEmail);
+    document.querySelector('#password').addEventListener('focusout', checkPassword);
 </script>
 
 </html>
