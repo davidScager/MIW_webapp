@@ -32,11 +32,10 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
     @Override
     public List<Asset> getAssetOverview(int portfolioId) {
         String query = "SELECT * FROM assetportfolio WHERE portfolioId = ?";
-        List<String> tempAssetNameList = jdbcTemplate.query(query, new Object[] { portfolioId },new AssetPortfolioRowMapper());
+        List<String> tempAssetNameList = jdbcTemplate.query(query, new Object[] { portfolioId }, new AssetPortfolioRowMapper());
         List<Asset> tempAssetList = new ArrayList<>();
         for (String string: tempAssetNameList) {
-            Asset asset = jdbcAssetDao.getOneByName(string);
-            tempAssetList.add(asset);
+            tempAssetList.add(jdbcAssetDao.getOneByName(string));
         }
         return tempAssetList;
     }
@@ -51,7 +50,7 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
     }
 
 
-    public class AssetPortfolioRowMapper implements RowMapper<String> {
+    public static class AssetPortfolioRowMapper implements RowMapper<String> {
         @Override
         public String mapRow(ResultSet rs, int rowNum) throws SQLException {
 
@@ -59,15 +58,12 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         }
     }
 
-    public class AssetPortfolioAmountRowMapper implements RowMapper<AssetPortfolio> {
+    public static class AssetPortfolioAmountRowMapper implements RowMapper<AssetPortfolio> {
         @Override
         public AssetPortfolio mapRow(ResultSet rs, int rowNum) throws SQLException {
-            String assetName = rs.getString("assetName");
-            int portfolioId = rs.getInt("portfolioId");
-            double amount = rs.getDouble("amount");
-            double availableForSale = rs.getDouble("forSale");
-            AssetPortfolio assetPortfolio = new AssetPortfolio(assetName, portfolioId, amount);
-            return assetPortfolio;
+
+            return new AssetPortfolio(rs.getString("assetName"), rs.getInt("portfolioId"),
+                    rs.getDouble("amount"), rs.getDouble("forSale"));
         }
     }
 
@@ -75,7 +71,7 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
     public double getAmountByAssetName(String name, int portfolioId) {
         String query = "SELECT amount FROM assetportfolio WHERE portfolioId = ? AND assetName = ?";
 
-        return Double.parseDouble(jdbcTemplate.queryForObject(query, new Object[] { portfolioId, name }, new AssetPortfolioRowMapper()));
+        return Objects.requireNonNull(jdbcTemplate.queryForObject(query, new Object[]{portfolioId, name}, new AssetPortfolioAmountRowMapper())).getAmount();
     }
 
     //Als dit weer wordt gebruikt, moet het worden aangepast aan het nieuwe ERD

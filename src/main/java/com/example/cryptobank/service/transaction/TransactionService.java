@@ -105,24 +105,15 @@ public class TransactionService {
     }
 
     public TransactionHistory makeTransactionHistoryObject(Transaction transaction, boolean buy) {
-        TransactionHistory tempTransactionHistory = new TransactionHistory();
-        tempTransactionHistory.setTransactionId(transaction.getTransactionId());
-        tempTransactionHistory.setTimestamp(transaction.getTimestamp());
         if(buy) {
-            tempTransactionHistory.setAsset(rootRepository.getAssetByAbbreviation(transaction.getAssetBought()));
-            tempTransactionHistory.setAssetTransactionRate(transaction.getTransactionLog().getBoughtAssetTransactionRate());
-            tempTransactionHistory.setAssetAdjustmentFactor(transaction.getTransactionLog().getBoughtAssetAdjustmentFactor());
-            tempTransactionHistory.setNumberOfAssetsTraded(transaction.getTransactionLog().getNumberOfAssetsBought());
-            tempTransactionHistory.setAankoopVerkoop(BUY);
+            return new TransactionHistory(transaction.getTransactionId(), rootRepository.getAssetByAbbreviation(transaction.getAssetBought()),
+                    transaction.getTransactionLog().getBoughtAssetTransactionRate(), transaction.getTransactionLog().getBoughtAssetAdjustmentFactor(),
+                    transaction.getTransactionLog().getNumberOfAssetsBought(), transaction.getTimestamp(), BUY);
         } else {
-            tempTransactionHistory.setAsset(rootRepository.getAssetByAbbreviation(transaction.getAssetSold()));
-            tempTransactionHistory.setAssetTransactionRate(transaction.getTransactionLog().getSoldAssetTransactionRate());
-            tempTransactionHistory.setAssetAdjustmentFactor(transaction.getTransactionLog().getSoldAssetAdjustmentFactor());
-            tempTransactionHistory.setNumberOfAssetsTraded(transaction.getTransactionLog().getNumberOfAssetsSold());
-            tempTransactionHistory.setAankoopVerkoop(SELL);
+            return new TransactionHistory(transaction.getTransactionId(), rootRepository.getAssetByAbbreviation(transaction.getAssetSold()),
+                    transaction.getTransactionLog().getSoldAssetTransactionRate(), transaction.getTransactionLog().getSoldAssetAdjustmentFactor(),
+                    transaction.getTransactionLog().getNumberOfAssetsSold(), transaction.getTimestamp(), SELL);
         }
-
-        return tempTransactionHistory;
     }
 
     public Boolean determineBuyOrSell(Transaction transaction, String assetName) {
