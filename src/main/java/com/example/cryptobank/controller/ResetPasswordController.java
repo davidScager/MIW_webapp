@@ -29,8 +29,6 @@ import java.util.Map;
 public class ResetPasswordController {
     private Logger logger = LoggerFactory.getLogger(ResetPasswordController.class);
     private final LoginAccountService loginAccountService;
-    private final MailSenderService mailSenderService;
-    private final GenerateMailContent generateMailContent;
     private final SendMailServiceFacade sendMailServiceFacade;
     private final TokenService tokenService;
     private String email;
@@ -39,13 +37,11 @@ public class ResetPasswordController {
 
 
     @Autowired
-    public ResetPasswordController(LoginAccountService loginAccountService, MailSenderService mailSenderService, GenerateMailContent generateMailContent, SendMailServiceFacade sendMailServiceFacade, TokenService tokenService) {
+    public ResetPasswordController(LoginAccountService loginAccountService, SendMailServiceFacade sendMailServiceFacade, TokenService tokenService) {
         this.sendMailServiceFacade = sendMailServiceFacade;
         this.tokenService = tokenService;
         logger.info("New MailSenderController");
-        this.generateMailContent = generateMailContent;
         this.loginAccountService = loginAccountService;
-        this.mailSenderService = mailSenderService;
     }
 
     @PostMapping("/resetpassword")
@@ -62,18 +58,17 @@ public class ResetPasswordController {
 
     @PostMapping("/createnewpassword")
     public HttpEntity<?> loadPasswordPage(@RequestBody Map<String, String> tokenMap) {
-            insert = tokenMap.values().stream().findFirst().orElse("");
-            try {
-                email = tokenService.parseToken(insert, "reset");
-                logger.info("check: " + email);
-                if (loginAccountService.isTokenStored(email)) {
-                    return ResponseEntity.ok().body(validToken.put("token", true));
-                } else {
-                    return ResponseEntity.ok().body(validToken.put("token", false));
-                }
-            } catch (Exception e) {
+        insert = tokenMap.values().stream().findFirst().orElse("");
+        try {
+            email = tokenService.parseToken(insert, "reset");
+            if (loginAccountService.isTokenStored(email)) {
+                return ResponseEntity.ok().body(validToken.put("token", true));
+            } else {
                 return ResponseEntity.ok().body(validToken.put("token", false));
             }
+        } catch (Exception e) {
+            return ResponseEntity.ok().body(validToken.put("token", false));
+        }
     }
 
     @PostMapping("/setnewpassword")

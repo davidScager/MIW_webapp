@@ -10,7 +10,6 @@ public class ResetMailData extends MailData {
     private String receiver;
     private String token;
 
-
     public ResetMailData(String receiver, String token) {
         this.firstUrl = "http://localhost:8080/create_new_password.html";
         this.secondUrl = "src/main/resources/static/resetPasswordMail.html";
