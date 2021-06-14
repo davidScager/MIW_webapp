@@ -21,9 +21,6 @@ public class HashService {
     private static final int MB_KB_CONVERSION = 1024;
     private final PepperService pepperService;
     private final Argon2 argon2id;
-    private int iterations;
-    private int memSize;
-    private int parallelDeg;
 
     @Autowired
     public HashService(PepperService pepperService){
@@ -31,9 +28,6 @@ public class HashService {
         logger.info("New HashService");
         this.pepperService = pepperService;
         argon2id = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
-        setIterations(DEFAULT_ITERATIONS);
-        setMemSize(DEFAULT_MEM_SIZE);
-        setParallelDeg(DEFAULT_PARALLEL_DEG);
     }
 
     /**
@@ -45,7 +39,8 @@ public class HashService {
      */
     public String argon2idHash(String password){
         String pepperedPw = pepperService.getPepper() + password;
-        return argon2id.hash(iterations, memSize, parallelDeg, pepperedPw);
+        //String passwwordHash = ... + logger.info
+        return argon2id.hash(DEFAULT_ITERATIONS, DEFAULT_MEM_SIZE * MB_KB_CONVERSION, DEFAULT_PARALLEL_DEG, pepperedPw);
     }
 
     /**
@@ -55,30 +50,19 @@ public class HashService {
      * @return (boolean)
      */
     public boolean argon2idVerify(String hash, String password){
+        //boolean verified = ... + logger.info
         return argon2id.verify(hash, pepperService.getPepper() + password);
     }
 
-    public void setIterations(int iterationsNr) {
-        this.iterations = iterationsNr;
-    }
-
-    public void setParallelDeg(int parallelDegNr) {
-        this.parallelDeg = parallelDegNr;
-    }
-
-    public void setMemSize(int memSizeAmount) {
-        this.memSize = memSizeAmount * MB_KB_CONVERSION;
-    }
-
     public int getIterations() {
-        return iterations;
+        return DEFAULT_ITERATIONS;
     }
 
     public int getMemSize() {
-        return memSize;
+        return DEFAULT_MEM_SIZE * MB_KB_CONVERSION;
     }
 
     public int getParallelDeg() {
-        return parallelDeg;
+        return DEFAULT_PARALLEL_DEG;
     }
 }

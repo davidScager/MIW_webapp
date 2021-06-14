@@ -1,7 +1,5 @@
 package com.example.cryptobank.controller;
 
-import com.example.cryptobank.domain.user.Role;
-import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.domain.login.UserLoginAccount;
 import com.example.cryptobank.service.login.RegistrationService;
 import org.slf4j.Logger;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/register")
 public class RegistrationController {
     private final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
@@ -25,12 +22,10 @@ public class RegistrationController {
         this.registrationService = registrationService;
     }
 
+    //todo: hoe gaan we nieuwe pagina's aanroepen vanaf de front-end? afhankelijk daarvan return type aanpassen.
     @GetMapping
     public RedirectView viewHtmlRegisterHandler(){
-        RedirectView redirectView = new RedirectView("http://localhost:8080/registreren.html");
-
-        redirectView.setStatusCode(HttpStatus.OK);
-        return redirectView;
+        return new RedirectView("http://localhost:8080/registreren.html");
     }
 
     @GetMapping("/failed")
@@ -38,14 +33,13 @@ public class RegistrationController {
         return new RedirectView("http://localhost:8080/registreren-mislukt.html");
     }
 
-
     @PostMapping("/request")
     public ResponseEntity<?> registrationRequestHandler(@RequestBody UserLoginAccount userLoginAccount){
         logger.info(userLoginAccount.toString());
         if(registrationService.validate(userLoginAccount)){
             logger.info("Registratie gevalideerd");
             String token = registrationService.cacheNewUserWithToken(userLoginAccount);
-//            registrationService.sendConfirmationEmail(token, userLoginAccount.getUser().getEmail());
+            registrationService.sendConfirmationEmail(token, userLoginAccount.getUser().getEmail());
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
         logger.info("Registratie geweigerd");
@@ -65,16 +59,7 @@ public class RegistrationController {
             registrationService.registerUser(token);
             return new RedirectView("http://localhost:8080/loginredirect");
         }
-        return new RedirectView("http://localhost:8080/register/failed");
-    }
-
-    @PostMapping("/client")
-    public ResponseEntity<?> tempClientRegistrationHandler(@RequestBody UserLoginAccount userLoginAccount){
-        if (registrationService.validate(userLoginAccount)){
-            User user = registrationService.register(userLoginAccount, Role.CLIENT);
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new RedirectView("http://localhost:8080/registreren-mislukt.html");
     }
 
 }

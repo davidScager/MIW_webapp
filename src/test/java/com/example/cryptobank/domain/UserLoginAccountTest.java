@@ -31,7 +31,7 @@ class UserLoginAccountTest {
     }
 
     @Test @Order(2)
-    void passwordHashedTest() {
+    void passwordIsHashedTest() {
         assertNotEquals(TEST_PASSWORD, userLoginAccount.getPassword());
     }
 
@@ -40,7 +40,7 @@ class UserLoginAccountTest {
         int length = 97;
         String argon2IdParams = "$argon2id$v=19$m=" + hashService.getMemSize() + ",t=" + hashService.getIterations() + ",p=" + hashService.getParallelDeg() + "$";
         assertEquals(userLoginAccount.getPassword().length(), length);
-        assertEquals(userLoginAccount.getPassword().substring(0, 31), argon2IdParams);
+        assertEquals(argon2IdParams, userLoginAccount.getPassword().substring(0, 31));
     }
 
     @Test @Order(4)

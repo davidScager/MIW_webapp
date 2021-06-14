@@ -1,10 +1,10 @@
 package com.example.cryptobank.controller;
 
 import com.example.cryptobank.domain.asset.Asset;
-import com.example.cryptobank.domain.transaction.Transaction;
-import com.example.cryptobank.domain.transaction.TransactionHTMLBank;
-import com.example.cryptobank.domain.transaction.TransactionHTMLClient;
-import com.example.cryptobank.domain.transaction.TransactionHistory;
+import com.example.cryptobank.domain.transaction.*;
+import com.example.cryptobank.domain.user.User;
+import com.example.cryptobank.service.assetenportfolio.PortfolioService;
+import com.example.cryptobank.service.login.UserService;
 import com.example.cryptobank.service.security.TokenService;
 import com.example.cryptobank.service.transaction.TransactionService;
 import org.slf4j.Logger;
@@ -29,12 +29,16 @@ public class TransactionController {
     private final Logger logger = LoggerFactory.getLogger(TransactionController.class);
     private final TransactionService transactionService;
     private final TokenService tokenService;
+    private final UserService userService;
+    private final PortfolioService portfolioService;
 
     @Autowired
-    public TransactionController(TransactionService transactionService, TokenService tokenService) {
+    public TransactionController(TransactionService transactionService, TokenService tokenService, UserService userService, PortfolioService portfolioService) {
         super();
         this.transactionService = transactionService;
         this.tokenService = tokenService;
+        this.userService = userService;
+        this.portfolioService = portfolioService;
         logger.info("New TransactionController");
     }
 
@@ -50,19 +54,15 @@ public class TransactionController {
         return ResponseEntity.ok().body(transactionHTMLClients);
     }
 
-    @PostMapping("/plantransaction")
-    public void planTransaction(@RequestParam("Authorization") String token, @RequestBody Map<String, String> transActionData) throws InterruptedException, IOException {
-        String username = tokenService.parseToken(token, "session");
-        transactionService.setTransaction(transActionData, username);
-    }
-
     @GetMapping("/assetoverviewfrombank")
     public ArrayList<TransactionHTMLBank> getAssetOverviewWithAmount() {
         return transactionService.bankArrayList();
     }
 
-    @GetMapping("/myavalableassetstosell") //available
-    public Map<Asset, Double> getAssetOverviewOfUser(@RequestParam int portfolioId) {
+    @GetMapping("/myavailableassetstosell")
+    public Map<Asset, Double> getAssetOverviewOfUser(@RequestHeader(value = "Authorization") String token) {
+        User user = userService.getUserFromToken(token);
+        int portfolioId = portfolioService.getPortfolioIdByUserId(user.getId());
         return transactionService.getAssetOverviewWithAmount(portfolioId);
     }
 
@@ -82,14 +82,9 @@ public class TransactionController {
     }
 
     @PostMapping("/createtransaction")
-    public Transaction createTransaction(@RequestBody Map transactionData) throws IOException {
-        int seller = (int) transactionData.get(0);
-        int buyer = (int) transactionData.get(1);
-        double numberOfAssets = (double)  transactionData.get(2);
-        String assetSold = (String) transactionData.get(3);
-        String assetBought = (String) transactionData.get(4);
-        double transactionCost = transactionService.calculateTransactionCost(numberOfAssets, assetBought);
-        Transaction newTransaction = transactionService.createNewTransaction(seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought);
-        return newTransaction;
+    public void createTransaction(@RequestHeader(value = "Authorization") String token, @RequestBody TransactionData transactionData) throws IOException {
+        transactionData.setUsername(tokenService.parseToken(token, "session"));
+        transactionData.setTransactionCost(transactionService.calculateTransactionCost(transactionData.getNumberOfAssets(), transactionData.getAssetBought()));
+        transactionService.setTransaction(transactionData);
     }
 }

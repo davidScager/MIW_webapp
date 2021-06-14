@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ActiveProfiles("test")
 class UserDaoTest {
-    private UserDao userTestDao;
+    private final UserDao userTestDao;
     private static User userExpected;
 
     @Autowired

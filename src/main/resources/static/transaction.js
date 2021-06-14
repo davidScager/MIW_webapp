@@ -1,22 +1,32 @@
 
 function newTransaction(){
+    let token = localStorage.getItem("token");
     let seller = document.querySelector(`#seller`).value
     console.log(seller)
     let buyer = document.querySelector(`#buyer`).value
     let assetToSell = document.querySelector(`#assetToSell`).value
     let assetToBuy = document.querySelector(`#assetTobuy`).value
     let amount = document.querySelector(`#numberOfAssets`).value
+    let triggerValue = document.querySelector(`#valueToBuyOrSellAt`).value
+    if (triggerValue === null){
+        triggerValue = 0;
+    }
     fetch(`http://localhost:8080/transaction/createtransaction`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            "Authorization": token
         },
         body: JSON.stringify({
             seller: seller,
             buyer: buyer,
             numberOfAssets: amount,
             assetSold: assetToSell,
-            assetBought: assetToBuy
+            assetBought: assetToBuy,
+            triggerValue: triggerValue,
+            username: "iemand",
+            transactioncost: 0
         })
     })
         .then(response => response.json())
@@ -49,20 +59,28 @@ function loadPage(){
 
 function loadMyAssets() {
     let bankTable = document.getElementById("MyTable")
-    fetch("http://localhost:8080/transaction/myavalableassetstosell?portfolioId=102")
+    let token = localStorage.getItem("token");
+    fetch("http://localhost:8080/transaction/transactionorder", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            "Authorization": token
+        },
+    })
         .then(response => response.json())
         .then(data => {
                 console.log(data)
-                Object.entries(data).forEach(([k, v]) => {
-                        console.log(`${k}`)
+                Object.entries(data).forEach((assets) => {
+                    console.log(assets)
                         let row = document.createElement(`tr`)
                         let tdAsset = document.createElement(`td`)
                         let tdValueToday = document.createElement(`td`)
                         let tdAmount = document.createElement(`td`)
 
-                        tdAsset.innerHTML = `${k[1].name}`
-                        tdAmount.innerHTML = `${v}`
-                        tdValueToday.innerHTML = `${k[1].valueInUsd}`
+                        tdAsset.innerHTML = `${assets[1].assetName}`
+                        tdAmount.innerHTML = `${assets[1].avalable}`
+                        tdValueToday.innerHTML = `${assets[1].assetUSDValue}`
 
                         row.appendChild(tdAsset)
                         row.appendChild(tdAmount)

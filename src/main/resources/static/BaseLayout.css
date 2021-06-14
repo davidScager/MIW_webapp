@@ -30,10 +30,8 @@ form {
     display: block;
     min-height: 500px;
     margin: 20px;
-    text-align: left;
+    text-align: center;
 }
-
-
 
 footer {
     display: flex;
@@ -131,10 +129,9 @@ button:hover{
     margin: 0;
     width: 50%;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    position: relative;
+    position: center;
     left: 25%
 }
-
 
 .BLeft{
     height: 37px;

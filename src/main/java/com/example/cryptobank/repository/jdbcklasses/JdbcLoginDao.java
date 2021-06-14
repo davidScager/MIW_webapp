@@ -6,19 +6,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Implementation of loginAccount database access using MySQL and Spring JdbcTemplate
- * @author David_Scager
+ * @author David Scager
  */
 @Repository
 public class JdbcLoginDao implements LoginDao {
+    //move logger.info() to here
     private final Logger logger = LoggerFactory.getLogger(JdbcActorDao.class);
     private final JdbcTemplate jdbcTemplate;
 
@@ -29,27 +26,24 @@ public class JdbcLoginDao implements LoginDao {
 
     @Override
     public void create(String username, String password) {
-        jdbcTemplate.update(connection -> insertLoginStatement(username, password, null, connection));
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement("insert into loginaccount values (?, ?, ?)");
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, null);
+            return ps;
+        });
     }
 
-    // waarom is hier een token toegevoegd? -David
-    private PreparedStatement insertLoginStatement(String username, String password, String token, Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("insert into loginaccount values (?, ?, ?)");
-        ps.setString(1, username);
-        ps.setString(2, password);
-        ps.setString(3, token);
-        return ps;
-    }
-
-    public Optional<LoginAccount> get(String username){
+    public LoginAccount get(String username){
         List<LoginAccount> loginList = jdbcTemplate.query(
                 "select * from loginaccount where username = ?",
                 (rs, rowNum) -> new LoginAccount(rs.getString("username"), rs.getString("password"), rs.getString("token")),
                 username);
-        if(loginList.size() != 1){
-            return Optional.empty();
+        if(loginList.isEmpty()){
+            return null;
         } else {
-            return Optional.of(loginList.get(0));
+            return loginList.get(0);
         }
     }
 
