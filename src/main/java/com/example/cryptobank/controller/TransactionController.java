@@ -1,10 +1,7 @@
 package com.example.cryptobank.controller;
 
 import com.example.cryptobank.domain.asset.Asset;
-import com.example.cryptobank.domain.transaction.Transaction;
-import com.example.cryptobank.domain.transaction.TransactionHTMLBank;
-import com.example.cryptobank.domain.transaction.TransactionHTMLClient;
-import com.example.cryptobank.domain.transaction.TransactionHistory;
+import com.example.cryptobank.domain.transaction.*;
 import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.service.assetenportfolio.PortfolioService;
 import com.example.cryptobank.service.login.UserService;
@@ -57,12 +54,6 @@ public class TransactionController {
         return ResponseEntity.ok().body(transactionHTMLClients);
     }
 
-    @PostMapping("/plantransaction")
-    public void planTransaction(@RequestParam("Authorization") String token, @RequestBody Map<String, String> transActionData) throws InterruptedException, IOException {
-        String username = tokenService.parseToken(token, "session");
-        transactionService.setTransaction(transActionData, username);
-    }
-
     @GetMapping("/assetoverviewfrombank")
     public ArrayList<TransactionHTMLBank> getAssetOverviewWithAmount() {
         return transactionService.bankArrayList();
@@ -91,14 +82,9 @@ public class TransactionController {
     }
 
     @PostMapping("/createtransaction")
-    public Transaction createTransaction(@RequestBody Map<String, String> transactionData) throws IOException {
-        int seller = Integer.parseInt(transactionData.get("seller"));
-        int buyer = Integer.parseInt(transactionData.get("buyer"));
-        double numberOfAssets = Double.parseDouble(transactionData.get("numberOfAssets"));
-        String assetSold = transactionData.get("assetSold");
-        String assetBought = transactionData.get("assetBought");
-        double transactionCost = transactionService.calculateTransactionCost(numberOfAssets, assetBought);
-        Transaction newTransaction = transactionService.createNewTransaction(seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought);
-        return newTransaction;
+    public void createTransaction(@RequestHeader(value = "Authorization") String token, @RequestBody TransactionData transactionData) throws IOException {
+        transactionData.setUsername(tokenService.parseToken(token, "session"));
+        transactionData.setTransactionCost(transactionService.calculateTransactionCost(transactionData.getNumberOfAssets(), transactionData.getAssetBought()));
+        transactionService.setTransaction(transactionData);
     }
 }

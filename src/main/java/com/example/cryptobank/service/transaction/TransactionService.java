@@ -68,9 +68,9 @@ public class TransactionService {
         return rootRepository.bankListForTransactionHTML();
     }
 
-    public Transaction createNewTransaction(int seller, int buyer, double numberOfAssets, double transactionCost, String assetSold, String assetBought) {
-        TransactionLog tempTransactionLog = rootRepository.createNewTransactionLog(assetSold, assetBought, numberOfAssets, transactionCost);
-        Transaction newTransaction = new Transaction(seller, buyer, assetSold, assetBought, tempTransactionLog);
+    public Transaction createNewTransaction(TransactionData transactionData) {
+        TransactionLog tempTransactionLog = rootRepository.createNewTransactionLog(transactionData.getAssetSold(), transactionData.getAssetBought(), transactionData.getNumberOfAssets() , transactionData.getTransactionCost());
+        Transaction newTransaction = new Transaction(transactionData.getSeller(), transactionData.getBuyer(), transactionData.getAssetSold(), transactionData.getAssetBought(), tempTransactionLog);
         rootRepository.saveTransactionAndLog(newTransaction);
         rootRepository.updateAssetPortfolioForTransaction(newTransaction);
         return newTransaction;
@@ -144,36 +144,32 @@ public class TransactionService {
         return tempMostRecentTransaction;
     }
 
-    public void setTransaction(Map transactionData, String username) { // raw map. problemen bij casten??
-        int seller = (int) transactionData.get(0);
-        int buyer = (int) transactionData.get(1);
-        double numberOfAssets = (double)  transactionData.get(2);
-        String assetSold = (String) transactionData.get(3);
-        String assetBought = (String) transactionData.get(4);
-        double value = (double) transactionData.get(5);
-        ControlValueAsset(seller, buyer, numberOfAssets, assetSold, assetBought, value, username);
+    public void setTransaction(TransactionData transactionData) {
+        if (transactionData.getTriggerValue() == 0) {
+            createNewTransaction(transactionData);
+        } else {
+           controlValueAsset(transactionData);
+        }
     }
 
-    public void ControlValueAsset(int seller, int buyer, double numberOfAssets, String assetSold, String assetBought, double value, String username) {
+    public void controlValueAsset(TransactionData transactionData) {
         final Timer timer = new Timer();
         timer.schedule(
                 new TimerTask() {
                     @Override
                     public void run() {
                         try {
-                            if (buyer == 1) {
-                                Asset asset = rootRepository.getAsset(assetSold);
-                                System.out.println(asset.getName() + value);
-                                if (asset.getValueInUsd() >= value) {
-                                    ControlREcoursesAndExecute(seller, buyer, numberOfAssets, assetSold, assetBought, username, value);
+                            if (transactionData.getBuyer() == 1) {
+                                Asset asset = rootRepository.getAsset(transactionData.getAssetSold());
+                                if (asset.getValueInUsd() >= transactionData.getTriggerValue()) {
+                                    controlResourcesAndExecute(transactionData);
                                     timer.cancel();
                                     timer.purge();
                                 }
                             } else {
-                                Asset asset = rootRepository.getAsset(assetBought);
-                                System.out.println(asset.getName() + value);
-                                if (asset.getValueInUsd() <= value) {
-                                    ControlREcoursesAndExecute(seller, buyer, numberOfAssets, assetSold, assetBought, username, value);
+                                Asset asset = rootRepository.getAsset(transactionData.getAssetBought());
+                                if (asset.getValueInUsd() <= transactionData.getTriggerValue()) {
+                                    controlResourcesAndExecute(transactionData);
                                     timer.cancel();
                                     timer.purge();
                                 }
@@ -189,48 +185,48 @@ public class TransactionService {
     }
 
 
-    public void ControlREcoursesAndExecute(int seller, int buyer, double numberOfAssets, String assetSold, String assetBought, String username, double value) throws IOException, MessagingException {
-        Map<String, Map> bankAndClient = rootRepository.getAssetPortfolioByUsername(username);
-        double amountBoughtAssets = rootRepository.getAsset(assetBought).getValueInUsd() / rootRepository.getAsset(assetSold).getValueInUsd();
+    public void controlResourcesAndExecute(TransactionData transactionData) throws IOException, MessagingException {
+        Map<String, Map> bankAndClient = rootRepository.getAssetPortfolioByUsername(transactionData.getUsername());
+        double amountBoughtAssets = rootRepository.getAsset(transactionData.getAssetBought()).getValueInUsd() / rootRepository.getAsset(transactionData.getAssetSold()).getValueInUsd();
         List<Boolean> sufficientAmount;
-        if (buyer ==1) {
-            sufficientAmount = sufficientTransactionValue(numberOfAssets, amountBoughtAssets, bankAndClient, assetSold, assetBought, username);
+        if (transactionData.getBuyer() == 1) {
+            sufficientAmount = sufficientTransactionValue(transactionData.getNumberOfAssets(), amountBoughtAssets, bankAndClient, transactionData.getAssetSold(), transactionData.getAssetBought(), transactionData.getUsername());
         } else {
-            sufficientAmount = sufficientTransactionValue(amountBoughtAssets, numberOfAssets, bankAndClient, assetBought, assetSold, username);
+            sufficientAmount = sufficientTransactionValue(amountBoughtAssets, transactionData.getNumberOfAssets(), bankAndClient, transactionData.getAssetBought(), transactionData.getAssetSold(), transactionData.getUsername());
         }
         if (sufficientAmount.get(0) == false || sufficientAmount.get(1) == false) {
-            sendMailInsufficentAmount(assetBought, username, value);
-        } else if (buyer == 1 && !sufficientAmount.get(2)) {
-            executeTransactionInDollars(seller, buyer, numberOfAssets, assetBought, username, value);
+            sendMailInsufficentAmount(transactionData);
+        } else if (transactionData.getBuyer() == 1 && !sufficientAmount.get(2)) {
+            executeTransactionInDollars(transactionData);
         } else if (!sufficientAmount.get(2)) {
-            sendMailWithExcuse(assetBought, username, value);
+            sendMailWithExcuse(transactionData);
         } else {
-            executeTransaction(seller, buyer, numberOfAssets, assetSold, assetBought, username, value);
+            executeTransaction(transactionData);
         }
     }
+
     //alles klopt
-    private void executeTransaction(int seller, int buyer, double numberOfAssets, String assetSold, String assetBought, String username, double value) throws IOException, MessagingException {
-        double tranasctioncost= calculateTransactionCost(numberOfAssets, assetBought);
-        createNewTransaction(seller, buyer, numberOfAssets, tranasctioncost, assetSold, assetBought);
-        if (buyer ==1){
+    private void executeTransaction(TransactionData transactionData) throws IOException, MessagingException {
+        createNewTransaction(transactionData);
+        if (transactionData.getBuyer() ==1){
             //mailSenderService.sendMail(username, generateMailContext.transactionOrderConfirmed(username, assetSold, value), "Succesvole transactie:)");
         } else {
             //mailSenderService.sendMail(username, generateMailContext.transactionOrderConfirmed(username, assetBought, value), "Succesvole transactie:)");
         }
     }
     //bank heeft niet genoeg assets al koper
-    private void executeTransactionInDollars(int seller, int buyer, double numberOfAssets, String assetBought, String username, double value) throws IOException, MessagingException {
-        double tranasctioncost= calculateTransactionCost(numberOfAssets, assetBought);
-        createNewTransaction(seller, buyer, numberOfAssets, tranasctioncost, "USD", assetBought);
+    private void executeTransactionInDollars(TransactionData transactionData) throws IOException, MessagingException {
+        transactionData.setAssetSold("USD");
+        createNewTransaction(transactionData);
         //mailSenderService.sendMail(username, generateMailContext.transactionOrderInDollars(username, assetBought, value), "Succesvole transactie in dollars:)");
     }
 
     //klant heeft niet genoeg
-    private void sendMailInsufficentAmount(String assetBought, String username, double value) throws MalformedURLException, MessagingException {
+    private void sendMailInsufficentAmount(TransactionData transactionData) throws MalformedURLException, MessagingException {
             //mailSenderService.sendMail(username, generateMailContext.transactionOrderCancelledDueToClient(username, assetBought, value), "Transactie geannuleerd");
     }
 
-    private void sendMailWithExcuse(String assetBought, String username, double value) throws MalformedURLException, MessagingException {
+    private void sendMailWithExcuse(TransactionData transactionData) throws MalformedURLException, MessagingException {
         //mailSenderService.sendMail(username, generateMailContext.transactionOrderCancelledDueToBank(username, assetBought, value), "Transactie geannuleerd");
 
     }

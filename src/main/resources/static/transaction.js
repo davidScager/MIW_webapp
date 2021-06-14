@@ -1,22 +1,32 @@
 
 function newTransaction(){
+    let token = localStorage.getItem("token");
     let seller = document.querySelector(`#seller`).value
     console.log(seller)
     let buyer = document.querySelector(`#buyer`).value
     let assetToSell = document.querySelector(`#assetToSell`).value
     let assetToBuy = document.querySelector(`#assetTobuy`).value
     let amount = document.querySelector(`#numberOfAssets`).value
+    let triggerValue = document.querySelector(`#valueToBuyOrSellAt`).value
+    if (triggerValue === null){
+        triggerValue = 0;
+    }
     fetch(`http://localhost:8080/transaction/createtransaction`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            "Authorization": token
         },
         body: JSON.stringify({
             seller: seller,
             buyer: buyer,
             numberOfAssets: amount,
             assetSold: assetToSell,
-            assetBought: assetToBuy
+            assetBought: assetToBuy,
+            triggerValue: triggerValue,
+            username: "iemand",
+            transactioncost: 0
         })
     })
         .then(response => response.json())
