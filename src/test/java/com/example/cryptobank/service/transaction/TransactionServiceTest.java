@@ -4,7 +4,7 @@ import com.example.cryptobank.domain.transaction.Transaction;
 import com.example.cryptobank.domain.transaction.TransactionHTMLClient;
 import com.example.cryptobank.domain.transaction.TransactionLog;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
-import com.example.cryptobank.service.mailSender.GenerateMailContext;
+import com.example.cryptobank.service.mailSender.GenerateMailContent;
 import com.example.cryptobank.service.mailSender.MailSenderService;
 import com.example.cryptobank.service.security.TokenService;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,9 +26,9 @@ class TransactionServiceTest {
     @Mock
     private MailSenderService mockMailSenderService;
     @Mock
-    private GenerateMailContext mockGenerateMailContext;
+    private GenerateMailContent mockGenerateMailContent;
 
-    TransactionService transactionTest = new TransactionService(mockRootRepository, mockTokenService, mockMailSenderService, mockGenerateMailContext);
+    TransactionService transactionTest = new TransactionService(mockRootRepository, mockTokenService, mockMailSenderService, mockGenerateMailContent);
 
     @BeforeEach
     public void setUp() {
@@ -39,7 +39,7 @@ class TransactionServiceTest {
         mockRootRepository = Mockito.mock(RootRepository.class);
         mockTokenService = Mockito.mock(TokenService.class);
         mockMailSenderService = Mockito.mock(MailSenderService.class);
-        mockGenerateMailContext = Mockito.mock(GenerateMailContext.class);
+        mockGenerateMailContent = Mockito.mock(GenerateMailContent.class);
         Mockito.when(mockTokenService.parseToken("123", "session")).thenReturn("huibEnNiek");
         Mockito.when(mockRootRepository.clientListForTransactionHTML("huibEnNiek")).thenReturn(htmlClients);
         Mockito.when(mockRootRepository.createNewTransactionLog("BTC", "ETH", 2, 0.3)).thenReturn(expectedLog);

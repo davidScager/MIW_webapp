@@ -4,7 +4,7 @@ import com.example.cryptobank.domain.user.Role;
 import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.domain.login.UserLoginAccount;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
-import com.example.cryptobank.service.mailSender.GenerateMailContext;
+import com.example.cryptobank.service.mailSender.GenerateMailContent;
 import com.example.cryptobank.service.mailSender.MailSenderService;
 import com.example.cryptobank.service.security.TokenService;
 import org.slf4j.Logger;
@@ -28,16 +28,16 @@ public class RegistrationService {
     private Logger logger = LoggerFactory.getLogger(RegistrationService.class);
     private final RootRepository rootRepository;
     private final TokenService tokenService;
-    private final GenerateMailContext generateMailContext;
+    private final GenerateMailContent generateMailContent;
     private final MailSenderService mailSenderService;
     private final Map<String, UserLoginAccount> registrationCache;
 
     @Autowired
     public RegistrationService(RootRepository rootRepository, TokenService tokenService,
-                               GenerateMailContext generateMailContext, MailSenderService mailSenderService) {
+                               GenerateMailContent generateMailContent, MailSenderService mailSenderService) {
         this.rootRepository = rootRepository;
         this.tokenService = tokenService;
-        this.generateMailContext = generateMailContext;
+        this.generateMailContent = generateMailContent;
         this.mailSenderService = mailSenderService;
         this.registrationCache = new HashMap<>();
         logger.info("RegistrationService active");
@@ -67,16 +67,16 @@ public class RegistrationService {
         return token;
     }
 
-    public void sendConfirmationEmail(String token, String email) {
-        try {
-            String mailText = generateMailContext.setRegistrationText(token);
-            mailSenderService.sendMail(email, mailText, "Bevestig BitBank-registratie");
-            logger.info("Registration confirmation email sent to new client");
-        } catch (MalformedURLException | MessagingException urlMessageError) {
-            logger.info("Failed to send email.");
-            logger.error("URL or Messaging error caught.", urlMessageError);
-        }
-    }
+//    public void sendConfirmationEmail(String token, String email) {
+//        try {
+////            String mailText = generateMailContent.setRegistrationText(token);
+////            mailSenderService.sendMail(email, "Bevestig BitBank-registratie", token);
+//            logger.info("Registration confirmation email sent to new client");
+//        } catch (MalformedURLException urlMessageError) {
+//            logger.info("Failed to send email.");
+//            logger.error("URL or Messaging error caught.", urlMessageError);
+//        }
+//    }
 
     public void registerUser(String token){
         UserLoginAccount userLoginAccount = registrationCache.get(token) ;

@@ -1,18 +1,25 @@
 package com.example.cryptobank.controller;
 
 import com.example.cryptobank.service.login.LoginAccountService;
+import com.example.cryptobank.service.mailSender.SendMailServiceFacade;
+import com.example.cryptobank.domain.maildata.MailData;
+import com.example.cryptobank.domain.maildata.ResetMailData;
 import com.example.cryptobank.service.security.TokenService;
-import com.example.cryptobank.service.mailSender.GenerateMailContext;
+import com.example.cryptobank.service.mailSender.GenerateMailContent;
 import com.example.cryptobank.service.mailSender.MailSenderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.mail.MessagingException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -22,53 +29,61 @@ public class ResetPasswordController {
     private Logger logger = LoggerFactory.getLogger(ResetPasswordController.class);
     private final LoginAccountService loginAccountService;
     private final MailSenderService mailSenderService;
-    private final GenerateMailContext generateMailContext;
+    private final GenerateMailContent generateMailContent;
+    private final SendMailServiceFacade sendMailServiceFacade;
     private final TokenService tokenService;
-    private String token;
     private String email;
+    private String insert;
+    Map<String, Boolean> validToken = new HashMap<>();
 
 
     @Autowired
-    public ResetPasswordController(LoginAccountService loginAccountService, MailSenderService mailSenderService, GenerateMailContext generateMailContext, TokenService tokenService) {
+    public ResetPasswordController(LoginAccountService loginAccountService, MailSenderService mailSenderService, GenerateMailContent generateMailContent, SendMailServiceFacade sendMailServiceFacade, TokenService tokenService) {
+        this.sendMailServiceFacade = sendMailServiceFacade;
         this.tokenService = tokenService;
         logger.info("New MailSenderController");
-        this.generateMailContext = generateMailContext;
+        this.generateMailContent = generateMailContent;
         this.loginAccountService = loginAccountService;
         this.mailSenderService = mailSenderService;
     }
 
     @PostMapping("/resetpassword")
-    public HttpEntity<? extends Object> sendResetPassword(@RequestBody Map<String, String> mailMap) throws MalformedURLException, MessagingException {
-        String email = mailMap.values().stream().findFirst().orElse(null);
-        logger.info(email);
-        if (loginAccountService.verifyAccount(email)) {
-            logger.info("LoginAccount contains " + email);
-            token = loginAccountService.addTokenToLoginAccount(email);
-            logger.info(token);
-            String mailText = generateMailContext.setResetText(token);
-            mailSenderService.sendMail(email, mailText, "Change your password");
+    public RedirectView sendMailForReset(@RequestBody Map<String, String> mailMap) throws MalformedURLException, MessagingException {
+        MailData resetData = new ResetMailData(insert = mailMap.values().stream().findFirst().orElse(null), null);
+        if (loginAccountService.verifyAccount(insert)) {
+            resetData.setToken(loginAccountService.addTokenToLoginAccount(insert));
+            sendMailServiceFacade.sendMail(resetData);
         } else {
             logger.info("email bestaat niet");
-
         }
-        return ResponseEntity.ok().header("Authorization").body("Als je een account bij ons hebt ontvang je een email met een reset");
+        return new RedirectView("http://localhost:8080/confirmed.html");
     }
 
-    @PostMapping("/createnewpassword") //javascript haalt token uit url
-    public HttpEntity<? extends Object> setNewPassword(@RequestParam("Authorization") String token, @RequestBody Map<String, String> mailMap) {
-        String password = mailMap.values().stream().findFirst().orElse(null);
-        try {
-            email = tokenService.parseToken(token, "reset");
-            logger.info(email + "vanuit Token");
-        } catch (Exception e) {
-            return ResponseEntity.ok().header("Authorization").body("Token is ongeldig");
-        }
-        if (loginAccountService.isTokenStored(email)) {
-                loginAccountService.updateResetPassword(email, password);
-                return ResponseEntity.ok().header("Authorization").body("wachtwoord is gereset");
-        }
+    @PostMapping("/createnewpassword")
+    public HttpEntity<?> loadPasswordPage(@RequestBody Map<String, String> tokenMap) {
+            insert = tokenMap.values().stream().findFirst().orElse("");
+            try {
+                email = tokenService.parseToken(insert, "reset");
+                logger.info("check: " + email);
+                if (loginAccountService.isTokenStored(email)) {
+                    return ResponseEntity.ok().body(validToken.put("token", true));
+                } else {
+                    return ResponseEntity.ok().body(validToken.put("token", false));
+                }
+            } catch (Exception e) {
+                return ResponseEntity.ok().body(validToken.put("token", false));
+            }
+    }
 
-        return ResponseEntity.ok().header("Authorization").body("Token is al gebruikt");
+    @PostMapping("/setnewpassword")
+    public HttpEntity<?> setNewPassword(@RequestBody Map<String, String> passwordMap) {
+        String password = passwordMap.values().stream().findFirst().orElse(null);
+        if (password.length() >= 8 && password.length() <= 100) {
+            loginAccountService.updateResetPassword(email, password);
+            return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http://localhost:8080/loginController.html")).build();
+        } else {
+            return ResponseEntity.ok().body(validToken.put("token", false));
+        }
     }
 }
 

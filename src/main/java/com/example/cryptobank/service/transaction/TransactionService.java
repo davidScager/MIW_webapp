@@ -3,7 +3,7 @@ package com.example.cryptobank.service.transaction;
 import com.example.cryptobank.domain.asset.Asset;
 import com.example.cryptobank.domain.transaction.*;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
-import com.example.cryptobank.service.mailSender.GenerateMailContext;
+import com.example.cryptobank.service.mailSender.GenerateMailContent;
 import com.example.cryptobank.service.mailSender.MailSenderService;
 import com.example.cryptobank.service.security.TokenService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,7 +30,7 @@ public class TransactionService {
     private final RootRepository rootRepository;
     private final TokenService tokenService;
     private final MailSenderService mailSenderService;
-    private final GenerateMailContext generateMailContext;
+    private final GenerateMailContent generateMailContent;
 
     private final String START_DATE = "2000-01-01 00:16:26";
     private final String BUY = "Aankoop";
@@ -39,12 +39,12 @@ public class TransactionService {
     private final Logger logger = LoggerFactory.getLogger(TransactionService.class);
 
     @Autowired
-    public TransactionService(RootRepository rootRepository, TokenService tokenService, MailSenderService mailSenderService, GenerateMailContext generateMailContext) {
+    public TransactionService(RootRepository rootRepository, TokenService tokenService, MailSenderService mailSenderService, GenerateMailContent generateMailContent) {
         super();
         this.rootRepository = rootRepository;
         this.tokenService = tokenService;
         this.mailSenderService = mailSenderService;
-        this.generateMailContext = generateMailContext;
+        this.generateMailContent = generateMailContent;
         logger.info("New TransactionService");
     }
 
@@ -222,25 +222,25 @@ public class TransactionService {
         double tranasctioncost= calculateTransactionCost(numberOfAssets, assetBought);
         createNewTransaction(seller, buyer, numberOfAssets, tranasctioncost, assetSold, assetBought);
         if (buyer ==1){
-            mailSenderService.sendMail(username, generateMailContext.transactionOrderConfirmed(username, assetSold, value), "Succesvole transactie:)");
+            //mailSenderService.sendMail(username, generateMailContext.transactionOrderConfirmed(username, assetSold, value), "Succesvole transactie:)");
         } else {
-            mailSenderService.sendMail(username, generateMailContext.transactionOrderConfirmed(username, assetBought, value), "Succesvole transactie:)");
+            //mailSenderService.sendMail(username, generateMailContext.transactionOrderConfirmed(username, assetBought, value), "Succesvole transactie:)");
         }
     }
     //bank heeft niet genoeg assets al koper
     private void executeTransactionInDollars(int seller, int buyer, double numberOfAssets, String assetBought, String username, double value) throws IOException, MessagingException {
         double tranasctioncost= calculateTransactionCost(numberOfAssets, assetBought);
         createNewTransaction(seller, buyer, numberOfAssets, tranasctioncost, "USD", assetBought);
-        mailSenderService.sendMail(username, generateMailContext.transactionOrderInDollars(username, assetBought, value), "Succesvole transactie in dollars:)");
+        //mailSenderService.sendMail(username, generateMailContext.transactionOrderInDollars(username, assetBought, value), "Succesvole transactie in dollars:)");
     }
 
     //klant heeft niet genoeg
     private void sendMailInsufficentAmount(String assetBought, String username, double value) throws MalformedURLException, MessagingException {
-            mailSenderService.sendMail(username, generateMailContext.transactionOrderCancelledDueToClient(username, assetBought, value), "Transactie geannuleerd");
+            //mailSenderService.sendMail(username, generateMailContext.transactionOrderCancelledDueToClient(username, assetBought, value), "Transactie geannuleerd");
     }
 
     private void sendMailWithExcuse(String assetBought, String username, double value) throws MalformedURLException, MessagingException {
-        mailSenderService.sendMail(username, generateMailContext.transactionOrderCancelledDueToBank(username, assetBought, value), "Transactie geannuleerd");
+        //mailSenderService.sendMail(username, generateMailContext.transactionOrderCancelledDueToBank(username, assetBought, value), "Transactie geannuleerd");
 
     }
 
