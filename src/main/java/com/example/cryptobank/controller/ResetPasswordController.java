@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.mail.MessagingException;
+import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.HashMap;
@@ -48,7 +49,7 @@ public class ResetPasswordController {
     }
 
     @PostMapping("/resetpassword")
-    public RedirectView sendMailForReset(@RequestBody Map<String, String> mailMap) throws MalformedURLException, MessagingException {
+    public RedirectView sendMailForReset(@RequestBody Map<String, String> mailMap) throws MalformedURLException, MessagingException, FileNotFoundException {
         MailData resetData = new ResetMailData(insert = mailMap.values().stream().findFirst().orElse(null), null);
         if (loginAccountService.verifyAccount(insert)) {
             resetData.setToken(loginAccountService.addTokenToLoginAccount(insert));

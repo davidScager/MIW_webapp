@@ -10,23 +10,20 @@ import java.util.Scanner;
 
 @Component
 public class GenerateMailContent {
-    private String registerationURL;
     private String mailContent;
-    private final Scanner fileReader;
+    private Scanner fileReader;
     private final StringBuilder stringBuilder;
 
-
-    public GenerateMailContent() throws FileNotFoundException {
-        this.registerationURL = "http://localhost:8080/register/finalize";
-        File mailHTML = new File("src/main/resources/static/resetPasswordMail.html");
-        this.fileReader = new Scanner(mailHTML);
+    public GenerateMailContent()  {
         this.stringBuilder = new StringBuilder();
     }
 
-    public String setHtmlMail(MailData mailData) throws MalformedURLException {
+    public String setHtmlMail(MailData mailData) throws MalformedURLException, FileNotFoundException {
+        this.fileReader = new Scanner(new File(mailData.getSecondUrl()));
         readHtmlFile();
         String resetLink = CreateURLHelper.generateToken(mailData);
-        return mailContent.replace("URLHIER", resetLink);
+        String correctText = resetLink.replace("TEKSTHIER", mailData.getMailText());
+        return mailContent.replace("URLHIER", correctText);
     }
 
     private void readHtmlFile() {
