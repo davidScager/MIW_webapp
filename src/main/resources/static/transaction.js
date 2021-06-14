@@ -1,25 +1,46 @@
 
 function newTransaction(){
     let seller = document.querySelector(`#seller`).value
+    console.log(seller)
     let buyer = document.querySelector(`#buyer`).value
     let assetToSell = document.querySelector(`#assetToSell`).value
     let assetToBuy = document.querySelector(`#assetTobuy`).value
     let amount = document.querySelector(`#numberOfAssets`).value
-    fetch(`http://localhost:8080/transaction/createntransaction?seller=${seller}&
-            buyer=${buyer}&numberOfAssets=${amount}&assetSold=${assetToSell}&assetBought=${assetToBuy}`)
-}
-
-function transactionCost(){
-    let assetToBuy = document.querySelector(`#assetTobuy`).value
-    let amount = document.querySelector(`#numberOfAssets`).value
-    fetch(`http://localhost:8080/transaction/transactioncost?numberOfAssets=${amount}&assetBought=${assetToBuy}`)
+    fetch(`http://localhost:8080/transaction/createtransaction`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            seller: seller,
+            buyer: buyer,
+            numberOfAssets: amount,
+            assetSold: assetToSell,
+            assetBought: assetToBuy
+        })
+    })
         .then(response => response.json())
         .then(data => {
-            console.log(data)
-
-            document.getElementById("transactioncostfield").value = data
+            alert(`succesvolle transactie \n${data}`)
         })
 }
+
+document.getElementById('transactioncost').addEventListener(`click`,
+        function (){
+            let assetToBuy = document.querySelector(`#assetTobuy`).value
+            let amount = document.querySelector(`#numberOfAssets`).value
+            fetch(`http://localhost:8080/transaction/transactioncost?numberOfAssets=${amount}&assetBought=${assetToBuy}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    document.querySelector(`.bg-model`).style.display = `block`;
+                    document.getElementById("transactioncostfield").value = data
+                });
+        });
+document.querySelector('.close').addEventListener('click',
+    function (){
+    document.querySelector('.bg-model').style.display = 'none';
+    })
 
 function loadPage(){
     loadMyAssets();

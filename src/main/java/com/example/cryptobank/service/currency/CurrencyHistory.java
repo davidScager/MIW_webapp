@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -38,7 +40,15 @@ public class CurrencyHistory {
                 for (int teller = 0; teller < strings.length; teller++) {
                         String[] stringssplit = strings[teller].split("=");
                         if (stringssplit[0].equals(" usd")){
-                                return Double.valueOf(stringssplit[1]);
+                                double result = Double.valueOf(stringssplit[1]);
+                                if (result <1){
+                                        BigDecimal round = new BigDecimal(result).setScale(6, RoundingMode.HALF_UP);
+                                        return round.doubleValue();
+                                } else {
+                                        BigDecimal round = new BigDecimal(result).setScale(2, RoundingMode.HALF_UP);
+                                        return round.doubleValue();
+                                }
+
                         }
                 }
                 return 0.0;

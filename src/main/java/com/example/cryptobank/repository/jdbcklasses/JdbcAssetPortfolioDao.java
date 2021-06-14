@@ -66,7 +66,7 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
             int portfolioId = rs.getInt("portfolioId");
             double amount = rs.getDouble("amount");
             double availableForSale = rs.getDouble("forSale");
-            AssetPortfolio assetPortfolio = new AssetPortfolio(assetName, portfolioId, amount);
+            AssetPortfolio assetPortfolio = new AssetPortfolio(assetName, portfolioId, amount, availableForSale);
             return assetPortfolio;
         }
     }
