@@ -48,17 +48,23 @@ public class RootRepository {
         this.logDao = logDao;
     }
 
-    public void saveUser(User user){
-        userDao.create(user);
+    /**
+     * Register new login account
+     * @param user (User)
+     * @param password (String)
+     *
+     * @author David_Scager
+     */
+    public void registerLogin(User user, String password){
+        loginDAO.create(user.getEmail(), password);
+        logger.info("LoginAccount registered");
     }
-
 
     /**
      * Register new user if that user is not yet registered and does not
      * already have a login account.
      * @param user (User)
      * @param role (Role)
-     * @return (boolean) true if registration succesfull, false if already registered
      *
      * @author David_Scager
      */
@@ -70,7 +76,7 @@ public class RootRepository {
         user.setId(newActor.getUserId());
         userDao.create(user);
         Portfolio portfolio = new Portfolio(newActor);
-        savePortfolio(portfolio);
+        portfolioDao.create(portfolio);
         assetPortfolioDao.create(new AssetPortfolio("USD", portfolio.getPortfolioId(), STARTKAPITAAL));
         logger.info("Portfolio registered");
         logger.info("User registered");
@@ -85,29 +91,12 @@ public class RootRepository {
     }
 
     public LoginAccount getLoginByUsername(String username) {
-        return loginDAO.get(username).orElse(null);
+        return loginDAO.get(username);
     }
 
     public void storeResetToken(String username, String token) {
-        Optional<LoginAccount> loginAccount = loginDAO.get(username);
-        LoginAccount loginAccount1 = loginAccount.orElse(null);
-        loginDAO.update(loginAccount1.getUsername(), loginAccount1.getHash(), token);
-    }
-
-    /**
-     * Register new login account
-     * @param user (User)
-     * @param password (String)
-     *
-     * @author David_Scager
-     */
-    public void registerLogin(User user, String password){
-        loginDAO.create(user.getEmail(), password);
-        logger.info("LoginAccount registered");
-    }
-
-    public void saveActor(Actor actor){
-        actorDao.create(actor);
+        LoginAccount loginAccount = loginDAO.get(username);
+        loginDAO.update(loginAccount.getUsername(), loginAccount.getHash(), token);
     }
 
     public Actor getActor(long userId){
@@ -121,10 +110,6 @@ public class RootRepository {
         logger.debug("RootRepository.updateActor aangeroepen voor actor " + actor.getUserId());
         actorDao.update(actor, actor.getUserId());
         return getActor(actor.getUserId());
-    }
-
-    public void savePortfolio(Portfolio portfolio) {//te gebruiken in actor check staat in portfolio dao
-        portfolioDao.create(portfolio);
     }
 
     public void saveAsset(Asset asset) {
@@ -294,7 +279,7 @@ public class RootRepository {
         loginDAO.update(username, hash, token);
     }
 
-    public Optional<LoginAccount> getLoginAccount(String username) {
+    public LoginAccount getLoginAccount(String username) {
          return loginDAO.get(username);
     }
 
