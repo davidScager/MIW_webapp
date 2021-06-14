@@ -217,15 +217,14 @@ public class RootRepository {
 
     public void updateAdjustmentFactor(String assetName, double numberOfAssets, int buyerId, int sellerId) {
         Asset asset = assetDao.getOneByName(assetName);
-        if (asset.getAbbreviation().equals("USD")) {
-            return;
-        }
         double dollarAmount = numberOfAssets * asset.getValueInUsd();
         Actor buyer = actorDao.get(buyerId).get();
         Actor seller = actorDao.get(sellerId).get();
-        boolean buyFromBank = buyer.getRole().equals(Role.BANK) ? true : false;
-        boolean sellToBank = seller.getRole().equals(Role.BANK) ? true : false;
-        assetDao.updateAdjustmentFactor(asset, dollarAmount, buyFromBank, sellToBank);
+        boolean buyFromBank = seller.getRole().equals(Role.BANK);
+        boolean sellToBank = buyer.getRole().equals(Role.BANK);
+        if (!asset.getAbbreviation().equals("USD")) {
+            assetDao.updateAdjustmentFactor(asset, dollarAmount, buyFromBank, sellToBank);
+        }
     }
 
     public TransactionLog createNewTransactionLog(String assetSold, String assetBought, double numberOfAssets, double transactionCost){
