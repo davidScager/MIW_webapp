@@ -139,7 +139,6 @@ public class JdbcAssetDao implements AssetDao {
         @Override
         public Asset mapRow(ResultSet rs, int rowNum) throws SQLException {
             Asset asset = new Asset();
-
             asset.setName(rs.getString("name"));
             asset.setApiName(rs.getString("apiName"));
             asset.setAbbreviation(rs.getString("abbreviation"));

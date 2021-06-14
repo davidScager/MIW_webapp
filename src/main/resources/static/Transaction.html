@@ -42,29 +42,38 @@
         <tbody class="scroll_tbody">
         </tbody>
     </table>
+
 </form>
+    <div class="bg-model">
+    <div class="model-content">
+        <div class="close">+</div>
+        <h3>Transactiekosten bereken</h3>
+        <input id="transactioncostfield"  placeholder="Druk hiervoor op de knop" style="text-align: center">
+    </div>
+</div>
     <form class="flex-box-middle">
+
+
         <h3 style="text-align: center">Wilt u kopen of verkopen?</h3>
         <button>Kopen</button> <button>Verkopen</button>
-        <input id="seller" width="250px" placeholder="verkoper" style="text-align: center"><br>
-        <input id="buyer" placeholder="koper" style="text-align: center"><br>
-        <label>Kies een asset om te verkopen</label><br>
+        <input id="seller" width="250px" placeholder="verkoper">
+        <input id="buyer" placeholder="koper">
+        <label>Kies een asset om te verkopen</label>
         <select id="assetToSell">
             <option value="BTC">Bitcoin</option>
             <option value="ETH">Ethereum</option>
             <option value="TRX">Tron</option>
         </select><br>
-        <label>Kies een asset om te kopen</label><br>
+        <label>Kies een asset om te kopen</label>
         <select id="assetTobuy">
             <option value="BTC">Bitcoin</option>
             <option value="ETH">Ethereum</option>
             <option value="TRX">Tron</option>
         </select><br>
-        <input id="numberOfAssets" placeholder="Hoeveel assets?" style="text-align: center"><br>
-        <button id="transactioncost" type="button" onclick="transactionCost()">Transactie kosten bereken</button>
-        <input id="transactioncostfield" placeholder="Druk hiervoor op de knop" style="text-align: center"><br>
-        <button id="futureTransaction" type="button">Wilt u kopen/verkopen op een bepaalde waarde?</button><br>
-        <input id="valueToBuyOrSellAt" placeholder="Gewenste waarde?" style="text-align: center"><br>
+        <input id="numberOfAssets" placeholder="Hoeveel assets?" >
+        <button id="transactioncost" type="button">Transactie kosten bereken</button>
+        <button id="futureTransaction" type="button">Wilt u kopen/verkopen op een bepaalde waarde?</button>
+        <input id="valueToBuyOrSellAt" placeholder="Gewenste waarde?">
 
         <button id="execcutTransaction" type="button" onclick="newTransaction()">Voer de transactie uit</button><br>
     </form>

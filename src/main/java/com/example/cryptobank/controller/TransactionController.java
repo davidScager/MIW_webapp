@@ -82,10 +82,12 @@ public class TransactionController {
     }
 
     @PostMapping("/createtransaction")
-    public Transaction createTransaction(@RequestParam int seller,
-                                                @RequestParam int buyer, @RequestParam double numberOfAssets,
-                                                @RequestParam String assetSold,
-                                                @RequestParam String assetBought) throws IOException {
+    public Transaction createTransaction(@RequestBody Map transactionData) throws IOException {
+        int seller = (int) transactionData.get(0);
+        int buyer = (int) transactionData.get(1);
+        double numberOfAssets = (double)  transactionData.get(2);
+        String assetSold = (String) transactionData.get(3);
+        String assetBought = (String) transactionData.get(4);
         double transactionCost = transactionService.calculateTransactionCost(numberOfAssets, assetBought);
         Transaction newTransaction = transactionService.createNewTransaction(seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought);
         return newTransaction;
