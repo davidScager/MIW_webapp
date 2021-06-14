@@ -40,7 +40,7 @@ public class LoginAccountService {
     }
 
     public boolean isTokenStored(String username) {
-        LoginAccount loginAccount = rootRepository.getLoginAccount(username).orElse(null);
+        LoginAccount loginAccount = rootRepository.getLoginAccount(username);
         logger.info(loginAccount.getToken());
         return loginAccount.getToken() != null;
     }

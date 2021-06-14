@@ -1,6 +1,5 @@
 package com.example.cryptobank.service.security;
 
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,13 +10,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PepperService {
-    private Logger logger = LoggerFactory.getLogger(PepperService.class);
     private static final String PEPPER = "27d05704";
 
     @Autowired
     public PepperService(){
         super();
-        logger.info("New PepperService");
+        LoggerFactory.getLogger(PepperService.class).info("New PepperService");
     }
 
     public String getPepper(){

@@ -1,6 +1,3 @@
-document.getElementById('postalCode').addEventListener('focusout', checkForAddress);
-document.getElementById('houseNr').addEventListener('focusout', checkForAddress);
-
 function checkForAddress() {
     let regex = new RegExp(/[1-9]{4}[A-Za-z]{2}$/i);
     let pc = document.querySelector('#postalCode').value;
@@ -10,7 +7,6 @@ function checkForAddress() {
 
     let formData = `postcode=${pc}&number=${nr}`;
     if (regex.test(pc) && nr) {
-        /*warning: `` not ''*/
         fetch("https://postcode.tech/api/v1/postcode?" + formData,
             {
                 method: 'GET',
@@ -27,8 +23,8 @@ function checkForAddress() {
 function processAddress(json){
     console.log(json);
     let address = json;
-    document.getElementById('residence').value = address.city;
-    document.getElementById('streetName').value = address.street;
+    document.querySelector('#residence').value = address.city;
+    document.querySelector('#streetName').value = address.street;
 }
 
 function register(){
@@ -75,39 +71,22 @@ function register(){
             })
         })
         .then(response => {
-            console.log(response)
+            console.log(response);
+            if (response.ok){
+                afterRegister();
+            } else {
+                window.location.replace('http://localhost:8080/register/failed');
+            }
         })
         .catch((error) => {
             console.error('Foutje', error);
-            alert("Registratie mislukt")
+            alert("Registratie mislukt");
         })
 }
 
 function afterRegister() {
-    document.getElementById('form').style.visibility = 'hidden';
-    document.getElementById('regButton').style.visibility = 'hidden';
-    document.getElementById('regInfo').innerHTML = 'Er is een bevestigingsmail naar het opgegeven email adres gestuurd. ' +
+    document.querySelector('#form').style.visibility = 'hidden';
+    document.querySelector('#regButton').style.visibility = 'hidden';
+    document.querySelector('#regInfo').innerHTML = 'Er is een bevestigingsmail naar het opgegeven email adres gestuurd. ' +
         '\nBevestig je registratie a.u.b. binnen 30 minuten.'
-}
-
-function sendToken(token) {
-    fetch('http://localhost:8080/register/finalize',
-        {
-            method: 'POST',
-            headers: {
-                'Authorization': token
-            }
-        })
-        .then(response => {
-            console.log(response)
-            if(response.ok){
-                window.location.replace('http://localhost:8080/LoginController.html')
-                alert("Registratie voltooid. Je kunt nu inloggen.")
-                return response.json()
-            }
-        })
-        .catch((error) => {
-            console.error('Foutje', error);
-            alert("Registratie mislukt")
-        })
 }

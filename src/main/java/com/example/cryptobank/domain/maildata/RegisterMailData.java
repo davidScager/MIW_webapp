@@ -1,29 +1,37 @@
 package com.example.cryptobank.domain.maildata;
 
 public class RegisterMailData extends MailData{
-    private String url;
+    private String firstUrl;
     private String sender;
     private String mailSubject;
+    private String mailText;
     private String mailContent;
-    private String receiverEmail;
+    private String receiver;
     private String token;
 
-    public RegisterMailData(String receiverEmail, String token) {
-        this.url = "http://localhost:8080/register/finalize";
+    public RegisterMailData(String receiver, String token) {
+        this.firstUrl = "http://localhost:8080/register/finalize";
         this.sender = "BigBossNijntje@BitBank.com";
-        this.mailSubject = "Registratie BitBank - Bevestigen";
-        this.receiverEmail = receiverEmail;
+        this.mailSubject = "Registratie BitBank - Email bevestiging";
+        this.mailText = "Je bent er bijna! \n Klik a.u.b. binnen 30 minuten na ontvangst op de onderstaande knop om je registratie af te ronden.";
+        this.receiver = receiver;
         this.token = token;
     }
 
     @Override
-    public String getUrl() {
-        return url;
+    public String getFirstUrl() {
+        return null;
     }
 
-    @Override
-    public void setUrl(String url) {
-        this.url = url;
+    public void setFirstUrl(){
+    }
+
+    public String getSecondUrl() {
+        return firstUrl;
+    }
+
+    public void setSecondUrl(String secondUrl){
+        this.firstUrl = secondUrl;
     }
 
     @Override
@@ -47,23 +55,13 @@ public class RegisterMailData extends MailData{
     }
 
     @Override
-    public String getReceiverEmail() {
-        return receiverEmail;
+    public String getMailText() {
+        return mailText;
     }
 
     @Override
-    public void setReceiverEmail(String receiverEmail) {
-        this.receiverEmail = receiverEmail;
-    }
-
-    @Override
-    public String getToken() {
-        return token;
-    }
-
-    @Override
-    public void setToken(String token) {
-        this.token = token;
+    public void setMailText(String mailText) {
+        this.mailText = mailText;
     }
 
     @Override
@@ -74,5 +72,25 @@ public class RegisterMailData extends MailData{
     @Override
     public void setMailContent(String mailContent) {
         this.mailContent = mailContent;
+    }
+
+    @Override
+    public String getReceiver() {
+        return receiver;
+    }
+
+    @Override
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+
+    @Override
+    public String getToken() {
+        return token;
+    }
+
+    @Override
+    public void setToken(String token) {
+        this.token = token;
     }
 }
