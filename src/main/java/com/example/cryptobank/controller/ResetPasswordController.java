@@ -1,7 +1,7 @@
 package com.example.cryptobank.controller;
 
 import com.example.cryptobank.service.login.LoginAccountService;
-import com.example.cryptobank.service.mailSender.SendMailServiceFacade;
+import com.example.cryptobank.service.mailSender.mailsenderfacade.SendMailServiceFacade;
 import com.example.cryptobank.domain.maildata.MailData;
 import com.example.cryptobank.domain.maildata.ResetMailData;
 import com.example.cryptobank.service.security.TokenService;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.mail.MessagingException;
+import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.HashMap;
@@ -28,8 +29,6 @@ import java.util.Map;
 public class ResetPasswordController {
     private Logger logger = LoggerFactory.getLogger(ResetPasswordController.class);
     private final LoginAccountService loginAccountService;
-    private final MailSenderService mailSenderService;
-    private final GenerateMailContent generateMailContent;
     private final SendMailServiceFacade sendMailServiceFacade;
     private final TokenService tokenService;
     private String email;
@@ -38,17 +37,15 @@ public class ResetPasswordController {
 
 
     @Autowired
-    public ResetPasswordController(LoginAccountService loginAccountService, MailSenderService mailSenderService, GenerateMailContent generateMailContent, SendMailServiceFacade sendMailServiceFacade, TokenService tokenService) {
+    public ResetPasswordController(LoginAccountService loginAccountService, SendMailServiceFacade sendMailServiceFacade, TokenService tokenService) {
         this.sendMailServiceFacade = sendMailServiceFacade;
         this.tokenService = tokenService;
         logger.info("New MailSenderController");
-        this.generateMailContent = generateMailContent;
         this.loginAccountService = loginAccountService;
-        this.mailSenderService = mailSenderService;
     }
 
     @PostMapping("/resetpassword")
-    public RedirectView sendMailForReset(@RequestBody Map<String, String> mailMap) throws MalformedURLException, MessagingException {
+    public RedirectView sendMailForReset(@RequestBody Map<String, String> mailMap) throws MalformedURLException, MessagingException, FileNotFoundException {
         MailData resetData = new ResetMailData(insert = mailMap.values().stream().findFirst().orElse(null), null);
         if (loginAccountService.verifyAccount(insert)) {
             resetData.setToken(loginAccountService.addTokenToLoginAccount(insert));
@@ -61,18 +58,17 @@ public class ResetPasswordController {
 
     @PostMapping("/createnewpassword")
     public HttpEntity<?> loadPasswordPage(@RequestBody Map<String, String> tokenMap) {
-            insert = tokenMap.values().stream().findFirst().orElse("");
-            try {
-                email = tokenService.parseToken(insert, "reset");
-                logger.info("check: " + email);
-                if (loginAccountService.isTokenStored(email)) {
-                    return ResponseEntity.ok().body(validToken.put("token", true));
-                } else {
-                    return ResponseEntity.ok().body(validToken.put("token", false));
-                }
-            } catch (Exception e) {
+        insert = tokenMap.values().stream().findFirst().orElse("");
+        try {
+            email = tokenService.parseToken(insert, "reset");
+            if (loginAccountService.isTokenStored(email)) {
+                return ResponseEntity.ok().body(validToken.put("token", true));
+            } else {
                 return ResponseEntity.ok().body(validToken.put("token", false));
             }
+        } catch (Exception e) {
+            return ResponseEntity.ok().body(validToken.put("token", false));
+        }
     }
 
     @PostMapping("/setnewpassword")

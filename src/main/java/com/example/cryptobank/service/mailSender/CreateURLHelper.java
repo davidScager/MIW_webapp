@@ -8,7 +8,7 @@ import java.net.URL;
 public class CreateURLHelper {
 
     public static String generateToken(MailData mailData) throws MalformedURLException {
-        URL url = new URL(mailData.getUrl() + "?Authorization=" + mailData.getToken());
+        URL url = new URL(mailData.getFirstUrl() + "?Authorization=" + mailData.getToken());
         return url.toString();
     }
 }

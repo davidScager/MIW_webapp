@@ -1,30 +1,33 @@
 package com.example.cryptobank.domain.maildata;
 
 public class ResetMailData extends MailData {
-    private String url;
+    private String firstUrl;
+    private String secondUrl;
     private String sender;
     private String mailSubject;
+    private String mailText;
     private String mailContent;
-    private String ReceiverEmail;
+    private String receiver;
     private String token;
 
-
-    public ResetMailData(String receiverEmail, String token) {
-        this.url = "http://localhost:8080/create_new_password.html";
+    public ResetMailData(String receiver, String token) {
+        this.firstUrl = "http://localhost:8080/create_new_password.html";
+        this.secondUrl = "src/main/resources/static/resetPasswordMail.html";
         this.sender = "BigBossNijntje@BitBank.com";
         this.mailSubject = "Reset uw account";
-        ReceiverEmail = receiverEmail;
+        this.receiver = receiver;
         this.token = token;
+        this.mailText = "U heeft aangegeven uw wachtwoord te willen veranderen. Indien dit klopt, druk dan op de onderstaande knop.";
     }
 
     @Override
-    public String getUrl() {
-        return url;
+    public String getFirstUrl() {
+        return firstUrl;
     }
 
     @Override
-    public void setUrl(String url) {
-        this.url = url;
+    public void setFirstUrl(String firstUrl) {
+        this.firstUrl = firstUrl;
     }
 
     @Override
@@ -47,13 +50,13 @@ public class ResetMailData extends MailData {
     }
 
     @Override
-    public String getReceiverEmail() {
-        return ReceiverEmail;
+    public String getReceiver() {
+        return receiver;
     }
 
     @Override
-    public void setReceiverEmail(String receiverEmail) {
-        ReceiverEmail = receiverEmail;
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
     }
 
     public String getToken() {
@@ -72,5 +75,23 @@ public class ResetMailData extends MailData {
     @Override
     public void setMailContent(String mailContent) {
         this.mailContent = mailContent;
+    }
+
+    public String getSecondUrl() {
+        return secondUrl;
+    }
+
+    public void setSecondUrl(String secondUrl) {
+        this.secondUrl = secondUrl;
+    }
+
+    @Override
+    public String getMailText() {
+        return mailText;
+    }
+
+    @Override
+    public void setMailText(String mailText) {
+        this.mailText = mailText;
     }
 }

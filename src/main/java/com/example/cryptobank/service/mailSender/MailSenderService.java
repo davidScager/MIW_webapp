@@ -32,7 +32,7 @@ public class MailSenderService {
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setFrom(mailData.getSender());
-        helper.setTo(mailData.getReceiverEmail());
+        helper.setTo(mailData.getReceiver());
         helper.setText(mailData.getMailContent(), true);
         helper.setSubject(mailData.getMailSubject());
         sender.send(message);
