@@ -21,9 +21,9 @@ public class GenerateMailContent {
     public String setHtmlMail(MailData mailData) throws MalformedURLException, FileNotFoundException {
         this.fileReader = new Scanner(new File(mailData.getSecondUrl()));
         readHtmlFile();
+        String correctText = mailContent.replace("TEKSTHIER", mailData.getMailText());
         String resetLink = CreateURLHelper.generateToken(mailData);
-        String correctText = resetLink.replace("TEKSTHIER", mailData.getMailText());
-        return mailContent.replace("URLHIER", correctText);
+        return correctText.replace("URLHIER", resetLink);
     }
 
     private void readHtmlFile() {

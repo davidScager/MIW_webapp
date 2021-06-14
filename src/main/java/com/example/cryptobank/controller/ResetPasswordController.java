@@ -1,7 +1,7 @@
 package com.example.cryptobank.controller;
 
 import com.example.cryptobank.service.login.LoginAccountService;
-import com.example.cryptobank.service.mailSender.SendMailServiceFacade;
+import com.example.cryptobank.service.mailSender.mailsenderfacade.SendMailServiceFacade;
 import com.example.cryptobank.domain.maildata.MailData;
 import com.example.cryptobank.domain.maildata.ResetMailData;
 import com.example.cryptobank.service.security.TokenService;

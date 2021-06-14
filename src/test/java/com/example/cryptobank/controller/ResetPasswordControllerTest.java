@@ -3,7 +3,7 @@
 //import com.example.cryptobank.service.currency.MethodRunOnScheduleHelper;
 ////import com.example.cryptobank.service.login.LoginAccountServiceClass;
 //import com.example.cryptobank.service.login.LoginAccountService;
-//import com.example.cryptobank.service.mailSender.GenerateMailContent;
+//import com.example.cryptobank.service.mailSender.GenerateMailContext;
 //import com.example.cryptobank.service.mailSender.MailSenderService;
 //import com.example.cryptobank.service.security.TokenService;
 //import com.example.cryptobank.service.transaction.TransactionService;
@@ -47,7 +47,7 @@
 ////    private LoginAccountServiceClass loginAccountServiceClass;
 //
 //    @MockBean
-//    private GenerateMailContent generateMailContent;
+//    private GenerateMailContext generateMailContext;
 //
 //    @MockBean
 //    private MailSenderService mailSenderService;
@@ -117,7 +117,7 @@
 //            final boolean[] mailIsSent = new boolean[1];
 //            Mockito.when(loginAccountService.verifyAccount(emailAddress)).thenReturn(true);
 //            Mockito.when(loginAccountService.addTokenToLoginAccount(emailAddress)).thenReturn(token);
-//            Mockito.when(generateMailContent.setResetText(token)).thenReturn(mailContent);
+//            Mockito.when(generateMailContext.setResetText(token)).thenReturn(mailContext);
 //
 //            Answer answer = new Answer() {
 //                @Override

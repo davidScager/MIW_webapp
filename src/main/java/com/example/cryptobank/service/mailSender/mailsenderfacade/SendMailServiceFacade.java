@@ -1,6 +1,8 @@
-package com.example.cryptobank.service.mailSender;
+package com.example.cryptobank.service.mailSender.mailsenderfacade;
 
 import com.example.cryptobank.domain.maildata.MailData;
+import com.example.cryptobank.service.mailSender.GenerateMailContent;
+import com.example.cryptobank.service.mailSender.MailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +11,7 @@ import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 
 @Service
-public class SendMailServiceFacade {
+public class SendMailServiceFacade implements MailSenderFacade {
     private final MailSenderService mailSenderService;
     private final GenerateMailContent generateMailContent;
 
