@@ -1,9 +1,10 @@
+/*
 package com.example.cryptobank.controller;
 
 import com.example.cryptobank.service.currency.MethodRunOnScheduleHelper;
 //import com.example.cryptobank.service.login.LoginAccountServiceClass;
 import com.example.cryptobank.service.login.LoginAccountService;
-import com.example.cryptobank.service.mailSender.GenerateMailContext;
+import com.example.cryptobank.service.mailSender.GenerateMailContent;
 import com.example.cryptobank.service.mailSender.MailSenderService;
 import com.example.cryptobank.service.security.TokenService;
 import com.example.cryptobank.service.transaction.TransactionService;
@@ -85,7 +86,6 @@ class ResetPasswordControllerTest {
                 public Boolean answer(InvocationOnMock invocationOnMock) throws Throwable {
                     System.out.println("Mail is verzonden");
                     mailIsSent[0] = true;
-
                     return null;
                 }
             };
@@ -229,4 +229,4 @@ class ResetPasswordControllerTest {
                 .andExpect(content().string("Token is al gebruikt"));
         assert !passwordUpdated[0];
     }
-}
+}*/

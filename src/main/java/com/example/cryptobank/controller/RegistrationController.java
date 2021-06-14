@@ -27,10 +27,7 @@ public class RegistrationController {
 
     @GetMapping
     public RedirectView viewHtmlRegisterHandler(){
-        RedirectView redirectView = new RedirectView("http://localhost:8080/registreren.html");
-
-        redirectView.setStatusCode(HttpStatus.OK);
-        return redirectView;
+        return new RedirectView("http://localhost:8080/registreren.html");
     }
 
     @GetMapping("/failed")

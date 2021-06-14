@@ -1,6 +1,7 @@
 package com.example.cryptobank.service.mailSender;
 
 import com.example.cryptobank.domain.maildata.MailData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -15,7 +16,7 @@ public class GenerateMailContent {
     private final Scanner fileReader;
     private final StringBuilder stringBuilder;
 
-
+    @Autowired
     public GenerateMailContent() throws FileNotFoundException {
         this.registerationURL = "http://localhost:8080/register/finalize";
         File mailHTML = new File("src/main/resources/static/resetPasswordMail.html");
