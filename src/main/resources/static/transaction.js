@@ -49,20 +49,27 @@ function loadPage(){
 
 function loadMyAssets() {
     let bankTable = document.getElementById("MyTable")
-    fetch("http://localhost:8080/transaction/myavalableassetstosell?portfolioId=102")
+    let token = localStorage.getItem("token");
+    fetch("http://localhost:8080/transaction/transactionorder", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            "Authorization": "Bearer " + token,
+        },
+    })
         .then(response => response.json())
         .then(data => {
                 console.log(data)
-                Object.entries(data).forEach(([k, v]) => {
-                        console.log(`${k}`)
+                Object.entries(data).forEach((assets) => {
                         let row = document.createElement(`tr`)
                         let tdAsset = document.createElement(`td`)
                         let tdValueToday = document.createElement(`td`)
                         let tdAmount = document.createElement(`td`)
 
-                        tdAsset.innerHTML = `${k[1].name}`
-                        tdAmount.innerHTML = `${v}`
-                        tdValueToday.innerHTML = `${k[1].valueInUsd}`
+                        tdAsset.innerHTML = `${assets[1].AssetName}`
+                        tdAmount.innerHTML = `${assets[1].available}`
+                        tdValueToday.innerHTML = `${assets[1].assetUSDValue}`
 
                         row.appendChild(tdAsset)
                         row.appendChild(tdAmount)
