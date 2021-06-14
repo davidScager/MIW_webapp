@@ -32,7 +32,6 @@ public class JdbcLoginDao implements LoginDao {
         jdbcTemplate.update(connection -> insertLoginStatement(username, password, null, connection));
     }
 
-    // waarom is hier een token toegevoegd? -David
     private PreparedStatement insertLoginStatement(String username, String password, String token, Connection connection) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("insert into loginaccount values (?, ?, ?)");
         ps.setString(1, username);
