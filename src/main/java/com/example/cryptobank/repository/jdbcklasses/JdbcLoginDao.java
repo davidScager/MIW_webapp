@@ -40,7 +40,7 @@ public class JdbcLoginDao implements LoginDao {
                 "select * from loginaccount where username = ?",
                 (rs, rowNum) -> new LoginAccount(rs.getString("username"), rs.getString("password"), rs.getString("token")),
                 username);
-        if(loginList.size() != 1){
+        if(loginList.isEmpty()){
             return null;
         } else {
             return loginList.get(0);
