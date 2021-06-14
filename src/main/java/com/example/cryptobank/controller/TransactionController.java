@@ -5,6 +5,9 @@ import com.example.cryptobank.domain.transaction.Transaction;
 import com.example.cryptobank.domain.transaction.TransactionHTMLBank;
 import com.example.cryptobank.domain.transaction.TransactionHTMLClient;
 import com.example.cryptobank.domain.transaction.TransactionHistory;
+import com.example.cryptobank.domain.user.User;
+import com.example.cryptobank.service.assetenportfolio.PortfolioService;
+import com.example.cryptobank.service.login.UserService;
 import com.example.cryptobank.service.security.TokenService;
 import com.example.cryptobank.service.transaction.TransactionService;
 import org.slf4j.Logger;
@@ -29,12 +32,16 @@ public class TransactionController {
     private final Logger logger = LoggerFactory.getLogger(TransactionController.class);
     private final TransactionService transactionService;
     private final TokenService tokenService;
+    private final UserService userService;
+    private final PortfolioService portfolioService;
 
     @Autowired
-    public TransactionController(TransactionService transactionService, TokenService tokenService) {
+    public TransactionController(TransactionService transactionService, TokenService tokenService, UserService userService, PortfolioService portfolioService) {
         super();
         this.transactionService = transactionService;
         this.tokenService = tokenService;
+        this.userService = userService;
+        this.portfolioService = portfolioService;
         logger.info("New TransactionController");
     }
 
@@ -61,8 +68,10 @@ public class TransactionController {
         return transactionService.bankArrayList();
     }
 
-    @GetMapping("/myavalableassetstosell") //available
-    public Map<Asset, Double> getAssetOverviewOfUser(@RequestParam int portfolioId) {
+    @GetMapping("/myavailableassetstosell")
+    public Map<Asset, Double> getAssetOverviewOfUser(@RequestHeader(value = "Authorization") String token) {
+        User user = userService.getUserFromToken(token);
+        int portfolioId = portfolioService.getPortfolioIdByUserId(user.getId());
         return transactionService.getAssetOverviewWithAmount(portfolioId);
     }
 
@@ -82,12 +91,12 @@ public class TransactionController {
     }
 
     @PostMapping("/createtransaction")
-    public Transaction createTransaction(@RequestBody Map transactionData) throws IOException {
-        int seller = (int) transactionData.get(0);
-        int buyer = (int) transactionData.get(1);
-        double numberOfAssets = (double)  transactionData.get(2);
-        String assetSold = (String) transactionData.get(3);
-        String assetBought = (String) transactionData.get(4);
+    public Transaction createTransaction(@RequestBody Map<String, String> transactionData) throws IOException {
+        int seller = Integer.parseInt(transactionData.get("seller"));
+        int buyer = Integer.parseInt(transactionData.get("buyer"));
+        double numberOfAssets = Double.parseDouble(transactionData.get("numberOfAssets"));
+        String assetSold = transactionData.get("assetSold");
+        String assetBought = transactionData.get("assetBought");
         double transactionCost = transactionService.calculateTransactionCost(numberOfAssets, assetBought);
         Transaction newTransaction = transactionService.createNewTransaction(seller, buyer, numberOfAssets, transactionCost, assetSold, assetBought);
         return newTransaction;

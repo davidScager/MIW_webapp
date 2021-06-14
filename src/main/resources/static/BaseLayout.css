@@ -33,8 +33,6 @@ form {
     text-align: left;
 }
 
-
-
 footer {
     display: flex;
     position: relative;
@@ -134,7 +132,6 @@ button:hover{
     position: relative;
     left: 25%
 }
-
 
 .BLeft{
     height: 37px;

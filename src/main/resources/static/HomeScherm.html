@@ -5,49 +5,72 @@
     <title>HomeScherm</title>
 
     <link href="HomeScherm.css" rel="stylesheet" type="text/css">
-    <link href="Huisstijl_Plus.css" rel="stylesheet" type="text/css">
-    <script src="HomeScherm"></script>
+    <link href="BaseLayout.css" rel="stylesheet" type="text/css">
+    <script src="HomeScherm.js"></script>
 
 </head>
 <body>
 
-<div class="header navbar">
-    <div class="navbar sideNav">
-        <a href="Transaction.html">Handelen</a>
-        <a href="portfolio.html">Portfolio</a>
-        <a href="TransactionHistory.html">Transacties</a>
+<header>
+    <!--    <div class="container">-->
+    <!--        <nav>-->
+    <!--            <ul class="nav_links ">-->
+    <!--                <li><a href="Transaction.html">Handelen</a></li>-->
+    <!--                <li><a href="portfolio.html">Portfolio</a></li>-->
+    <!--                <li><a href="TransactionHistory.html">Transacties</a></li>-->
+    <!--                <li><a href="HomeScherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></li>-->
+    <!--                <li><a href="LoginController.html">Logout</a></li>-->
+    <!--                <li><a class="cta" href="contact.html">-->
+    <!--                    <button>Contact</button>-->
+    <!--                </a></li>-->
+    <!--            </ul>-->
+    <!--        </nav>-->
+    <!--    </div>-->
+
+    <div class="navbar">
+        <div class="navbar sideNav">
+            <a href="Transaction.html">Handelen</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="TransactionHistory.html">Transacties</a>
+        </div>
+        <div><a href="HomeScherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
+        <div class="navbar sideNav">
+            <a href="LoginController.html">Login</a>
+            <a href="registreren.html">Registreren</a>
+            <a class="cta" href="contact.html">
+                <button>Contact</button>
+            </a>
+        </div>
     </div>
-    <div> <a href="HomeScherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
-    <div class="navbar sideNav">
-        <a href="LoginController.html">Login</a>
-        <a href="registreren.html">Registreren</a>
-        <a class="cta" href="contact.html">
-            <button>Contact</button>
-        </a>
-    </div>
-</div>
+</header>
 
 <div class="nijntje">
+    <div>
         <h1 class="nijntje-tekst">Welkom bij <br> BitBank </br></h1>
         <h2 class="nijntje-tekst"><a href="registreren.html">Registreer nu</a></h2>
         <h3 class="nijntje-tekst">En ontvang $200 tegoed!</h3>
         <h4 class="nijntje-tekst">Toekomstbestendig, innovatief <br> en duurzaam</br></h4>
-</div>
-<div class="flex-container">
-    <div class="vakje">Ontdek nu</div>
-    <div class="vakje">Nieuwtjes</div>
-    <div class="vakje">Iets leuks</div>
-</div>
-
-
-<div id="page-container">
-    <div id="content-wrap">
+        <div class="flex-container">
+            <div class="ontdek nu">Ontdek nu</div>
+            <div class="nieuwtjes">Nieuwtjes</div>
+            <div class="iets leuks">Iets leuks</div>
+        </div>
     </div>
-    <footer id="footer">
-        <img class="BLeft" src="images/B left.png" alt="BLeft">
-        <img class="BRight" src="images/B right.png" alt="Bright">
-    </footer>
 </div>
+
+<!--<div id="page-container">-->
+<!--    <div id="content-wrap">-->
+<!--    </div>-->
+<!--    <footer id="footer">-->
+<!--        <img class="BLeft" src="images/B left.png" alt="BLeft">-->
+<!--        <img class="BRight" src="images/B right.png" alt="Bright">-->
+<!--    </footer>-->
+<!--</div>-->
+
+<footer>
+    <img class="img" src="images/B left.png" alt="BLeft">
+    <img class="img" src="images/B right.png" alt="Bright">
+</footer>
 
 </body>
 </html>

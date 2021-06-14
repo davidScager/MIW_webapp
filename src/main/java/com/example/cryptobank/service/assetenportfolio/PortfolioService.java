@@ -62,6 +62,10 @@ public class PortfolioService {
         return tempList;
     }
 
+    public int getPortfolioIdByUserId(long userId){
+       return rootRepository.getPortfolioIdByUserId((int) userId).getPortfolioId();
+    }
+
 
 
     public Portfolio getByActor(int actor) {

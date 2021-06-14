@@ -21,6 +21,10 @@ public class AssetPortfolio {
         this.amount = amount;
     }
 
+    public AssetPortfolio() {
+        super();
+    }
+
     public String getAssetName() {
         return assetName;
     }
@@ -32,6 +36,10 @@ public class AssetPortfolio {
 
     public int getPortfolioId() {
         return portfolioId;
+    }
+
+    public void setPortfolioId(int portfolioId) {
+        this.portfolioId = portfolioId;
     }
 
     public double getAmount() {
