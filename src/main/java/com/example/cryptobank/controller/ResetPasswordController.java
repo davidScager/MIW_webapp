@@ -1,8 +1,11 @@
 package com.example.cryptobank.controller;
 
 import com.example.cryptobank.service.login.LoginAccountService;
+import com.example.cryptobank.service.mailSender.SendMailServiceFacade;
+import com.example.cryptobank.domain.maildata.MailData;
+import com.example.cryptobank.domain.maildata.ResetMailData;
 import com.example.cryptobank.service.security.TokenService;
-import com.example.cryptobank.service.mailSender.GenerateMailContext;
+import com.example.cryptobank.service.mailSender.GenerateMailContent;
 import com.example.cryptobank.service.mailSender.MailSenderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -27,7 +29,8 @@ public class ResetPasswordController {
     private Logger logger = LoggerFactory.getLogger(ResetPasswordController.class);
     private final LoginAccountService loginAccountService;
     private final MailSenderService mailSenderService;
-    private final GenerateMailContext generateMailContext;
+    private final GenerateMailContent generateMailContent;
+    private final SendMailServiceFacade sendMailServiceFacade;
     private final TokenService tokenService;
     private String email;
     private String insert;
@@ -35,24 +38,21 @@ public class ResetPasswordController {
 
 
     @Autowired
-    public ResetPasswordController(LoginAccountService loginAccountService, MailSenderService mailSenderService, GenerateMailContext generateMailContext, TokenService tokenService) {
+    public ResetPasswordController(LoginAccountService loginAccountService, MailSenderService mailSenderService, GenerateMailContent generateMailContent, SendMailServiceFacade sendMailServiceFacade, TokenService tokenService) {
+        this.sendMailServiceFacade = sendMailServiceFacade;
         this.tokenService = tokenService;
         logger.info("New MailSenderController");
-        this.generateMailContext = generateMailContext;
+        this.generateMailContent = generateMailContent;
         this.loginAccountService = loginAccountService;
         this.mailSenderService = mailSenderService;
     }
 
     @PostMapping("/resetpassword")
     public RedirectView sendMailForReset(@RequestBody Map<String, String> mailMap) throws MalformedURLException, MessagingException {
-        insert = mailMap.values().stream().findFirst().orElse(null);
-        logger.info(insert);
+        MailData resetData = new ResetMailData(insert = mailMap.values().stream().findFirst().orElse(null), null);
         if (loginAccountService.verifyAccount(insert)) {
-            logger.info("LoginAccount contains " + insert);
-            String token = loginAccountService.addTokenToLoginAccount(insert);
-            logger.info(token);
-            String mailText = generateMailContext.setResetText(token);
-            mailSenderService.sendMail(insert, mailText, "Change your password");
+            resetData.setToken(loginAccountService.addTokenToLoginAccount(insert));
+            sendMailServiceFacade.sendMail(resetData);
         } else {
             logger.info("email bestaat niet");
         }

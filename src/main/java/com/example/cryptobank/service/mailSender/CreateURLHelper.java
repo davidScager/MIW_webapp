@@ -1,11 +1,14 @@
 package com.example.cryptobank.service.mailSender;
 
+import com.example.cryptobank.domain.maildata.MailData;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class CreateURLHelper {
 
-    public static URL generateToken(String urlForMail, String token) throws MalformedURLException {
-        return new URL(urlForMail + "?Authorization=" + token);
+    public static String generateToken(MailData mailData) throws MalformedURLException {
+        URL url = new URL(mailData.getUrl() + "?Authorization=" + mailData.getToken());
+        return url.toString();
     }
 }
