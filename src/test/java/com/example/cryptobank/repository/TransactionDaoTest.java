@@ -48,12 +48,6 @@ public class TransactionDaoTest {
     }
 
     @Test
-    public void getTransactionsForUserTest() {
-//        Transaction transactionActual = transactionDao.getTransactionsForUser(3);
-//        assertThat(transactionActual).isEqualTo(transaction);
-    }
-
-    @Test
     public void calculateTransactionCostTest() {
         transaction.setTransactionId(2013);
         transactionDao.calculateTransactionCost(30.0);
