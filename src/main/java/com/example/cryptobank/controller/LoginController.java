@@ -17,6 +17,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.util.Map;
 
 @RestController
+@RequestMapping("login")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class LoginController {
     private Logger logger = LoggerFactory.getLogger(LoginController.class);
@@ -33,10 +34,10 @@ public class LoginController {
     // was nodig voor redirect vanuit registratie -David
     @GetMapping("/redirect")
     public RedirectView viewHtmlLoginHandler(){
-        return new RedirectView("http://localhost:8080/LoginController.html");
+        return new RedirectView("http://localhost:8080/login.html");
     }
 
-    @PostMapping("/login")
+    @PostMapping
     @ResponseBody
     public ResponseEntity loginUser (
             @RequestBody Map<String, String> requestParams
