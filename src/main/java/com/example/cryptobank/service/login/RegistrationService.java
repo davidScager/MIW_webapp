@@ -28,13 +28,14 @@ import java.util.TimerTask;
  */
 @Service
 public class RegistrationService {
-    private static final int DURATION_VALID = 30;
-    private static final int REMOVE_AFTER = DURATION_VALID * 60000;
     private final Logger logger = LoggerFactory.getLogger(RegistrationService.class);
     private final RootRepository rootRepository;
     private final TokenService tokenService;
     private final MailSenderFacade mailSenderFacade;
     private final Map<String, UserLoginAccount> registrationCache;
+    private final int durationValid;
+    private int durationUnitMillis;
+    private final int removeAfter;
 
     @Autowired
     public RegistrationService(RootRepository rootRepository, TokenService tokenService,
@@ -44,6 +45,9 @@ public class RegistrationService {
         this.mailSenderFacade = mailSenderFacade;
         this.registrationCache = new HashMap<>();
         logger.info("RegistrationService active");
+        this.durationValid = 30;
+        this.durationUnitMillis = 60000;
+        this.removeAfter = durationValid * durationUnitMillis;
     }
 
     public boolean validate(UserLoginAccount userLoginAccount){
@@ -52,7 +56,7 @@ public class RegistrationService {
     }
 
     public String cacheNewUserWithToken(UserLoginAccount userLoginAccount){
-        String token = tokenService.generateJwtToken(userLoginAccount.getUser().getEmail(), "Register", DURATION_VALID);
+        String token = tokenService.generateJwtToken(userLoginAccount.getUser().getEmail(), "Register", durationValid);
         registrationCache.put(token, userLoginAccount);
         logger.info("Registration Cached");
         Timer timer = new Timer();
@@ -62,7 +66,7 @@ public class RegistrationService {
                 registrationCache.remove(token);
                 logger.info("Cache cleared");
             }
-        }, REMOVE_AFTER);
+        }, removeAfter);
         logger.info(registrationCache.get(token).toString());
         return token;
     }
@@ -96,6 +100,12 @@ public class RegistrationService {
             logger.info("Cache cleared");
             return false;
         }
+    }
+
+    //Mainly for test purposes
+    //Every test of cacheNewUserWithToken would otherwise take 30 minutes!
+    public void setDurationUnitMillis(int durationUnitMillis) {
+        this.durationUnitMillis = durationUnitMillis;
     }
 
     //todo: verwijder voor einde project
