@@ -57,7 +57,7 @@ public class RegistrationController {
         String subject = "Register";
         if (registrationService.validateToken(token, subject)){
             registrationService.registerUser(token);
-            return new RedirectView("http://localhost:8080/loginredirect");
+            return new RedirectView("http://localhost:8080/login/redirect");
         }
         return new RedirectView("http://localhost:8080/registreren-mislukt.html");
     }

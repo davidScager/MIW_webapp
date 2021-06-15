@@ -29,8 +29,8 @@ import java.util.TimerTask;
 @Service
 public class RegistrationService {
     private static final int DURATION_VALID = 30;
-    private static final int REMOVE_TOKEN_TIMER = DURATION_VALID * 60000;
-    private Logger logger = LoggerFactory.getLogger(RegistrationService.class);
+    private static final int REMOVE_AFTER = DURATION_VALID * 60000;
+    private final Logger logger = LoggerFactory.getLogger(RegistrationService.class);
     private final RootRepository rootRepository;
     private final TokenService tokenService;
     private final MailSenderFacade mailSenderFacade;
@@ -67,7 +67,7 @@ public class RegistrationService {
                 registrationCache.remove(token);
                 logger.info("Cache cleared");
             }
-        }, REMOVE_TOKEN_TIMER);
+        }, REMOVE_AFTER);
         logger.info(registrationCache.get(token).toString());
         return token;
     }
@@ -76,7 +76,7 @@ public class RegistrationService {
         MailData registerMailData = new RegisterMailData(email, token);
         try {
             mailSenderFacade.sendMail(registerMailData);
-            logger.info("Registration confirmation email sent to new client" + registerMailData);
+            logger.info("Registration confirmation email sent");
         } catch (MalformedURLException | MessagingException | FileNotFoundException error) {
             logger.info("Failed to send email.");
             logger.error("URL or Messaging error caught." + error.getMessage());
@@ -88,8 +88,7 @@ public class RegistrationService {
         rootRepository.registerLogin(userLoginAccount.getUser(), userLoginAccount.getPassword());
         rootRepository.registerUser(userLoginAccount.getUser(), Role.CLIENT);
         registrationCache.remove(token);
-        logger.info("Cache cleared");
-        logger.info("New Client registered");
+        logger.info("New Client registered and cache cleared");
     }
 
     public boolean validateToken(String token, String subject) {
@@ -109,7 +108,7 @@ public class RegistrationService {
     public User register(UserLoginAccount userLoginAccount, Role role){
         User user = userLoginAccount.getUser();
         rootRepository.registerLogin(userLoginAccount.getUser(), userLoginAccount.getPassword());
-        rootRepository.registerUser(userLoginAccount.getUser(), Role.CLIENT);
+        rootRepository.registerUser(userLoginAccount.getUser(), role);
         return user;
     }
 

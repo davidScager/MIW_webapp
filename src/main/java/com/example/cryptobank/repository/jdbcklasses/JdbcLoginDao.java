@@ -33,6 +33,7 @@ public class JdbcLoginDao implements LoginDao {
             ps.setString(3, null);
             return ps;
         });
+        logger.info("Login added to DB");
     }
 
     public LoginAccount get(String username){
@@ -40,9 +41,11 @@ public class JdbcLoginDao implements LoginDao {
                 "select * from loginaccount where username = ?",
                 (rs, rowNum) -> new LoginAccount(rs.getString("username"), rs.getString("password"), rs.getString("token")),
                 username);
-        if(loginList.isEmpty()){
+        if(loginList.size() != 1){
+            logger.info("Login not found");
             return null;
         } else {
+            logger.info("Login retrieved from DB");
             return loginList.get(0);
         }
     }
@@ -51,10 +54,12 @@ public class JdbcLoginDao implements LoginDao {
     public void update(String username, String password, String token) {
         jdbcTemplate.update("update loginaccount set username = ?, password  = ?, token = ? where username = ?",
                 username, password, token, username);
+        logger.info("Login updated");
     }
 
     @Override
     public void delete(String username) {
         jdbcTemplate.update("delete from loginaccount where username = ?", username);
+        logger.info("Login deleted");
     }
 }

@@ -15,7 +15,7 @@ public class RegisterMailData extends MailData {
         this.pageUrl = "src/main/resources/static/default_mail.html";
         this.sender = "BigBossNijntje@BitBank.com";
         this.mailSubject = "Registratie BitBank - Email bevestiging";
-        this.mailText = "Je bent er bijna! \n Klik a.u.b. binnen 30 minuten na ontvangst op de onderstaande knop om je registratie af te ronden.";
+        this.mailText = "Je bent er bijna! <br> Klik a.u.b. binnen 30 minuten na ontvangst op de onderstaande knop om je registratie af te ronden.";
         this.receiver = receiver;
         this.token = token;
     }
