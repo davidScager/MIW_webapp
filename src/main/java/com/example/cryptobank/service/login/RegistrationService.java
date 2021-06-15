@@ -48,12 +48,7 @@ public class RegistrationService {
 
     public boolean validate(UserLoginAccount userLoginAccount){
         logger.info("Validating registration information with database");
-        User user = userLoginAccount.getUser();
-        //JdbcTemplate.queryForObject(select exists(dao)) voor de check
-        //directly from userDao and loginDao
-        return user != null
-                && rootRepository.getLoginByUsername(userLoginAccount.getUser().getEmail()) == null
-                && rootRepository.getUserByBsn(user.getBSN()) == null;
+        return !rootRepository.alreadyRegistered(userLoginAccount);
     }
 
     public String cacheNewUserWithToken(UserLoginAccount userLoginAccount){

@@ -13,4 +13,5 @@ public interface LoginDao {
     LoginAccount get(String username);
     void update(String username, String password, String token);
     void delete(String username);
+    boolean loginExists(String username);
 }

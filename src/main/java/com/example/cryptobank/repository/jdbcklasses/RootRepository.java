@@ -3,6 +3,7 @@ package com.example.cryptobank.repository.jdbcklasses;
 import com.example.cryptobank.domain.asset.Asset;
 import com.example.cryptobank.domain.asset.AssetPortfolio;
 import com.example.cryptobank.domain.login.LoginAccount;
+import com.example.cryptobank.domain.login.UserLoginAccount;
 import com.example.cryptobank.domain.portfolio.Portfolio;
 import com.example.cryptobank.domain.transaction.Transaction;
 import com.example.cryptobank.domain.transaction.TransactionHTMLBank;
@@ -46,6 +47,12 @@ public class RootRepository {
         this.assetPortfolioDao = assetPortfolioDao;
         this.transactionDao = transactionDao;
         this.logDao = logDao;
+    }
+
+    public boolean alreadyRegistered(UserLoginAccount userLoginAccount){
+        int bsn = userLoginAccount.getUser().getBSN();
+        String username = userLoginAccount.getUser().getEmail();
+        return userDao.userExists(username, bsn) && loginDAO.loginExists(username);
     }
 
     /**
