@@ -67,24 +67,23 @@ h4 {
 .form-box {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .form-box.item {
     display: flex;
     flex-flow: column nowrap;
-    justify-content: space-between;
-    text-align: center;
-    width: 40%;
-    max-width: 800px;
-    min-height: 800px;
+    width: auto;
+    margin-top: 40px;
     background-color: white;
-    margin: 60px auto auto;
-    outline: none;
-    border: none;
-    padding: 20px;
-    border-radius: 6px;
-    font-size: 18px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+h5 {
+    text-align: center;
+    font-size: 30px;
 }
 
 .button {
