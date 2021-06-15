@@ -3,6 +3,7 @@ package com.example.cryptobank.controller;
 import com.example.cryptobank.domain.asset.Asset;
 import com.example.cryptobank.domain.asset.AssetViewForSale;
 import com.example.cryptobank.repository.jdbcklasses.JdbcAssetPortfolioDao;
+import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import com.example.cryptobank.service.assetenportfolio.AssetService;
 import com.example.cryptobank.service.currency.CurrencyHistory;
 import org.slf4j.Logger;
@@ -25,13 +26,15 @@ public class AssetController {
     private final CurrencyHistory currencyHistory;
     private final AssetService assetService;
     private final JdbcAssetPortfolioDao jdbcAssetPortfolioDao;
+    private final RootRepository rootReposistory;
 
     @Autowired
-    public AssetController(CurrencyHistory currencyHistory, AssetService assetService, JdbcAssetPortfolioDao jdbcAssetPortfolioDao) {
+    public AssetController(CurrencyHistory currencyHistory, AssetService assetService, JdbcAssetPortfolioDao jdbcAssetPortfolioDao, RootRepository rootReposistory) {
         super();
         this.currencyHistory = currencyHistory;
         this.assetService = assetService;
         this.jdbcAssetPortfolioDao = jdbcAssetPortfolioDao;
+        this.rootReposistory = rootReposistory;
         logger.info("New AssetController");
     }
 
@@ -60,11 +63,15 @@ public class AssetController {
 
     @GetMapping("/updateassetsbyapiv2")
     @CrossOrigin
-    public List<AssetViewForSale> updateAssetsByApiV2() {
-        List<Asset> assetList = assetService.showAssetList();
+    public List<AssetViewForSale> updateAssetsByApiV2(@RequestParam String update) {
+        List<Asset> assetList = rootReposistory.showAssetOverview();
         List<AssetViewForSale> assetViewForSaleList = new ArrayList<>();
+        System.out.println("in updateassetsbyapiv2");
         for (Asset asset : assetList){
-            //asset = assetService.updateAssetByApi(asset.getApiName());
+            // Update indien van toepassing
+            if (update.equals("true")) {
+                asset = assetService.updateAssetByApi(asset.getApiName());
+            }
 
             AssetViewForSale assetViewForSale = new AssetViewForSale();
             assetViewForSale.setAbbreviation(asset.getAbbreviation());
@@ -78,6 +85,7 @@ public class AssetController {
                 if ((Integer)map.get("portfolioId") == 101){
                     assetViewForSale.setAvailableBank((Double) map.get("forSale"));
                 } else {
+                    System.out.println("Portfolio id "+ (Integer) map.get("portfolioId")+ " For sale "+(Double) map.get("forSale"));
                     otherForSale += (Double) map.get("forSale");
                 }
             }
@@ -92,6 +100,7 @@ public class AssetController {
     @GetMapping("/updateassetbyapi")
     @CrossOrigin
     public Asset updateAssetByApi(@RequestParam String apiname) {
+        System.out.println("in updateAssetByApi");
         Asset asset = assetService.updateAssetByApi(apiname);
         return asset;
     }

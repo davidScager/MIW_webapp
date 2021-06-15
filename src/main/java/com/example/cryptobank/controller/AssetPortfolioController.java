@@ -83,4 +83,23 @@ public class AssetPortfolioController {
         //return new ResponseEntity<JSONObject>(jsonObject, HttpStatus.OK);
     }
 
+    @PostMapping("/updatebuyasset")
+    @CrossOrigin
+    public ResponseEntity<String> updatebuyasset(@RequestHeader(value = "Authorization") String token,@RequestBody Map<String, String> requestParams) {
+        JSONObject jsonObject = new JSONObject();
+
+        String symbol = requestParams.get("symbol");
+        Double amountUsd = Double.parseDouble(requestParams.get("amountUsd"));
+        String payWith = requestParams.get("payWith");
+        System.out.println("symbol " + symbol + " amountUsd " + amountUsd+  " payWith " + payWith);
+
+        User user = userService.getUserFromToken(token);
+        long userId = user.getId();
+        System.out.println("Token "+token);
+        System.out.println("userId "+userId);
+
+        // Transactie???
+        return new ResponseEntity<String>("You are f....", HttpStatus.OK);
+    }
+
 }

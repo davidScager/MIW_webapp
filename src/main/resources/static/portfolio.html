@@ -24,11 +24,13 @@
                document.getElementById("login/logoutButton").innerHTML = "Login"
            }
            //loadAssets();
-           loadAssetsV2()
+           //alert("Ready")
+           loadAssetsV2("false")
        });
 
        $( window ).resize(function() {
             setHeightsWidths();
+            //alert("Resized?")
        });
 
        function setHeightsWidths(){
@@ -54,40 +56,52 @@
        // Scrollable table column can only set correct with a width
        function setColumnWidth(tableId, columnClass, percentage){
             var tableWidth = $(tableId).width();
-            console.log( "tableWidth " +tableWidth);
+            //console.log( "tableWidth " +tableWidth);
             // VB $('#selectable_portfolio  .col_1').width(parseInt(600/3))
             var columnRef = tableId+" "+columnClass;
             // Width moet int zijn
-            console.log( "columnRef " +columnRef +" width "+parseInt((tableWidth/100) * percentage));
+            //console.log( "columnRef " +columnRef +" width "+parseInt((tableWidth/100) * percentage));
             $(columnRef).width(parseInt((tableWidth/100) * percentage))
         }
 
         // When the user clicks on <span> (x), close the modal
-        function closeDialog() {
-            var modal = document.getElementById("assetDialog");
-            modal.style.display = "none";
-        }
+       function closeDialog() {
+           var modal = document.getElementById("assetDialog");
+           modal.style.display = "none";
+           var modal = document.getElementById("assetDialogbuy");
+           modal.style.display = "none";
+       }
 
-         // When the user clicks anywhere outside of the modal, close it
-         window.onclick = function(event) {
-            var modal = document.getElementById("assetDialog");
-            if (event.target == modal) {
-                var modal = document.getElementById("assetDialog");
-                modal.style.display = "none";
-            }
-         }
 
-        function buyAsset(symbol, name){
+
+       // When the user clicks anywhere outside of the modal, close it
+       window.onclick = function(event) {
+           var modal = document.getElementById("assetDialog");
+           if (event.target == modal) {
+               modal.style.display = "none";
+           }
+           var modal = document.getElementById("assetDialogbuy");
+           if (event.target == modal) {
+               modal.style.display = "none";
+           }
+
+       }
+
+       function buyAsset(symbol, name){
             //alert("Buy "+symbol+" name "+name)
-            var element = document.getElementById("dialog_header");
+            var element = document.getElementById("dialog_header_buy");
             element.innerText = "Buy: "+ symbol;
-            var modal = document.getElementById("assetDialog");
+            var modal = document.getElementById("assetDialogbuy");
             modal.style.display = "block";
-            var assetName = document.getElementById("dialog_asset_name");
-            assetName.innerText = name;
-        }
+            var assetName = document.getElementById("dialog_asset_name_buy");
+            assetName.innerText = "Buy: "+name;
 
-        function assetForSale(symbol, name){
+            var symbolElem = document.getElementById("symbol_to_buy");
+            symbolElem.value = symbol;
+
+       }
+
+       function assetForSale(symbol, name){
             //alert("Buy "+symbol+" name "+name)
             var element = document.getElementById("dialog_header");
             element.innerText = "For sale: "+ symbol;
@@ -97,9 +111,36 @@
             assetName.innerText = name;
             var symbolElem = document.getElementById("symbol_for_sale");
             symbolElem.value = symbol;
-        }
+       }
 
-        function updateAssetForSale(token) {
+       function updateBuyAsset(token){
+            let symbol = document.getElementById("symbol_to_buy").value;
+            let amountUsd = document.getElementById("amountToBuyUSD").value;
+            let payWith = $( "#payWith option:selected" ).val();
+            alert("symbol " + symbol+ " amountUsd "+ amountUsd + " payWith "+payWith);
+
+            fetch("http://localhost:8080/updatebuyasset", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    "Authorization": "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    symbol: symbol,
+                    amountUsd: amountUsd,
+                    payWith: payWith
+                })
+            })
+            .then(response => response.text())
+            .then(response => {
+                alert(response);
+                console.log(response);
+            })
+
+       }
+
+       function updateAssetForSale(token) {
             // url
             let symbolElem = document.getElementById("symbol_for_sale");
             let symbol = symbolElem.value
@@ -154,11 +195,12 @@
                 })
 
             }
-        }
+       }
 
-        function loadAssetsV2() {
+       function loadAssetsV2(update) {
+            // Leeg table assests
             $('#selectable_assets > tbody').empty();
-            $.getJSON("http://localhost:8080/updateassetsbyapiv2", function (data) {
+            $.getJSON("http://localhost:8080/updateassetsbyapiv2?update="+update, function (data) {
                 var json_str = JSON.stringify(data);
                 var asset_row = '';
                 for (i in data) {
@@ -177,34 +219,93 @@
                 setHeightsWidths();
             });
 
-        }
+       }
 
+       // oud
+       function loadAssets() {
+            $('#selectable_assets > tbody').empty();
+            $.getJSON("http://localhost:8080/updateassetsbyapi", function (data) {
+                var json_str = JSON.stringify(data);
+                var asset_row = '';
+                for (i in data) {
+                    console.log("jow");
+                    console.log(JSON.stringify(data[i]));
+                    // Append table row
+                    asset_row += '<tr onclick="buyAsset(\'' + data[i].abbreviation + '\',\'' + data[i].name + '\');" id="asset_row" class="ui-widget-content asset_row">';
+                    asset_row += '   <td class="col_1">' + data[i].abbreviation + '</td>';
+                    asset_row += '   <td class="col_2"  title="' + data[i].description + '">' + data[i].name + '</td>';
+                    asset_row += '   <td class="col_3">' + data[i].valueInUsd + '</td>';
+                    asset_row += '   <td class="col_4">' + data[i].valueYesterday + '</td>';
+                    asset_row += '   <td class="col_5">' + data[i].valueLastWeek + '</td>';
+                    asset_row += '   <td class="col_6">' + data[i].valueLastMonth + '</td>';
+                    asset_row += '</tr>';
 
-            function loadAssets() {
-                $('#selectable_assets > tbody').empty();
-                $.getJSON("http://localhost:8080/updateassetsbyapi", function (data) {
+                }
+                console.log(asset_row);
+                $('#selectable_assets > tbody').append(asset_row);
+                setHeightsWidths();
+            });
+
+       }
+
+       // Doe 2 dingen update portfolio en paywith indien buy
+       function loadPortfolio(token) {
+            console.log("Loadportfolio() aangeroepen voor token " + token)
+            if (token === null) {
+                console.log("SessionNotValid() aangeroepen voor token " + token)
+                sessionNotValid()
+            } else {
+                $.ajaxSetup({
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                         "Authorization": "Bearer " + token
+                    }
+                });
+
+                // Leeg select  assets in portfolio
+                $('#selectable_portfolio > tbody').empty();
+
+                // Leeg select available assets portfolio to pay with
+                // https://stackoverflow.com/questions/47824/how-do-you-remove-all-the-options-of-a-select-box-and-then-add-one-option-and-se
+                $('#payWith').find('option').remove().end();
+
+                $.post("http://localhost:8080/listportfolio",
+                {
+                    extra: "hille"
+                },
+                function (data, status) {
                     var json_str = JSON.stringify(data);
+                    console.log(JSON.stringify(data));
                     var asset_row = '';
                     for (i in data) {
                         console.log("json row");
                         console.log(JSON.stringify(data[i]));
-                        asset_row += '<tr onclick="buyAsset(\'' + data[i].abbreviation + '\',\'' + data[i].name + '\');" id="asset_row" class="ui-widget-content asset_row">';
-                        asset_row += '   <td class="col_1">' + data[i].abbreviation + '</td>';
-                        asset_row += '   <td class="col_2"  title="' + data[i].description + '">' + data[i].name + '</td>';
-                        asset_row += '   <td class="col_3">' + data[i].valueInUsd + '</td>';
-                        asset_row += '   <td class="col_4">' + data[i].valueYesterday + '</td>';
-                        asset_row += '   <td class="col_5">' + data[i].valueLastWeek + '</td>';
-                        asset_row += '   <td class="col_6">' + data[i].valueLastMonth + '</td>';
+                        asset_row += '<tr onclick="assetForSale(\'' + data[i].assetName + '\',\'' + data[i].assetDescription + '\');" id="asset_row" class="ui-widget-content asset_row">';
+                        asset_row += '   <td class="col_1">' + data[i].assetName + '</td>';
+                        asset_row += '   <td class="col_2">' + data[i].assetDescription + '</td>';
+                        asset_row += '   <td class="col_3">' + data[i].amount + '</td>';
+                        asset_row += '   <td class="col_4">' + Math.round((data[i].amountUSD * data[i].amount * 100)) / 100 + '</td>';
+                        asset_row += '   <td class="col_5">' + data[i].forSale + '</td>';
                         asset_row += '</tr>';
+                        //Append select available assets in portfolio to buy with
+                        // https://www.geeksforgeeks.org/how-to-add-options-to-a-select-element-using-jquery/
+                        $('#payWith').append(new Option(data[i].assetDescription, data[i].assetName));
+
                     }
-                    console.log(asset_row);
-                    $('#selectable_assets > tbody').append(asset_row);
-                    setHeightsWidths();
-                });
 
+                    $('#selectable_portfolio > tbody').append(asset_row);
+                        setHeightsWidths();
+                    }
+                );
             }
+       }
 
-            function loadPortfolio(token) {
+       function sessionNotValid() {
+            alert("Sessie is niet geldig, log (opnieuw) in")
+       }
+
+       function loadPortfolioForAssetChoice(token) {
                 console.log("Loadportfolio() aangeroepen voor token " + token)
                 if (token === null) {
                     console.log("SessionNotValid() aangeroepen voor token " + token)
@@ -218,7 +319,7 @@
                         }
                     });
 
-                    $('#selectable_portfolio > tbody').empty();
+                    $('#availablecurrencies > tbody').empty();
                     $.post("http://localhost:8080/listportfolio",
                         {
                             extra: "hille"
@@ -230,16 +331,11 @@
                             for (i in data) {
                                 console.log("json row");
                                 console.log(JSON.stringify(data[i]));
-                                asset_row += '<tr onclick="assetForSale(\'' + data[i].assetName + '\',\'' + data[i].assetDescription + '\');" id="asset_row" class="ui-widget-content asset_row">';
-                                asset_row += '   <td class="col_1">' + data[i].assetName + '</td>';
-                                asset_row += '   <td class="col_2">' + data[i].assetDescription + '</td>';
-                                asset_row += '   <td class="col_3">' + data[i].amount + '</td>';
-                                asset_row += '   <td class="col_4">' + Math.round((data[i].amountUSD * data[i].amount * 100)) / 100 + '</td>';
-                                asset_row += '   <td class="col_5">' + data[i].forSale + '</td>';
-                                asset_row += '</tr>';
+                                asset_row +=   data[i].assetName + '</td>';
                             }
-                            $('#selectable_portfolio > tbody').append(asset_row);
-                            setHeightsWidths();
+
+                            $('#availablecurrencies > tbody').append(asset_row);
+
                         }
                     );
                 }
@@ -247,7 +343,8 @@
 
             function sessionNotValid() {
                 alert("Sessie is niet geldig, log (opnieuw) in")
-        }
+       }
+
 
 
 
@@ -334,7 +431,7 @@
             </tbody>
         </table>
 
-        <button onclick="loadAssetsV@();">Ververs koers</button>
+        <button onclick="loadAssetsV2('true');">Ververs en update naar laatste koers</button>
     </div>
 
 </main>
@@ -360,6 +457,37 @@
             <input type="text" id="amountForSale" name="amountForSale" value="0" required>
             <hidden id="symbol_for_sale" name="symbol_for_sale" value=""/>
             <button onclick="updateAssetForSale(checkToken());">Available for sale!</button>
+        </div>
+
+
+    </div>
+
+</div>
+
+<div id="assetDialogbuy" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content asset-buy">
+        <div class="modal-header">
+            <div id="dialog_header_buy" class="as_h1"></div>
+            <div class="close" onclick="closeDialog();">&times;</div>
+        </div>
+        <div class="body_dialog_sale">
+            <h2 id="dialog_asset_name_buy"></h2>
+            <label for="toBUy">To buy in USD: </label>
+            <input type="text" id="amountToBuyUSD" name="amountToBuyUSD" value="0" required>
+            <hidden id="symbol_to_buy" name="symbol_to_buy" value=""/>
+            <form id="myForm">
+                <label for="currency">Pay with:</label>
+                <select name="payWith" id="payWith">
+                    <optgroup label="Uw beschikbare assets">
+                        <option id="availablecurrencies"></option>
+
+                    </optgroup>
+                </select>
+                <br><br>
+
+                <button onclick="updateBuyAsset(checkToken());">Buy Assets!</button>
+            </form>
         </div>
 
 
