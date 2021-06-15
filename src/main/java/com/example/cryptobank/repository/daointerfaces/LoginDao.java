@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
  * Interface for Database Access of entity loginAccount
  * @author David_Scager
  */
-@Repository
 public interface LoginDao {
     void create(String username, String password);
     LoginAccount get(String username);

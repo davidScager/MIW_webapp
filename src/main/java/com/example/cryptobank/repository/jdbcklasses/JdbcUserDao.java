@@ -31,8 +31,8 @@ public class JdbcUserDao implements UserDao {
         user.setId(rs.getLong("userid"));
         user.setFullName(new FullName(rs.getString("firstname"), rs.getString("infix"), rs.getString("surname")));
         user.setDateOfBirth(rs.getString("dateofbirth"));
-        user.setUserAddress(new UserAddress(rs.getString("streetName"), rs.getInt("houseNr"), rs.getString("addition"),
-                rs.getString("postalCode"), rs.getString("residence")));
+        user.setUserAddress(new UserAddress(rs.getString("postalCode"), rs.getInt("houseNr"), rs.getString("addition"),
+                rs.getString("streetName"), rs.getString("residence")));
         user.setEmail(rs.getString("email"));
 
         return user;
@@ -86,7 +86,7 @@ public class JdbcUserDao implements UserDao {
 
     @Override
     public boolean userExists(String username, int bsn){
-        String sql = "select exists(select * from user where email = '" + username + "' and bsn = '" + bsn + "');";
+        String sql = "select exists(select * from user where email = '" + username + "' or bsn = '" + bsn + "');";
         try {
             return jdbcTemplate.queryForObject(sql, Boolean.class);
         } catch (EmptyResultDataAccessException error) {
