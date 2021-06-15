@@ -64,7 +64,7 @@ function processAddress(json){
 function register(){
     console.log("method call register()");
     let email = document.querySelector('#email').value;
-    let password = document.querySelector('#password').value;
+    let secondPassword = document.querySelector('#repassword').value;
     fetch('http://localhost:8080/register/request',
         {
             method: 'POST',
@@ -90,19 +90,19 @@ function register(){
                     },
                     email: email
                 },
-                password: password
+                password: secondPassword
             })
         })
         .then(response => {
             console.log(response);
-            if (response.ok){
+            if (response.statusText === 'Accepted'){
                 afterRegister();
             } else {
                 window.location.replace('http://localhost:8080/register/failed');
             }
         })
         .catch((error) => {
-            console.error('Foutje', error);
+            console.error('Foutje', error.toString());
             alert("Registratie mislukt");
         })
 }

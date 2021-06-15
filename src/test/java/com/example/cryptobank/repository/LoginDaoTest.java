@@ -50,7 +50,7 @@ class LoginDaoTest {
             boolean exists = jdbcTemplate.queryForObject(sql, Boolean.class);
             assertThat(exists).isTrue();
         } catch (EmptyResultDataAccessException error) {
-            failBecauseExceptionWasNotThrown(EmptyResultDataAccessException.class);
+            fail("No return from SQL statement");
         }
     }
 
@@ -71,5 +71,18 @@ class LoginDaoTest {
         LoginAccount loginAccount = testLoginDao.get(USERNAME);
         assertThat(loginAccount.getHash()).isEqualTo(actualHash);
         assertThat(loginAccount.getToken()).isEqualTo(actualToken);
+    }
+
+    @Test
+    @Order(5)
+    void loginAccountDeleted(){
+        testLoginDao.delete(USERNAME);
+        String sql = "select exists(select * from loginaccount where username= 'Somebody')";
+        try {
+            boolean exists = jdbcTemplate.queryForObject(sql, Boolean.class);
+            assertThat(exists).isFalse();
+        } catch (EmptyResultDataAccessException error) {
+            fail("No return from SQL statement");
+        }
     }
 }
