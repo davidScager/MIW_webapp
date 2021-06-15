@@ -1,8 +1,8 @@
 package com.example.cryptobank.domain.maildata;
 
 public abstract class MailData {
-    private String firstUrl;
-    private String secondUrl;
+    private String linkUrl;
+    private String pageUrl;
     private String sender;
     private String mailSubject;
     private String mailText;
@@ -10,10 +10,10 @@ public abstract class MailData {
     private String receiver;
     private String token;
 
-    public abstract String getFirstUrl();
+    public abstract String getLinkUrl();
 
-    public void setFirstUrl(String firstUrl) {
-        this.firstUrl = firstUrl;
+    public void setLinkUrl(String linkUrl) {
+        this.linkUrl = linkUrl;
     }
 
     public String getSender() {
@@ -64,11 +64,11 @@ public abstract class MailData {
         this.mailText = mailText;
     }
 
-    public String getSecondUrl() {
-        return secondUrl;
+    public String getPageUrl() {
+        return pageUrl;
     }
 
-    public void setSecondUrl(String secondUrl) {
-        this.secondUrl = secondUrl;
+    public void setPageUrl(String pageUrl) {
+        this.pageUrl = pageUrl;
     }
 }

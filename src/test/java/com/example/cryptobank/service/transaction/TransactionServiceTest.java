@@ -48,7 +48,7 @@ class TransactionServiceTest {
 
     @Test
     void returns_null_if_token_is_invalid() {
-        var transactionTest = new TransactionService(mockRootRepository, mockTokenService, mockMailSenderService, mockGenerateMailContent);
+        var transactionTest = new TransactionService(mockRootRepository, mockTokenService, mockMailSenderService, mockGenerateMailContent, mailSenderFacade);
         List<TransactionHTMLClient> actualList = transactionTest.authorizeAndGetAssets("456");
         assertThat(actualList).isNull();
     }
@@ -67,14 +67,14 @@ class TransactionServiceTest {
 
     @Test
     void returns_arraylist_with_values() {
-        var transactionTest = new TransactionService(mockRootRepository, mockTokenService, mockMailSenderService, mockGenerateMailContent);
+        var transactionTest = new TransactionService(mockRootRepository, mockTokenService, mockMailSenderService, mockGenerateMailContent, mailSenderFacade);
         ArrayList<TransactionHTMLClient> actualList = transactionTest.authorizeAndGetAssets("123");
         assertThat(actualList).isNotNull();
     }
 
     @Test
     void createNewTransaction() {
-        var transactionTest = new TransactionService(mockRootRepository, mockTokenService, mockMailSenderService, mockGenerateMailContent);
+        var transactionTest = new TransactionService(mockRootRepository, mockTokenService, mockMailSenderService, mockGenerateMailContent, mailSenderFacade);
         //Transaction actualTransaction = transactionTest.createNewTransaction(1,2,2,0.3, "BTC", "ETH");
         //assertThat(actualTransaction.getTransactionLog()).isEqualTo(new TransactionLog(2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1));
     }

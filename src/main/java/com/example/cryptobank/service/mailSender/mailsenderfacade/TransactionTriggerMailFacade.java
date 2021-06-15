@@ -11,12 +11,12 @@ import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 
 @Service
-public class SendMailServiceFacade implements MailSenderFacade {
+public class TransactionTriggerMailFacade implements MailSenderFacade {
     private final MailSenderService mailSenderService;
     private final GenerateMailContent generateMailContent;
 
     @Autowired
-    public SendMailServiceFacade(MailSenderService mailSenderService, GenerateMailContent generateMailContent) {
+    public TransactionTriggerMailFacade(MailSenderService mailSenderService, GenerateMailContent generateMailContent) {
         this.mailSenderService = mailSenderService;
         this.generateMailContent = generateMailContent;
     }
@@ -26,7 +26,6 @@ public class SendMailServiceFacade implements MailSenderFacade {
         this.mailSenderService.setSender();
         mailData.setMailContent(this.generateMailContent.setHtmlMail(mailData));
         this.mailSenderService.sendMail(mailData);
+        //geen createUrl?
     }
 }
-
-
