@@ -2,7 +2,7 @@ function getToken() {
     const url = window.location;
     const token = new URLSearchParams(url.search).get('Authorization');
     localStorage.setItem("token", token);
-    fetch("http://localhost:8080/reset/createnewpassword", {
+    fetch("http://miw-team-2.nl/reset/createnewpassword", {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -24,7 +24,7 @@ function getToken() {
 
 function showPage(data) {
     if (data === false) {
-        window.location.replace("http://localhost:8080/resetdenied.html");
+        window.location.replace("http:/miw-team-2.nl/resetdenied.html");
     }
 }
 
@@ -34,13 +34,13 @@ let passwordMatches = false;
 
 function initiateReset() {
     const email = new FormDataInsert(new RegExp(/^[^ ]+@[^ ]+\.[a-z]{2,3}$/),
-        "http://localhost:8080/reset/resetpassword", ["email"])
+        "http://miw-team-2.nl/reset/resetpassword", ["email"])
 
     email.resetPassword();
 }
 
 function initiateNewPassword() {
-    const passwordReset = new FormDataInsert(new RegExp(/^.{8,100}$/), "http://localhost:8080/reset/setnewpassword",
+    const passwordReset = new FormDataInsert(new RegExp(/^.{8,100}$/), "http://miw-team-2.nl/reset/setnewpassword",
          ["password"])
     console.log(passwordMatches)
     if (passwordMatches === true) {

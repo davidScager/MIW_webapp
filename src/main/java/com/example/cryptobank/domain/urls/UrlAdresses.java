@@ -2,8 +2,8 @@ package com.example.cryptobank.domain.urls;
 
 public class UrlAdresses {
 
-    //private final String address = "http://miw-team-2.nl";
-    private final String address = "http://localhost:8080";
+    private final String address = "http://miw-team-2.nl";
+    //private final String address = "http://localhost:8080";
     private final String registrationPage = address + "/register";
     private final String registrationPageUrl = address + "/registreren.html";
     private final String registrationFailedPage = address + "/register/failed";
