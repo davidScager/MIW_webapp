@@ -78,21 +78,28 @@ button{
     transition: all 0.3s ease 0s;
 }
 
+.confirm{
+    position: relative;
+    left: 25px;
+
+}
+
+.reset{
+    position: relative;
+    left: 35px;
+    margin-right: 10px;
+}
+
+
 button:hover{
     background-color: darkslategrey;
 }
 
+.myFooter{
+    position: absolute;
+    bottom: 0;
 
-
-
-
-
-
-
-
-
-
-
+}
 
 body{
     margin: 0;
@@ -103,7 +110,8 @@ h1{
     position: relative;
     margin: 0 0 10px;
     padding: 0;
-    left: 75px;
+    left: 78px;
+    color: white;
 }
 
 .box{
@@ -117,6 +125,10 @@ h1{
 #passwordReset{
     font-size: small;
     margin: 10px;
+    color: aliceblue;
+    position: relative;
+    left: 45px;
+    top: 10px
 }
 
 input{

@@ -5,6 +5,16 @@ let email
 let passwordElement
 let password
 let errorMessage
+let passwordEmpty
+
+function clearInput(){
+    gatherInput()
+    emailElement.value=""
+    passwordElement.value=""
+    emailElement.style.boxShadow = "none"
+    passwordElement.style.boxShadow = "none"
+    errorMessage.style.visibility = "hidden"
+}
 
 function gatherInput() {
     emailElement = document.querySelector("#email")
@@ -35,17 +45,14 @@ function loadReset() {
     }
 }
 
-function checkEmailNotEmpty() {
-    if (email === "") {
-        emailElement.style.boxShadow = "0 0 3px #CC0000"
-        errorMessage.innerText = "Velden mogen niet leeg zijn"
-        errorMessage.style.visibility = "visible"
-    }
-}
-
-function checkPasswordNotEmpty() {
-    if (password === "") {
-        passwordElement.style.boxShadow = "0 0 3px #CC0000"
+function checkFieldNotEmpty(field, element){
+    if (field === ""){
+        if(element === "email"){
+            emailElement.style.boxShadow = "0 0 3px #CC0000"
+        } else {
+            passwordElement.style.boxShadow = "0 0 3px #CC0000"
+            passwordEmpty = true
+        }
         errorMessage.innerText = "Velden mogen niet leeg zijn"
         errorMessage.style.visibility = "visible"
     }
@@ -77,18 +84,19 @@ function handleResponse(response) {
         console.log("Token na inlog: " + token)
         localStorage.setItem("token", token)
         window.location.replace("http://localhost:8080/homeSchermIngelogd.html")
-    } else {
+    } else if(!passwordEmpty){
         emailElement.style.boxShadow = "0 0 3px #CC0000"
         passwordElement.style.boxShadow = "0 0 3px #CC0000"
         errorMessage.innerText = "Combinatie gebruikersnaam en wachtwoord klopt niet"
         errorMessage.style.visibility = "visible"
     }
+    passwordEmpty = false
 }
 
 function sendData() {
     gatherInput()
-    checkEmailNotEmpty()
-    checkPasswordNotEmpty()
+    checkFieldNotEmpty(email, "email")
+    checkFieldNotEmpty(password, "password")
     let emailValidator = getEmailValidator()
     if (emailValidator.test(email)) {
         setupFetchMethod().then(response => {
