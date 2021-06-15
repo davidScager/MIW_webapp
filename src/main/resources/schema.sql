@@ -26,20 +26,12 @@ CREATE TABLE if not exists User(
     infix           VARCHAR(45) NULL,
     surname         VARCHAR(45) NOT NULL,
     dateOfBirth     DATE        NOT NULL,
-    streetName      VARCHAR(45) NOT NULL,
+    postalCode      varchar(6)  NOT NULL,
     houseNr         INT         NOT NULL,
     addition        varchar(5)  NULL,
-    postalCode      varchar(6)  NOT NULL,
+    streetName      VARCHAR(45) NOT NULL,
     residence       varchar(45) NOT NULL,
-    email           VARCHAR(100) NOT NULL,
-    FOREIGN KEY (email)
-        REFERENCES LoginAccount (username)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
-    FOREIGN KEY (userId)
-        REFERENCES Actor (userId)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+    email           VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE if not exists Asset(

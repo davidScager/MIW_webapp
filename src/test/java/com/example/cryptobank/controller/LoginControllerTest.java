@@ -13,9 +13,6 @@ import org.mockito.Mockito;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.*;
 
-/**
- @Auth HvS
- **/
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class LoginControllerTest {

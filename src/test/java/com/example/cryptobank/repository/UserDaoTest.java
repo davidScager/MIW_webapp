@@ -8,27 +8,32 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 
 @SpringBootTest
 @ActiveProfiles("test")
 class UserDaoTest {
     private final UserDao userTestDao;
+    private final JdbcTemplate jdbcTemplate;
     private static User userExpected;
 
     @Autowired
-    public UserDaoTest(UserDao userTestDao) {
+    public UserDaoTest(UserDao userTestDao, JdbcTemplate jdbcTemplate) {
         this.userTestDao = userTestDao;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @BeforeAll
     public static void setup() {
         userExpected = new User(123456, new FullName("Huib", "van", "Straten"),
-                "1982-01-29", new UserAddress("van lierdreef", 8, "b", "2252BX", "Voorschoten"),
+                "1982-01-29", new UserAddress("2252BX", 8,  "b", "van Lierdreef", "Voorschoten"),
                 "huib@huib.com");
         userExpected.setId(7);
     }
@@ -54,8 +59,13 @@ class UserDaoTest {
     void user_is_added() {
         userExpected.setId(8);
         userTestDao.create(userExpected);
-        List<User> actualList = userTestDao.list();
-        assertThat(actualList.size()).isEqualTo(3);
+        String sql = "select exists(select * from user where firstName= 'huib')";
+        try {
+            boolean exists = jdbcTemplate.queryForObject(sql, Boolean.class);
+            assertThat(exists).isTrue();
+        } catch (EmptyResultDataAccessException error) {
+            failBecauseExceptionWasNotThrown(EmptyResultDataAccessException.class);
+        }
     }
 
     @Test
@@ -81,11 +91,14 @@ class UserDaoTest {
 
     @Test
     void user_is_deleted() {
-        userExpected.setId(7);
         userTestDao.delete(123456);
-        userTestDao.create(userExpected);
-        List<User> actualList = userTestDao.list();
-        assertThat(actualList.size()).isEqualTo(3);
+        String sql = "select exists(select * from user where firstName= 'huib')";
+        try {
+            boolean exists = jdbcTemplate.queryForObject(sql, Boolean.class);
+            assertThat(exists).isFalse();
+        } catch (EmptyResultDataAccessException error) {
+            failBecauseExceptionWasNotThrown(EmptyResultDataAccessException.class);
+        }
     }
 }
 
