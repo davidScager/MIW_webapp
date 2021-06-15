@@ -12,7 +12,7 @@ public class ResetMailData extends MailData {
 
     public ResetMailData(String receiver, String token) {
         this.linkUrl = "http://localhost:8080/create_new_password.html";
-        this.pageUrl = "src/main/resources/static/resetPasswordMail.html";
+        this.pageUrl = "src/main/resources/static/default_mail.html";
         this.sender = "BigBossNijntje@BitBank.com";
         this.mailSubject = "Reset uw account";
         this.receiver = receiver;
@@ -93,5 +93,18 @@ public class ResetMailData extends MailData {
     @Override
     public void setMailText(String mailText) {
         this.mailText = mailText;
+    }
+
+    @Override
+    public String toString() {
+        return "AssetMailData{" +
+                "linkUrl='" + linkUrl + '\'' +
+                ", pageUrl='" + pageUrl + '\'' +
+                ", sender='" + sender + '\'' +
+                ", mailSubject='" + mailSubject + '\'' +
+                ", mailText='" + mailText + '\'' +
+                ", mailContent='" + mailContent + '\'' +
+                ", receiver='" + receiver + '\'' +
+                '}';
     }
 }

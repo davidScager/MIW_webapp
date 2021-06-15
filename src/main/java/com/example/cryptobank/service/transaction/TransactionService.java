@@ -212,6 +212,7 @@ public class TransactionService {
     private void executeTransaction(TransactionData transactionData) throws IOException, MessagingException {
         createNewTransaction(transactionData);
         MailData assetMailData = new AssetMailData();
+        assetMailData.setReceiver(transactionData.getUsername());
         assetMailData.setMailSubject("Succesvolle Transactie");
         if (transactionData.getBuyer() == 1) {
             assetMailData.setMailText(String.format("Geachte %s,\nU heeft een order geplaatst voor de koop/verkoop van %s bij het bereiken van de waarde %.2f." +
@@ -229,6 +230,7 @@ public class TransactionService {
         transactionData.setAssetSold("USD");
         createNewTransaction(transactionData);
         MailData assetMailData = new AssetMailData();
+        assetMailData.setReceiver(transactionData.getUsername());
         assetMailData.setMailSubject("Succesvolle transactie in dollars");
         assetMailData.setMailText(String.format("Geachte %s,\nU heeft een order geplaatst voor de verkoop van %s bij het bereiken van de waarde %.2f." +
                         "Helaas hebben wij op het moment van transactie niet voldoende van de gewenste assets. Wij betalen u uit in dollars" +
@@ -240,6 +242,7 @@ public class TransactionService {
     //klant heeft niet genoeg
     private void sendMailInsufficentAmount(TransactionData transactionData) throws MalformedURLException, MessagingException, FileNotFoundException {
         MailData assetMailData = new AssetMailData();
+        assetMailData.setReceiver(transactionData.getUsername());
         assetMailData.setMailSubject("Succesvolle transactie in dollars");
         assetMailData.setMailText(String.format("Geachte %s,\nU heeft een order geplaatst voor de koop/verkoop van %s bij het bereiken van de waarde %.2f." +
                         "Helaas heeft u niet de voldoende hoeveelheid assets om uw order te voltooien. Wij zullen deze daarom annuleren. Ga naar de website voor het maken " +
@@ -250,6 +253,7 @@ public class TransactionService {
 
     private void sendMailWithExcuse(TransactionData transactionData) throws MalformedURLException, MessagingException, FileNotFoundException {
         MailData assetMailData = new AssetMailData();
+        assetMailData.setReceiver(transactionData.getUsername());
         assetMailData.setMailSubject("Transactie geannuleerd");
         assetMailData.setMailText(String.format("Geachte %s,\nU heeft een order geplaatst voor de koop/verkoop van %s bij het bereiken van de waarde %.2f." +
                         "Helaas heeft de bank niet de voldoende hoeveelheid assets om uw order te voltooien. Onze welgemeende excuses. Ga naar de website voor het maken " +

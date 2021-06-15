@@ -1,6 +1,7 @@
 package com.example.cryptobank.service.mailSender.mailsenderfacade;
 
 import com.example.cryptobank.domain.maildata.MailData;
+import com.example.cryptobank.service.mailSender.CreateURLHelper;
 import com.example.cryptobank.service.mailSender.GenerateMailContent;
 import com.example.cryptobank.service.mailSender.MailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,8 @@ public class SendMailServiceFacade implements MailSenderFacade {
     @Override
     public void sendMail(MailData mailData) throws MalformedURLException, MessagingException, FileNotFoundException {
         this.mailSenderService.setSender();
-        mailData.setMailContent(this.generateMailContent.setHtmlMail(mailData));
+        String resetLink = CreateURLHelper.generateToken(mailData);
+        mailData.setMailContent(this.generateMailContent.setHtmlMail(mailData, resetLink));
         this.mailSenderService.sendMail(mailData);
     }
 }

@@ -1,7 +1,8 @@
 package com.example.cryptobank.domain.maildata;
 
-public class RegisterMailData extends MailData{
-    private String firstUrl;
+public class RegisterMailData extends MailData {
+    private String linkUrl;
+    private String pageUrl;
     private String sender;
     private String mailSubject;
     private String mailText;
@@ -10,7 +11,8 @@ public class RegisterMailData extends MailData{
     private String token;
 
     public RegisterMailData(String receiver, String token) {
-        this.firstUrl = "http://localhost:8080/register/finalize";
+        this.linkUrl = "http://localhost:8080/register/finalize";
+        this.pageUrl = "src/main/resources/static/default_mail.html";
         this.sender = "BigBossNijntje@BitBank.com";
         this.mailSubject = "Registratie BitBank - Email bevestiging";
         this.mailText = "Je bent er bijna! \n Klik a.u.b. binnen 30 minuten na ontvangst op de onderstaande knop om je registratie af te ronden.";
@@ -19,19 +21,23 @@ public class RegisterMailData extends MailData{
     }
 
     @Override
-    public String getFirstUrl() {
-        return null;
+    public String getLinkUrl() {
+        return linkUrl;
     }
 
-    public void setFirstUrl(){
+    @Override
+    public void setLinkUrl(String linkUrl) {
+        this.linkUrl = linkUrl;
     }
 
-    public String getSecondUrl() {
-        return firstUrl;
+    @Override
+    public String getPageUrl() {
+        return pageUrl;
     }
 
-    public void setSecondUrl(String secondUrl){
-        this.firstUrl = secondUrl;
+    @Override
+    public void setPageUrl(String pageUrl) {
+        this.pageUrl = pageUrl;
     }
 
     @Override
@@ -92,5 +98,18 @@ public class RegisterMailData extends MailData{
     @Override
     public void setToken(String token) {
         this.token = token;
+    }
+
+    @Override
+    public String toString() {
+        return "AssetMailData{" +
+                "linkUrl='" + linkUrl + '\'' +
+                ", pageUrl='" + pageUrl + '\'' +
+                ", sender='" + sender + '\'' +
+                ", mailSubject='" + mailSubject + '\'' +
+                ", mailText='" + mailText + '\'' +
+                ", mailContent='" + mailContent + '\'' +
+                ", receiver='" + receiver + '\'' +
+                '}';
     }
 }

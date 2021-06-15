@@ -11,6 +11,7 @@ public class AssetMailData extends MailData {
 
     public AssetMailData() {
         this.linkUrl = "http://localhost:8080/logincontroller.html";
+        this.pageUrl = "src/main/resources/static/default_mail.html";
         this.sender = "BigBossNijntje@BitBank.com";
     }
 
@@ -29,6 +30,7 @@ public class AssetMailData extends MailData {
     public void setPageUrl(String pageUrl) {
         this.pageUrl = pageUrl;
     }
+
 
     public String getSender() {
         return sender;
@@ -68,5 +70,18 @@ public class AssetMailData extends MailData {
 
     public void setReceiver(String receiver) {
         this.receiver = receiver;
+    }
+
+    @Override
+    public String toString() {
+        return "AssetMailData{" +
+                "linkUrl='" + linkUrl + '\'' +
+                ", pageUrl='" + pageUrl + '\'' +
+                ", sender='" + sender + '\'' +
+                ", mailSubject='" + mailSubject + '\'' +
+                ", mailText='" + mailText + '\'' +
+                ", mailContent='" + mailContent + '\'' +
+                ", receiver='" + receiver + '\'' +
+                '}';
     }
 }

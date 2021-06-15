@@ -6,11 +6,12 @@ import com.example.cryptobank.domain.user.Role;
 import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.domain.login.UserLoginAccount;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
-import com.example.cryptobank.service.mailSender.mailsenderfacade.SendMailServiceFacade;
+import com.example.cryptobank.service.mailSender.mailsenderfacade.MailSenderFacade;
 import com.example.cryptobank.service.security.TokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -32,15 +33,15 @@ public class RegistrationService {
     private Logger logger = LoggerFactory.getLogger(RegistrationService.class);
     private final RootRepository rootRepository;
     private final TokenService tokenService;
-    private final SendMailServiceFacade sendMailServiceFacade;
+    private final MailSenderFacade mailSenderFacade;
     private final Map<String, UserLoginAccount> registrationCache;
 
     @Autowired
     public RegistrationService(RootRepository rootRepository, TokenService tokenService,
-                               SendMailServiceFacade sendMailServiceFacade) {
+                               @Qualifier("sendMailServiceFacade") MailSenderFacade mailSenderFacade) {
         this.rootRepository = rootRepository;
         this.tokenService = tokenService;
-        this.sendMailServiceFacade = sendMailServiceFacade;
+        this.mailSenderFacade = mailSenderFacade;
         this.registrationCache = new HashMap<>();
         logger.info("RegistrationService active");
     }
@@ -74,8 +75,8 @@ public class RegistrationService {
     public void sendConfirmationEmail(String token, String email) {
         MailData registerMailData = new RegisterMailData(email, token);
         try {
-            sendMailServiceFacade.sendMail(registerMailData);
-            logger.info("Registration confirmation email sent to new client");
+            mailSenderFacade.sendMail(registerMailData);
+            logger.info("Registration confirmation email sent to new client" + registerMailData);
         } catch (MalformedURLException | MessagingException | FileNotFoundException error) {
             logger.info("Failed to send email.");
             logger.error("URL or Messaging error caught." + error.getMessage());

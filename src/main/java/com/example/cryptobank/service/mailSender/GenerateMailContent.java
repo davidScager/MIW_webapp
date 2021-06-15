@@ -18,11 +18,10 @@ public class GenerateMailContent {
         this.stringBuilder = new StringBuilder();
     }
 
-    public String setHtmlMail(MailData mailData) throws MalformedURLException, FileNotFoundException {
+    public String setHtmlMail(MailData mailData, String resetLink) throws MalformedURLException, FileNotFoundException {
         this.fileReader = new Scanner(new File(mailData.getPageUrl()));
         readHtmlFile();
         String correctText = mailContent.replace("TEKSTHIER", mailData.getMailText());
-        String resetLink = CreateURLHelper.generateToken(mailData);
         return correctText.replace("URLHIER", resetLink);
     }
 

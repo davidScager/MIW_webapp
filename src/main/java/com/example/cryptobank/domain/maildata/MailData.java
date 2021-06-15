@@ -71,4 +71,7 @@ public abstract class MailData {
     public void setPageUrl(String pageUrl) {
         this.pageUrl = pageUrl;
     }
+
+    @Override
+    public  abstract String toString();
 }
