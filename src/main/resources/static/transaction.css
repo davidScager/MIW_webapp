@@ -7,8 +7,8 @@
 .flex-box-left{
     display: flex;
     flex-flow: column nowrap;
-    width: available;
-    margin: 40px;
+    width: auto;
+    margin-top: 40px;
     font-family: Calibri, sans-serif;
     background-color: white;
     padding-top: 20px;
@@ -19,27 +19,26 @@
 .flex-box-middle{
     display: flex;
     flex-flow: column nowrap;
-    width: available;
-    margin: 40px;
+    width: auto;
+    margin-top: 40px;
     font-family: Calibri, sans-serif;
     background-color: white;
     text-align: center;
-    padding-top: 30px;
-    padding-left: 30px;
-    padding-right: 30px;
-
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .flex-box-right{
     display: flex;
     flex-flow: column nowrap;
-    width: available;
-    margin: 40px;
+    width: auto;
+    margin-top: 40px;
     font-family: Calibri, sans-serif;
     background-color: white;
-    padding-top: 30px;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .bg-model{
@@ -84,3 +83,24 @@ select{
     text-align: center;
     align-self: center;
 }
+
+input, h3{
+    text-align: center;
+}
+
+.buyOrSell{
+
+}
+
+.buy{
+
+}
+
+.sell{
+
+}
+
+.triggerBuyOrSell{
+    display: none;
+}
+

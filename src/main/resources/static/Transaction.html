@@ -44,37 +44,45 @@
     </table>
 
 </form>
-    <div class="bg-model">
-    <div class="model-content">
-        <div class="close">+</div>
-        <h3>Transactiekosten bereken</h3>
-        <input id="transactioncostfield"  placeholder="Druk hiervoor op de knop" style="text-align: center">
-    </div>
-</div>
+
     <form class="flex-box-middle">
-
-
-        <h3 style="text-align: center">Wilt u kopen of verkopen?</h3>
-        <button>Kopen</button> <button>Verkopen</button>
-        <input id="seller" width="250px" placeholder="verkoper">
-        <input id="buyer" placeholder="koper">
+        <div class="bg-model">
+            <div class="model-content">
+                <div class="close">+</div>
+                <h3>Transactiekosten bereken</h3>
+                <input id="transactioncostfield"  placeholder="Druk hiervoor op de knop" >
+            </div>
+        </div>
+        <h3>Voer de volgende velden in om de transactie uit te voeren</h3>
+        <div class="buyOrSell">
+            <h3>Wilt u kopen of verkopen?</h3>
+            <button id="sellbutton" type="button">Kopen</button> <button id="buybutton" type="button">Verkopen</button>
+        </div>
+        <div class="buy">
+            <label>Aan wie wilt u uw assets verkopen?</label>
+            <Select id="buyer">
+                <option value="1">Bank</option>
+                <option value="2">Naar iemand anders</option>
+            </Select>
+        </div>
+    <div class="sell">
+        <label>Van wie wilt u assets kopen?</label>
+        <Select id="seller">
+            <option value="1">Bank</option>
+            <option value="2">Naar iemand anders</option>
+        </Select>
+    </div>
         <label>Kies een asset om te verkopen</label>
         <select id="assetToSell">
-            <option value="BTC">Bitcoin</option>
-            <option value="ETH">Ethereum</option>
-            <option value="TRX">Tron</option>
-        </select><br>
+        </select>
         <label>Kies een asset om te kopen</label>
         <select id="assetTobuy">
-            <option value="BTC">Bitcoin</option>
-            <option value="ETH">Ethereum</option>
-            <option value="TRX">Tron</option>
-        </select><br>
+        </select>
         <input id="numberOfAssets" placeholder="Hoeveel assets?" >
         <button id="transactioncost" type="button">Transactie kosten bereken</button>
-        <button id="futureTransaction" type="button">Wilt u kopen/verkopen op een bepaalde waarde?</button>
+        <label>Als u wilt <div class="triggerBuyOrSell">ver</div>kopen op een bepaalde waarde
+            vul dit hieronder in</label>
         <input id="valueToBuyOrSellAt" placeholder="Gewenste waarde?">
-
         <button id="execcutTransaction" type="button" onclick="newTransaction()">Voer de transactie uit</button><br>
     </form>
     <form class="flex-box-right">

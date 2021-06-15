@@ -6,16 +6,26 @@ import org.slf4j.LoggerFactory;
 public class TransactionHTMLBank {
     private String AssetName;
     private double assetUSDValue;
+    private String abbreviation;
     private double getAssetUSDValueYesterday;
     private double avalable;
     private final Logger logger = LoggerFactory.getLogger(TransactionHTMLBank.class);
 
-    public TransactionHTMLBank(String assetName, double assetUSDValue, double getAssetUSDValueYesterday, double avalable) {
+    public TransactionHTMLBank(String assetName, double assetUSDValue, String abbreviation, double getAssetUSDValueYesterday, double avalable) {
         AssetName = assetName;
         this.assetUSDValue = assetUSDValue;
+        this.abbreviation = abbreviation;
         this.getAssetUSDValueYesterday = getAssetUSDValueYesterday;
         this.avalable = avalable;
         logger.info("New TransactionHTMLBank");
+    }
+
+    public String getAbbreviation() {
+        return abbreviation;
+    }
+
+    public void setAbbreviation(String abbreviation) {
+        this.abbreviation = abbreviation;
     }
 
     public String getAssetName() {

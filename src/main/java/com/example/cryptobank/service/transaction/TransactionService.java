@@ -180,7 +180,7 @@ public class TransactionService {
                     }
                 },
                 Date.from(Instant.now()),
-                Duration.ofSeconds(21).toMillis() //The timer. You can also choose onHours, onDays etc.
+                Duration.ofSeconds(60).toMillis() //The timer. You can also choose onHours, onDays etc.
         );
     }
 

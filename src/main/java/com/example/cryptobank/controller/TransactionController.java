@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -51,20 +52,23 @@ public class TransactionController {
             logger.info(responseEntity.toString());
             return responseEntity;
         }
+        transactionHTMLClients.sort(Comparator.comparing(TransactionHTMLClient::getAssetName));
         return ResponseEntity.ok().body(transactionHTMLClients);
     }
 
     @GetMapping("/assetoverviewfrombank")
     public ArrayList<TransactionHTMLBank> getAssetOverviewWithAmount() {
-        return transactionService.bankArrayList();
+        ArrayList<TransactionHTMLBank> bankArrayList = transactionService.bankArrayList();
+        bankArrayList.sort(Comparator.comparing(TransactionHTMLBank::getAssetName));
+        return bankArrayList;
     }
 
-    @GetMapping("/myavailableassetstosell")
+    /*@GetMapping("/myavailableassetstosell")
     public Map<Asset, Double> getAssetOverviewOfUser(@RequestHeader(value = "Authorization") String token) {
         User user = userService.getUserFromToken(token);
         int portfolioId = portfolioService.getPortfolioIdByUserId(user.getId());
         return transactionService.getAssetOverviewWithAmount(portfolioId);
-    }
+    }*/
 
     @GetMapping("/transactioncost")
     public double transactionCost(@RequestParam double numberOfAssets, @RequestParam String assetBought) throws IOException {
