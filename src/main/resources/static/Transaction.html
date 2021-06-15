@@ -17,12 +17,12 @@
     <div class="container">
         <nav>
             <ul class="nav_links ">
-                <li><a href="Transaction.html">Handelen</a></li>
+                <li><a href="Transaction.html">Transactie</a></li>
                 <li><a href="portfolio.html">Portfolio</a></li>
-                <li><a href="TransactionHistory.html">Transacties</a></li>
-                <li> <a href="HomeScherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="registreren.html">Registreren</a></li>
+                <li><a href="TransactionHistory.html">Transactiegeschiedenis</a></li>
+                <li> <a href="HomeSchermIngelogd.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></li>
+                <li><a href="login.html">Logout</a></li>
+                <li><a href="Portfolioreturns.html">Portefeuillerendement</a></li>
                 <li> <a class="cta" href="contact.html"><button>Contact</button> </a> </li>
             </ul>
         </nav>
@@ -53,7 +53,9 @@
                 <input id="transactioncostfield"  placeholder="Druk hiervoor op de knop" >
             </div>
         </div>
-        <h3>Voer de volgende velden in om de transactie uit te voeren</h3>
+        <div class="titeltransaction">
+            <h3>Voer de volgende velden in om de transactie uit te voeren</h3>
+        </div>
         <div class="buyOrSell">
             <h3>Wilt u kopen of verkopen?</h3>
             <button id="sellbutton" type="button">Kopen</button> <button id="buybutton" type="button">Verkopen</button>
@@ -72,18 +74,21 @@
             <option value="2">Naar iemand anders</option>
         </Select>
     </div>
-        <label>Kies een asset om te verkopen</label>
-        <select id="assetToSell">
-        </select>
-        <label>Kies een asset om te kopen</label>
-        <select id="assetTobuy">
-        </select>
-        <input id="numberOfAssets" placeholder="Hoeveel assets?" >
-        <button id="transactioncost" type="button">Transactie kosten bereken</button>
-        <label>Als u wilt <div class="triggerBuyOrSell">ver</div>kopen op een bepaalde waarde
-            vul dit hieronder in</label>
-        <input id="valueToBuyOrSellAt" placeholder="Gewenste waarde?">
-        <button id="execcutTransaction" type="button" onclick="newTransaction()">Voer de transactie uit</button><br>
+        <div class="transactioninpufields">
+            <label>Kies een asset om te verkopen</label>
+            <select id="assetToSell">
+            </select>
+            <label>Kies een asset om te kopen</label>
+            <select id="assetTobuy">
+            </select>
+            <input id="numberOfAssets" placeholder="Hoeveel assets?" >
+            <button id="transactioncost" type="button">Transactie kosten bereken</button><br>
+            <label>Als u wilt <div class="triggerBuyOrSell">ver</div>kopen op een bepaalde waarde
+                vul dit hieronder in</label>
+            <input id="valueToBuyOrSellAt" placeholder="Gewenste waarde?">
+            <button id="execcutTransaction" type="button" onclick="newTransaction()">Voer de transactie uit</button>
+        </div>
+
     </form>
     <form class="flex-box-right">
         <h3 style="text-align: center">Dit zijn de assets van de bank:</h3>

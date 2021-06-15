@@ -80,8 +80,8 @@ input {
 
 select{
     display: block;
-    width: 75%;
-    margin: 10px;
+    width: 50%;
+    margin: auto;
     text-align: center;
     align-self: center;
 }
@@ -95,14 +95,21 @@ input, h3{
 }
 
 .buy{
-
+display: none;
 }
 
 .sell{
-
+display: none;
 }
 
 .triggerBuyOrSell{
     display: none;
 }
 
+.titeltransaction{
+    display: none;
+}
+
+.transactioninpufields{
+    display: none;
+}

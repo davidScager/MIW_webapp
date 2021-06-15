@@ -7,7 +7,6 @@ let bankAssets
 function newTransaction(){
     let token = localStorage.getItem("token");
     let seller = document.querySelector(`#seller`).value
-    console.log(seller)
     let buyer = document.querySelector(`#buyer`).value
     let assetToSell = document.querySelector(`#assetToSell`).value
     let assetToBuy = document.querySelector(`#assetTobuy`).value
@@ -15,6 +14,11 @@ function newTransaction(){
     let triggerValue = document.querySelector(`#valueToBuyOrSellAt`).value
     if (triggerValue === null){
         triggerValue = 0;
+    }
+    if (amount === null){
+        let amountfield = document.querySelector(`#numberOfAssets`)
+        amountfield.style.boxShadow = "0 0 3px #CC0000"
+        amountfield.value = `Vult dit veld aub`
     }
     fetch(`http://localhost:8080/transaction/createtransaction`, {
         method: 'POST',
@@ -70,32 +74,42 @@ document.querySelector(`#sellbutton`).addEventListener(`click`,
         let selectToBuy = document.querySelector(`#assetTobuy`)
         Object.entries(bankAssets).forEach((asset) => {
             let opt = document.createElement(`option`)
-            opt.value = `${asset[1].abbriviation}`
+            opt.value = `${asset[1].abbreviation}`
             opt.innerHTML = `${asset[1].assetName}`
             selectToBuy.appendChild(opt)
         })
         document.querySelector(`#seller`).value = 0
-        document.querySelector('.triggerBuyOrSell').style.display = 'flex';
+        document.querySelector('.triggerBuyOrSell').style.display = 'inline';
+        document.querySelector('.buy').style.display = 'block';
+        buyorsell()
     })
+
+function buyorsell(){
+    document.querySelector('.buyOrSell').style.display = 'none';
+    document.querySelector('.titeltransaction').style.display = 'block';
+    document.querySelector('.transactioninpufields').style.display = 'block';
+}
 
 document.querySelector(`#buybutton`).addEventListener(`click`,
     function (){
         let selectfotsale = document.querySelector(`#assetToSell`)
         Object.entries(bankAssets).forEach((asset) => {
             let opt = document.createElement(`option`)
-            opt.value = `${asset[1].abbriviation}`
+            opt.value = `${asset[1].abbreviation}`
             opt.innerHTML = `${asset[1].assetName}`
             selectfotsale.appendChild(opt)
         })
         let selectToBuy = document.querySelector(`#assetTobuy`)
         Object.entries(myAssets).forEach((asset) => {
             let opt = document.createElement(`option`)
-            opt.value = `${asset[1].abbriviation}`
+            opt.value = `${asset[1].abbreviation}`
             opt.innerHTML = `${asset[1].assetName}`
             console.log(opt.value)
             selectToBuy.appendChild(opt)
         })
         document.querySelector(`#buyer`).value = 0
+        document.querySelector('.sell').style.display = 'block';
+        buyorsell()
     })
 
 function loadPage(){
@@ -157,10 +171,12 @@ function loadAssetsBank() {
                         let tdValueToday = document.createElement(`td`)
                         let tdValueYesterday = document.createElement(`td`)
                         let tdAmount = document.createElement(`td`)
+
                         tdAsset.innerHTML = `${asset[1].assetName}`
                         tdValueToday.innerHTML = `${asset[1].assetUSDValue}`
                         tdValueYesterday.innerHTML = `${asset[1].getAssetUSDValueYesterday}`
                         tdAmount.innerHTML = `${asset[1].avalable}`
+
                         row.appendChild(tdAsset)
                         row.appendChild(tdValueToday)
                         row.appendChild(tdValueYesterday)
