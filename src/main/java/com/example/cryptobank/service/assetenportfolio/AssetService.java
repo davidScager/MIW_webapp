@@ -14,14 +14,14 @@ import java.util.List;
 @Service
 public class AssetService {
 
-    private final RootRepository rootReposistory;
+    private final RootRepository rootRepository;
     private CurrencyHistory currencyHistory = new CurrencyHistory();
     private final Logger logger = LoggerFactory.getLogger(AssetService.class);
 
     @Autowired
-    public AssetService(RootRepository rootReposistory) {
+    public AssetService(RootRepository rootRepository) {
         super();
-        this.rootReposistory = rootReposistory;
+        this.rootRepository = rootRepository;
         logger.info("New AssetService");
     }
 
@@ -34,32 +34,32 @@ public class AssetService {
         newAsset.setValueLastWeek(valueLastWeek);
         double valueLastMonth = currencyHistory.historyValuefrom(currencyHistory.dateLastMonth(), newAsset.getName());
         newAsset.setValueLastMonth(valueLastMonth);
-        rootReposistory.saveAsset(newAsset);
+        rootRepository.saveAsset(newAsset);
         return newAsset;
     }
 
     public List<Asset> showAssetList() {
-        List<Asset> assetList = rootReposistory.showAssetOverview();
+        List<Asset> assetList = rootRepository.showAssetOverview();
         updateAssetsByApi();
         return assetList;
     }
 
     public void update (Asset asset){
-        rootReposistory.updateAsset(asset);
+        rootRepository.updateAsset(asset);
     }
 
     public List<Asset> updateAssetsByApi() {
-        List<Asset> assetList = rootReposistory.updateAssetsByApi();
+        List<Asset> assetList = rootRepository.updateAssetsByApi();
         return assetList;
     }
 
     public Asset updateAssetByApi(String apiName) {
-        Asset asset = rootReposistory.updateAssetByApi(apiName);
+        Asset asset = rootRepository.updateAssetByApi(apiName);
         return asset;
     }
 
     public Asset getAsset(String abbriviation){
-       return rootReposistory.getAsset(abbriviation);
+       return rootRepository.getAsset(abbriviation);
     }
 
 }

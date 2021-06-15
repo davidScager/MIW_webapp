@@ -91,20 +91,20 @@ public class TransactionService {
     public List<TransactionHistory> getTransactionHistory(int userId) throws JsonProcessingException {
 
         List<Transaction> tempTransactionList = rootRepository.getTradesForUser(userId);
-        List<TransactionHistory> tempTransactionHistoryList = new ArrayList<>();
+        List<TransactionHistory> finalTransactionHistoryList = new ArrayList<>();
         boolean buy;
         for (Transaction transaction: tempTransactionList) {
-            if(transaction.getAssetBought()!="USD") {
+            if(!transaction.getAssetBought().equals("USD")) {
                 buy = true;
-                tempTransactionHistoryList.add(makeTransactionHistoryObject(transaction, buy));
+                finalTransactionHistoryList.add(makeTransactionHistoryObject(transaction, buy));
             }
-            if(transaction.getAssetSold()!="USD") {
+            if(!transaction.getAssetSold().equals("USD")) {
                 buy = false;
-                tempTransactionHistoryList.add(makeTransactionHistoryObject(transaction, buy));
+                finalTransactionHistoryList.add(makeTransactionHistoryObject(transaction, buy));
             }
         }
 
-        return tempTransactionHistoryList;
+        return finalTransactionHistoryList;
     }
 
     public TransactionHistory makeTransactionHistoryObject(Transaction transaction, boolean buy) {

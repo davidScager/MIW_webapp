@@ -52,8 +52,9 @@ public class PortfolioController {
     }
 
     @GetMapping("/portfolioreturns")
-    public List<PortfolioReturnData> portfolioReturnsHandler(@RequestParam int userId) {
-        return portfolioService.showListOfAssets(userId);
+    public List<PortfolioReturnData> portfolioReturnsHandler(@RequestHeader(value = "Authorization") String token) {
+        User user = userService.getUserFromToken(token);
+        return portfolioService.showListOfAssets((int)user.getId());
     }
 
     @PostMapping("/listportfolio")
