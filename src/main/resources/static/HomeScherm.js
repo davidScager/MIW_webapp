@@ -1,7 +1,11 @@
 let bankTable = document.getElementById("BankTable")
 let bankAssets
 
-function loadAssetsBank() {
+function loadPage() {
+    loadLiveRate();
+}
+
+function loadLiveRate() {
     fetch("http://localhost:8080/transaction/assetoverviewfrombank")
         .then(response => response.json())
         .then(data => {
@@ -13,15 +17,15 @@ function loadAssetsBank() {
                     let tdValueToday = document.createElement(`td`)
                     let tdValueYesterday = document.createElement(`td`)
 
-                        tdAsset.innerHTML = `${asset[1].assetName}`
-                        tdValueToday.innerHTML = `${asset[1].assetUSDValue}`
-                        tdValueYesterday.innerHTML = `${asset[1].getAssetUSDValueYesterday}`
+                    tdAsset.innerHTML = `${asset[1].assetName}`
+                    tdValueToday.innerHTML = `${asset[1].assetUSDValue}`
+                    tdValueYesterday.innerHTML = `${asset[1].getAssetUSDValueYesterday}`
 
                     row.appendChild(tdAsset)
-                        row.appendChild(tdValueToday)
-                        row.appendChild(tdValueYesterday)
-                        bankTable.appendChild(row)
-                    }
+                    row.appendChild(tdValueToday)
+                    row.appendChild(tdValueYesterday)
+                    bankTable.appendChild(row)
+                }
                 )
             }
         )
