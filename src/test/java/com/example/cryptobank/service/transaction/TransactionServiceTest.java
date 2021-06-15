@@ -1,6 +1,5 @@
 package com.example.cryptobank.service.transaction;
 
-import com.example.cryptobank.domain.transaction.Transaction;
 import com.example.cryptobank.domain.transaction.TransactionHTMLClient;
 import com.example.cryptobank.domain.transaction.TransactionLog;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
@@ -30,7 +29,7 @@ class TransactionServiceTest {
 
     @BeforeEach
     public void setUp() {
-        TransactionHTMLClient testTransActionClient = new TransactionHTMLClient("a", 12.0, 11.0);
+        TransactionHTMLClient testTransActionClient = new TransactionHTMLClient("a", 12.0, "ab", 11.0);
         ArrayList<TransactionHTMLClient> htmlClients = new ArrayList<>();
         htmlClients.add(testTransActionClient);
         TransactionLog expectedLog = new TransactionLog(2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1);
