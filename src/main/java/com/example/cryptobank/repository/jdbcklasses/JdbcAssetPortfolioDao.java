@@ -46,6 +46,7 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         String query = "SELECT * FROM assetportfolio WHERE portfolioId = ?";
         List<AssetPortfolio> tempList = jdbcTemplate.query(query, new AssetPortfolioAmountRowMapper(), portfolioId);
         tempList.forEach(assetPortfolio -> resultMap.put(jdbcAssetDao.getOneByName(assetPortfolio.getAssetName()), assetPortfolio.getAmount()));
+        System.out.println(resultMap);
         return resultMap;
     }
 
@@ -61,6 +62,13 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
     public static class AssetPortfolioAmountRowMapper implements RowMapper<AssetPortfolio> {
         @Override
         public AssetPortfolio mapRow(ResultSet rs, int rowNum) throws SQLException {
+//            System.out.println("dit is de rs: " + rs);
+//            ResultSetMetaData rsmd = rs.getMetaData();
+//            int numberOfColumns = rsmd.getColumnCount();
+//            System.out.println(numberOfColumns);
+//            System.out.println(rs.getString(1));
+//            System.out.println(rs.getInt(2));
+//            System.out.println(rs.getDouble(3));
             String assetName = rs.getString("assetName");
             int portfolioId = rs.getInt("portfolioId");
             double amount = rs.getDouble("amount");

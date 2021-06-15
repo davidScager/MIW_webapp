@@ -53,6 +53,7 @@ public class PortfolioService {
         double transactionRate = 0;
         for (Map.Entry<Asset, Double> entry: sortedAssetMap.entrySet() ) {
             Transaction tempTransaction = transactionService.getMostRecentBuyOrSell(userId, entry.getKey().getAbbreviation());
+            System.out.println(tempTransaction);
             Boolean koopVerkoop = transactionService.determineBuyOrSell(tempTransaction, entry.getKey().getAbbreviation());
             if(koopVerkoop){ transactionRate = tempTransaction.getTransactionLog().getBoughtAssetTransactionRate();}
             if(koopVerkoop=false) {transactionRate = tempTransaction.getTransactionLog().getSoldAssetTransactionRate();}

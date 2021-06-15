@@ -46,7 +46,6 @@
                     portfolioValueLastWeek = portfolioValueLastWeek + (data[i].asset.valueLastWeek * data[i].amount);
                     portfolioValueLastMonth = portfolioValueLastMonth + (data[i].asset.valueLastMonth * data[i].amount);
                 }
-                sortTable()
 
             }
             for(i in data) {
