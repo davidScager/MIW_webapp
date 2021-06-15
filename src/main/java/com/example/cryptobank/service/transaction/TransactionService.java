@@ -1,18 +1,23 @@
 package com.example.cryptobank.service.transaction;
 
 import com.example.cryptobank.domain.asset.Asset;
+import com.example.cryptobank.domain.maildata.AssetMailData;
+import com.example.cryptobank.domain.maildata.MailData;
 import com.example.cryptobank.domain.transaction.*;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import com.example.cryptobank.service.mailSender.GenerateMailContent;
 import com.example.cryptobank.service.mailSender.MailSenderService;
+import com.example.cryptobank.service.mailSender.mailsenderfacade.MailSenderFacade;
 import com.example.cryptobank.service.security.TokenService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.time.Duration;
 import java.time.Instant;
@@ -29,8 +34,7 @@ public class TransactionService {
 
     private final RootRepository rootRepository;
     private final TokenService tokenService;
-    private final MailSenderService mailSenderService;
-    private final GenerateMailContent generateMailContent;
+    private final MailSenderFacade mailSenderFacade;
 
     private final String START_DATE = "2000-01-01 00:16:26";
     private final String BUY = "Aankoop";
@@ -39,12 +43,11 @@ public class TransactionService {
     private final Logger logger = LoggerFactory.getLogger(TransactionService.class);
 
     @Autowired
-    public TransactionService(RootRepository rootRepository, TokenService tokenService, MailSenderService mailSenderService, GenerateMailContent generateMailContent) {
+    public TransactionService(RootRepository rootRepository, TokenService tokenService, @Qualifier("transactionTriggerMailFacade") MailSenderFacade mailSenderFacade) {
         super();
         this.rootRepository = rootRepository;
         this.tokenService = tokenService;
-        this.mailSenderService = mailSenderService;
-        this.generateMailContent = generateMailContent;
+        this.mailSenderFacade = mailSenderFacade;
         logger.info("New TransactionService");
     }
 
@@ -208,41 +211,65 @@ public class TransactionService {
     //alles klopt
     private void executeTransaction(TransactionData transactionData) throws IOException, MessagingException {
         createNewTransaction(transactionData);
-        if (transactionData.getBuyer() ==1){
-            //mailSenderService.sendMail(username, generateMailContext.transactionOrderConfirmed(username, assetSold, value), "Succesvole transactie:)");
+        MailData assetMailData = new AssetMailData();
+        assetMailData.setMailSubject("Succesvolle Transactie");
+        if (transactionData.getBuyer() == 1) {
+            assetMailData.setMailText(String.format("Geachte %s,\nU heeft een order geplaatst voor de koop/verkoop van %s bij het bereiken van de waarde %.2f." +
+                            "Wij kunnen u mededelen dat de transactie is geslaagd. Ga naar de website om uw transactie te bekijken via onderstaande link."
+                    , transactionData.getUsername(), transactionData.getAssetSold(), transactionData.getTriggerValue()));
         } else {
-            //mailSenderService.sendMail(username, generateMailContext.transactionOrderConfirmed(username, assetBought, value), "Succesvole transactie:)");
+            assetMailData.setMailText(String.format("Geachte %s,\nU heeft een order geplaatst voor de koop/verkoop van %s bij het bereiken van de waarde %.2f." +
+                            "Wij kunnen u mededelen dat de transactie is geslaagd."
+                    , transactionData.getUsername(), transactionData.getAssetBought(), transactionData.getTriggerValue()));
         }
+        mailSenderFacade.sendMail(assetMailData);
     }
-    //bank heeft niet genoeg assets al koper
+    //bank heeft niet genoeg assets als koper
     private void executeTransactionInDollars(TransactionData transactionData) throws IOException, MessagingException {
         transactionData.setAssetSold("USD");
         createNewTransaction(transactionData);
-        //mailSenderService.sendMail(username, generateMailContext.transactionOrderInDollars(username, assetBought, value), "Succesvole transactie in dollars:)");
+        MailData assetMailData = new AssetMailData();
+        assetMailData.setMailSubject("Succesvolle transactie in dollars");
+        assetMailData.setMailText(String.format("Geachte %s,\nU heeft een order geplaatst voor de verkoop van %s bij het bereiken van de waarde %.2f." +
+                        "Helaas hebben wij op het moment van transactie niet voldoende van de gewenste assets. Wij betalen u uit in dollars" +
+                        "Ga naar de website om uw transactie te bekijken via onderstaande link."
+                , transactionData.getUsername(), transactionData.getAssetSold(), transactionData.getTriggerValue()));
+        mailSenderFacade.sendMail(assetMailData);
     }
 
     //klant heeft niet genoeg
-    private void sendMailInsufficentAmount(TransactionData transactionData) throws MalformedURLException, MessagingException {
-            //mailSenderService.sendMail(username, generateMailContext.transactionOrderCancelledDueToClient(username, assetBought, value), "Transactie geannuleerd");
+    private void sendMailInsufficentAmount(TransactionData transactionData) throws MalformedURLException, MessagingException, FileNotFoundException {
+        MailData assetMailData = new AssetMailData();
+        assetMailData.setMailSubject("Succesvolle transactie in dollars");
+        assetMailData.setMailText(String.format("Geachte %s,\nU heeft een order geplaatst voor de koop/verkoop van %s bij het bereiken van de waarde %.2f." +
+                        "Helaas heeft u niet de voldoende hoeveelheid assets om uw order te voltooien. Wij zullen deze daarom annuleren. Ga naar de website voor het maken " +
+                        "van een nieuwe transactie via onderstaande link."
+                , transactionData.getUsername(), transactionData.getAssetBought(), transactionData.getTriggerValue()));
+        mailSenderFacade.sendMail(assetMailData);
     }
 
-    private void sendMailWithExcuse(TransactionData transactionData) throws MalformedURLException, MessagingException {
-        //mailSenderService.sendMail(username, generateMailContext.transactionOrderCancelledDueToBank(username, assetBought, value), "Transactie geannuleerd");
-
+    private void sendMailWithExcuse(TransactionData transactionData) throws MalformedURLException, MessagingException, FileNotFoundException {
+        MailData assetMailData = new AssetMailData();
+        assetMailData.setMailSubject("Transactie geannuleerd");
+        assetMailData.setMailText(String.format("Geachte %s,\nU heeft een order geplaatst voor de koop/verkoop van %s bij het bereiken van de waarde %.2f." +
+                        "Helaas heeft de bank niet de voldoende hoeveelheid assets om uw order te voltooien. Onze welgemeende excuses. Ga naar de website voor het maken " +
+                        "van een nieuwe transactie via onderstaande link."
+                , transactionData.getUsername(), transactionData.getAssetBought(), transactionData.getTriggerValue()));
+        mailSenderFacade.sendMail(assetMailData);
     }
 
 
-    private List sufficientTransactionValue(double numberOfAssetsCient, double numberOfAssetsBank, Map<String, Map> bankAndClient, String assetCient, String assetBank, String username){
+    private List sufficientTransactionValue(double numberOfAssetsClient, double numberOfAssetsBank, Map<String, Map> bankAndClient, String assetClient, String assetBank, String username){
         Map<Asset, Double> clientAssets = bankAndClient.get(username);
         Map<Asset, Double> bankAssets = bankAndClient.get("bank");
-        Optional<Double> numberOfOwnedassetsCient = clientAssets.entrySet().stream().filter(e -> e.getKey().getAbbreviation().equals(assetCient)).map(Map.Entry::getValue).findFirst();
-        Optional<Double> numberOfOwnedDolarsCient = clientAssets.entrySet().stream().filter(e -> e.getKey().getAbbreviation().equals("USD")).map(Map.Entry::getValue).findFirst();
-        Optional<Double> numberOfOwnedassetsBank = bankAssets.entrySet().stream().filter(e -> e.getKey().getAbbreviation().equals(assetBank)).map(Map.Entry::getValue).findFirst();
+        Optional<Double> numberOfOwnedAssetsClient = clientAssets.entrySet().stream().filter(e -> e.getKey().getAbbreviation().equals(assetClient)).map(Map.Entry::getValue).findFirst();
+        Optional<Double> numberOfOwnedDollarsClient = clientAssets.entrySet().stream().filter(e -> e.getKey().getAbbreviation().equals("USD")).map(Map.Entry::getValue).findFirst();
+        Optional<Double> numberOfOwnedAssetsBank = bankAssets.entrySet().stream().filter(e -> e.getKey().getAbbreviation().equals(assetBank)).map(Map.Entry::getValue).findFirst();
         List<Boolean> isSufficient = new ArrayList<>();
-        double trasactioncost = calculateTransactionCost(numberOfAssetsCient, assetCient);
-        isSufficient.add(numberOfOwnedassetsCient.get() >= numberOfAssetsCient);
-        isSufficient.add(numberOfOwnedDolarsCient.get() >= trasactioncost);
-        isSufficient.add(numberOfOwnedassetsBank.get() >= numberOfAssetsBank);
+        double transactionCost = calculateTransactionCost(numberOfAssetsClient, assetClient);
+        isSufficient.add(numberOfOwnedAssetsClient.get() >= numberOfAssetsClient);
+        isSufficient.add(numberOfOwnedDollarsClient.get() >= transactionCost);
+        isSufficient.add(numberOfOwnedAssetsBank.get() >= numberOfAssetsBank);
         return isSufficient;
     }
 }

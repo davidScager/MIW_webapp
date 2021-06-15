@@ -1,8 +1,8 @@
 package com.example.cryptobank.domain.maildata;
 
 public class ResetMailData extends MailData {
-    private String firstUrl;
-    private String secondUrl;
+    private String linkUrl;
+    private String pageUrl;
     private String sender;
     private String mailSubject;
     private String mailText;
@@ -11,8 +11,8 @@ public class ResetMailData extends MailData {
     private String token;
 
     public ResetMailData(String receiver, String token) {
-        this.firstUrl = "http://localhost:8080/create_new_password.html";
-        this.secondUrl = "src/main/resources/static/resetPasswordMail.html";
+        this.linkUrl = "http://localhost:8080/create_new_password.html";
+        this.pageUrl = "src/main/resources/static/resetPasswordMail.html";
         this.sender = "BigBossNijntje@BitBank.com";
         this.mailSubject = "Reset uw account";
         this.receiver = receiver;
@@ -21,13 +21,13 @@ public class ResetMailData extends MailData {
     }
 
     @Override
-    public String getFirstUrl() {
-        return firstUrl;
+    public String getLinkUrl() {
+        return linkUrl;
     }
 
     @Override
-    public void setFirstUrl(String firstUrl) {
-        this.firstUrl = firstUrl;
+    public void setLinkUrl(String linkUrl) {
+        this.linkUrl = linkUrl;
     }
 
     @Override
@@ -77,12 +77,12 @@ public class ResetMailData extends MailData {
         this.mailContent = mailContent;
     }
 
-    public String getSecondUrl() {
-        return secondUrl;
+    public String getPageUrl() {
+        return pageUrl;
     }
 
-    public void setSecondUrl(String secondUrl) {
-        this.secondUrl = secondUrl;
+    public void setPageUrl(String pageUrl) {
+        this.pageUrl = pageUrl;
     }
 
     @Override
