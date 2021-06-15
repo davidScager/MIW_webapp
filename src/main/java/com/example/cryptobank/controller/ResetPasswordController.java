@@ -1,5 +1,6 @@
 package com.example.cryptobank.controller;
 
+import com.example.cryptobank.domain.urls.UrlAdresses;
 import com.example.cryptobank.service.login.LoginAccountService;
 import com.example.cryptobank.service.mailSender.mailsenderfacade.SendMailServiceFacade;
 import com.example.cryptobank.domain.maildata.MailData;
@@ -33,6 +34,7 @@ public class ResetPasswordController {
     private final TokenService tokenService;
     private String email;
     private String insert;
+    private UrlAdresses urlAdresses;
     Map<String, Boolean> validToken = new HashMap<>();
 
 
@@ -42,6 +44,7 @@ public class ResetPasswordController {
         this.tokenService = tokenService;
         logger.info("New MailSenderController");
         this.loginAccountService = loginAccountService;
+        this.urlAdresses = new UrlAdresses();
     }
 
     @PostMapping("/resetpassword")
@@ -53,7 +56,7 @@ public class ResetPasswordController {
         } else {
             logger.info("email bestaat niet");
         }
-        return new RedirectView("http://localhost:8080/confirmed.html");
+        return new RedirectView(urlAdresses.getConfirmed());
     }
 
     @PostMapping("/createnewpassword")
@@ -76,7 +79,7 @@ public class ResetPasswordController {
         String password = passwordMap.values().stream().findFirst().orElse(null);
         if (password.length() >= 8 && password.length() <= 100) {
             loginAccountService.updateResetPassword(email, password);
-            return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http://localhost:8080/loginController.html")).build();
+            return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(urlAdresses.getLoginPage())).build();
         } else {
             return ResponseEntity.ok().body(validToken.put("token", false));
         }
