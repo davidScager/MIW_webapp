@@ -4,7 +4,9 @@ public class UrlAdresses {
 
     private final String address = "http://miw-team-2.nl";
     private final String registrationPage = address + "/register";
+    private final String registrationPageUrl = address + "/registreren.html";
     private final String registrationFailedPage = address + "/register/failed";
+    private final String registrationFailedPageUrl = address + "/registreren-mislukt.html";
     private final String registrationRequest = address + "/register/request";
     private final String RegistrationFinalized = address + "/register/finalize";
 
@@ -15,6 +17,7 @@ public class UrlAdresses {
     private final String getCreateNewPasswordPage = address + "/create_new_password.html";
 
     private final String login = address + "/logincontroller.html";
+    private final String loginRedirect = address + "/loginredirect";
 
     private final String PortfolioReturnsPage = address + "/portfolioreturns";
     private final String TransactionHistory = address + "/transaction/transactionhistory";

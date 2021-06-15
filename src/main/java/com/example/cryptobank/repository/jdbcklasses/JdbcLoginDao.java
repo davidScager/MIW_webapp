@@ -4,6 +4,8 @@ import com.example.cryptobank.domain.login.LoginAccount;
 import com.example.cryptobank.repository.daointerfaces.LoginDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
@@ -19,6 +21,7 @@ public class JdbcLoginDao implements LoginDao {
     private final Logger logger = LoggerFactory.getLogger(JdbcActorDao.class);
     private final JdbcTemplate jdbcTemplate;
 
+    @Autowired
     public JdbcLoginDao(JdbcTemplate jdbcTemplate){
         logger.info("New JdbcLoginDao");
         this.jdbcTemplate = jdbcTemplate;
@@ -33,6 +36,7 @@ public class JdbcLoginDao implements LoginDao {
             ps.setString(3, null);
             return ps;
         });
+        logger.info("Login added to DB");
     }
 
     public LoginAccount get(String username){
@@ -40,9 +44,11 @@ public class JdbcLoginDao implements LoginDao {
                 "select * from loginaccount where username = ?",
                 (rs, rowNum) -> new LoginAccount(rs.getString("username"), rs.getString("password"), rs.getString("token")),
                 username);
-        if(loginList.isEmpty()){
+        if(loginList.size() != 1){
+            logger.info("Login not found");
             return null;
         } else {
+            logger.info("Login retrieved from DB");
             return loginList.get(0);
         }
     }
@@ -51,10 +57,23 @@ public class JdbcLoginDao implements LoginDao {
     public void update(String username, String password, String token) {
         jdbcTemplate.update("update loginaccount set username = ?, password  = ?, token = ? where username = ?",
                 username, password, token, username);
+        logger.info("Login updated");
     }
 
     @Override
     public void delete(String username) {
         jdbcTemplate.update("delete from loginaccount where username = ?", username);
+        logger.info("Login deleted");
+    }
+
+    @Override
+    public boolean loginExists(String username) {
+        String sql = "select exists(select * from loginaccount where username= '" + username + "')";
+        try {
+            return jdbcTemplate.queryForObject(sql, Boolean.class);
+        } catch (EmptyResultDataAccessException error) {
+            logger.info(error.getMessage());
+            return false;
+        }
     }
 }

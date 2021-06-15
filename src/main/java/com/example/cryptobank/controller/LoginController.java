@@ -32,7 +32,7 @@ public class LoginController {
     }
 
     // was nodig voor redirect vanuit registratie -David
-    @GetMapping("/loginredirect")
+    @GetMapping("/redirect")
     public RedirectView viewHtmlLoginHandler(){
         return new RedirectView("http://localhost:8080/login.html");
     }

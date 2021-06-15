@@ -7,6 +7,7 @@ import com.example.cryptobank.repository.daointerfaces.UserDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -30,8 +31,8 @@ public class JdbcUserDao implements UserDao {
         user.setId(rs.getLong("userid"));
         user.setFullName(new FullName(rs.getString("firstname"), rs.getString("infix"), rs.getString("surname")));
         user.setDateOfBirth(rs.getString("dateofbirth"));
-        user.setUserAddress(new UserAddress(rs.getString("streetName"), rs.getInt("houseNr"), rs.getString("addition"),
-                rs.getString("postalCode"), rs.getString("residence")));
+        user.setUserAddress(new UserAddress(rs.getString("postalCode"), rs.getInt("houseNr"), rs.getString("addition"),
+                rs.getString("streetName"), rs.getString("residence")));
         user.setEmail(rs.getString("email"));
 
         return user;
@@ -81,5 +82,16 @@ public class JdbcUserDao implements UserDao {
     public void delete(int bsn) {
         logger.debug("JdbcUserDao.delete aangeroepen voor user " + bsn);
         jdbcTemplate.update("delete from user where bsn = ?",bsn);
+    }
+
+    @Override
+    public boolean userExists(String username, int bsn){
+        String sql = "select exists(select * from user where email = '" + username + "' or bsn = '" + bsn + "');";
+        try {
+            return jdbcTemplate.queryForObject(sql, Boolean.class);
+        } catch (EmptyResultDataAccessException error) {
+            logger.info(error.getMessage());
+            return false;
+        }
     }
 }
