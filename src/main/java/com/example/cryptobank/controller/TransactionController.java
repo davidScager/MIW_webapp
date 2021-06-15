@@ -43,7 +43,7 @@ public class TransactionController {
         logger.info("New TransactionController");
     }
 
-    @PostMapping("/transactionorder")
+    @PostMapping("/myassets")
     public ResponseEntity<ArrayList<TransactionHTMLClient>> authorizeAndGetAssets(@RequestHeader("Authorization") String token) {
         ArrayList<TransactionHTMLClient> transactionHTMLClients = transactionService.authorizeAndGetAssets(token);
         if (transactionHTMLClients == null) {
@@ -56,7 +56,7 @@ public class TransactionController {
         return ResponseEntity.ok().body(transactionHTMLClients);
     }
 
-    @GetMapping("/assetoverviewfrombank")
+    @GetMapping("/bankassets")
     public ArrayList<TransactionHTMLBank> getAssetOverviewWithAmount() {
         ArrayList<TransactionHTMLBank> bankArrayList = transactionService.bankArrayList();
         bankArrayList.sort(Comparator.comparing(TransactionHTMLBank::getAssetName));

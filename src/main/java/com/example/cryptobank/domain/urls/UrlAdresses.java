@@ -18,7 +18,8 @@ public class UrlAdresses {
 
     private final String PortfolioReturnsPage = address + "/portfolioreturns";
     private final String TransactionHistory = address + "/transaction/transactionhistory";
-    private final String transactionCostPage = address + "/transaction/transactioncost";
-    private final String createTransactionPage = address + "/transaction/createtransaction";
-
+    private final String transactionCost = address + "/transaction/transactioncost";
+    private final String createTransaction = address + "/transaction/createtransaction";
+    private final String myassets = address + "/transaction/myassets";
+    private final String bankassets = address + "/transaction/bankassets";
 }

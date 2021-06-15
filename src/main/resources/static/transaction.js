@@ -104,7 +104,7 @@ function loadPage(){
 }
 
 function loadMyAssets() {
-    fetch("http://localhost:8080/transaction/transactionorder", {
+    fetch("http://localhost:8080/transaction/myassets", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ function loadMyAssets() {
                 console.log(data)
             myAssets = data
                 Object.entries(myAssets).forEach((assets) => {
-                    /*if (assets[1].assetName == "Dollar"){
+                    /*if (assets[1].assetName === `Dollar`){
                         let rowDollar = document.createElement(`tr`)
                         let tdBanksaldo = document.createElement(`td`).innerHTML = `Banksaldo`
                         let tdValue = document.createElement(`td`).innerHTML = `${assets[1].avalable} Dollar`
@@ -146,7 +146,7 @@ function loadMyAssets() {
 }
 
 function loadAssetsBank() {
-    fetch("http://localhost:8080/transaction/assetoverviewfrombank")
+    fetch("http://localhost:8080/transaction/bankassets")
         .then(response => response.json())
         .then(data => {
                 bankAssets = data
