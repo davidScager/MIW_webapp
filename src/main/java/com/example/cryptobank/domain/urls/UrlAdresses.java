@@ -14,7 +14,8 @@ public class UrlAdresses {
     private final String confirmed = address + "/confirmed.html";
     private final String getCreateNewPasswordPage = address + "/create_new_password.html";
 
-    private final String login = address + "/logincontroller.html";
+    private final String loginPage = address + "/login.html";
+    private final String login = address + "/login";
 
     private final String PortfolioReturnsPage = address + "/portfolioreturns";
     private final String TransactionHistory = address + "/transaction/transactionhistory";

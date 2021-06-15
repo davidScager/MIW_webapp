@@ -1,20 +1,15 @@
 package com.example.cryptobank.repository;
 
-import com.example.cryptobank.controller.AssetController;
-import com.example.cryptobank.domain.user.Actor;
-import com.example.cryptobank.domain.user.Role;
-import com.example.cryptobank.domain.user.User;
+import com.example.cryptobank.domain.user.*;
 import com.example.cryptobank.repository.daointerfaces.ActorDao;
-import com.example.cryptobank.repository.daointerfaces.UserDao;
-import com.example.cryptobank.service.currency.MethodRunOnScheduleHelper;
-import com.example.cryptobank.service.transaction.TransactionService;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -37,37 +32,51 @@ class ActorDaoTest {
 
     private Logger logger = LoggerFactory.getLogger(ActorDaoTest.class);
     private final ActorDao actorDao;
+    private final JdbcTemplate jdbcTemplate;
+    private static Actor expectedActor;
+
 
     @Autowired
-    public ActorDaoTest(ActorDao actorDao) {
+    public ActorDaoTest(ActorDao actorDao, JdbcTemplate jdbcTemplate) {
         super();
         this.actorDao = actorDao;
+        this.jdbcTemplate = jdbcTemplate;
         logger.info("New ActorDaoTest Started");
     }
 
+    @BeforeAll
+    public static void setup() {
+        expectedActor = new Actor(Role.CLIENT);
+        expectedActor.setCheckingAccount("12345");
+    }
+
     @Test
+    @Order(1)
     public void actorDaoIsAvailable() {
         assertThat(actorDao).isNotNull();
     }
 
     @Test
+    @Order(2)
+    void createActorTest() {
+        actorDao.create(expectedActor);
+        long idActor = expectedActor.getUserId();
+        expectedActor.setUserId(idActor);
+        String sql = "select exists(select * from actor where userId=" + idActor + ")";
+        boolean exists = jdbcTemplate.queryForObject(sql, Boolean.class);
+        assertThat(exists).isTrue();
+    }
+
+    @Test
+    @Order(3)
     void getActorTest() {
-        Optional<Actor> optionalActor = actorDao.get(7);
+        Optional<Actor> optionalActor = actorDao.get(expectedActor.getUserId());
         Actor actor = optionalActor.orElse(null);
         assertThat(actor).isNotNull();
     }
 
     @Test
-    void createActorTest() {
-        Actor actor = new Actor(Role.CLIENT);
-        actorDao.create(actor);
-        long idActor = actor.getUserId();
-        Actor actor2 = actorDao.get(idActor).orElseThrow();
-        long idActor2 = actor2.getUserId();
-        assertThat(idActor).isEqualTo(idActor2);
-    }
-
-    @Test
+    @Order(4)
     void list() {
         List<Actor> actorList = actorDao.list();
         int expectedAmountOfActors = 7;
@@ -77,27 +86,32 @@ class ActorDaoTest {
     }
 
     @Test
+    @Order(5)
     void update() {
-        Optional<Actor> optionalActor = actorDao.get(7);
-        Actor actor = optionalActor.orElse(null);
-        assert actor != null;
-        long actorId = actor.getUserId();
-        String checkingAccount = actor.getCheckingAccount();
-        actor.setCheckingAccount("1234321");
-        actorDao.update(actor, actorId);
-        Optional<Actor> updatedOptionalActor = actorDao.get(7);
-        Actor updatedActor = optionalActor.orElse(null);
+        long actorId = expectedActor.getUserId();
+        String checkingAccount = expectedActor.getCheckingAccount();
+        expectedActor.setCheckingAccount("54321");
+        actorDao.update(expectedActor, actorId);
+        Optional<Actor> updatedOptionalActor = actorDao.get(actorId);
+        Actor updatedActor = updatedOptionalActor.orElse(null);
+        assert updatedActor != null;
         String updatedCheckingAccount = updatedActor.getCheckingAccount();
+        assertThat(checkingAccount).isEqualTo("12345");
+        assertThat(updatedCheckingAccount).isEqualTo("54321");
         assertThat(updatedCheckingAccount).isNotEqualTo(checkingAccount);
     }
 
     @Test
+    @Order(6)
     void delete() {
-        List<Actor> actorList = actorDao.list();
-        Actor actor = actorList.get(0);
+        String sql = "select count(*) from actor";
+        Optional<Actor> optionalActor = actorDao.get(1);
+        Actor actor = optionalActor.orElse(null);
+        assert actor != null;
         long userId = actor.getUserId();
+        int numberOfRows = jdbcTemplate.queryForObject(sql, Integer.class);
         actorDao.delete(userId);
-        List<Actor> actorListAfterDelete = actorDao.list();
-        assertThat(actor).isNotIn(actorListAfterDelete);
+        int numberOfRowsAfterDelete = jdbcTemplate.queryForObject(sql, Integer.class);
+        assertThat(numberOfRowsAfterDelete).isLessThan(numberOfRows);
     }
 }
