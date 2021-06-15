@@ -4,6 +4,7 @@ import com.example.cryptobank.domain.asset.Asset;
 import com.example.cryptobank.domain.maildata.AssetMailData;
 import com.example.cryptobank.domain.maildata.MailData;
 import com.example.cryptobank.domain.transaction.*;
+import com.example.cryptobank.domain.user.Role;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import com.example.cryptobank.service.mailSender.GenerateMailContent;
 import com.example.cryptobank.service.mailSender.MailSenderService;
@@ -148,10 +149,31 @@ public class TransactionService {
     }
 
     public void setTransaction(TransactionData transactionData) {
-        if (transactionData.getTriggerValue() == 0) {
-            createNewTransaction(transactionData);
-        } else {
-           controlValueAsset(transactionData);
+        // if user = 0 > koper/verkoper is zelf
+        // if user = 1 > koper/verkoper is bank
+        // if user = 2 > andere verkoper/koper
+//        if (transactionData.getTriggerValue() == 0) {
+//            createNewTransaction(transactionData);
+//        } else {
+//           controlValueAsset(transactionData);
+//        }
+        if (transactionData.getBuyer() == 0) {
+
+        }
+        if (transactionData.getSeller() == 0) {
+
+        }
+        if (transactionData.getSeller() == 1) {
+            Role seller = Role.BANK;
+        }
+        if (transactionData.getBuyer() == 1) {
+            Role buyer = Role.BANK;
+        }
+        if (transactionData.getSeller() <= 1) {
+            Role seller = Role.CLIENT;
+        }
+        if (transactionData.getBuyer() <= 1) {
+            Role buyer = Role.CLIENT;
         }
     }
 
