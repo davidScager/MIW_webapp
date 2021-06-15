@@ -255,6 +255,7 @@ public class RootRepository {
         return tempTransactionList;
     }
 
+//    Mag deze ertussen uit gehaald worden (rechtstreeks service naar dao)?
     public Map<Asset, Double> getAssetOverviewWithAmount(int portfolioId) {
         return assetPortfolioDao.getAssetOverviewWithAmount(portfolioId);
     }

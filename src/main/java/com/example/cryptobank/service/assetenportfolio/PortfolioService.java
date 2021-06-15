@@ -12,9 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PortfolioService {
@@ -45,12 +43,15 @@ public class PortfolioService {
         return rootRepository.showPortfolioValue(portfolio.getPortfolioId());
     }
 
+//    Methode te lang. Extract iets? - MB
     public List<PortfolioReturnData> showListOfAssets(int userId) {
         Portfolio portfolio = rootRepository.getPortfolioIdByUserId(userId);
         List<PortfolioReturnData> tempList = new ArrayList<>();
         Map<Asset, Double> assetMap = rootRepository.getAssetOverviewWithAmount(portfolio.getPortfolioId());
+        TreeMap<Asset, Double> sortedAssetMap = new TreeMap<>();
+        sortedAssetMap.putAll(assetMap);
         double transactionRate = 0;
-        for (Map.Entry<Asset, Double> entry: assetMap.entrySet() ) {
+        for (Map.Entry<Asset, Double> entry: sortedAssetMap.entrySet() ) {
             Transaction tempTransaction = transactionService.getMostRecentBuyOrSell(userId, entry.getKey().getAbbreviation());
             Boolean koopVerkoop = transactionService.determineBuyOrSell(tempTransaction, entry.getKey().getAbbreviation());
             if(koopVerkoop){ transactionRate = tempTransaction.getTransactionLog().getBoughtAssetTransactionRate();}

@@ -30,12 +30,23 @@
 
         function loadTransactionOverview() {
             setHeights();
-            let user = 4;
-            let queryString = "http://localhost:8080/transaction/transactionhistory?userId=" + user;
+
             $('#selectable > tbody').empty();
-            $.getJSON(queryString, function( data ) {
-                var transaction_row = '';
-                var koersStijging = { 'up': function( x, y) { return Math.round(((y-x)/ x) * 100)}};
+
+            var transaction_row = '';
+            var koersStijging = { 'up': function( x, y) { return Math.round(((y-x)/ x) * 100)}};
+
+            let token = localStorage.getItem("token");
+            fetch(`http://localhost:8080/transaction/transactionhistory`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    "Authorization": "Bearer " + token,
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
                 for (i in data) {
                     console.log( "json row");
                     console.log(JSON.stringify(data[i]));
@@ -52,7 +63,7 @@
                 }
                 console.log(transaction_row);
                 $('#selectable > tbody').append(transaction_row);
-            });
+            })
         }
 
     </script>

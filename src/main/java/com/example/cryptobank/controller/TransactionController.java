@@ -80,14 +80,16 @@ public class TransactionController {
         return transactionService.calculateTransactionCost(numberOfAssets, assetBought);
     }
 
-    @GetMapping("/mostrecenttransaction")
-    public Transaction mostRecentTransactionHandler(@RequestParam int userId, @RequestParam String assetName) throws IOException {
-        return transactionService.getMostRecentBuyOrSell(userId, assetName);
-    }
+//    dit kan weg - MB
+//    @GetMapping("/mostrecenttransaction")
+//    public Transaction mostRecentTransactionHandler(@RequestParam int userId, @RequestParam String assetName) throws IOException {
+//        return transactionService.getMostRecentBuyOrSell(userId, assetName);
+//    }
 
     @GetMapping("/transactionhistory")
-    public List<TransactionHistory> transactionHistoryHandler(@RequestParam int userId) throws IOException {
-        return transactionService.getTransactionHistory(userId);
+    public List<TransactionHistory> transactionHistoryHandler(@RequestHeader(value = "Authorization") String token) throws IOException {
+        User user = userService.getUserFromToken(token);
+        return transactionService.getTransactionHistory((int)user.getId());
     }
 
     @PostMapping("/createtransaction")

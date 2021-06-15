@@ -1,9 +1,10 @@
 package com.example.cryptobank.domain.asset;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Asset {
+public class Asset implements Comparable<Asset> {
     private String name;
     private String apiName;
     private String abbreviation;
@@ -124,5 +125,10 @@ public class Asset {
                 ", value (in USD) = " + valueInUsd +
                 ", the adjustment for trading activity = " + adjustmentFactor +
                 '}';
+    }
+
+    @Override
+    public int compareTo(@NotNull Asset o) {
+        return name.compareTo(o.name);
     }
 }
