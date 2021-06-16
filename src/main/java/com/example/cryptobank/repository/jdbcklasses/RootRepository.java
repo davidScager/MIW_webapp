@@ -325,4 +325,12 @@ public class RootRepository {
         clientAssets.forEach((asset, aDouble) -> assetList.add(new TransactionHTMLBank(asset.getName(), asset.getValueInUsd(), asset.getAbbreviation(), asset.getValueYesterday(), aDouble)));
         return assetList;
     }
+
+    public List<AssetPortfolio> getAssetPortfolioByAbbrevation(String symbol){
+        return assetPortfolioDao.getAssetPortfolioByAbbrevation(symbol);
+    }
+
+    public int getUserIdByPortfolioId(int portfolioId){
+       return portfolioDao.getUserIdByPortfolioId(portfolioId);
+    }
 }

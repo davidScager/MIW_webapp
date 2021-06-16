@@ -3,6 +3,7 @@ let bankTable = document.getElementById("BankTable")
 let token = localStorage.getItem("token");
 let myAssets
 let bankAssets
+let userId
 
 function newTransaction(){
     let token = localStorage.getItem("token");
@@ -14,6 +15,8 @@ function newTransaction(){
     let triggerValue = document.querySelector(`#valueToBuyOrSellAt`).value
     if (triggerValue === null){
         triggerValue = 0;
+    } else {
+
     }
     if (amount === null){
         let amountfield = document.querySelector(`#numberOfAssets`)
@@ -78,9 +81,10 @@ document.querySelector(`#sellbutton`).addEventListener(`click`,
             opt.innerHTML = `${asset[1].assetName}`
             selectToBuy.appendChild(opt)
         })
-        document.querySelector(`#seller`).value = 0
+        document.querySelector(`#seller`).value = userId
         document.querySelector('.triggerBuyOrSell').style.display = 'inline';
-        document.querySelector('.buy').style.display = 'block';
+        document.querySelector('.sell').style.display = 'block';
+        document.querySelector(`#buyer`).value = 1;
         buyorsell()
     })
 
@@ -107,14 +111,28 @@ document.querySelector(`#buybutton`).addEventListener(`click`,
             console.log(opt.value)
             selectToBuy.appendChild(opt)
         })
-        document.querySelector(`#buyer`).value = 0
-        document.querySelector('.sell').style.display = 'block';
+        document.querySelector(`#buyer`).value = userId
+        document.querySelector(`#seller`).value = 1;
         buyorsell()
     })
 
 function loadPage(){
     loadMyAssets();
     loadAssetsBank();
+    getUserID()
+}
+
+function getUserID(){
+    fetch("http://localhost:8080/transaction/myassets", {
+        method : `GET`,
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            "Authorization": token
+        }
+    }).then(response => response.json()).then(data => {
+        userId = data
+    })
 }
 
 function loadMyAssets() {

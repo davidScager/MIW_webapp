@@ -28,6 +28,8 @@ public interface AssetPortfolioDao {
 
     public void create(AssetPortfolio assetPortfolio);
 
+    public List<AssetPortfolio> getAssetPortfolioByAbbrevation(String symbol);
+
     /*public void update(AssetPortfolio assetPortfolio);*/
 
 

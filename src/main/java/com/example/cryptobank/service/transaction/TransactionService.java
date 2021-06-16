@@ -1,6 +1,7 @@
 package com.example.cryptobank.service.transaction;
 
 import com.example.cryptobank.domain.asset.Asset;
+import com.example.cryptobank.domain.asset.AssetPortfolio;
 import com.example.cryptobank.domain.maildata.AssetMailData;
 import com.example.cryptobank.domain.maildata.MailData;
 import com.example.cryptobank.domain.transaction.*;
@@ -149,6 +150,13 @@ public class TransactionService {
     }
 
     public void setTransaction(TransactionData transactionData) {
+        if (transactionData.getSeller() == 0){
+           List<AssetPortfolio> list = rootRepository.getAssetPortfolioByAbbrevation(transactionData.getAssetSold());
+           list.forEach(assetPortfolio -> {
+               if (assetPortfolio.getAmount() >= transactionData.getNumberOfAssets()) {
+                   transactionData.setSeller(rootRepository.getUserIdByPortfolioId(assetPortfolio.getPortfolioId()));
+               }});
+        }
         if (transactionData.getTriggerValue() == 0) {
             createNewTransaction(transactionData);
         } else {

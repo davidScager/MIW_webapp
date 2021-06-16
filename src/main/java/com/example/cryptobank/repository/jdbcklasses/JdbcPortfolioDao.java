@@ -19,10 +19,7 @@ import java.util.List;
 import java.util.MissingResourceException;
 import java.util.Optional;
 
-/*TODO
-* in actor een check of je niet de role van beheerder hebt zo nee maak meteen een portfolio aan.
-* actordao inplementeren
-* */
+
 
 
 @Repository
@@ -84,5 +81,11 @@ public class JdbcPortfolioDao implements PortfolioDao {
         String query = "SELECT * FROM portfolio WHERE actor = ?";
         Portfolio portfolio = jdbcTemplate.queryForObject( query, new Object[] { userId }, portfolioRowMapper);
         return portfolio;
+    }
+
+    @Override
+    public int getUserIdByPortfolioId(int portfolioId){
+        String sql ="Select * FROM portfolio WHERE PortfolioId = ?";
+        return jdbcTemplate.query(sql, portfolioRowMapper, portfolioId).get(0).getPortfolioId();
     }
 }

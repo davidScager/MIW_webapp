@@ -111,6 +111,15 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         jdbcTemplate.update(sql, forSale, portfolioId, Symbol);
     }
 
+    @Override
+    public List<AssetPortfolio> getAssetPortfolioByAbbrevation(String symbol) {
+        // Order by portfolio DESC bank als laatste nodig transactie
+        String sql = "select * from assetportfolio  where assetName = ? ORDER BY portfolioId DESC";
+        List<AssetPortfolio> overView = jdbcTemplate.query(sql, new AssetPortfolioAmountRowMapper(), symbol);
+        return overView;
+    }
+
+
     public List<Map<String,Object>> getAssetsForSale(String symbol) {
         // Order by portfolio DESC bank als laatste nodig transactie
         String sql = "select portfolioId,forSale from assetportfolio  where assetName = ? ORDER BY portfolioId DESC";

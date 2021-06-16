@@ -33,7 +33,7 @@ public class CryptoBankApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		//testmain
-        /*methodRunOnScheduleHelper.getCurrencyDailyForHistoryValue();
+        methodRunOnScheduleHelper.getCurrencyDailyForHistoryValue();
         methodRunOnScheduleHelper.getCurrencyDaily();
 
         // generate and register 3 users -David
@@ -43,6 +43,5 @@ public class CryptoBankApplication implements CommandLineRunner {
         registrationService.register(userLoginAccount1, Role.CLIENT);
         registrationService.register(userLoginAccount2, Role.CLIENT);
         registrationService.register(userLoginAccount3, Role.CLIENT);
-*/
 	}
 }

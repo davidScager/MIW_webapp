@@ -17,4 +17,6 @@ public interface PortfolioDao {
     public void delete(int id);
 
     public Portfolio getPortfolioIdByUserId(int userId);
+
+    public int getUserIdByPortfolioId(int portfolioId);
 }
