@@ -142,7 +142,7 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
 
     @Override
     public List<AssetPortfolioView> getOverviewWithAmount(int portfolioId) {
-        String query = "SELECT AP.assetName, portfolioId, amount, forSale, description, valueInUsd FROM AssetPortfolio AP LEFT JOIN Asset A on AP.assetName = A.abbreviation WHERE portfolioId = ?";
+        String query = "SELECT AP.assetName, portfolioId, amount, forSale, abbreviation, valueInUsd FROM AssetPortfolio AP LEFT JOIN Asset A on AP.assetName = A.abbreviation WHERE portfolioId = ?";
         List<AssetPortfolioView> overView = jdbcTemplate.query(query, new AssetPortfolioViewRowMapper(), portfolioId);
         return overView;
     }
@@ -154,8 +154,8 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
             int portfolioId = rs.getInt("portfolioId");
             double amount = rs.getDouble("amount");
             double forSale = rs.getDouble("forSale");
-            double amountUSD = rs.getDouble("amount");
-            String assetDescription = rs.getString("description");
+            double amountUSD = rs.getDouble("valueInUsd");
+            String assetDescription = rs.getString("abbreviation");
             AssetPortfolioView assetPortfolio = new AssetPortfolioView(assetName, portfolioId, amount, forSale, amountUSD, assetDescription);
             return assetPortfolio;
         }

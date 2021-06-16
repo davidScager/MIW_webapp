@@ -62,6 +62,25 @@ h4 {
     margin: 150px;
     padding: 80px;
     font-size: 50px;
+    background-color: #2B2B2B;
+}
+
+.vak a:visited {
+    color: #ffffff;
+    text-decoration: none;
+    text-decoration-line: none;
+}
+
+.vak a:link {
+    color: #ffffff;
+    text-decoration: none;
+    text-decoration-line: none;
+}
+
+.vak a:hover {
+    color: #FF9416;
+    text-decoration: none;
+    text-decoration-line: none;
 }
 
 .form-box {

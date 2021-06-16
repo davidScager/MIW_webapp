@@ -26,6 +26,7 @@
            //loadAssets();
            //alert("Ready")
            loadAssetsV2("false")
+
        });
 
        $( window ).resize(function() {
@@ -204,8 +205,7 @@
                 var json_str = JSON.stringify(data);
                 var asset_row = '';
                 for (i in data) {
-                    console.log("json row");
-                    console.log(JSON.stringify(data[i]));
+
                     asset_row += '<tr onclick="buyAsset(\'' + data[i].abbreviation + '\',\'' + data[i].name + '\');" id="asset_row" class="ui-widget-content asset_row">';
                     asset_row += '   <td class="col_1">' + data[i].abbreviation + '</td>';
                     asset_row += '   <td class="col_2"  title="' + data[i].description + '">' + data[i].name + '</td>';
@@ -214,7 +214,6 @@
                     asset_row += '   <td class="col_5">' + data[i].availableOthers + '</td>';
                     asset_row += '</tr>';
                 }
-                console.log(asset_row);
                 $('#selectable_assets > tbody').append(asset_row);
                 setHeightsWidths();
             });
@@ -278,13 +277,17 @@
                     var json_str = JSON.stringify(data);
                     console.log(JSON.stringify(data));
                     var asset_row = '';
+                    var totalPortfolioValue =0;
                     for (i in data) {
                         console.log("json row");
                         console.log(JSON.stringify(data[i]));
+                        totalPortfolioValue +=   Math.round((data[i].amountUSD * data[i].amount * 100)) / 100 ;
+                        // /stackoverflow.com/questions/7312468/javascript-round-to-a-number-of-decimal-places-but-strip-extra-zeros
+                        var amount = parseFloat( data[i].amount.toFixed(4));
                         asset_row += '<tr onclick="assetForSale(\'' + data[i].assetName + '\',\'' + data[i].assetDescription + '\');" id="asset_row" class="ui-widget-content asset_row">';
                         asset_row += '   <td class="col_1">' + data[i].assetName + '</td>';
                         asset_row += '   <td class="col_2">' + data[i].assetDescription + '</td>';
-                        asset_row += '   <td class="col_3">' + data[i].amount + '</td>';
+                        asset_row += '   <td class="col_3">' + amount + '</td>';
                         asset_row += '   <td class="col_4">' + Math.round((data[i].amountUSD * data[i].amount * 100)) / 100 + '</td>';
                         asset_row += '   <td class="col_5">' + data[i].forSale + '</td>';
                         asset_row += '</tr>';
@@ -295,7 +298,9 @@
                     }
 
                     $('#selectable_portfolio > tbody').append(asset_row);
-                        setHeightsWidths();
+                    $('#pingelinga').text("Portfolio Waarde: "+totalPortfolioValue);
+                    console.log(totalPortfolioValue);
+                     setHeightsWidths();
                     }
                 );
             }
@@ -329,9 +334,8 @@
                             console.log(JSON.stringify(data));
                             var asset_row = '';
                             for (i in data) {
-                                console.log("json row");
-                                console.log(JSON.stringify(data[i]));
                                 asset_row +=   data[i].assetName + '</td>';
+
                             }
 
                             $('#availablecurrencies > tbody').append(asset_row);
@@ -344,6 +348,8 @@
             function sessionNotValid() {
                 alert("Sessie is niet geldig, log (opnieuw) in")
        }
+
+
 
 
 
@@ -376,7 +382,8 @@
     <input type="hidden" id="token_id" name="token_id" value="my_hidden_token">
     <!-- Portfolio block.-->
     <div class="asset-form">
-        <h1>Portfolio</h1>
+        <h1 id="pingelinga">Portfolio Waarde:  </h1>
+
         <table id="selectable_portfolio" class="scroll_table">
             <thead class="scroll_thead">
             <tr class="ui-widget-content scroll_tr">
@@ -385,6 +392,7 @@
                 <th class="col_3">Aantal</th>
                 <th class="col_4">Value USD</th>
                 <th class="col_5">For sale</th>
+                -
             </tr>
             </thead>
             <tbody class="scroll_tbody">
