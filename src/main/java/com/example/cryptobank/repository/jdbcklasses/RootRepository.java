@@ -33,7 +33,7 @@ public class RootRepository {
     private final AssetPortfolioDao assetPortfolioDao;
     private final TransactionDao transactionDao;
     private final LogDao logDao;
-    private final int STARTKAPITAAL = 200;
+    private final int STARTKAPITAAL = 2000;
     private final String TRADING_CURRENCY = "USD";
     private final int BANK_PORTFOLIO_ID = 101;
 
@@ -84,9 +84,16 @@ public class RootRepository {
         userDao.create(user);
         Portfolio portfolio = new Portfolio(newActor);
         portfolioDao.create(portfolio);
-        assetPortfolioDao.create(new AssetPortfolio("USD", portfolio.getPortfolioId(), STARTKAPITAAL));
+        startAssetsNewUsers(portfolio.getPortfolioId());
+        assetPortfolioDao.update(assetDao.getOneByName("USD"), portfolio, STARTKAPITAAL);
         logger.info("Portfolio registered");
         logger.info("User registered");
+    }
+
+    private void startAssetsNewUsers(int portfolioId){
+        assetDao.getAssetOverview().forEach(asset ->
+                assetPortfolioDao.create(new AssetPortfolio(asset.getAbbreviation(), portfolioId, 1, 0))
+        );
     }
 
     public User getUserByUsername(String username) {
