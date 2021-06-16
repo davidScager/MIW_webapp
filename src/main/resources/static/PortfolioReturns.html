@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <title>Portefeuille Rendement</title>
     <link href="BaseLayout.css" type="text/css" rel="stylesheet">
-<!--    <link rel="stylesheet" href="TransactionHistory.css" type="text/css">-->
-<!--    <link rel="stylesheet" href="portfolio.css" type="text/css">-->
 
     <script src = "PortfolioReturns.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -28,19 +26,18 @@
 <body style="background-color: #3C3F41";>
 
 <header>
-    <div class="container" >
-        <nav>
-            <ul class="nav_links ">
-                <li><a href="Transaction.html">Handelen</a></li>
-                <li><a href="portfolio.html">Portfolio</a></li>
-                <li><a href="TransactionHistory.html">Transactie_historie</a></li>
-                <li> <a href="HomeSchermIngelogd.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></li>
-                <li><a href="PortfolioReturns.html">Hist_rend</a></li>
-                <li id="login/logoutButton"><a href="login.html">LogOut</a></li>
-                <li> <a class="cta" href="contact.html"><button>Contact</button> </a> </li>
-            </ul>
-        </nav>
-
+    <div class="navbar">
+        <div class="navbar sideNav">
+            <a href="Transaction.html">Handelen</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="TransactionHistory.html">Transacties</a>
+        </div>
+        <div> <a href="HomeScherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
+        <div class="navbar sideNav">
+            <a href="PortfolioReturns.html">Historische<br>Rendementen</a>
+            <a href="login.html">Logout</a>
+            <a class="cta" href="contact.html"><button>Contact</button></a>
+        </div>
     </div>
 </header>
 
