@@ -1,5 +1,6 @@
 package com.example.cryptobank.controller;
 
+import com.example.cryptobank.domain.urls.UrlAdresses;
 import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.service.security.TokenService;
 import com.example.cryptobank.service.login.UserService;
@@ -23,6 +24,8 @@ public class LoginController {
     private Logger logger = LoggerFactory.getLogger(LoginController.class);
     private final UserService userService;
     private final TokenService tokenService;
+    UrlAdresses urlAdresses = new UrlAdresses();
+
 
     @Autowired
     public LoginController(UserService userService, TokenService tokenService) {
@@ -35,6 +38,11 @@ public class LoginController {
     @GetMapping("/redirect")
     public RedirectView viewHtmlLoginHandler(){
         return new RedirectView("http://localhost:8080/login.html");
+    }
+
+    @GetMapping
+    public RedirectView showLoginPage(){
+        return new RedirectView(urlAdresses.getLoginPage());
     }
 
     @PostMapping
@@ -53,3 +61,5 @@ public class LoginController {
         return new ResponseEntity(HttpStatus.UNAUTHORIZED);
     }
 }
+
+
