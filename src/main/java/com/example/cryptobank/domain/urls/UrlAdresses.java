@@ -8,7 +8,7 @@ public class UrlAdresses {
     private final String registrationPage = address + "/register";
     private final String registrationPageUrl = address + "/registreren.html";
     private final String registrationFailedPage = address + "/register/failed";
-    private final String registrationFailedPageUrl = address + "/registreren-mislukt.html";
+    private final String registrationFailedPageUrl = address + "/registreren_mislukt.html";
     private final String registrationRequest = address + "/register/request";
     private final String RegistrationFinalized = address + "/register/finalize";
 
