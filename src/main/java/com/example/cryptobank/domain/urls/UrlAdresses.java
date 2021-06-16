@@ -13,12 +13,15 @@ public class UrlAdresses {
     private final String RegistrationFinalized = address + "/register/finalize";
 
     private final String resetPassword = address + "/reset/reset_password";
-    private final String resetPasswordPage = address + "/resetpassword.html";
+    private final String resetPasswordPage = address + "/reset_password.html";
+    private final String resetConfirmedPage = address + "/confirmed.html";
+    private final String resetConfirmed = address + "/reset/confirmed";
+    private final String resetDenied = address + "/reset/denied";
 
+    private final String resetDeniedPage = address + "/resetdenied.html";
     private final String createNewPassword = address + "/reset/createnewpassword";
-    private final String setNewPassword = address + "/reset/setnewpassword";
-    private final String confirmed = address + "/confirmed.html";
-    private final String getCreateNewPasswordPage = address + "/create_new_password.html";
+    private final String newPassword = address + "/reset/setnewpassword";
+    private final String createNewPasswordPage = address + "/create_new_password.html";
 
     private final String loginPage = address + "/login.html";
     private final String login = address + "/login";
@@ -76,16 +79,12 @@ public class UrlAdresses {
         return createNewPassword;
     }
 
-    public String getSetNewPassword() {
-        return setNewPassword;
+    public String getNewPassword() {
+        return newPassword;
     }
 
-    public String getConfirmed() {
-        return confirmed;
-    }
-
-    public String getGetCreateNewPasswordPage() {
-        return getCreateNewPasswordPage;
+    public String getCreateNewPasswordPage() {
+        return createNewPasswordPage;
     }
 
     public String getLoginPage() {
@@ -122,6 +121,22 @@ public class UrlAdresses {
 
     public String getBankassets() {
         return bankassets;
+    }
+
+    public String getResetConfirmedPage() {
+        return resetConfirmedPage;
+    }
+
+    public String getResetDeniedPage() {
+        return resetDeniedPage;
+    }
+
+    public String getResetConfirmed() {
+        return resetConfirmed;
+    }
+
+    public String getResetDenied() {
+        return resetDenied;
     }
 }
 
