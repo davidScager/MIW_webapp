@@ -48,7 +48,16 @@ public class ResetPasswordController {
 
     @GetMapping
     public RedirectView showResetPage() {
-        return new RedirectView(urlAdresses.getLoginRedirect());
+        return new RedirectView(urlAdresses.getResetPasswordPage());
+    }
+
+    @GetMapping("/confirmed")
+    public RedirectView showConfirmed() {
+        return new RedirectView(urlAdresses.getResetConfirmedPage());
+
+    }@GetMapping("/denied")
+    public RedirectView showDeniedPage() {
+        return new RedirectView(urlAdresses.getResetDeniedPage());
     }
 
     @PostMapping("/resetpassword")
@@ -60,7 +69,7 @@ public class ResetPasswordController {
         } else {
             logger.info("email bestaat niet");
         }
-        return new RedirectView("http://localhost:8080/confirmed.html");
+        return new RedirectView(urlAdresses.getResetConfirmed());
     }
 
     @PostMapping("/createnewpassword")
@@ -83,7 +92,7 @@ public class ResetPasswordController {
         String password = passwordMap.values().stream().findFirst().orElse(null);
         if (password.length() >= 8 && password.length() <= 100) {
             loginAccountService.updateResetPassword(email, password);
-            return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http://localhost:8080/login.html")).build();
+            return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(urlAdresses.getLoginPage())).build();
         } else {
             return ResponseEntity.ok().body(validToken.put("token", false));
         }
