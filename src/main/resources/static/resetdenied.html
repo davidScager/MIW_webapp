@@ -4,41 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>BitBank - reset password</title>
-    <link href="password.css" rel="stylesheet" type="text/css"/>
     <link href="BaseLayout.css" rel="stylesheet" type="text/css"/>
+    <link href="password.css" rel="stylesheet" type="text/css"/>
     <script src="../formDataInsert.js"></script>
 </head>
 
 <body style="background-color: #2B2B2B";>
 <header>
-    <div class="container">
-        <nav>
-            <ul class="nav_links ">
-                <li><a href="Transaction.html">Handelen</a></li>
-                <li><a href="portfolio.html">Portfolio</a></li>
-                <li><a href="TransactionHistory.html">Transacties</a></li>
-                <li> <a href="HomeScherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></li>
-                <li><a href="LoginController.html">Login</a></li>
-                <li><a href="registreren.html">Registreren</a></li>
-                <li> <a class="cta" href="contact.html"><button>Contact</button> </a> </li>
-            </ul>
-        </nav>
-
+    <div class="navbar">
+        <div class="navbar sideNav">
+            <a href="Transaction.html">Handelen</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="TransactionHistory.html">Transacties</a>
+        </div>
+        <div> <a href="HomeScherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
+        <div class="navbar sideNav">
+            <a href="login.html">Login</a>
+            <a href="registreren.html">Registreren</a>
+            <a class="cta" href="contact.html"><button>Contact</button> </a>
+        </div>
     </div>
 </header>
 
-<main class="new_password-box">
-    <div id="new_password-form">
+<main>
+    <div class="flex-container" id="new_password-form">
         <h1>Uw verzoek is geweigerd</h1>
         <br>
         <p>Uw resetlink is ongeldig of verlopen. Vraag opnieuw een reset aan via de login pagina.</p>
-
     </div>
 </main>
 
 <footer>
-    <img class="BLeft" src="images/B left.png" alt="BLeft">
-    <img class="BRight" src="images/B right.png" alt="Bright">
+    <img class="img" src="images/B left.png" alt="BLeft">
+    <img class="img" src="images/B right.png" alt="Bright">
 </footer>
 </body>
 </html>
