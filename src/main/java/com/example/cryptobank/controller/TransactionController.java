@@ -104,5 +104,4 @@ public class TransactionController {
     public long getUserIdByUsername(@RequestHeader(value = "Authorization") String token) {
         return userService.getUserFromToken(token).getId();
     }
-
 }
