@@ -4,6 +4,7 @@ import com.example.cryptobank.domain.asset.Asset;
 import com.example.cryptobank.domain.maildata.AssetMailData;
 import com.example.cryptobank.domain.maildata.MailData;
 import com.example.cryptobank.domain.transaction.*;
+import com.example.cryptobank.domain.user.Role;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import com.example.cryptobank.service.mailSender.GenerateMailContent;
 import com.example.cryptobank.service.mailSender.MailSenderService;
@@ -151,7 +152,7 @@ public class TransactionService {
         if (transactionData.getTriggerValue() == 0) {
             createNewTransaction(transactionData);
         } else {
-           controlValueAsset(transactionData);
+            controlValueAsset(transactionData);
         }
     }
 
