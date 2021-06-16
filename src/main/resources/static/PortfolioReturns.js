@@ -1,5 +1,4 @@
 
-
     function setHeights() {
     var new_height = $(window).height();
     new_height = new_height - 400
@@ -14,8 +13,6 @@
         storeDate(date);
     }
 
-    // let historische_datum = null;
-    // localStorage.setItem("historischedatum", historische_datum);
 
     function loadPortfolioReturns() {
     setHeights();
@@ -67,8 +64,6 @@
                     portfolioValueLastMonth = portfolioValueLastMonth + (data[i].asset.valueLastMonth * data[i].amount);
                     portfolioValueHistorical = portfolioValueHistorical + (historischeKoers * data[i].amount);
 
-
-
                 }
 
             }
@@ -87,7 +82,6 @@
 
                 }
             }
-
 
 
     portfolio_row +='<tr>'
