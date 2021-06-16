@@ -25,7 +25,6 @@ public class MethodRunOnScheduleHelper {
     private JdbcTemplate jdbcTemplate;
     private CurrencyHistory currencyHistory = new CurrencyHistory();
 
-
     @Autowired
     public MethodRunOnScheduleHelper(AssetService assetService, RootRepository rootRepository, JdbcTemplate jdbcTemplate) {
         this.assetService = assetService;
