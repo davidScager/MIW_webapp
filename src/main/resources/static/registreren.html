@@ -19,15 +19,15 @@
 <header>
     <div class="navbar">
     <div class="navbar sideNav">
-        <a href="Transaction.html">Handelen</a>
-        <a href="portfolio.html">Portfolio</a>
-        <a href="TransactionHistory.html">Transacties</a>
+        <a href="/transaction">Handelen</a>
+        <a href="/portfolio">Portfolio</a>
+        <a href="/transaction/transactionhistory">Transacties</a>
     </div>
-    <div><a href="homescherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
+    <div><a href="/home"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
     <div class="navbar sideNav">
-        <a href="PortfolioReturns.html">Historische<br>Rendementen</a>
-        <a href="login.html">Logout</a>
-        <a class="cta" href="contact.html"><button>Contact</button></a>
+        <a href="/portfolioreturns">Historische<br>Rendementen</a>
+        <a href="/login">Logout</a>
+        <a class="cta" href="/contact"><button>Contact</button></a>
     </div>
     </div>
 </header>
@@ -61,7 +61,7 @@
             <div id="EmailError" class="ErrorMessage" style="visibility: hidden">Geen geldig email adres</div>
             <div id="PasswordError" class="ErrorMessage" style="visibility: hidden"></div>
             <div id="FieldEmptyError" class="ErrorMessage" style="visibility: hidden">Niet alle benodigde velden zijn ingevuld.</div>
-        <button id="regButton" class="button form-button" onclick="register();">Registreren</button>
+        <button id="regButton" class="button form-button" onclick="register(); return false;">Registreren</button>
         </form>
     </div>
 </main>

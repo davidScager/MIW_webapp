@@ -27,7 +27,6 @@ public class UrlAdresses {
 
     private final String loginPage = address + "/login.html";
     private final String login = address + "/login";
-    private final String loginRedirect = address + "/login/redirect";
 
     private final String PortfolioReturnsPage = address + "/portfolioreturns";
     private final String transactionPage = address + "/transaction";
@@ -99,10 +98,6 @@ public class UrlAdresses {
 
     public String getLogin() {
         return login;
-    }
-
-    public String getLoginRedirect() {
-        return loginRedirect;
     }
 
     public String getPortfolioReturnsPage() {

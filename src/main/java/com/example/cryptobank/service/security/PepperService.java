@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Temporary utility class for pepper storage
+ * Utility class for local pepper storage and retrieval
  * @author David_Scager, Reyndert_Mehrer, Huib_van_Straten
  */
 @Service
