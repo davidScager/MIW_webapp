@@ -100,5 +100,8 @@ public class TransactionController {
         transactionService.setTransaction(transactionData);
     }
 
-    //getUserId > Username
+    @GetMapping("/userid")
+    public long getUserIdByUsername(@RequestHeader(value = "Authorization") String token) {
+        return userService.getUserFromToken(token).getId();
+    }
 }
