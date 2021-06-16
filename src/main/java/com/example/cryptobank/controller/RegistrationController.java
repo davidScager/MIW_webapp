@@ -16,6 +16,7 @@ public class RegistrationController {
     private final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
     private final RegistrationService registrationService;
 
+
     @Autowired
     public RegistrationController(RegistrationService registrationService) {
         logger.info("New RegistrationController");
