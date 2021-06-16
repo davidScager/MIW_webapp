@@ -47,13 +47,11 @@ public class PortfolioService {
     public List<PortfolioReturnData> showListOfAssets(int userId) {
         Portfolio portfolio = rootRepository.getPortfolioIdByUserId(userId);
         List<PortfolioReturnData> tempList = new ArrayList<>();
-        Map<Asset, Double> assetMap = rootRepository.getAssetOverviewWithAmount(portfolio.getPortfolioId());
         TreeMap<Asset, Double> sortedAssetMap = new TreeMap<>();
-        sortedAssetMap.putAll(assetMap);
+        sortedAssetMap.putAll(rootRepository.getAssetOverviewWithAmount(portfolio.getPortfolioId()));
         double transactionRate = 0;
         for (Map.Entry<Asset, Double> entry: sortedAssetMap.entrySet() ) {
             Transaction tempTransaction = transactionService.getMostRecentBuyOrSell(userId, entry.getKey().getAbbreviation());
-            System.out.println(tempTransaction);
             Boolean koopVerkoop = transactionService.determineBuyOrSell(tempTransaction, entry.getKey().getAbbreviation());
             if(koopVerkoop){ transactionRate = tempTransaction.getTransactionLog().getBoughtAssetTransactionRate();}
             if(koopVerkoop=false) {transactionRate = tempTransaction.getTransactionLog().getSoldAssetTransactionRate();}

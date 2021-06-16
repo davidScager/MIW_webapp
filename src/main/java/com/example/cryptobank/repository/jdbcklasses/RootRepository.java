@@ -163,6 +163,7 @@ public class RootRepository {
         return assetDao.getOneByName(assetName);
     }
 
+//    Is het beter de variablelen meteen in de update te stoppen?
     public void updateAssetPortfolioForTransaction(Transaction transaction) {
         Optional<Portfolio> tempPortfolioBuyer = portfolioDao.get(portfolioDao.getPortfolioIdByUserId(transaction.getBuyer()).getPortfolioId());
         Portfolio buyer = tempPortfolioBuyer.get();
