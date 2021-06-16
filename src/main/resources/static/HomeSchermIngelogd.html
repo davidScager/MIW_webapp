@@ -1,39 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>HomeScherm</title>
-
     <link href="HomeSchermIngelogd.css" rel="stylesheet" type="text/css">
+    <link href="BaseLayout.css" rel="stylesheet" type="text/css">
     <script src="HomeSchermIngelogd.js"></script>
 
 </head>
-<body>
+<body onload="loadPageHome()">
 
 <header>
-    <div class="container">
-        <nav>
-            <ul class="nav_links ">
-                <li><a href="Transaction.html">Handelen</a></li>
-                <li><a href="portfolio.html">Portfolio</a></li>
-                <li><a href="TransactionHistory.html">Transacties</a></li>
-                <li><a href="HomeScherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></li>
-                <li><a href="login.html">Logout</a></li>
-                <li><a class="cta" href="contact.html">
-                    <button>Contact</button>
-                </a></li>
-            </ul>
-        </nav>
-
+    <div class="navbar">
+        <div class="navbar sideNav">
+            <a href="Transaction.html">Handelen</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="TransactionHistory.html">Transacties</a>
+        </div>
+        <div><a href="HomeScherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
+        <div class="navbar sideNav">
+            <a href="PortfolioReturns.html">Historische<br>Rendementen</a>
+            <a href="login.html">Logout</a>
+            <a class="cta" href="contact.html">
+                <button>Contact</button>
+            </a>
+        </div>
     </div>
 </header>
 
 <div class="nijntje">
     <div>
-        <h1 class="nijntje-tekst">Welkom bij <br> BitBank </br></h1>
-        <h2 class="nijntje-tekst"><a href="registreren.html">Registreer nu</a></h2>
-        <h3 class="nijntje-tekst">En ontvang $200 tegoed!</h3>
-        <h4 class="nijntje-tekst">Toekomstbestendig, innovatief <br> en duurzaam</br></h4>
+        <h1 class="nijntje-tekst">DE <br> BitBank </h1>
+        <h2 class="nijntje-tekst">Welkom, <br> persoon</h2>
+        <h4 class="nijntje-tekst">Toekomstbestendig, innovatief <br> en duurzaam</h4>
         <div class="flex-container">
             <div class="ontdek nu">Ontdek nu</div>
             <div class="nieuwtjes">Nieuwtjes</div>
@@ -43,14 +43,10 @@
 </div>
 
 
-<div id="page-container">
-    <div id="content-wrap">
-    </div>
-    <footer id="footer">
-        <img class="BLeft" src="images/B left.png" alt="BLeft">
-        <img class="BRight" src="images/B right.png" alt="Bright">
-    </footer>
-</div>
+<footer>
+    <img class="img" src="images/B left.png" alt="BLeft">
+    <img class="img" src="images/B right.png" alt="Bright">
+</footer>
 
 </body>
 </html>

@@ -1,86 +1,3 @@
-/*nav{*/
-/*    width: max-content;*/
-/*    margin: auto;*/
-/*    word-spacing: 4vw;*/
-/*    font-size: large;*/
-/*    letter-spacing: 2px;*/
-
-/*}*/
-
-/*header {*/
-/*    background-color: #f7931a;*/
-/*    margin: 0;*/
-/*    padding: 0;*/
-/*    border: 0;*/
-/*    height: 90px;*/
-/*}*/
-
-/*footer {*/
-/*    position: absolute;*/
-/*    bottom: 0;*/
-/*    width: 100%;*/
-/*    height: 40px;*/
-/*    background-color: #f7931a;*/
-/*}*/
-
-/*.logo {*/
-/*    width: 170px;*/
-/*    height: 120px;*/
-/*    vertical-align: -70px;*/
-/*    left: 10px;*/
-/*    top: 100px;*/
-/*    border-radius: 40%;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.BLeft {*/
-/*    height: 37px;*/
-/*    width: 45px;*/
-/*    bottom: 0;*/
-/*}*/
-
-/*.BRight {*/
-/*    height: 37px;*/
-/*    width: 45px;*/
-/*    bottom: 3px;*/
-/*    position: absolute;*/
-/*    right: 0;*/
-/*}*/
-
-/*.nav_links {*/
-/*    list-style: none;*/
-/*    margin: 0;*/
-/*}*/
-
-/*.nav_links li {*/
-/*    display: inline-block;*/
-/*    padding: 0 20px;*/
-
-/*}*/
-
-/*.nav_links li a {*/
-/*    transition: all 0.3s ease 0s;*/
-/*    text-decoration-line: none;*/
-/*    font-family: Calibri;*/
-/*    color: #2B2B2B;*/
-/*}*/
-
-/*.nav_links li a:hover {*/
-/*    color: chocolate;*/
-/*}*/
-
-/*button {*/
-/*    padding: 9px 25px;*/
-/*    border: none;*/
-/*    border-radius: 50px;*/
-/*    cursor: pointer;*/
-/*    transition: all 0.3s ease 0s;*/
-/*}*/
-
-/*button:hover {*/
-/*    background-color: darkslategrey;*/
-/*}*/
-
 body {
     margin: 0;
     padding: 0;
@@ -147,7 +64,26 @@ h4 {
     font-size: 50px;
 }
 
-#page-container {
-    position: relative;
-    min-height: 100vh;
+.form-box {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+h5 {
+    text-align: center;
+    font-size: 30px;
+}
+
+.live-rate {
+    display: flex;
+    flex-flow: column nowrap;
+    width: auto;
+    margin-top: 40px;
+    margin-right: 10px;
+    font-family: Calibri, sans-serif;
+    background-color: white;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
