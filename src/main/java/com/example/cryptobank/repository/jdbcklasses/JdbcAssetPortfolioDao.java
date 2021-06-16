@@ -80,10 +80,10 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
 
     @Override
     public double getAmountByAssetName(String name, int portfolioId) {
-        String query = "SELECT amount FROM assetportfolio WHERE portfolioId = ? AND assetName = ?";
-
+        String query = "SELECT * FROM assetportfolio WHERE portfolioId = ? AND assetName = ?";
         return Objects.requireNonNull(jdbcTemplate.queryForObject(query, new Object[]{portfolioId, name}, new AssetPortfolioAmountRowMapper())).getAmount();
     }
+
 
     //Als dit weer wordt gebruikt, moet het worden aangepast aan het nieuwe ERD
     //tijdelijk uigecomment omdat er twijfel is of deze nog geburuikt kan worden
@@ -113,7 +113,8 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
     }
 
     public List<Map<String,Object>> getAssetsForSale(String symbol) {
-        String sql = "select portfolioId,forSale from assetportfolio  where assetName = ?";
+        // Order by portfolio DESC bank als laatste nodig transactie
+        String sql = "select portfolioId,forSale from assetportfolio  where assetName = ? ORDER BY portfolioId DESC";
         List<Map<String,Object>> overView = jdbcTemplate.query(sql, new AssetsForSaleRowMapper(), symbol);
         return overView;
     }
