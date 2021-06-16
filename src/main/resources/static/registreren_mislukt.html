@@ -1,0 +1,75 @@
+<!--author: David Scager -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>BitBank - Registreren</title>
+    <link href="BaseLayout.css" rel="stylesheet" type="text/css"/>
+    <link href="registreren.css" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://gabrieleromanato.dev/demo/javascript-password-meter-zxcbn/js/zxcvbn.js"></script>
+    <script src="registreren.js"></script>
+
+</head>
+
+<body>
+<header>
+    <div class="navbar">
+        <div class="navbar sideNav">
+            <a href="Transaction.html">Handelen</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="TransactionHistory.html">Transacties</a>
+        </div>
+        <div> <a href="HomeScherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
+        <div class="navbar sideNav">
+            <a href="login.html">Login</a>
+            <a href="registreren.html">Registreren</a>
+            <a class="cta" href="contact.html"><button>Contact</button> </a>
+        </div>
+    </div>
+</header>
+
+<main class="form-box item" style="min-width: 500px">
+    <div class="registration-form">
+        <h1>Registratie Mislukt</h1>
+        <p id="regInfo">Het is helaas niet gelukt om uw registratie af te ronden.</p>
+        <form id="form">
+            <label>Persoonsgegevens</label><br>
+            <input id="bsn" placeholder="BSN*" maxlength="9" required><br>
+            <input id="firstName" placeholder="Voornaam*" maxlength="64" required><br>
+            <input id="infix" placeholder="Tussenvoegsel" maxlength="64"><br>
+            <input id="surname" placeholder="Achternaam*" maxlength="64" required><br>
+            <input type="date" id="dateOfBirth" maxlength="64" required><br><br>
+            <label>Adres</label><br>
+            <input id="postalCode" placeholder="Postcode*" maxlength="6" required><br>
+            <input id="houseNr" placeholder="Huisnummer*" maxlength="4" type="number" required><br>
+            <input id="addition" placeholder="Toevoeging" maxlength="4"><br>
+            <input id="streetName" placeholder="Straat*" maxlength="64" required><br>
+            <input id="residence" placeholder="Woonplaats*" maxlength="64" required><br><br>
+            <label >Account</label><br>
+            <input id="email" placeholder="email@mailservice.foo" maxlength="64" required>
+            <div class="form-group">
+                <input type="text" placeholder="wachtwoord" name="password" id="password" class="form-control" maxlength="64" required>
+                <div class="password-meter-wrap">
+                    <div class="password-meter-bar"></div>
+                </div>
+            </div>
+            <input id="repassword" placeholder="type opnieuw" maxlength="64" required><br>
+            <button id="regButton" class="button form-button" onclick="register();">Registreren</button>
+        </form>
+    </div>
+</main>
+
+<footer>
+    <img class="img" src="images/B left.png" alt="BLeft">
+    <img class="img" src="images/B right.png" alt="Bright">
+</footer>
+</body>
+<script>
+    document.querySelector('#postalCode').addEventListener('focusout', checkForAddress);
+    document.querySelector('#houseNr').addEventListener('focusout', checkForAddress);
+</script>
+
+</html>

@@ -73,3 +73,8 @@
     width: 100%;
     background-color: green;
 }
+
+.ErrorMessage {
+    font-size: small;
+    color: red;
+}

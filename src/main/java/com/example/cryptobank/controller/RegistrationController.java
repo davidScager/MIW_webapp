@@ -1,6 +1,7 @@
 package com.example.cryptobank.controller;
 
 import com.example.cryptobank.domain.login.UserLoginAccount;
+import com.example.cryptobank.domain.urls.UrlAdresses;
 import com.example.cryptobank.service.login.RegistrationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,7 @@ import org.springframework.web.servlet.view.RedirectView;
 public class RegistrationController {
     private final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
     private final RegistrationService registrationService;
-
+    private final UrlAdresses urlAdresses = new UrlAdresses();
 
     @Autowired
     public RegistrationController(RegistrationService registrationService) {
@@ -26,12 +27,12 @@ public class RegistrationController {
     //todo: hoe gaan we nieuwe pagina's aanroepen vanaf de front-end? afhankelijk daarvan return type aanpassen.
     @GetMapping
     public RedirectView viewHtmlRegisterHandler(){
-        return new RedirectView("http://localhost:8080/registreren.html");
+        return new RedirectView(urlAdresses.getRegistrationPageUrl());
     }
 
     @GetMapping("/failed")
     public RedirectView viewHtmlRegisterFailedHandler(){
-        return new RedirectView("http://localhost:8080/registreren-mislukt.html");
+        return new RedirectView(urlAdresses.getRegistrationFailedPageUrl());
     }
 
     @PostMapping("/request")
@@ -58,9 +59,9 @@ public class RegistrationController {
         String subject = "Register";
         if (registrationService.validateToken(token, subject)){
             registrationService.registerUser(token);
-            return new RedirectView("http://localhost:8080/login/redirect");
+            return new RedirectView(urlAdresses.getLoginRedirect());
         }
-        return new RedirectView("http://localhost:8080/registreren-mislukt.html");
+        return new RedirectView(urlAdresses.getRegistrationFailedPageUrl());
     }
 
 }
