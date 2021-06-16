@@ -1,5 +1,6 @@
 package com.example.cryptobank.controller;
 
+import com.example.cryptobank.domain.urls.UrlAdresses;
 import com.example.cryptobank.service.login.LoginAccountService;
 import com.example.cryptobank.service.mailSender.mailsenderfacade.SendMailServiceFacade;
 import com.example.cryptobank.domain.maildata.MailData;
@@ -33,6 +34,7 @@ public class ResetPasswordController {
     private final TokenService tokenService;
     private String email;
     private String insert;
+    UrlAdresses urlAdresses = new UrlAdresses();
     Map<String, Boolean> validToken = new HashMap<>();
 
 
@@ -42,6 +44,11 @@ public class ResetPasswordController {
         this.tokenService = tokenService;
         logger.info("New MailSenderController");
         this.loginAccountService = loginAccountService;
+    }
+
+    @GetMapping
+    public RedirectView showResetPage() {
+        return new RedirectView(urlAdresses.getLoginRedirect());
     }
 
     @PostMapping("/resetpassword")
