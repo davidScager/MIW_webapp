@@ -76,7 +76,7 @@ public class ResetPasswordController {
         String password = passwordMap.values().stream().findFirst().orElse(null);
         if (password.length() >= 8 && password.length() <= 100) {
             loginAccountService.updateResetPassword(email, password);
-            return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http://localhost:8080/loginController.html")).build();
+            return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http://localhost:8080/login.html")).build();
         } else {
             return ResponseEntity.ok().body(validToken.put("token", false));
         }

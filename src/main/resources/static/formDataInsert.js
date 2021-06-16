@@ -1,3 +1,79 @@
+let passwordMatches = false;
+
+function initiateReset() {
+    const email = new FormDataInsert(new RegExp(/^[^ ]+@[^ ]+\.[a-z]{2,3}$/),
+        "http://localhost:8080/reset/resetpassword", ["email"])
+
+    email.digestInsertedData();
+}
+
+function initiateNewPassword() {
+    const passwordReset = new FormDataInsert(new RegExp(/^.{8,100}$/), "http://localhost:8080/reset/setnewpassword",
+         ["password"])
+    console.log(passwordMatches)
+    if (passwordMatches === true) {
+        passwordReset.digestInsertedData();
+    }
+}
+
+class FormDataInsert {
+    dataHasWrongInput
+    mailRegex
+    backEndPoint
+    arrayOfInserts
+
+    constructor(mailRegex, backEndPoint, arrayOfInserts) {
+
+        this.mailRegex = mailRegex;
+        this.backEndPoint = backEndPoint;
+        this.arrayOfInserts = arrayOfInserts;
+        this.dataHasWrongInput = false;
+    }
+
+digestInsertedData() {
+    for (var i=0; i < this.arrayOfInserts.length; i++) {
+       document.querySelector('#' + this.arrayOfInserts[i]).addEventListener('focusout', this.checkInserts(this.arrayOfInserts[i]));
+       console.log(this.dataHasWrongInput)
+    }
+
+    if (this.dataHasWrongInput === false) {
+        this.sendData(document.querySelector('#'+(this.arrayOfInserts)[0]).value, this.backEndPoint);
+    }
+}
+
+checkInserts(insert) {
+    let insertToCheck = document.querySelector('#'+insert).value
+    console.log('insert is valide: ' + this.mailRegex.test(insertToCheck)+ insertToCheck);
+    if (!this.mailRegex.test(insertToCheck)) {
+        this.dataHasWrongInput = true;
+    }
+}
+
+sendData(dataForBackEnd) {
+        fetch(this.backEndPoint, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({insert: dataForBackEnd})
+        })
+            .then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                }
+            })
+            .then()
+            .catch((error) => {
+                console.error('Foutje', error);
+            });
+        localStorage.setItem("passwordreset", "yes");
+    }
+}
+
+
+
+
 function getToken() {
     const url = window.location;
     const token = new URLSearchParams(url.search).get('Authorization');
@@ -19,7 +95,6 @@ function getToken() {
         });
     localStorage.clear();
     localStorage.setItem("passwordreset", "yes");
-
 }
 
 function showPage(data) {
@@ -28,51 +103,29 @@ function showPage(data) {
     }
 }
 
+function emailValidation() {
+    let form = document.getElementById("form");
+    let email = document.getElementById("email").value;
+    let text = document.getElementById("text");
+    let pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
-
-let passwordMatches = false;
-
-function initiateReset() {
-    const email = new FormDataInsert(new RegExp(/^[^ ]+@[^ ]+\.[a-z]{2,3}$/),
-        "http://localhost:8080/reset/resetpassword", ["email"])
-
-    email.resetPassword();
-}
-
-function initiateNewPassword() {
-    const passwordReset = new FormDataInsert(new RegExp(/^.{8,100}$/), "http://localhost:8080/reset/setnewpassword",
-         ["password"])
-    console.log(passwordMatches)
-    if (passwordMatches === true) {
-        passwordReset.resetPassword();
+    if (email.match(pattern)) {
+        form.classList.add("valid")
+        form.classList.remove("invalid")
+        text.innerHTML = "Uw emailadres is geldig"
+        text.style.color = "#03AC13";
+    } else {
+        form.classList.remove("valid")
+        form.classList.add("invalid")
+        text.innerHTML = "Voer geldig emailadres in"
+        text.style.color = "#f7931a";
     }
-}
-
-    function emailValidation() {
-        let form = document.getElementById("form");
-        let email = document.getElementById("email").value;
-        let text = document.getElementById("text");
-        let pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-
-        if (email.match(pattern)) {
-            form.classList.add("valid")
-            form.classList.remove("invalid")
-            text.innerHTML = "Uw emailadres is geldig"
-            text.style.color = "#03AC13";
-        } else {
-            form.classList.remove("valid")
-            form.classList.add("invalid")
-            text.innerHTML = "Voer geldig emailadres in"
-            text.style.color = "#f7931a";
-        }
-
-        if( email == "")
-        {
-            form.classList.remove("valid")
-            form.classList.remove("invalid")
-            text.innerHTML = ""
-            text.style.color = "#f7931a";
-        }
+    if( email == "") {
+        form.classList.remove("valid")
+        form.classList.remove("invalid")
+        text.innerHTML = ""
+        text.style.color = "#f7931a";
+    }
 }
 
 function passwordValidation() {
@@ -131,63 +184,5 @@ function togglePassword(password, confirmpassword) {
         y.type = "text";
     } else {
         y.type = "password";
-    }
-}
-
-class FormDataInsert {
-    dataHasWrongInput
-    mailRegex
-    backEndPoint
-    arrayOfInserts
-
-    constructor(mailRegex, backEndPoint, arrayOfInserts) {
-
-        this.mailRegex = mailRegex;
-        this.backEndPoint = backEndPoint;
-        this.arrayOfInserts = arrayOfInserts;
-        this.dataHasWrongInput = false;
-    }
-
-resetPassword() {
-
-    for (var i=0; i < this.arrayOfInserts.length; i++) {
-       document.querySelector('#' + this.arrayOfInserts[i]).addEventListener('focusout', this.checkInserts(this.arrayOfInserts[i]));
-       console.log(this.dataHasWrongInput)
-    }
-
-    if (this.dataHasWrongInput === false) {
-        this.sendData(document.querySelector('#'+(this.arrayOfInserts)[0]).value, this.backEndPoint);
-    }
-}
-
-//algemene functie om velden in formulieren te checken op legitimiteit
-checkInserts(insert) {
-    let insertToCheck = document.querySelector('#'+insert).value
-    console.log('insert is valide: ' + this.mailRegex.test(insertToCheck)+ insertToCheck);
-    if (!this.mailRegex.test(insertToCheck)) {
-        this.dataHasWrongInput = true;
-    }
-}
-
-sendData(dataForBackEnd) {
-        fetch(this.backEndPoint, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({insert: dataForBackEnd})
-        })
-            .then(response => {
-                if (response.redirected) {
-                    window.location.href = response.url;
-                }
-            })
-            .then()
-            .catch((error) => {
-                console.error('Foutje', error);
-            });
-        localStorage.setItem("passwordreset", "yes");
-
     }
 }
