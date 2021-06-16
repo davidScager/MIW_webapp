@@ -20,10 +20,11 @@ import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@SpringbootTest
 @AutoConfigureMockMvc
-@WebMvcTest(PortfolioController.class)
 public class PortfolioControllerTest {
 
+    @Autowired
     private MockMvc mockMvc;
 
     @MockBean
@@ -31,7 +32,6 @@ public class PortfolioControllerTest {
 
     @Autowired
     public PortfolioControllerTest(MockMvc mockMvc) {
-        super();
         this.mockMvc = mockMvc;
     }
 
