@@ -8,18 +8,18 @@
     <script src = "PortfolioReturns.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<script>
+    <script>
 
-    $( window ).resize(function() {
-        setHeights();
-    });
+        $(window).resize(function () {
+            setHeights();
+        });
 
-    $( document ).ready(function() {
-        console.log( "ready!" );
-        setNewDate();
-        loadPortfolioReturns();
-    });
-</script>
+        $(document).ready(function () {
+            console.log("ready!");
+            setNewDate();
+            loadPortfolioReturns();
+        });
+    </script>
 
 </head>
 
@@ -32,7 +32,7 @@
             <a href="portfolio.html">Portfolio</a>
             <a href="TransactionHistory.html">Transacties</a>
         </div>
-        <div> <a href="HomeScherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
+        <div><a href="homescherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
         <div class="navbar sideNav">
             <a href="PortfolioReturns.html">Historische<br>Rendementen</a>
             <a href="login.html">Logout</a>
@@ -45,25 +45,25 @@
 
     <div class="assetlist-returns">
         <h1 style="color: white">Portefeuille rendement </h1>
-            <table style="width:75%" bgcolor="#FFFFFF" id="selectable" class="scroll_table">
-                <thead class="scroll_thead">
-                    <tr class="ui-widget-content">
-                        <td></td>
-                        <th>Naam cryptovaluta /</th>
-                        <th>Code crypto /</th>
-                        <th>1 dag /</th>
-                        <th>1 week /</th>
-                        <th>1 maand /</th>
-                        <th>sinds laatste transactie /</th>
-                        <th>sinds historische datum (stadaard 1 jaar) </th>
-                    </tr>
-                </thead>
-                <tbody class="scroll_tbody">
-                </tbody>
-            </table>
-        <form id="dateForm" >
+        <table style="width:75%" bgcolor="#FFFFFF" id="selectable" class="scroll_table">
+            <thead class="scroll_thead">
+            <tr class="ui-widget-content">
+                <td></td>
+                <th>Naam cryptovaluta /</th>
+                <th>Code crypto /</th>
+                <th>1 dag /</th>
+                <th>1 week /</th>
+                <th>1 maand /</th>
+                <th>sinds laatste transactie /</th>
+                <th>sinds historische datum (stadaard 1 jaar)</th>
+            </tr>
+            </thead>
+            <tbody class="scroll_tbody">
+            </tbody>
+        </table>
+        <form id="dateForm">
             <label for="historie">Kies uw eigen periode:</label>
-            <input type="date"  id="historie" name="historie">
+            <input type="date" id="historie" name="historie">
             <input type="button" onclick="computeDate()">
         </form>
     </div>
