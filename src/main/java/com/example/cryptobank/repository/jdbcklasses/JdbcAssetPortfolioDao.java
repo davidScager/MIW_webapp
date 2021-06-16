@@ -105,6 +105,29 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         jdbcTemplate.update(sql, amount, portfolio.getPortfolioId(), asset.getAbbreviation());
     }
 
+
+    @Override
+    public void checkExistElseCreate(Asset asset, Portfolio portfolio) {
+        AssetPortfolio assetPortfolio = getAssetPortfolioId(asset, portfolio);
+        if (assetPortfolio == null){
+            assetPortfolio =new AssetPortfolio(asset.getAbbreviation(),portfolio.getPortfolioId(),0,0);
+            create(assetPortfolio);
+        }
+    }
+
+    @Override
+    public AssetPortfolio getAssetPortfolioId(Asset asset, Portfolio portfolio) {
+        String sql = "select * from assetportfolio where portfolioId = ? and assetName = ?";
+        AssetPortfolio assetPortfolio= null;
+        try {
+            assetPortfolio = jdbcTemplate.queryForObject( sql, new Object[] {portfolio.getPortfolioId(), asset.getAbbreviation() }, new AssetPortfolioAmountRowMapper());
+        } catch (Exception e){
+            // Niet gevonden
+            return null;
+        }
+        return assetPortfolio;
+    }
+
     @Override
     public void updateAssetsForSale(String Symbol, int portfolioId, double forSale) {
         String sql = "update assetportfolio set forSale = ? where portfolioId = ? and assetName = ?";
