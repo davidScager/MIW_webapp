@@ -1,5 +1,9 @@
 window.onload = checkForLogout()
 
+const urlAddress = "http://localhost:8080";
+const doLogin = urlAddress + "/login";
+const homePage = urlAddress + "/HomeSchermIngelogd.html"
+
 let emailElement
 let email
 let passwordElement
@@ -65,7 +69,7 @@ function getEmailValidator() {
 }
 
 function setupFetchMethod() {
-    return fetch("http://localhost:8080/login", {
+    return fetch(doLogin, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -83,7 +87,7 @@ function handleResponse(response) {
         let token = response.headers.get("Authorization")
         console.log("Token na inlog: " + token)
         localStorage.setItem("token", token)
-        window.location.replace("http://localhost:8080/homeSchermIngelogd.html")
+        window.location.replace(homePage)
     } else if(!passwordEmpty){
         emailElement.style.boxShadow = "0 0 3px #CC0000"
         passwordElement.style.boxShadow = "0 0 3px #CC0000"

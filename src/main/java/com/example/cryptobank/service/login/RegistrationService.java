@@ -52,7 +52,8 @@ public class RegistrationService {
 
     public boolean validate(UserLoginAccount userLoginAccount){
         logger.info("Validating registration information with database");
-        return !rootRepository.alreadyRegistered(userLoginAccount);
+        System.out.println(registrationCache);
+        return !rootRepository.alreadyRegistered(userLoginAccount) && !registrationCache.containsValue(userLoginAccount);
     }
 
     public String cacheNewUserWithToken(UserLoginAccount userLoginAccount){
