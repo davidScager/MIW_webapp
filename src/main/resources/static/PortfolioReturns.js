@@ -3,7 +3,23 @@
     var new_height = $(window).height();
     new_height = new_height - 400
     $(".scroll_tbody").height(new_height);
-}
+    }
+
+    function computeDate(){
+        let date = new Date(document.querySelector("#historie").value);
+        storeDate(date);
+
+        loadPortfolioReturns();
+    }
+
+    function storeDate(date){
+        let year  = date.getFullYear();
+        let month = (date.getMonth() + 1).toString().padStart(2, "0");
+        let day   = date.getDate().toString().padStart(2, "0");
+        let dateString = '' +day + '-' + month + '-' + year + '';
+
+        localStorage.setItem("hisotrischedatum", dateString);
+    }
 
     function setNewDate() {
         let year  = new Date().getFullYear();
@@ -13,9 +29,22 @@
         storeDate(date);
     }
 
+    function setHistoricalRate(name) {
+        let date = localStorage.getItem("hisotrischedatum");
+        fetch(`http://localhost:8080/getHistoryValue?assetname=` + name + `&date=` + date, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => {localStorage.setItem("historischekoers", data), console.log(data)})
+        console.log(localStorage.getItem("historischekoers"));
+    }
 
     function loadPortfolioReturns() {
     setHeights();
+    // localStorage.removeItem("historischekoers");
 
     $('#selectable > tbody').empty();
     let portfolio_row = '';
@@ -42,10 +71,8 @@
 
                 if(data[i].asset.abbreviation !== 'USD') {
 
-
-                    getHistoricalRate(data[i].asset.abbreviation);
+                    setHistoricalRate(data[i].asset.abbreviation);
                     let historischeKoers = localStorage.getItem("historischekoers");
-                    // localStorage.removeItem("historischekoers");
                     console.log(historischeKoers);
                     portfolio_row += '<tr id="portfolio_row" class="ui-widget-content portfolio_row">';
                     portfolio_row += '<td>' + data[i].asset.name + '</td>';
@@ -111,34 +138,9 @@
         })
     };
 
-    function computeDate(){
-        let date = new Date(document.querySelector("#historie").value);
-        storeDate(date);
 
-        loadPortfolioReturns();
-    }
 
-    function storeDate(date){
-        let year  = date.getFullYear();
-        let month = (date.getMonth() + 1).toString().padStart(2, "0");
-        let day   = date.getDate().toString().padStart(2, "0");
-        let dateString = '' +day + '-' + month + '-' + year + '';
 
-        localStorage.setItem("hisotrischedatum", dateString);
-    }
-
-    function getHistoricalRate(name) {
-        let assetCode = name;
-        let date = localStorage.getItem("hisotrischedatum");
-    fetch(`http://localhost:8080/getHistoryValue?assetname=` + assetCode + `&date=` + date, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-        }
-    })
-        .then(response => response.json())
-        .then(data => {localStorage.setItem("historischekoers", data)})
-    }
 
 
 
