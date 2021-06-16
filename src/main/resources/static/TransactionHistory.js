@@ -29,7 +29,7 @@ function loadTransactionOverview() {
             for (i in data) {
                 console.log( "json row");
                 console.log(JSON.stringify(data[i]));
-                transaction_row += '<tr id="asset_row" class="ui-widget-content transaction_row">';
+                transaction_row += '<tr id="transaction_row" class="ui-widget-content transaction_row">';
                 transaction_row += ' <td>'+data[i].asset.name+'</td>';
                 transaction_row += ' <td>'+data[i].asset.abbreviation+'</td>';
                 transaction_row += ' <td>'+data[i].numberOfAssetsTraded+'</td>';

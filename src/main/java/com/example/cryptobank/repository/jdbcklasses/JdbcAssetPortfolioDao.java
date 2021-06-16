@@ -46,7 +46,6 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         String query = "SELECT * FROM assetportfolio WHERE portfolioId = ?";
         List<AssetPortfolio> tempList = jdbcTemplate.query(query, new AssetPortfolioAmountRowMapper(), portfolioId);
         tempList.forEach(assetPortfolio -> resultMap.put(jdbcAssetDao.getOneByName(assetPortfolio.getAssetName()), assetPortfolio.getAmount()));
-        System.out.println(resultMap);
         return resultMap;
     }
 
