@@ -149,31 +149,10 @@ public class TransactionService {
     }
 
     public void setTransaction(TransactionData transactionData) {
-        // if user = 0 > koper/verkoper is zelf
-        // if user = 1 > koper/verkoper is bank
-        // if user = 2 > andere verkoper/koper
-//        if (transactionData.getTriggerValue() == 0) {
-//            createNewTransaction(transactionData);
-//        } else {
-//           controlValueAsset(transactionData);
-//        }
-        if (transactionData.getBuyer() == 0) {
-
-        }
-        if (transactionData.getSeller() == 0) {
-
-        }
-        if (transactionData.getSeller() == 1) {
-            Role seller = Role.BANK;
-        }
-        if (transactionData.getBuyer() == 1) {
-            Role buyer = Role.BANK;
-        }
-        if (transactionData.getSeller() <= 1) {
-            Role seller = Role.CLIENT;
-        }
-        if (transactionData.getBuyer() <= 1) {
-            Role buyer = Role.CLIENT;
+        if (transactionData.getTriggerValue() == 0) {
+            createNewTransaction(transactionData);
+        } else {
+            controlValueAsset(transactionData);
         }
     }
 

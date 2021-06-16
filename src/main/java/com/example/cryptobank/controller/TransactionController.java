@@ -84,7 +84,7 @@ public class TransactionController {
     @GetMapping("/transactionhistory")
     public List<TransactionHistory> transactionHistoryHandler(@RequestHeader(value = "Authorization") String token) throws IOException {
         User user = userService.getUserFromToken(token);
-        return transactionService.getTransactionHistory((int)user.getId());
+        return transactionService.getTransactionHistory((int) user.getId());
     }
 
     @PostMapping("/createtransaction")
@@ -92,5 +92,10 @@ public class TransactionController {
         transactionData.setUsername(tokenService.parseToken(token, "session"));
         transactionData.setTransactionCost(transactionService.calculateTransactionCost(transactionData.getNumberOfAssets(), transactionData.getAssetBought()));
         transactionService.setTransaction(transactionData);
+    }
+
+    @GetMapping("/userid")
+    public long getUserIdByUsername(@RequestHeader(value = "Authorization") String token) {
+        return userService.getUserFromToken(token).getId();
     }
 }
