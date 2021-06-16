@@ -146,7 +146,7 @@ public class AssetPortfolioController {
             transactionData.setUsername(user.getFullName().toString());
             transactionData.setTriggerValue(0); //?????
             transactionData.setTransactionCost(0); //?????
-            transactionService.setTransaction(transactionData);
+            transactionService.createNewTransaction(transactionData);
             // USD Asset niet updated
 
             //double amount = amountUsd / asset.getValueInUsd();
@@ -161,7 +161,7 @@ public class AssetPortfolioController {
 
             Double forSale = (Double) map.get("forSale");
             double transactieAmount = 0;
-            if (forSale > 0) {
+            if (Double.compare(forSale, 0) >0  ||  portfolioIdSeller == 101) {
 
                 // We hebben een verkoper
                 // We willen 100 maar hij heeft er maar 50
@@ -172,23 +172,24 @@ public class AssetPortfolioController {
                     // Restant in volgende transactie
                     amount -= forSale;
                 }
+
+                TransactionData transactionData = new TransactionData();
+                transactionData.setBuyer((int) userId);
+                // Get seller id
+                int sellerId = (int) portfolioDao.get(portfolioIdSeller).orElse(new Portfolio()).getActor().getUserId();
+                transactionData.setSeller(sellerId);
+                transactionData.setNumberOfAssets(transactieAmount);
+                transactionData.setAssetBought(symbol);
+                // betaal met USD
+                transactionData.setAssetSold("USD");
+                transactionData.setUsername(user.getFullName().toString());
+                transactionData.setTriggerValue(0); //?????
+                transactionData.setTransactionCost(0); //?????
+                transactionService.createNewTransaction(transactionData);
+                // USD Asset niet updated
+                assetPortfolioService.update(symbol,portfolioDao.getPortfolioIdByUserId((int) userId).getPortfolioId(),
+                       transactieAmount);
             }
-            TransactionData transactionData = new TransactionData();
-            transactionData.setBuyer((int) userId);
-            // Get seller id
-            int sellerId = (int) portfolioDao.get(portfolioIdSeller).orElse(new Portfolio()).getActor().getUserId();
-            transactionData.setSeller(sellerId);
-            transactionData.setNumberOfAssets(transactieAmount);
-            transactionData.setAssetBought(symbol);
-            // betaal met USD
-            transactionData.setAssetSold("USD");
-            transactionData.setUsername(user.getFullName().toString());
-            transactionData.setTriggerValue(0); //?????
-            transactionData.setTransactionCost(0); //?????
-            transactionService.setTransaction(transactionData);
-            // USD Asset niet updated
-            //assetPortfolioService.update(symbol,portfolioDao.getPortfolioIdByUserId((int) userId).getPortfolioId(),
-            //        transactieAmount);
         }
 
         // TransactionData
