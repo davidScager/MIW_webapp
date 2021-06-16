@@ -184,11 +184,14 @@ public class AssetPortfolioController {
                 transactionData.setAssetSold("USD");
                 transactionData.setUsername(user.getFullName().toString());
                 transactionData.setTriggerValue(0); //?????
-                transactionData.setTransactionCost(0); //?????
+                transactionData.setTransactionCost(0); //???
+                Asset asset = assetDao.getOneBySymbol(symbol);
+
+                assetPortfolioDao.checkExistElseCreate(asset,portfolioDao.getPortfolioIdByUserId((int) userId));
                 transactionService.createNewTransaction(transactionData);
                 // USD Asset niet updated
-                assetPortfolioService.update(symbol,portfolioDao.getPortfolioIdByUserId((int) userId).getPortfolioId(),
-                       transactieAmount);
+                //assetPortfolioService.update(symbol,portfolioDao.getPortfolioIdByUserId((int) userId).getPortfolioId(),
+                //xs       transactieAmount);
             }
         }
 
