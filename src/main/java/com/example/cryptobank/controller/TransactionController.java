@@ -1,7 +1,7 @@
 package com.example.cryptobank.controller;
 
-import com.example.cryptobank.domain.asset.Asset;
 import com.example.cryptobank.domain.transaction.*;
+import com.example.cryptobank.domain.urls.UrlAdresses;
 import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.service.assetenportfolio.PortfolioService;
 import com.example.cryptobank.service.login.UserService;
@@ -13,12 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import java.io.IOException;
 
@@ -32,6 +32,7 @@ public class TransactionController {
     private final TokenService tokenService;
     private final UserService userService;
     private final PortfolioService portfolioService;
+    private UrlAdresses urlAdresses;
 
     @Autowired
     public TransactionController(TransactionService transactionService, TokenService tokenService, UserService userService, PortfolioService portfolioService) {
@@ -43,11 +44,16 @@ public class TransactionController {
         logger.info("New TransactionController");
     }
 
+    @GetMapping
+    public RedirectView showResetPage() {
+        return new RedirectView(urlAdresses.getTransactionPage());
+    }
+
     @PostMapping("/myassets")
     public ResponseEntity<ArrayList<TransactionHTMLClient>> authorizeAndGetAssets(@RequestHeader("Authorization") String token) {
         ArrayList<TransactionHTMLClient> transactionHTMLClients = transactionService.authorizeAndGetAssets(token);
         if (transactionHTMLClients == null) {
-            URI uri = URI.create("http://localhost:8080/login");
+            URI uri = URI.create(urlAdresses.getLoginPage());
             ResponseEntity responseEntity = ResponseEntity.status(HttpStatus.UNAUTHORIZED).location(uri).build();
             logger.info(responseEntity.toString());
             return responseEntity;

@@ -25,11 +25,16 @@ public class UrlAdresses {
     private final String loginRedirect = address + "/login/redirect";
 
     private final String PortfolioReturnsPage = address + "/portfolioreturns";
+    private final String transactionPage = address + "/transaction";
     private final String TransactionHistory = address + "/transaction/transactionhistory";
     private final String transactionCost = address + "/transaction/transactioncost";
     private final String createTransaction = address + "/transaction/createtransaction";
     private final String myassets = address + "/transaction/myassets";
     private final String bankassets = address + "/transaction/bankassets";
+
+    public String getTransactionPage() {
+        return transactionPage;
+    }
 
     public String getAddress() {
         return address;
