@@ -6,9 +6,9 @@ body {
 .nijntje {
     background-image: url("images/nijntje_in_de_ruimte.jpg");
     border: 2px solid black;
+    padding: 25px;
     background-repeat: no-repeat;
-    background-size: auto;
-
+    background-size: cover;
 }
 
 h1 {
@@ -70,17 +70,21 @@ h4 {
     justify-content: space-between;
 }
 
-.form-box.item {
-    display: flex;
-    flex-flow: column nowrap;
-    width: auto;
-    margin-top: 40px;
-    background-color: white;
-}
-
 h5 {
     text-align: center;
     font-size: 30px;
 }
 
+.live-rate {
+    display: flex;
+    flex-flow: column nowrap;
+    width: auto;
+    margin-top: 40px;
+    margin-right: 10px;
+    font-family: Calibri, sans-serif;
+    background-color: white;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
 

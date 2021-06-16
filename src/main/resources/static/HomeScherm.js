@@ -1,12 +1,12 @@
-let bankTable = document.getElementById("BankTable")
+let bankTable = document.getElementById("LiveRate")
 let bankAssets
 
-function loadPage() {
+function loadPageHome() {
     loadLiveRate();
 }
 
 function loadLiveRate() {
-    fetch("http://localhost:8080/transaction/assetoverviewfrombank")
+    fetch("http://localhost:8080/transaction/bankassets")
         .then(response => response.json())
         .then(data => {
             bankAssets = data
