@@ -21,6 +21,8 @@
     });
 </script>
 
+    <link rel="SHORTCUT ICON" href="images/favicon.ico">
+
 </head>
 
 <body style="background-color: #3C3F41";>
@@ -32,7 +34,7 @@
             <a href="portfolio.html">Portfolio</a>
             <a href="TransactionHistory.html">Transacties</a>
         </div>
-        <div> <a href="HomeScherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
+        <div> <a href="HomeSchermIngelogd.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
         <div class="navbar sideNav">
             <a href="PortfolioReturns.html">Historische<br>Rendementen</a>
             <a href="login.html">Logout</a>
@@ -48,23 +50,22 @@
             <table style="width:75%" bgcolor="#FFFFFF" id="selectable" class="scroll_table">
                 <thead class="scroll_thead">
                     <tr class="ui-widget-content">
-                        <td></td>
-                        <th>Naam cryptovaluta /</th>
-                        <th>Code crypto /</th>
-                        <th>1 dag /</th>
-                        <th>1 week /</th>
-                        <th>1 maand /</th>
-                        <th>sinds laatste transactie /</th>
-                        <th>sinds historische datum (stadaard 1 jaar) </th>
+                        <th>Naam cryptovaluta</th>
+                        <th>Code crypto</th>
+                        <th>1 dag </th>
+                        <th>1 week</th>
+                        <th>1 maand</th>
+                        <th>sinds laatste <br> transactie</th>
+                        <th>sinds historische <br> datum (stadaard 1 jaar) </th>
                     </tr>
                 </thead>
                 <tbody class="scroll_tbody">
                 </tbody>
             </table>
         <form id="dateForm" >
-            <label for="historie">Kies uw eigen periode:</label>
+            <label for="historie" style="color: white">Kies uw eigen periode:</label>
             <input type="date"  id="historie" name="historie">
-            <input type="button" onclick="computeDate()">
+            <button type="button" id="datumprikker" onclick="computeDate()"> verstuur nu </button>
         </form>
     </div>
 </main>
