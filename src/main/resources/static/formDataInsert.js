@@ -1,14 +1,23 @@
+const urlAddress = "http://localhost:8080";
+//const urlAddress = "http://miw-team-2.nl";
+
+const resetPassword = urlAddress + "/reset/resetpassword";
+const setNewPassword = urlAddress + "/reset/setnewpassword";
+const createNewPassword = urlAddress + "/reset/createnewpassword";
+const confirmed = urlAddress + "/reset/confirmed";
+const denied = urlAddress + "/reset/denied";
+
 let passwordMatches = false;
 
 function initiateReset() {
     const email = new FormDataInsert(new RegExp(/^[^ ]+@[^ ]+\.[a-z]{2,3}$/),
-        "http://localhost:8080/reset/resetpassword", ["email"])
+        resetPassword, ["email"])
 
     email.digestInsertedData();
 }
 
 function initiateNewPassword() {
-    const passwordReset = new FormDataInsert(new RegExp(/^.{8,100}$/), "http://localhost:8080/reset/setnewpassword",
+    const passwordReset = new FormDataInsert(new RegExp(/^.{8,100}$/), setNewPassword,
          ["password"])
     console.log(passwordMatches)
     if (passwordMatches === true) {
@@ -78,7 +87,7 @@ function getToken() {
     const url = window.location;
     const token = new URLSearchParams(url.search).get('Authorization');
     localStorage.setItem("token", token);
-    fetch("http://localhost:8080/reset/createnewpassword", {
+    fetch(createNewPassword, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -99,7 +108,7 @@ function getToken() {
 
 function showPage(data) {
     if (data === false) {
-        window.location.replace("http://localhost:8080/resetdenied.html");
+        window.location.replace(denied);
     }
 }
 
