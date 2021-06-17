@@ -5,10 +5,12 @@ public class UrlAdresses {
     //private final String address = "http://miw-team-2.nl";
     private final String address = "http://localhost:8080";
 
+    private final String homeschermPage = address + "/homescherm.html";
+
     private final String registrationPage = address + "/register";
     private final String registrationPageUrl = address + "/registreren.html";
     private final String registrationFailedPage = address + "/register/failed";
-    private final String registrationFailedPageUrl = address + "/registreren-mislukt.html";
+    private final String registrationFailedPageUrl = address + "/registreren_mislukt.html";
     private final String registrationRequest = address + "/register/request";
     private final String RegistrationFinalized = address + "/register/finalize";
 
@@ -25,7 +27,6 @@ public class UrlAdresses {
 
     private final String loginPage = address + "/login.html";
     private final String login = address + "/login";
-    private final String loginRedirect = address + "/login/redirect";
 
     private final String PortfolioReturnsPage = address + "/portfolioreturns";
     private final String transactionPage = address + "/transaction";
@@ -34,6 +35,10 @@ public class UrlAdresses {
     private final String createTransaction = address + "/transaction/createtransaction";
     private final String myassets = address + "/transaction/myassets";
     private final String bankassets = address + "/transaction/bankassets";
+
+    public String getHomeschermPage() {
+        return homeschermPage;
+    }
 
     public String getTransactionPage() {
         return transactionPage;
@@ -93,10 +98,6 @@ public class UrlAdresses {
 
     public String getLogin() {
         return login;
-    }
-
-    public String getLoginRedirect() {
-        return loginRedirect;
     }
 
     public String getPortfolioReturnsPage() {

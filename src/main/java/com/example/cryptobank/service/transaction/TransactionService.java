@@ -4,6 +4,7 @@ import com.example.cryptobank.domain.asset.Asset;
 import com.example.cryptobank.domain.maildata.AssetMailData;
 import com.example.cryptobank.domain.maildata.MailData;
 import com.example.cryptobank.domain.transaction.*;
+import com.example.cryptobank.domain.user.Role;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import com.example.cryptobank.service.mailSender.GenerateMailContent;
 import com.example.cryptobank.service.mailSender.MailSenderService;
@@ -137,21 +138,29 @@ public class TransactionService {
 
         for (Transaction transaction:list) {
             tempTradeDate = transaction.getTimestamp();
+            System.out.println(assetName);
+            System.out.println(transaction.getAssetBought());
+            System.out.println(transaction.getAssetSold());
             if(transaction.getAssetBought().equals(assetName) || transaction.getAssetSold().equals(assetName)) {
-                if(LocalDateTime.parse(tempTradeDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).isAfter(LocalDateTime.parse(lastTrade, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))) {
+                System.out.println("Hooray!!");
+                if(tempTradeDate.compareTo(lastTrade) > 1) {
+                    System.out.println("Hoorah!");
                     lastTrade = tempTradeDate;
                     tempMostRecentTransaction = transaction;
                 }
             }
         }
         return tempMostRecentTransaction;
+
+//        Was nodig om data te kunnen vergelijken, misschien weer nodig als systeem transacties genereerd.
+//        LocalDateTime.parse(tempTradeDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).isAfter(LocalDateTime.parse(lastTrade, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
     }
 
     public void setTransaction(TransactionData transactionData) {
         if (transactionData.getTriggerValue() == 0) {
             createNewTransaction(transactionData);
         } else {
-           controlValueAsset(transactionData);
+            controlValueAsset(transactionData);
         }
     }
 

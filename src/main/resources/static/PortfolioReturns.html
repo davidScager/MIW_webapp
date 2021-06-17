@@ -4,43 +4,42 @@
     <meta charset="UTF-8">
     <title>Portefeuille Rendement</title>
     <link href="BaseLayout.css" type="text/css" rel="stylesheet">
-<!--    <link rel="stylesheet" href="TransactionHistory.css" type="text/css">-->
-<!--    <link rel="stylesheet" href="portfolio.css" type="text/css">-->
 
     <script src = "PortfolioReturns.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<script>
+    <script>
 
-    $( window ).resize(function() {
-        setHeights();
-    });
+        $(window).resize(function () {
+            setHeights();
+        });
 
-    $( document ).ready(function() {
-        console.log( "ready!" );
-        setNewDate();
-        loadPortfolioReturns();
-    });
-</script>
+        $(document).ready(function () {
+            console.log("ready!");
+            setNewDate();
+            loadPortfolioReturns();
+        });
+    </script>
+
+    <link rel="SHORTCUT ICON" href="images/favicon.ico">
 
 </head>
 
 <body style="background-color: #3C3F41";>
 
 <header>
-    <div class="container" >
-        <nav>
-            <ul class="nav_links ">
-                <li><a href="Transaction.html">Handelen</a></li>
-                <li><a href="portfolio.html">Portfolio</a></li>
-                <li><a href="TransactionHistory.html">Transactie_historie</a></li>
-                <li> <a href="HomeSchermIngelogd.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></li>
-                <li><a href="PortfolioReturns.html">Hist_rend</a></li>
-                <li id="login/logoutButton"><a href="login.html">LogOut</a></li>
-                <li> <a class="cta" href="contact.html"><button>Contact</button> </a> </li>
-            </ul>
-        </nav>
-
+    <div class="navbar">
+        <div class="navbar sideNav">
+            <a href="Transaction.html">Handelen</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="TransactionHistory.html">Transacties</a>
+        </div>
+        <div> <a href="HomeSchermIngelogd.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
+        <div class="navbar sideNav">
+            <a href="PortfolioReturns.html">Historische<br>Rendementen</a>
+            <a href="login.html">Logout</a>
+            <a class="cta" href="contact.html"><button>Contact</button></a>
+        </div>
     </div>
 </header>
 
@@ -51,23 +50,22 @@
             <table style="width:75%" bgcolor="#FFFFFF" id="selectable" class="scroll_table">
                 <thead class="scroll_thead">
                     <tr class="ui-widget-content">
-                        <td></td>
-                        <th>Naam cryptovaluta /</th>
-                        <th>Code crypto /</th>
-                        <th>1 dag /</th>
-                        <th>1 week /</th>
-                        <th>1 maand /</th>
-                        <th>sinds laatste transactie /</th>
-                        <th>sinds historische datum (stadaard 1 jaar) </th>
+                        <th>Naam cryptovaluta</th>
+                        <th>Code crypto</th>
+                        <th>1 dag </th>
+                        <th>1 week</th>
+                        <th>1 maand</th>
+                        <th>sinds laatste <br> transactie</th>
+                        <th>sinds historische <br> datum (stadaard 1 jaar) </th>
                     </tr>
                 </thead>
                 <tbody class="scroll_tbody">
                 </tbody>
             </table>
         <form id="dateForm" >
-            <label for="historie">Kies uw eigen periode:</label>
+            <label for="historie" style="color: white">Kies uw eigen periode:</label>
             <input type="date"  id="historie" name="historie">
-            <input type="button" onclick="computeDate()">
+            <button type="button" id="datumprikker" onclick="computeDate()"> verstuur nu </button>
         </form>
     </div>
 </main>

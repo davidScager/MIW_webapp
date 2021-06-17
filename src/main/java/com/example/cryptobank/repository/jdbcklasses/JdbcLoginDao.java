@@ -12,12 +12,11 @@ import java.sql.PreparedStatement;
 import java.util.List;
 
 /**
- * Implementation of loginAccount database access using MySQL and Spring JdbcTemplate
+ * Implementation of loginAccount database CRUD functionality
  * @author David Scager
  */
 @Repository
 public class JdbcLoginDao implements LoginDao {
-    //move logger.info() to here
     private final Logger logger = LoggerFactory.getLogger(JdbcActorDao.class);
     private final JdbcTemplate jdbcTemplate;
 
@@ -66,6 +65,11 @@ public class JdbcLoginDao implements LoginDao {
         logger.info("Login deleted");
     }
 
+    /**
+     * Check whether loginAccount exists
+     * @param username (String) user email
+     * @return (boolean)
+     */
     @Override
     public boolean loginExists(String username) {
         String sql = "select exists(select * from loginaccount where username= '" + username + "')";

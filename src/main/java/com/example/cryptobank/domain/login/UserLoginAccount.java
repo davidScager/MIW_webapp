@@ -5,6 +5,9 @@ import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.domain.user.UserAddress;
 import com.example.cryptobank.service.security.HashService;
 import com.example.cryptobank.service.security.PepperService;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class UserLoginAccount {
     private User user;
@@ -19,6 +22,19 @@ public class UserLoginAccount {
         this.user = new User(bsn, new FullName(firstName, infix, surname), dateOfBirth,
                 new UserAddress(postalCode, houseNr, addition, streetName, residence), email);
         setPassword(password);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserLoginAccount that = (UserLoginAccount) o;
+        return Objects.equals(user, that.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user);
     }
 
     @Override

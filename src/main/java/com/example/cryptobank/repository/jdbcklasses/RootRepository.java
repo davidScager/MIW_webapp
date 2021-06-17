@@ -49,6 +49,12 @@ public class RootRepository {
         this.logDao = logDao;
     }
 
+    /**
+     * Check in database whether user or login are already registered
+     * @param userLoginAccount (UserLoginAccount)
+     * @return (boolean)
+     * @author David_Scager
+     */
     public boolean alreadyRegistered(UserLoginAccount userLoginAccount){
         int bsn = userLoginAccount.getUser().getBSN();
         String username = userLoginAccount.getUser().getEmail();
@@ -56,7 +62,7 @@ public class RootRepository {
     }
 
     /**
-     * Register new login account
+     * Register new login account in database
      * @param user (User)
      * @param password (String)
      *
@@ -68,8 +74,9 @@ public class RootRepository {
     }
 
     /**
-     * Register new user if that user is not yet registered and does not
-     * already have a login account.
+     * Register new user to database
+     * by storing new actor, provided user, new portfolio
+     * and adding first assets
      * @param user (User)
      * @param role (Role)
      *
@@ -98,10 +105,6 @@ public class RootRepository {
 
     public User getUserByUsername(String username) {
         return userDao.get(username);
-    }
-
-    public User getUserByBsn(int bsn){
-        return userDao.list().stream().filter(u -> u.getBSN() == bsn).findFirst().orElse(null);
     }
 
     public LoginAccount getLoginByUsername(String username) {

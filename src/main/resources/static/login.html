@@ -15,7 +15,7 @@
       <a href="portfolio.html">Portfolio</a>
       <a href="TransactionHistory.html">Transacties</a>
     </div>
-    <div> <a href="HomeScherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
+    <div><a href="homescherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
     <div class="navbar sideNav">
       <a href="login.html">Login</a>
       <a href="registreren.html">Registreren</a>
@@ -24,8 +24,6 @@
   </div>
 </header>
 
-<main class="form-box">
-</main>
 
 <body onload="loadReset()">
 
@@ -36,7 +34,12 @@
   <br>
 </div>
 
+<div class="square">
+  <div class="content">
+  </div>
+</div>
 
+<main class="BaseLayOutMain">
   <div class="box">
     <h1>Login</h1>
     <input id="email" type="text" max="50" name="username" placeholder="Email" required>
@@ -46,13 +49,15 @@
     <button class="confirm" type="submit" onclick="sendData()">Bevestig</button>
     <button class="reset" type="reset" onclick="clearInput()">Reset</button>
       <br>
-      <a href="reset_password.html/reset_password.html" id="passwordReset">Wachtwoord vergeten?</a>
+      <a href="/reset_password.html" id="passwordReset">Wachtwoord vergeten?</a>
   </div>
 
   <div id="loginError">De combinatie gebruikersnaam en wachtwoord klopt niet </div>
 
+</main>
 
-<footer class="myFooter">
+
+<footer>
   <img class="img" src="images/B left.png" alt="BLeft">
   <img class="img" src="images/B right.png" alt="Bright">
 </footer>

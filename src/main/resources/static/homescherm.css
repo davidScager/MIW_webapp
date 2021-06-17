@@ -1,0 +1,108 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.nijntje {
+    background-image: url("images/nijntje_in_de_ruimte.jpg");
+    border: 2px solid black;
+    padding: 25px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h1 {
+    text-align: left;
+    color: #ffffff;
+    font-size: 40px;
+}
+
+h2 {
+    text-align: center;
+    color: #ffffff;
+    font-size: 40px;
+}
+
+a:visited {
+    color: #ffffff;
+    text-decoration: none;
+    text-decoration-line: none;
+}
+
+a:link {
+    color: #ffffff;
+    text-decoration: none;
+    text-decoration-line: none;
+}
+
+a:hover {
+    color: #FF9416;
+    text-decoration: none;
+    text-decoration-line: none;
+}
+
+h3 {
+    text-align: center;
+    color: #ffffff;
+    font-size: 40px;
+}
+
+h4 {
+    text-align: right;
+    color: #ffffff;
+    font-size: 30px;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.flex-container > div {
+    background-color: #f1f1f1;
+    margin: 150px;
+    padding: 80px;
+    font-size: 50px;
+    background-color: #2B2B2B;
+}
+
+.vak a:visited {
+    color: #ffffff;
+    text-decoration: none;
+    text-decoration-line: none;
+}
+
+.vak a:link {
+    color: #ffffff;
+    text-decoration: none;
+    text-decoration-line: none;
+}
+
+.vak a:hover {
+    color: #FF9416;
+    text-decoration: none;
+    text-decoration-line: none;
+}
+
+.form-box {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+h5 {
+    text-align: center;
+    font-size: 30px;
+}
+
+.live-rate {
+    display: flex;
+    flex-flow: column nowrap;
+    width: auto;
+    margin-top: 40px;
+    margin-right: 10px;
+    font-family: Calibri, sans-serif;
+    background-color: white;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
