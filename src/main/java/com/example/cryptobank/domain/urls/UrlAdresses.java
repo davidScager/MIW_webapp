@@ -6,6 +6,7 @@ public class UrlAdresses {
     private final String address = "http://localhost:8080";
 
     private final String homeschermPage = address + "/homescherm.html";
+    private final String homeschermingelogdPage = address + "/homeschermingelogd.html";
     private final String contactPageUrl = address + "/contact.html";
 
     private final String registrationPage = address + "/register";
@@ -52,7 +53,7 @@ public class UrlAdresses {
         return PortfolioReturnsPageUrl;
     }
 
-    private final String TransactionHistory = address + "/transaction/transactionhistory";
+    private final String TransactionHistory = address + "/transaction/history";
     private final String transactionCost = address + "/transaction/transactioncost";
     private final String createTransaction = address + "/transaction/createtransaction";
     private final String myassets = address + "/transaction/myassets";
@@ -60,6 +61,10 @@ public class UrlAdresses {
 
     public String getHomeschermPage() {
         return homeschermPage;
+    }
+
+    public String getHomeschermingelogdPage() {
+        return homeschermingelogdPage;
     }
 
     public String getTransactionPage() {

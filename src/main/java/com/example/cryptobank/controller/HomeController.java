@@ -22,4 +22,9 @@ public class HomeController {
         return new RedirectView(urlAdresses.getContactPageUrl());
     }
 
+    @GetMapping("/homeschermingelogd")
+    public RedirectView showHomeSchermIngelogdPage() {
+        return new RedirectView(urlAdresses.getHomeschermingelogdPage());
+    }
+
 }

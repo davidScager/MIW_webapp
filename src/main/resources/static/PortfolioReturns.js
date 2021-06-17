@@ -31,7 +31,7 @@
 
     function setHistoricalRate(name) {
         let date = localStorage.getItem("hisotrischedatum");
-        fetch(`http://localhost:8080/getHistoryValue?assetname=` + name + `&date=` + date, {
+        fetch(`/getHistoryValue?assetname=` + name + `&date=` + date, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -56,7 +56,7 @@
     let portfolioValueHistorical = 0;
 
     let token = localStorage.getItem("token");
-    fetch(`http://localhost:8080/portfolioreturns`, {
+    fetch(`/portfolio/returns`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
