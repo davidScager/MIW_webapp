@@ -278,7 +278,7 @@
                 // https://stackoverflow.com/questions/47824/how-do-you-remove-all-the-options-of-a-select-box-and-then-add-one-option-and-se
                 $('#payWith').find('option').remove().end();
 
-                $.post("http://localhost:8080/listportfolio",
+                $.post("http://localhost:8080/portfolio/list",
                     {
                         extra: "hille"
                     },
@@ -336,7 +336,7 @@
                     });
 
                     $('#availablecurrencies > tbody').empty();
-                    $.post("http://localhost:8080/listportfolio",
+                    $.post("http://localhost:8080/portfolio/list",
                         {
                             extra: "hille"
                         },
@@ -374,12 +374,12 @@
     <div class="container">
         <nav>
             <ul class="nav_links ">
-                <li><a href="Transaction.html">Handelen</a></li>
-                <li><a href="portfolio.html">Portfolio</a></li>
+                <li><a href="/transaction">Handelen</a></li>
+                <li><a href="/portfolio">Portfolio</a></li>
                 <li><a href="TransactionHistory.html">Transacties</a></li>
-                <li><a href="homescherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></li>
-                <li id="login/logoutButton"><a href="login.html">Logout</a></li>
-                <li><a class="cta" href="contact.html">
+                <li><a href="/"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></li>
+                <li id="login/logoutButton"><a href="/login">Logout</a></li>
+                <li><a class="cta" href="/contact">
                     <button>Contact</button>
                 </a></li>
             </ul>

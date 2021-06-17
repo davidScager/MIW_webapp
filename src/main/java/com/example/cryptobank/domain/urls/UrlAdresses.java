@@ -6,11 +6,13 @@ public class UrlAdresses {
     private final String address = "http://localhost:8080";
 
     private final String homeschermPage = address + "/homescherm.html";
+    private final String contactPageUrl = address + "/contact.html";
 
     private final String registrationPage = address + "/register";
     private final String registrationPageUrl = address + "/registreren.html";
     private final String registrationFailedPage = address + "/register/failed";
     private final String registrationFailedPageUrl = address + "/registreren_mislukt.html";
+
     private final String registrationRequest = address + "/register/request";
     private final String RegistrationFinalized = address + "/register/finalize";
 
@@ -33,6 +35,10 @@ public class UrlAdresses {
     private final String PortfolioReturnsPage = address + "/portfolio/returns";
     private final String PortfolioReturnsPageUrl = address + "/PortfolioReturns.html";
     private final String transactionPage = address + "/transaction";
+
+    public String getContactPageUrl() {
+        return contactPageUrl;
+    }
 
     public String getPortfolioPage() {
         return portfolioPage;
