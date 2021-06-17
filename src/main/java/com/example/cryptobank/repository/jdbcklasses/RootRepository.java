@@ -223,9 +223,9 @@ public class RootRepository {
         double dollarAmount = numberOfAssets * asset.getValueInUsd();
         Actor buyer = actorDao.get(buyerId).get();
         Actor seller = actorDao.get(sellerId).get();
-        boolean buyFromBank = seller.getRole().equals(Role.BANK);
+        boolean buyFromBank = seller.getRole().getRole().equals(Role.BANK.getRole());
         System.out.println(" buyer "+ buyer.getUserId());
-        boolean sellToBank = buyer.getRole().equals(Role.BANK);
+        boolean sellToBank = buyer.getRole().getRole().equals(Role.BANK.getRole());
         if (!asset.getAbbreviation().equals("USD")) {
             assetDao.updateAdjustmentFactor(asset, dollarAmount, buyFromBank, sellToBank);
         }
