@@ -6,11 +6,14 @@ public class UrlAdresses {
     private final String address = "http://localhost:8080";
 
     private final String homeschermPage = address + "/homescherm.html";
+    private final String homeschermingelogdPage = address + "/homeschermingelogd.html";
+    private final String contactPageUrl = address + "/contact.html";
 
     private final String registrationPage = address + "/register";
     private final String registrationPageUrl = address + "/registreren.html";
     private final String registrationFailedPage = address + "/register/failed";
     private final String registrationFailedPageUrl = address + "/registreren_mislukt.html";
+
     private final String registrationRequest = address + "/register/request";
     private final String RegistrationFinalized = address + "/register/finalize";
 
@@ -28,9 +31,29 @@ public class UrlAdresses {
     private final String loginPage = address + "/login.html";
     private final String login = address + "/login";
 
-    private final String PortfolioReturnsPage = address + "/portfolioreturns";
+    private final String portfolioPage = address + "/portofolio";
+    private final String portfolioPageUrl = address + "/portofolio.html";
+    private final String PortfolioReturnsPage = address + "/portfolio/returns";
+    private final String PortfolioReturnsPageUrl = address + "/PortfolioReturns.html";
     private final String transactionPage = address + "/transaction";
-    private final String TransactionHistory = address + "/transaction/transactionhistory";
+
+    public String getContactPageUrl() {
+        return contactPageUrl;
+    }
+
+    public String getPortfolioPage() {
+        return portfolioPage;
+    }
+
+    public String getPortfolioPageUrl() {
+        return portfolioPageUrl;
+    }
+
+    public String getPortfolioReturnsPageUrl() {
+        return PortfolioReturnsPageUrl;
+    }
+
+    private final String TransactionHistory = address + "/transaction/history";
     private final String transactionCost = address + "/transaction/transactioncost";
     private final String createTransaction = address + "/transaction/createtransaction";
     private final String myassets = address + "/transaction/myassets";
@@ -38,6 +61,10 @@ public class UrlAdresses {
 
     public String getHomeschermPage() {
         return homeschermPage;
+    }
+
+    public String getHomeschermingelogdPage() {
+        return homeschermingelogdPage;
     }
 
     public String getTransactionPage() {
