@@ -3,59 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-  <link href="login.css" type="text/css" rel="stylesheet">
+<!--  <link href="login.css" type="text/css" rel="stylesheet">-->
   <link href="BaseLayout.css" type="text/css" rel="stylesheet">
+  <link href="password.css" type="text/css" rel="stylesheet">
+
   <script src="login.js"></script>
 </head>
+
+<body onload="loadReset()">
 
 <header>
   <div class="navbar">
     <div class="navbar sideNav">
-      <a href="/transaction">Handelen</a>
-      <a href="/portfolio">Portfolio</a>
-      <a href="http://localhost:8080/TransactionHistory.html">Transacties</a>
+      <a href="/login">Handelen</a>
+      <a href="/login">Portfolio</a>
+      <a href="/login">Transacties</a>
     </div>
-    <div><a href="homescherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
+    <div><a href="/"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
     <div class="navbar sideNav">
       <a href="/login">Login</a>
       <a href="/register">Registreren</a>
-      <a class="cta" href="contact.html"><button>Contact</button> </a>
+      <a class="cta" href="/contact">
+        <button>Contact</button>
+      </a>
     </div>
   </div>
 </header>
 
-
-<body onload="loadReset()">
-
-
-<div id="login_als_reset">
-  <h1>Uw wachtwoord is gereset</h1>
-  <p>Log in om verder te gaan</p>
-  <br>
-</div>
-
-<div class="square">
-  <div class="content">
-  </div>
-</div>
-
 <main class="BaseLayOutMain">
-  <div class="box">
+  <div class="flex-container" id="new_password-form">
     <h1>Login</h1>
-    <input id="email" type="text" max="50" name="username" placeholder="Email" required>
-    <br>
-    <input id="password" type="password" max="100" min="8" name="password" placeholder="Wachtwoord" required>
-    <br>
-    <button class="confirm" type="submit" onclick="sendData()">Bevestig</button>
-    <button class="reset" type="reset" onclick="clearInput()">Reset</button>
-      <br>
+    <form id="form" action="javascript: sendData();">
+    <input id="email" type="text" max="50" name="username" placeholder="Email">
+    <input id="password" type="password" max="100" min="8" name="password" placeholder="Wachtwoord">
+      <div class="flex-container" id="buttonsUnderLogin">
+        <button class="button" type="submit" id="loginSubmitButton">Bevestig</button>
+        <button class="button" type="reset" onclick="clearInput()" id="loginClearButton">Reset</button>
+      </div>
+
+    </form>
+
       <a href="/reset" class="passwordReset">Wachtwoord vergeten?</a>
       <br>
       <a href="/register" class="register">Nog geen account? Klik hier om te registreren</a>
+    <div id="loginInfo">De combinatie gebruikersnaam en wachtwoord bestaat niet </div>
   </div>
-
-  <div id="loginInfo">De combinatie gebruikersnaam en wachtwoord bestaat niet </div>
-
 </main>
 
 
