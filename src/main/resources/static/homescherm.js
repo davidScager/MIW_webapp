@@ -2,9 +2,7 @@ let table = document.getElementById("LiveRate")
 let assets
 const url = "http://localhost:8080/transaction/bankassets";
 
-function loadPageHome() {
-    loadLiveRate();
-}
+window.onload = loadLiveRate();
 
 function loadLiveRate() {
     fetch(url)

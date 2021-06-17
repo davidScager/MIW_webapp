@@ -1,9 +1,10 @@
 package com.example.cryptobank.controller;
 
 import com.example.cryptobank.domain.urls.UrlAdresses;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.cryptobank.domain.user.User;
+import com.example.cryptobank.service.login.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
@@ -11,6 +12,12 @@ import org.springframework.web.servlet.view.RedirectView;
 public class HomeController {
 
     private UrlAdresses urlAdresses = new UrlAdresses();
+    private UserService userService;
+
+    @Autowired
+    public HomeController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
     public RedirectView showResetPage() {
@@ -27,4 +34,10 @@ public class HomeController {
         return new RedirectView(urlAdresses.getHomeschermingelogdPage());
     }
 
+    @PostMapping("/checkuser")
+    public User checkUser(@RequestHeader(value = "Authorization") String token) {
+        return userService.getUserFromToken(token);
+    }
+
 }
+
