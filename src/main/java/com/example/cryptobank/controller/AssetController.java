@@ -2,6 +2,7 @@ package com.example.cryptobank.controller;
 
 import com.example.cryptobank.domain.asset.Asset;
 import com.example.cryptobank.domain.asset.AssetViewForSale;
+import com.example.cryptobank.domain.urls.UrlAdresses;
 import com.example.cryptobank.repository.jdbcklasses.JdbcAssetPortfolioDao;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import com.example.cryptobank.service.assetenportfolio.AssetService;
@@ -9,10 +10,8 @@ import com.example.cryptobank.service.currency.CurrencyHistory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/asset")
 public class AssetController {
 
     private final Logger logger = LoggerFactory.getLogger(AssetController.class);
@@ -27,6 +27,7 @@ public class AssetController {
     private final AssetService assetService;
     private final JdbcAssetPortfolioDao jdbcAssetPortfolioDao;
     private final RootRepository rootReposistory;
+    private UrlAdresses urlAdresses = new UrlAdresses();
 
     @Autowired
     public AssetController(CurrencyHistory currencyHistory, AssetService assetService, JdbcAssetPortfolioDao jdbcAssetPortfolioDao, RootRepository rootReposistory) {
@@ -36,6 +37,11 @@ public class AssetController {
         this.jdbcAssetPortfolioDao = jdbcAssetPortfolioDao;
         this.rootReposistory = rootReposistory;
         logger.info("New AssetController");
+    }
+
+    @GetMapping
+    public RedirectView showResetPage() {
+        return new RedirectView(urlAdresses.getPortfolioPage());
     }
 
     @GetMapping("/createasset")
