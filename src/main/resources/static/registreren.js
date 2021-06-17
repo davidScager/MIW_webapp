@@ -26,8 +26,8 @@ function checkForAddress() {
 function processAddress(json){
     console.log(json);
     let address = json;
-    document.querySelector('#residence').value = address.city;
     document.querySelector('#streetName').value = address.street;
+    document.querySelector('#residence').value = address.city;
 }
 //end checkForAddress
 
@@ -48,11 +48,11 @@ let residence;
 let email;
 let password;
 let repassword;
-let allFieldsFilledFlag = true;
 let emailFlag = false;
 let passwordFlag = false;
 let repasswordFlag = false;
 let addressFlag = false;
+let allFieldsFilledFlag = true;
 
 function getFormData(){
     bsn = document.querySelector('#bsn').value;
@@ -109,29 +109,6 @@ function handleResponse(response) {
     }
 }
 
-function register(){
-    console.log("method call register()");
-    checkAnyEmpty();
-    console.log("allFieldsFilledFlag=" + allFieldsFilledFlag)
-    checkPcApiResponse();
-    console.log("addressFlag=" + addressFlag)
-    let flags = [allFieldsFilledFlag, emailFlag, passwordFlag, repasswordFlag, addressFlag];
-    console.log(flags);
-    if (flags.every(item =>{return item === true;})) {
-        getFormData();
-        setupFetch()
-            .then(response => handleResponse(response))
-            .catch((error) => {
-                console.error('Foutje', error.toString());
-                alert("Registratie mislukt");
-            });
-    } else {
-        resetFlags();
-        console.log("flags reset" + flags)
-        document.querySelector('#FieldEmptyError').style.visibility = "visible";
-    }
-}
-
 function afterRegister() {
     resetFlags();
     document.querySelector('#form').style.visibility = 'hidden';
@@ -143,16 +120,49 @@ function afterRegister() {
     document.querySelector('#FieldEmptyError').style.visibility = "hidden";
 }
 
+function register(){
+    console.log("method call register()");
+    if (finalCheck()) {
+        getFormData();
+        setupFetch()
+            .then(response => handleResponse(response))
+            .catch((error) => {
+                console.error('Foutje', error.toString());
+                alert("Registratie mislukt");
+            });
+    } else {
+        resetFlags();
+        console.log("flags reset")
+        document.querySelector('#FieldEmptyError').style.visibility = "visible";
+    }
+}
+//end registration request
+
+//start register checks
 function resetFlags() {
-    notEmptyFlag = true;
+    allFieldsFilledFlag = true;
     emailFlag = false;
     passwordFlag = false;
     repasswordFlag = false;
     addressFlag = false;
 }
-//end registration request
 
-//start before register checks
+function finalCheck() {
+    checkEmail();
+    console.log("emailFlag=" + emailFlag)
+    checkPassword();
+    console.log("passwordFlag=" + passwordFlag)
+    checkRepassword();
+    console.log("repasswordFlag=" + repasswordFlag)
+    checkPcApiResponse();
+    console.log("addressFlag=" + addressFlag)
+    checkAnyEmpty();
+    console.log("allFieldsFilledFlag=" + allFieldsFilledFlag)
+    let flags = [emailFlag, passwordFlag, repasswordFlag, addressFlag, allFieldsFilledFlag];
+    console.log(flags);
+    return flags.every(item =>{return item === true;});
+}
+
 function showErrorMessage(input, errorType) {
     input.style.borderColor = "red";
     errorType.style.visibility = "visible";
@@ -166,8 +176,8 @@ function hideErrorMessage(input, errorType) {
 function checkEmail(){
     let emailInput = document.querySelector('#email');
     let emailError = document.querySelector('#EmailError');
-    let regExp = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i);
-    if (!regExp.test(emailInput.value) && emailInput.value) {
+    let regExp = new RegExp(/[.]+$/i);
+    if (emailInput.value != null && regExp.test(emailInput.value)) {
         showErrorMessage(emailInput, emailError);
         emailFlag = false;
     } else {
@@ -196,7 +206,7 @@ function checkRepassword() {
     let repasswordInput = document.querySelector('#repassword');
     let repassword = repasswordInput.value;
     let passwordError = document.querySelector('#PasswordError')
-    if (password && repassword !== password) {
+    if (repassword !== password) {
         passwordError.innerHTML = "Wachtwoorden zijn niet gelijk";
         showErrorMessage(repasswordInput, passwordError);
         repasswordFlag = false;
@@ -209,10 +219,7 @@ function checkRepassword() {
 function checkPcApiResponse(){
     let streetInput = document.querySelector('#streetName');
     let residenceInput = document.querySelector('#residence');
-    if (streetInput.value === 'undefined'
-        || residenceInput.value === 'undefined'
-        || streetInput.value === ''
-        || residenceInput.value === '') {
+    if (streetInput.value === 'undefined' || residenceInput.value === 'undefined') {
         addressFlag = false;
         streetInput.style.borderColor = "red";
         residenceInput.style.borderColor = "red";

@@ -42,27 +42,8 @@ class RegistrationControllerTest {
     @Test @Order(1)
     public void registrationRequest_returns_200_OK(){
         Mockito.when(mockRegistrationService.validate(Mockito.any(UserLoginAccount.class))).thenReturn(true);
-        Mockito.when(mockRegistrationService.register(Mockito.any(UserLoginAccount.class), Mockito.any(Role.class)))
-                .thenReturn(new User(1234567, new FullName("Johnny", "", "Bravo"), "1997-11-01",
-                        new UserAddress("dorpstraat", 10, "bis", "1234AB", "Zaltbommel"), "johnny.bravo@cartoonnetwork.com"));
-        String jsonBody = """
-                {
-                    "bsn":"1234567",
-                    "firstname":"Johnny",
-                    "infix":"",
-                    "surname":"Bravo",
-                    "dateofbirth":"1997-11-01",
-                    "postalCode":"1234AB",
-                    "houseNr":"10",
-                    "addition":"bis",
-                    "streetName":"dorpstraat",
-                    "residence":"Zaltbommel",
-                    "email":"johnny.bravo@cartoonnetwork.com",
-                    "password":"ho-M0mm4"
-                }""";
 
         given()
-                .body(jsonBody)
                 .contentType("application/json")
         .when()
                 .post("/register/client")
