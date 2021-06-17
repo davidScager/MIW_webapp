@@ -7,7 +7,7 @@ public class UrlAdresses {
 
     private final String homeschermPage = address + "/homescherm.html";
     private final String homeschermingelogdPage = address + "/homeschermingelogd.html";
-    private final String contactPageUrl = address + "/contact.html";
+    private final String contactPageUrl = address + "/Contact.html";
 
     private final String registrationPage = address + "/register";
     private final String registrationPageUrl = address + "/registreren.html";
