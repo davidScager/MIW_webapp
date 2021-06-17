@@ -16,7 +16,7 @@ function loadTransactionOverview() {
     var koersStijging = { 'up': function( x, y) { return Math.round(((y-x)/ x) * 100)}};
 
     let token = localStorage.getItem("token");
-    fetch(`http://localhost:8080/transaction/transactionhistory`, {
+    fetch(`/transaction/history`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
