@@ -32,7 +32,7 @@ public class TransactionController {
     private final TokenService tokenService;
     private final UserService userService;
     private final PortfolioService portfolioService;
-    private UrlAdresses urlAdresses;
+    private UrlAdresses urlAdresses = new UrlAdresses();
 
     @Autowired
     public TransactionController(TransactionService transactionService, TokenService tokenService, UserService userService, PortfolioService portfolioService) {
@@ -47,6 +47,11 @@ public class TransactionController {
     @GetMapping
     public RedirectView showResetPage() {
         return new RedirectView(urlAdresses.getTransactionPage());
+    }
+
+    @GetMapping("/historypage")
+    public RedirectView transactionHistoryHtmlHandler() {
+        return new RedirectView(urlAdresses.getTransactionHistoryPageUrl());
     }
 
     @PostMapping("/myassets")
