@@ -28,8 +28,24 @@ public class UrlAdresses {
     private final String loginPage = address + "/login.html";
     private final String login = address + "/login";
 
-    private final String PortfolioReturnsPage = address + "/portfolioreturns";
+    private final String portfolioPage = address + "/portofolio";
+    private final String portfolioPageUrl = address + "/portofolio.html";
+    private final String PortfolioReturnsPage = address + "/portfolio/returns";
+    private final String PortfolioReturnsPageUrl = address + "/PortfolioReturns.html";
     private final String transactionPage = address + "/transaction";
+
+    public String getPortfolioPage() {
+        return portfolioPage;
+    }
+
+    public String getPortfolioPageUrl() {
+        return portfolioPageUrl;
+    }
+
+    public String getPortfolioReturnsPageUrl() {
+        return PortfolioReturnsPageUrl;
+    }
+
     private final String TransactionHistory = address + "/transaction/transactionhistory";
     private final String transactionCost = address + "/transaction/transactioncost";
     private final String createTransaction = address + "/transaction/createtransaction";
