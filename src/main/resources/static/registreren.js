@@ -100,7 +100,7 @@ function setupFetch() {
 
 function handleResponse(response) {
     console.log(response)
-    if (response.status === 202) {
+    if (response) {
         afterRegister();
     } else {
         window.location.replace(regFailUrl);

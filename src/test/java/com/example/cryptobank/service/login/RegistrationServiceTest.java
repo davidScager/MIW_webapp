@@ -75,12 +75,13 @@ class RegistrationServiceTest {
 
     @Test @Order(6)
     void userLoginAccount_not_validated() {
+        Mockito.when(mockRootRepository.alreadyRegistered(actualUserLoginAccount)).thenReturn(true);
         assertThat(testRegistrationService.validate(actualUserLoginAccount)).isFalse();
     }
 
     @Test @Order(7)
     void userLoginAccount_cached_with_token(){
-        Mockito.when(mockTokenService.generateJwtToken(actualUserLoginAccount.getUser().getEmail(), JWT_SUBJECT, DURATON_VALID)).thenReturn(TOKEN);
+        Mockito.when(mockTokenService.generateJwtToken(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).thenReturn(TOKEN);
         String expected = testRegistrationService.cacheNewUserWithToken(actualUserLoginAccount);
         assertThat(expected).isEqualTo(TOKEN);
     }
