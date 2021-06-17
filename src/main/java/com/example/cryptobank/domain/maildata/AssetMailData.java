@@ -1,5 +1,7 @@
 package com.example.cryptobank.domain.maildata;
 
+import com.example.cryptobank.domain.urls.UrlAdresses;
+
 public class AssetMailData extends MailData {
     private String linkUrl;
     private String pageUrl;
@@ -8,9 +10,11 @@ public class AssetMailData extends MailData {
     private String mailText;
     private String mailContent;
     private String receiver;
+    private UrlAdresses urlAdresses;
 
     public AssetMailData() {
-        this.linkUrl = "http://localhost:8080/logincontroller.html";
+        urlAdresses = new UrlAdresses();
+        this.linkUrl = urlAdresses.getLoginPage();
         this.pageUrl = "src/main/resources/static/default_mail.html";
         this.sender = "BigBossNijntje@BitBank.com";
     }
