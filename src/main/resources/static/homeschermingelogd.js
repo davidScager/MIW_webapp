@@ -8,7 +8,7 @@ function checkToken() {
 }
 
 function getUser(token) {
-    fetch("http://localhost:8080/home/checkuser", {
+    fetch("http://localhost:8080/checkuser", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
