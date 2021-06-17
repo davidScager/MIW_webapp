@@ -180,7 +180,7 @@ function loadMyAssets() {
 
                         tdAsset.innerHTML = `${assets[1].assetName}`
                         tdAmount.innerHTML = `${assets[1].avalable}`
-                        tdValueToday.innerHTML = `${assets[1].assetUSDValue}`
+                        tdValueToday.innerHTML = `${assets[1].assetUSDValue * assets[1].avalable}`
 
                         row.appendChild(tdAsset)
                         row.appendChild(tdAmount)
