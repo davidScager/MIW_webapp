@@ -11,14 +11,14 @@
 <header>
   <div class="navbar">
     <div class="navbar sideNav">
-      <a href="Transaction.html">Handelen</a>
-      <a href="portfolio.html">Portfolio</a>
-      <a href="TransactionHistory.html">Transacties</a>
+      <a href="/transaction">Handelen</a>
+      <a href="/portfolio">Portfolio</a>
+      <a href="http://localhost:8080/TransactionHistory.html">Transacties</a>
     </div>
     <div><a href="homescherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></div>
     <div class="navbar sideNav">
-      <a href="login.html">Login</a>
-      <a href="registreren.html">Registreren</a>
+      <a href="/login">Login</a>
+      <a href="/register">Registreren</a>
       <a class="cta" href="contact.html"><button>Contact</button> </a>
     </div>
   </div>
@@ -49,10 +49,12 @@
     <button class="confirm" type="submit" onclick="sendData()">Bevestig</button>
     <button class="reset" type="reset" onclick="clearInput()">Reset</button>
       <br>
-      <a href="/reset_password.html" id="passwordReset">Wachtwoord vergeten?</a>
+      <a href="/reset" class="passwordReset">Wachtwoord vergeten?</a>
+      <br>
+      <a href="/register" class="register">Nog geen account? Klik hier om te registreren</a>
   </div>
 
-  <div id="loginError">De combinatie gebruikersnaam en wachtwoord klopt niet </div>
+  <div id="loginInfo">De combinatie gebruikersnaam en wachtwoord bestaat niet </div>
 
 </main>
 
