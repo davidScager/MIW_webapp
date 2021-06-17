@@ -78,17 +78,16 @@ button{
     transition: all 0.3s ease 0s;
 }
 
-.confirm{
-    position: relative;
-    left: 25px;
+/*.confirm{*/
+/*    position: relative;*/
+/*    left: 25px;*/
+/*}*/
 
-}
-
-.reset{
-    position: relative;
-    left: 35px;
-    margin-right: 10px;
-}
+/*.reset{*/
+/*    position: relative;*/
+/*    left: 35px;*/
+/*    margin-right: 10px;*/
+/*}*/
 
 
 button:hover{
