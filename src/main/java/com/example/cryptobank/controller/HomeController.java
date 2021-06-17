@@ -38,5 +38,6 @@ public class HomeController {
     public User checkUser(@RequestHeader(value = "Authorization") String token) {
         return userService.getUserFromToken(token);
     }
+
 }
 
