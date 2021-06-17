@@ -86,7 +86,12 @@
             <label>Als u wilt <div class="triggerBuyOrSell">ver</div>kopen op een bepaalde waarde
                 vul dit hieronder in</label>
             <input id="valueToBuyOrSellAt" placeholder="Gewenste waarde?">
-            <button id="execcutTransaction" type="button" onclick="newTransaction()">Voer de transactie uit</button>
+            <div class="sellTransaction">
+                <button id="executeSellTransaction" type="button">Voer de transactie uit</button>
+            </div>
+            <div class="buyTransaction">
+                <button id="executeBuyTransaction" type="button">Voer de transactie uit</button>
+            </div>
         </div>
 
     </form>

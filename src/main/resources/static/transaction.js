@@ -5,17 +5,20 @@ let myAssets
 let bankAssets
 let userId
 
-function newTransaction() {
+
+
+function newTransaction(seller, buyer) {
     console.log(userId)
     let token = localStorage.getItem("token");
-    let seller = document.querySelector(`#seller`).value
-    let buyer = document.querySelector(`#buyer`).value
     let assetToSell = document.querySelector(`#assetToSell`).value
     let assetToBuy = document.querySelector(`#assetTobuy`).value
     let amount = document.querySelector(`#numberOfAssets`).value
     let triggerValue = document.querySelector(`#valueToBuyOrSellAt`).value
     if (triggerValue === null) {
         triggerValue = 0;
+    } else if (triggerValue !== null){
+        if (seller === 0){}
+        seller == 1
     }
     if (amount === null) {
         let amountfield = document.querySelector(`#numberOfAssets`)
@@ -32,6 +35,7 @@ function newTransaction() {
         username: "iemand",
         transactioncost: 0
     }
+
     fetch(`http://localhost:8080/transaction/createtransaction`, {
         method: 'POST',
         headers: {
@@ -40,11 +44,22 @@ function newTransaction() {
             "Authorization": token
         },
         body: JSON.stringify(transactiedata)
-    }).then(response => response.json())
-        .then(data => {
-            console.log(data)
-        })
-}
+    })}
+
+document.getElementById(`executeBuyTransaction`).addEventListener(`click`,
+    function (){
+    let sellerbox = document.querySelector(`#seller`)
+        let seller = sellerbox.options[sellerbox.selectedIndex].value
+    let buyer = userId;
+    newTransaction(seller, buyer)
+    })
+
+document.getElementById(`executeSellTransaction`).addEventListener(`click`,
+    function (){
+    let seller = userId;
+    let buyer = 1;
+    newTransaction(seller, buyer)
+    })
 
 document.getElementById('transactioncost').addEventListener(`click`,
     function () {
@@ -82,8 +97,10 @@ document.querySelector(`#buybutton`).addEventListener(`click`,
             opt.innerHTML = `${asset[1].assetName}`
             selectfotsale.appendChild(opt)
         })
-        document.querySelector(`#buyer`).value = userId
         document.querySelector('.sell').style.display = 'block';
+        document.querySelector('.buyTransaction').style.display = 'block';
+        document.querySelector(`.sellTransaction`).style.display = 'none';
+
         buyorsell()
     })
 
@@ -111,9 +128,11 @@ document.querySelector(`#sellbutton`).addEventListener(`click`,
             console.log(opt.value)
             selectfotsale.appendChild(opt)
         })
-        document.querySelector(`#seller`).value = userId
         document.querySelector('.triggerBuyOrSell').style.display = 'inline';
         document.querySelector(`#buyer`).value = 1;
+        document.querySelector(`.sellTransaction`).style.display = 'block';
+        document.querySelector('.buyTransaction').style.display = 'none';
+
         buyorsell()
     })
 
