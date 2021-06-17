@@ -54,6 +54,8 @@ public class UrlAdresses {
     }
 
     private final String TransactionHistory = address + "/transaction/history";
+    private final String TransactionHistoryPage = address + "/transaction/history";
+    private final String TransactionHistoryPageUrl = address + "/TransactionHistory.html";
     private final String transactionCost = address + "/transaction/transactioncost";
     private final String createTransaction = address + "/transaction/createtransaction";
     private final String myassets = address + "/transaction/myassets";
@@ -65,6 +67,14 @@ public class UrlAdresses {
 
     public String getHomeschermingelogdPage() {
         return homeschermingelogdPage;
+    }
+
+    public String getTransactionHistoryPage() {
+        return TransactionHistoryPage;
+    }
+
+    public String getTransactionHistoryPageUrl() {
+        return TransactionHistoryPageUrl;
     }
 
     public String getTransactionPage() {
