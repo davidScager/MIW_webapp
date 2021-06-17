@@ -38,7 +38,6 @@ public class ResetPasswordController {
     UrlAdresses urlAdresses = new UrlAdresses();
     Map<String, Boolean> validToken = new HashMap<>();
 
-
     @Autowired
     public ResetPasswordController(LoginAccountService loginAccountService, @Qualifier("sendMailServiceFacade") MailSenderFacade mailSenderFacade, TokenService tokenService) {
         this.mailSenderFacade = mailSenderFacade;
