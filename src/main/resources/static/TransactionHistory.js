@@ -32,11 +32,11 @@ function loadTransactionOverview() {
                 transaction_row += '<tr id="transaction_row" class="ui-widget-content transaction_row">';
                 transaction_row += ' <td>'+data[i].asset.name+'</td>';
                 transaction_row += ' <td>'+data[i].asset.abbreviation+'</td>';
-                transaction_row += ' <td>'+data[i].numberOfAssetsTraded+'</td>';
-                transaction_row += ' <td>'+data[i].assetTransactionRate+'</td>';
-                transaction_row += ' <td>'+data[i].timestamp+'</td>';
-                transaction_row += ' <td>'+data[i].aankoopVerkoop+'</td>';
-                transaction_row += ' <td>'+koersStijging['up'](data[i].assetTransactionRate, data[i].asset.valueInUsd)+'%'+ '</td>';
+                transaction_row += ' <td align="center">'+data[i].numberOfAssetsTraded+'</td>';
+                transaction_row += ' <td align="center">'+data[i].assetTransactionRate+'</td>';
+                transaction_row += ' <td align="center">'+data[i].timestamp+'</td>';
+                transaction_row += ' <td align="center">'+data[i].aankoopVerkoop+'</td>';
+                transaction_row += ' <td align="center">'+koersStijging['up'](data[i].assetTransactionRate, data[i].asset.valueInUsd)+'%'+ '</td>';
                 transaction_row += '</tr>';
 
             }

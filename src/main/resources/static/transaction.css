@@ -113,3 +113,10 @@ display: none;
 .transactioninpufields{
     display: none;
 }
+
+.sellTransaction{
+    display: none;
+}
+.buyTransaction{
+    display: none;
+}

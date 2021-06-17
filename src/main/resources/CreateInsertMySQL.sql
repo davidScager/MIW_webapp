@@ -153,11 +153,11 @@ INSERT INTO role VALUES ('bank');
 INSERT INTO role VALUES ('client');
 
 INSERT INTO actor VALUES (1,'12345678','bank'),
-                         (2,'NL99 BITB 5561373276','CLIENT'),
-                         (3,'NL99 BITB 2627160050','CLIENT'),
-                         (4,'NL99 BITB 2877740812','CLIENT'),
-                         (5,'NL99 BITB 2001335063','CLIENT'),
-                         (6,'NL99 BITB 3428800845','CLIENT');
+                         (2,'NL99 BITB 5561373276','client'),
+                         (3,'NL99 BITB 2627160050','client'),
+                         (4,'NL99 BITB 2877740812','client'),
+                         (5,'NL99 BITB 2001335063','client'),
+                         (6,'NL99 BITB 3428800845','client');
 
 INSERT INTO loginaccount VALUES ('boy.wonder@smartguy.com','$argon2id$v=19$m=15360,t=2,p=1$A3mFtyTa3sW80dowU6/INA$I2CvP5j4wIqULo9rVnRgg4jsRNuK/XA86rC1XYB0zbg',NULL),
                                 ('johnny.bravo@cartoonnetwork.com','$argon2id$v=19$m=15360,t=2,p=1$c5b7W72KzkP4yp8nBoKckQ$+XaVQ0nFswcmC6YVNl33c5oGVgHjnp0XQTSCabj7GHM',NULL),

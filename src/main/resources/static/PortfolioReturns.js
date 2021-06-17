@@ -5,8 +5,17 @@
     $(".scroll_tbody").height(new_height);
     }
 
+    function setNewDate() {
+        let year  = new Date().getFullYear();
+        let month = new Date().getMonth();
+        let day   = new Date().getDate();
+        let date  = new Date(year - 1, month, day);
+        storeDate(date);
+    }
+
     function computeDate(){
         let date = new Date(document.querySelector("#historie").value);
+
         storeDate(date);
 
         loadPortfolioReturns();
@@ -19,14 +28,6 @@
         let dateString = '' +day + '-' + month + '-' + year + '';
 
         localStorage.setItem("hisotrischedatum", dateString);
-    }
-
-    function setNewDate() {
-        let year  = new Date().getFullYear();
-        let month = new Date().getMonth();
-        let day   = new Date().getDate();
-        let date  = new Date(year - 1, month, day);
-        storeDate(date);
     }
 
     function setHistoricalRate(name) {
@@ -44,7 +45,6 @@
 
     function loadPortfolioReturns() {
     setHeights();
-    // localStorage.removeItem("historischekoers");
 
     $('#selectable > tbody').empty();
     let portfolio_row = '';
@@ -77,11 +77,12 @@
                     portfolio_row += '<tr id="portfolio_row" class="ui-widget-content portfolio_row">';
                     portfolio_row += '<td>' + data[i].asset.name + '</td>';
                     portfolio_row += '<td>' + data[i].asset.abbreviation + '</td>';
-                    portfolio_row += ' <td>' + koersStijging['up'](data[i].asset.valueYesterday, data[i].asset.valueInUsd) + '%' + '</td>';
-                    portfolio_row += ' <td>' + koersStijging['up'](data[i].asset.valueLastWeek, data[i].asset.valueInUsd) + '%' + '</td>';
-                    portfolio_row += ' <td>' + koersStijging['up'](data[i].asset.valueLastMonth, data[i].asset.valueInUsd) + '%' + '</td>';
-                    portfolio_row += ' <td>' + koersStijging['up'](data[i].lastTrade, data[i].asset.valueInUsd) + '%' + '</td>';
-                    portfolio_row += ' <td>' + koersStijging['up'](historischeKoers, data[i].asset.valueInUsd) + '%' + '</td>';
+                    portfolio_row += '<td>' + '</td>';
+                    portfolio_row += ' <td align="center">' + koersStijging['up'](data[i].asset.valueYesterday, data[i].asset.valueInUsd) + '%' + '</td>';
+                    portfolio_row += ' <td align="center">' + koersStijging['up'](data[i].asset.valueLastWeek, data[i].asset.valueInUsd) + '%' + '</td>';
+                    portfolio_row += ' <td align="center">' + koersStijging['up'](data[i].asset.valueLastMonth, data[i].asset.valueInUsd) + '%' + '</td>';
+                    portfolio_row += ' <td align="center">' + koersStijging['up'](data[i].lastTrade, data[i].asset.valueInUsd) + '%' + '</td>';
+                    portfolio_row += ' <td align="center">' + koersStijging['up'](historischeKoers, data[i].asset.valueInUsd) + '%' + '</td>';
 
                     portfolio_row += '</tr>';
 
@@ -99,9 +100,10 @@
                     portfolio_row +='<tr>'
                     portfolio_row += '<td>'+'bank saldo  '+'</td>';
                     portfolio_row += '<td>' + data[i].asset.abbreviation + '</td>';
-                    portfolio_row += '<td>' + data[i].amount + '</td>'
+                    portfolio_row += '<td align="center">' +'$'+ data[i].amount + '</td>'
                     portfolio_row +='<tr>'
 
+                    portfolioValueNu = portfolioValueNu + data[i].amount;
                     portfolioValueYesterday = portfolioValueYesterday + data[i].amount;
                     portfolioValueLastWeek = portfolioValueLastWeek + data[i].amount;
                     portfolioValueLastMonth = portfolioValueLastMonth + data[i].amount;
@@ -112,22 +114,26 @@
 
 
     portfolio_row +='<tr>'
-    portfolio_row += '<td>'+'totale portefeuille  '+'</td>';
-    portfolio_row += '<td>'+'$' + Math.round(portfolioValueNu)+'</td>';
-    portfolio_row += '<td>'+'$' + Math.round(portfolioValueYesterday)+'</td>';
-    portfolio_row += '<td>'+'$' + Math.round(portfolioValueLastWeek)+'</td>';
-    portfolio_row += '<td>'+'$' + Math.round(portfolioValueLastMonth)+'</td>';
-    portfolio_row += '<td>'+'$' + Math.round(portfolioValueHistorical)+'</td>';
+    portfolio_row += '<td align="right">'+'totale portefeuille waarde'+'</td>';
+    portfolio_row += '<td>' + '</td>';
+    portfolio_row += '<td align="center">'+'$' + Math.round(portfolioValueNu)+'</td>';
+    portfolio_row += '<td align="center">'+'$' + Math.round(portfolioValueYesterday)+'</td>';
+    portfolio_row += '<td align="center">'+'$' + Math.round(portfolioValueLastWeek)+'</td>';
+    portfolio_row += '<td align="center">'+'$' + Math.round(portfolioValueLastMonth)+'</td>';
+    portfolio_row += '<td>' + '</td>';
+    portfolio_row += '<td align="center">'+'$' + Math.round(portfolioValueHistorical)+'</td>';
     portfolio_row += '<td>'+ '   '+'</td>';
     portfolio_row += '<td>'+ '   '+'</td>';
     portfolio_row += '</tr>';
     portfolio_row +='<tr>'
-    portfolio_row += '<td>'+'  (stijging/daling)    '+'</td>';
-    portfolio_row += '<td>'+ '       '+'</td>';
-    portfolio_row += ' <td>'+koersStijging['up'](portfolioValueYesterday, portfolioValueNu)+'%'+ '</td>';
-    portfolio_row += ' <td>'+koersStijging['up'](portfolioValueLastWeek, portfolioValueNu)+'%'+ '</td>';
-    portfolio_row += ' <td>'+koersStijging['up'](portfolioValueLastMonth, portfolioValueNu)+'%'+ '</td>';
-    portfolio_row += ' <td>'+koersStijging['up'](portfolioValueHistorical, portfolioValueNu)+'%'+ '</td>';
+    portfolio_row += '<td align="right">'+'  (stijging/daling)    '+'</td>';
+    portfolio_row += '<td>'   + '</td>';
+    portfolio_row += '<td>' + '</td>';
+    portfolio_row += ' <td align="center">'+koersStijging['up'](portfolioValueYesterday, portfolioValueNu)+'%'+ '</td>';
+    portfolio_row += ' <td align="center">'+koersStijging['up'](portfolioValueLastWeek, portfolioValueNu)+'%'+ '</td>';
+    portfolio_row += ' <td align="center">'+koersStijging['up'](portfolioValueLastMonth, portfolioValueNu)+'%'+ '</td>';
+    portfolio_row += ' <td>' + '</td>';
+    portfolio_row += ' <td align="center">'+koersStijging['up'](portfolioValueHistorical, portfolioValueNu)+'%'+ '</td>';
     portfolio_row += '</tr>';
 
     console.log(portfolioValueNu);

@@ -57,7 +57,6 @@ public class RegistrationService {
      */
     public boolean validate(UserLoginAccount userLoginAccount){
         logger.info("Validating registration information with database");
-        System.out.println(registrationCache);
         return !rootRepository.alreadyRegistered(userLoginAccount) && !registrationCache.containsValue(userLoginAccount);
     }
 
@@ -96,7 +95,7 @@ public class RegistrationService {
         try {
             mailSenderFacade.sendMail(registerMailData);
             logger.info("Registration confirmation email sent");
-        } catch (MalformedURLException | MessagingException | FileNotFoundException error) {
+        } catch (MalformedURLException | MessagingException | FileNotFoundException error) {// add custom exception
             logger.info("Failed to send email.");
             logger.error("URL or Messaging error caught." + error.getMessage());
         }

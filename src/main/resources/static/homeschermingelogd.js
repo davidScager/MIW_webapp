@@ -23,5 +23,3 @@ function nameUser(json) {
     console.log(userName);
     document.getElementById("welkomgebruiker").innerText = "Welkom " + userName;
 }
-
-

@@ -20,7 +20,7 @@ class TokenServiceTest {
     private static TokenService tokenService;
     private static final String EMAIL = "dude@duder.com";
     private static final String SUBJECT = "Session";
-    private static final int TIME_UNITS_VALID = 1000;
+    private static final int TIME_UNITS_VALID = 2000;
     private static String token;
 
     @BeforeAll
@@ -42,6 +42,7 @@ class TokenServiceTest {
         try {
             assertEquals(EMAIL, tokenService.parseToken(token, SUBJECT));
         } catch (ExpiredJwtException jwtException){
+            System.out.println(jwtException.getMessage());
             fail();
         }
     }
@@ -58,7 +59,7 @@ class TokenServiceTest {
 
     @Test @Order(4)
     void tokenExpiredTest() throws InterruptedException {
-        Thread.sleep(1001);
+        Thread.sleep(2500);
         try {
             tokenService.parseToken(token, SUBJECT);
             fail();
