@@ -132,19 +132,14 @@ public class RegistrationService {
         }
     }
 
-    //Mainly for test purposes
-    //Every test of cacheNewUserWithToken would otherwise take 30 minutes!
+    /**
+     * Set unit for duration of Jwt validity
+     * unit is multiplied by durationValid parameter
+     * set to 1 second by default (60,000 millis)
+     * @param durationUnitMillis (int)
+     */
     public void setDurationUnitMillis(int durationUnitMillis) {
         this.durationUnitMillis = durationUnitMillis;
-    }
-
-    //todo: verwijder voor einde project
-    // momenteel alleen gebruikt in commandlineRunner om gebruikers voor uitproberen te registreren
-    public User register(UserLoginAccount userLoginAccount, Role role){
-        User user = userLoginAccount.getUser();
-        rootRepository.registerLogin(userLoginAccount.getUser(), userLoginAccount.getPassword());
-        rootRepository.registerUser(userLoginAccount.getUser(), role);
-        return user;
     }
 
 }
