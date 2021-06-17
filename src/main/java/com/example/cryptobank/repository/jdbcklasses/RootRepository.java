@@ -192,12 +192,12 @@ public class RootRepository {
 
     public void handleTransactionCost(Portfolio buyer, Portfolio seller, Transaction transaction) {
 //        System.out.println("" + buyer.getActor().getRole());
-        if(buyer.getActor().getRole().equals(Role.CLIENT) && seller.getActor().getRole().equals(Role.CLIENT)) {
+        if(buyer.getActor().getRole().getRole().equals(Role.CLIENT.getRole()) && seller.getActor().getRole().getRole().equals(Role.CLIENT.getRole())) {
             double tempTransactionCost = transaction.getTransactionLog().getTransactionCost() / 2;
             updateClientForTransactionCost(buyer, tempTransactionCost);
             updateClientForTransactionCost(seller, tempTransactionCost);
             updateBankForTransactionCost(transaction);
-        } else if(buyer.getActor().getRole().equals(Role.BANK)) {
+        } else if(buyer.getActor().getRole().getRole().equals(Role.BANK.getRole())) {
             updateClientForTransactionCost(seller, transaction.getTransactionLog().getTransactionCost());
             updateBankForTransactionCost(transaction);
         } else {
