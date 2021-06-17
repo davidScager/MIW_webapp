@@ -93,12 +93,12 @@ CREATE TABLE Transaction(
                             assetBought     VARCHAR(45) NOT NULL,
                             FOREIGN KEY (seller)
                                 REFERENCES Actor (userId)
-                                ON DELETE NO ACTION
-                                ON UPDATE NO ACTION,
+                                ON DELETE CASCADE
+                                ON UPDATE CASCADE,
                             FOREIGN KEY (buyer)
                                 REFERENCES Actor (userId)
-                                ON DELETE NO ACTION
-                                ON UPDATE NO ACTION,
+                                ON DELETE CASCADE
+                                ON UPDATE CASCADE,
                             FOREIGN KEY (assetSold)
                                 REFERENCES Asset (abbreviation)
                                 ON DELETE NO ACTION

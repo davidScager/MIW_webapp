@@ -42,10 +42,10 @@ public class CurrencyHistory {
                         if (stringssplit[0].equals(" usd")){
                                 double result = Double.valueOf(stringssplit[1]);
                                 if (result <1){
-                                        BigDecimal round = new BigDecimal(result).setScale(6, RoundingMode.HALF_UP);
+                                        BigDecimal round = BigDecimal.valueOf(result).setScale(6, RoundingMode.HALF_UP);
                                         return round.doubleValue();
                                 } else {
-                                        BigDecimal round = new BigDecimal(result).setScale(2, RoundingMode.HALF_UP);
+                                        BigDecimal round = BigDecimal.valueOf(result).setScale(2, RoundingMode.HALF_UP);
                                         return round.doubleValue();
                                 }
 

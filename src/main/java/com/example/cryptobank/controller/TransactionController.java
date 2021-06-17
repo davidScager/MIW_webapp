@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 import java.io.IOException;
 
@@ -96,12 +94,15 @@ public class TransactionController {
     @PostMapping("/createtransaction")
     public void createTransaction(@RequestHeader(value = "Authorization") String token, @RequestBody TransactionData transactionData) throws IOException {
         transactionData.setUsername(tokenService.parseToken(token, "session"));
+        logger.debug(transactionData.toString());
         transactionData.setTransactionCost(transactionService.calculateTransactionCost(transactionData.getNumberOfAssets(), transactionData.getAssetBought()));
         transactionService.setTransaction(transactionData);
     }
 
     @GetMapping("/userid")
-    public long getUserIdByUsername(@RequestHeader(value = "Authorization") String token) {
-        return userService.getUserFromToken(token).getId();
+    public ResponseEntity<?> getUserIdByUsername(@RequestHeader(value = "Authorization") String token) {
+        Map<String, Long> map = new HashMap<>();
+        map.put("UserId" ,userService.getUserFromToken(token).getId());
+        return ResponseEntity.ok().body(map);
     }
 }

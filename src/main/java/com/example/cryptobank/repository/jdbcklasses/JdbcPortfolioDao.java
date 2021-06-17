@@ -86,6 +86,7 @@ public class JdbcPortfolioDao implements PortfolioDao {
     @Override
     public int getUserIdByPortfolioId(int portfolioId){
         String sql ="Select * FROM portfolio WHERE PortfolioId = ?";
-        return jdbcTemplate.query(sql, portfolioRowMapper, portfolioId).get(0).getPortfolioId();
+        Actor actor = jdbcTemplate.query(sql, portfolioRowMapper, portfolioId).get(0).getActor();
+        return (int) actor.getUserId();
     }
 }

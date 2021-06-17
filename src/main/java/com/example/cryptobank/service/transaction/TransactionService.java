@@ -162,7 +162,8 @@ public class TransactionService {
            List<AssetPortfolio> list = rootRepository.getAssetPortfolioByAbbrevation(transactionData.getAssetSold());
            list.forEach(assetPortfolio -> {
                if (assetPortfolio.getAmount() >= transactionData.getNumberOfAssets()) {
-                   transactionData.setSeller(rootRepository.getUserIdByPortfolioId(assetPortfolio.getPortfolioId()));
+                   int id = rootRepository.getUserIdByPortfolioId(assetPortfolio.getPortfolioId());
+                   transactionData.setSeller(id);
                }});
         }
         if (transactionData.getTriggerValue() == 0) {
