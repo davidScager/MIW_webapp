@@ -134,15 +134,15 @@
                     payWith: payWith
                 })
             })
-            .then(response => response.text())
-            .then(response => {
-                loadPortfolio(checkToken());
-                alert(response);
+            .then(response => response.json())
+            .then(data => {
+                //loadPortfolio(checkToken());
+                alert(data);
                 //loadPortfolio();
-                console.log(response);
+                console.log(data);
             })
             .catch((error) => {
-                loadPortfolio(checkToken());
+                //loadPortfolio(checkToken());
                 alert('Foutje '+ error);
                 console.error('Foutje', error);
             });
@@ -188,9 +188,6 @@
                     }),
 
                     success: function (data) {
-                        //console.log( data );
-                        //var json_str = JSON.stringify(data);
-                        //console.log( JSON.stringify(data) );
                         let token = localStorage.getItem("token")
                         loadPortfolio(token);
                         alert(data);

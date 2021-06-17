@@ -98,8 +98,7 @@ public class AssetPortfolioController {
     }
 
     @PostMapping("/updatebuyasset")
-    @CrossOrigin
-    public ResponseEntity<String> updatebuyasset(@RequestHeader(value = "Authorization") String token,@RequestBody Map<String, String> requestParams) {
+    public ResponseEntity<Asset> updatebuyasset(@RequestHeader(value = "Authorization") String token,@RequestBody Map<String, String> requestParams) {
         //JSONObject jsonObject = new JSONObject();
 
         String symbol = requestParams.get("symbol");
@@ -113,16 +112,6 @@ public class AssetPortfolioController {
         System.out.println("Token "+token);
         System.out.println("userId "+userId);
         int portfolioIdBuyer = portfolioDao.getPortfolioIdByUserId((int) userId).getPortfolioId();
-
-        /* Probleem
-        user 108 koopt      x_coin tegen y_coins
-        user 107 verkoopt   x_coin  (ForSale maar wil geen y_coin)
-        1) We eerst y_coin verkopen aan de bank;
-        2) met het geld kopen we x_coin
-
-        Als niemand will verkopen dat verkoopt de bank
-        */
-        // Ik koop voor 1000 x_coin waard 500 usd amount in x_coin 1000/500 = 2
 
 
         Asset assetBuy = assetDao.getOneBySymbol(symbol);
@@ -189,7 +178,7 @@ public class AssetPortfolioController {
                 transactionData.setTriggerValue(0); //?????
                 transactionData.setTransactionCost(0); //???
                 Asset asset = assetDao.getOneBySymbol(symbol);
-
+                // Check of asset bestaat anders aan maken
                 assetPortfolioDao.checkExistElseCreate(asset,portfolioDao.getPortfolioIdByUserId((int) userId));
                 transactionService.createNewTransaction(transactionData);
                 // USD Asset niet updated
@@ -201,8 +190,10 @@ public class AssetPortfolioController {
         // TransactionData
 
         // Transactie???
-
-        return new ResponseEntity<String>("You are f....", HttpStatus.OK);
+        System.out.println("Transactie update assets");
+        return ResponseEntity.ok().body(assetBuy);
+        //return new ResponseEntity<String>("You are f....", HttpStatus.OK);
+        //return "You are f....";
     }
 
 }
