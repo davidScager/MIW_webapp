@@ -109,7 +109,7 @@ public class RegistrationService {
     public void registerUser(String token){
         UserLoginAccount userLoginAccount = registrationCache.get(token) ;
         rootRepository.registerLogin(userLoginAccount.getUser(), userLoginAccount.getPassword());
-        rootRepository.registerUser(userLoginAccount.getUser(), Role.CLIENT);
+        rootRepository.registerUser(userLoginAccount.getUser(), Role.CLIENT.valueOf("client"));
         registrationCache.remove(token);
         logger.info("New Client registered and cache cleared");
     }
