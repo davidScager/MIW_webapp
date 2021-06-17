@@ -15,7 +15,7 @@ public class AssetMailData extends MailData {
     public AssetMailData() {
         urlAdresses = new UrlAdresses();
         this.linkUrl = urlAdresses.getLoginPage();
-        this.pageUrl = "src/main/resources/static/default_mail.html";
+        this.pageUrl = "/default_mail.html";
         this.sender = "BigBossNijntje@BitBank.com";
     }
 
