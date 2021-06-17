@@ -48,9 +48,11 @@ let residence;
 let email;
 let password;
 let repassword;
+let notEmptyFlag = true;
 let emailFlag = false;
 let passwordFlag = false;
 let repasswordFlag = false;
+let addressFlag = false;
 
 function getFormData(){
     bsn = document.querySelector('#bsn').value;
@@ -100,7 +102,7 @@ function setupFetch() {
 
 function handleResponse(response) {
     console.log(response)
-    if (response) {
+    if (response.status === 200) {
         afterRegister();
     } else {
         window.location.replace(regFailUrl);
@@ -109,7 +111,10 @@ function handleResponse(response) {
 
 function register(){
     console.log("method call register()");
-    if (!checkAnyEmpty() && emailFlag && passwordFlag && repasswordFlag) {
+    checkAnyEmpty();
+    checkPcApiResponse();
+    let flags = [notEmptyFlag, emailFlag, passwordFlag, repasswordFlag, addressFlag];
+    if (flags.every(item =>{return item === true;})) {
         getFormData();
         setupFetch()
             .then(response => handleResponse(response))
@@ -187,6 +192,20 @@ function checkRepassword() {
     }
 }
 
+function checkPcApiResponse(){
+    let streetInput = document.querySelector('#streetName');
+    let residenceInput = document.querySelector('#residence');
+    if (streetInput.value === 'undefined' || residenceInput.value === 'undefined') {
+        addressFlag = false;
+        streetInput.style.borderColor = "red";
+        residenceInput.style.borderColor = "red";
+    } else {
+        addressFlag = true;
+        streetInput.style.borderColor = "";
+        residenceInput.style.borderColor = "";
+    }
+}
+
 function checkAnyEmpty(){
     let data = [
         document.forms["registrationForm"]["bsn"],
@@ -201,15 +220,13 @@ function checkAnyEmpty(){
         document.forms["registrationForm"]["password"],
         document.forms["registrationForm"]["repassword"]
         ];
-    let anyEmpty;
     data.forEach(item => {
         if (!item.value){
-            anyEmpty = true;
+            notEmptyFlag = false;
             item.style.borderColor = "red";
         } else {
             item.style.borderColor = "";
         }
     });
-    return anyEmpty;
 }
 //end before register checks
