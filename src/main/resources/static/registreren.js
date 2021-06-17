@@ -123,11 +123,13 @@ function register(){
                 alert("Registratie mislukt");
             });
     } else {
+        resetFlags();
         document.querySelector('#FieldEmptyError').style.visibility = "visible";
     }
 }
 
 function afterRegister() {
+    resetFlags();
     document.querySelector('#form').style.visibility = 'hidden';
     document.querySelector('#regButton').style.visibility = 'hidden';
     document.querySelector('#regInfo').innerHTML = 'Er is een bevestigingsmail naar het opgegeven email adres gestuurd. ' +
@@ -135,6 +137,14 @@ function afterRegister() {
     document.querySelector('#EmailError').style.visibility = "hidden";
     document.querySelector('#PasswordError').style.visibility = "hidden";
     document.querySelector('#FieldEmptyError').style.visibility = "hidden";
+}
+
+function resetFlags() {
+    notEmptyFlag = true;
+    emailFlag = false;
+    passwordFlag = false;
+    repasswordFlag = false;
+    addressFlag = false;
 }
 //end registration request
 
