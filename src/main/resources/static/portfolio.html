@@ -121,7 +121,7 @@
             let payWith = $( "#payWith option:selected" ).val();
             alert("symbol " + symbol+ " amountUsd "+ amountUsd + " payWith "+payWith);
 
-            fetch("http://localhost:8080/updatebuyasset", {
+            fetch("assetportfolio/updatebuyasset", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -178,7 +178,7 @@
                     }
                 });
                 $.ajax({
-                    url: 'http://localhost:8080/updateassetforsale',
+                    url: '/assetportfolio/updateassetforsale',
                     type: 'POST',
                     dataType: 'text',
                     contentType: "application/json",
@@ -207,7 +207,7 @@
        function loadAssetsV2(update) {
             // Leeg table assests
             $('#selectable_assets > tbody').empty();
-            $.getJSON("http://localhost:8080/updateassetsbyapiv2?update="+update, function (data) {
+            $.getJSON("/asset/updateassetsbyapiv2?update="+update, function (data) {
                 var json_str = JSON.stringify(data);
                 var asset_row = '';
                 for (i in data) {
@@ -229,7 +229,7 @@
        // oud
        function loadAssets() {
             $('#selectable_assets > tbody').empty();
-            $.getJSON("http://localhost:8080/updateassetsbyapi", function (data) {
+            $.getJSON("/asset/updateassetsbyapi", function (data) {
                 var json_str = JSON.stringify(data);
                 var asset_row = '';
                 for (i in data) {
@@ -275,7 +275,7 @@
                 // https://stackoverflow.com/questions/47824/how-do-you-remove-all-the-options-of-a-select-box-and-then-add-one-option-and-se
                 $('#payWith').find('option').remove().end();
 
-                $.post("http://localhost:8080/portfolio/list",
+                $.post("/portfolio/list",
                     {
                         extra: "hille"
                     },
@@ -333,7 +333,7 @@
                     });
 
                     $('#availablecurrencies > tbody').empty();
-                    $.post("http://localhost:8080/portfolio/list",
+                    $.post("/portfolio/list",
                         {
                             extra: "hille"
                         },
@@ -374,7 +374,8 @@
                 <li><a href="Transaction.html">Handelen</a></li>
                 <li><a href="portfolio.html">Portfolio</a></li>
                 <li><a href="TransactionHistory.html">Transacties</a></li>
-                <li><a href="homescherm.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></li>
+                <li><a href="homeschermingelogd.html"><img src="images/logo.png" class="logo" alt="BitBank-logo"></a></li>
+                <li><a href="PortfolioReturns.html">Historische<br>Rendementen</a></li>
                 <li id="login/logoutButton"><a href="login.html">Logout</a></li>
                 <li><a class="cta" href="contact.html">
                     <button>Contact</button>
