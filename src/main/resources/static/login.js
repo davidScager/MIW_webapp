@@ -2,7 +2,7 @@ window.onload = checkForLogout()
 
 const urlAddress = "http://localhost:8080";
 const doLogin = urlAddress + "/login";
-const homePage = urlAddress + "/HomeSchermIngelogd.html"
+const homePage = urlAddress + "/homeschermingelogd.html"
 
 let emailElement
 let email
