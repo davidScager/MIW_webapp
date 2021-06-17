@@ -58,7 +58,6 @@ h4 {
 }
 
 .flex-container > div {
-    background-color: #f1f1f1;
     margin: 150px;
     padding: 80px;
     font-size: 50px;
@@ -83,26 +82,26 @@ h4 {
     text-decoration-line: none;
 }
 
-.form-box {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-}
+/*.form-box {*/
+/*    display: flex;*/
+/*    flex-flow: row nowrap;*/
+/*    justify-content: space-between;*/
+/*}*/
 
-h5 {
-    text-align: center;
-    font-size: 30px;
-}
+/*h5 {*/
+/*    text-align: center;*/
+/*    font-size: 30px;*/
+/*}*/
 
-.live-rate {
-    display: flex;
-    flex-flow: column nowrap;
-    width: auto;
-    margin-top: 40px;
-    margin-right: 10px;
-    font-family: Calibri, sans-serif;
-    background-color: white;
-    padding-top: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
+/*.live-rate {*/
+/*    display: flex;*/
+/*    flex-flow: column nowrap;*/
+/*    width: auto;*/
+/*    margin-top: 40px;*/
+/*    margin-right: 10px;*/
+/*    font-family: Calibri, sans-serif;*/
+/*    background-color: white;*/
+/*    padding-top: 10px;*/
+/*    padding-left: 10px;*/
+/*    padding-right: 10px;*/
+/*}*/
