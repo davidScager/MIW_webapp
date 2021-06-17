@@ -183,7 +183,7 @@ public class TransactionService {
                     }
                 },
                 Date.from(Instant.now()),
-                Duration.ofSeconds(60).toMillis() //The timer. You can also choose onHours, onDays etc.
+                Duration.ofSeconds(60).toMillis()
         );
     }
 
@@ -208,7 +208,6 @@ public class TransactionService {
         }
     }
 
-    //alles klopt
     private void executeTransaction(TransactionData transactionData) throws IOException, MessagingException {
         createNewTransaction(transactionData);
         MailData assetMailData = new AssetMailData();
@@ -225,7 +224,7 @@ public class TransactionService {
         }
         mailSenderFacade.sendMail(assetMailData);
     }
-    //bank heeft niet genoeg assets als koper
+
     private void executeTransactionInDollars(TransactionData transactionData) throws IOException, MessagingException {
         transactionData.setAssetSold("USD");
         createNewTransaction(transactionData);
@@ -239,7 +238,6 @@ public class TransactionService {
         mailSenderFacade.sendMail(assetMailData);
     }
 
-    //klant heeft niet genoeg
     private void sendMailInsufficentAmount(TransactionData transactionData) throws MalformedURLException, MessagingException, FileNotFoundException {
         MailData assetMailData = new AssetMailData();
         assetMailData.setReceiver(transactionData.getUsername());

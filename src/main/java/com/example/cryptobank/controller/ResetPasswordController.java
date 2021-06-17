@@ -2,6 +2,7 @@ package com.example.cryptobank.controller;
 
 import com.example.cryptobank.domain.urls.UrlAdresses;
 import com.example.cryptobank.service.login.LoginAccountService;
+import com.example.cryptobank.service.mailSender.mailsenderfacade.MailSenderFacade;
 import com.example.cryptobank.service.mailSender.mailsenderfacade.SendMailServiceFacade;
 import com.example.cryptobank.domain.maildata.MailData;
 import com.example.cryptobank.domain.maildata.ResetMailData;
@@ -11,6 +12,7 @@ import com.example.cryptobank.service.mailSender.MailSenderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +27,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/reset")
 public class ResetPasswordController {
     private Logger logger = LoggerFactory.getLogger(ResetPasswordController.class);
     private final LoginAccountService loginAccountService;
-    private final SendMailServiceFacade sendMailServiceFacade;
+    private final MailSenderFacade mailSenderFacade;
     private final TokenService tokenService;
     private String email;
     private String insert;
@@ -39,8 +40,8 @@ public class ResetPasswordController {
 
 
     @Autowired
-    public ResetPasswordController(LoginAccountService loginAccountService, SendMailServiceFacade sendMailServiceFacade, TokenService tokenService) {
-        this.sendMailServiceFacade = sendMailServiceFacade;
+    public ResetPasswordController(LoginAccountService loginAccountService, @Qualifier("sendMailServiceFacade") MailSenderFacade mailSenderFacade, TokenService tokenService) {
+        this.mailSenderFacade = mailSenderFacade;
         this.tokenService = tokenService;
         logger.info("New MailSenderController");
         this.loginAccountService = loginAccountService;
@@ -65,7 +66,7 @@ public class ResetPasswordController {
         MailData resetData = new ResetMailData(insert = mailMap.values().stream().findFirst().orElse(null), null);
         if (loginAccountService.verifyAccount(insert)) {
             resetData.setToken(loginAccountService.addTokenToLoginAccount(insert));
-            sendMailServiceFacade.sendMail(resetData);
+            mailSenderFacade.sendMail(resetData);
         } else {
             logger.info("email bestaat niet");
         }

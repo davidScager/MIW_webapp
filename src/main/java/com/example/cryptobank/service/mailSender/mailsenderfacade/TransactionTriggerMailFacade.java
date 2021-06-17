@@ -23,7 +23,7 @@ public class TransactionTriggerMailFacade implements MailSenderFacade {
     }
 
     @Override
-    public void sendMail(MailData mailData) throws MalformedURLException, MessagingException, FileNotFoundException {
+    public void sendMail(MailData mailData) throws MessagingException, FileNotFoundException {
         this.mailSenderService.setSender();
         String resetLink = mailData.getLinkUrl();
         mailData.setMailContent(this.generateMailContent.setHtmlMail(mailData, resetLink));

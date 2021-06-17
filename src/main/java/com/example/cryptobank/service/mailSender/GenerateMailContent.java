@@ -18,7 +18,7 @@ public class GenerateMailContent {
         this.stringBuilder = new StringBuilder();
     }
 
-    public String setHtmlMail(MailData mailData, String resetLink) throws MalformedURLException, FileNotFoundException {
+    public String setHtmlMail(MailData mailData, String resetLink) throws FileNotFoundException {
         this.fileReader = new Scanner(new File(mailData.getPageUrl()));
         readHtmlFile();
         String correctText = mailContent.replace("TEKSTHIER", mailData.getMailText());
