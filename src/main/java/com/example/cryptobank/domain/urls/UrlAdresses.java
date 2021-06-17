@@ -52,7 +52,7 @@ public class UrlAdresses {
         return PortfolioReturnsPageUrl;
     }
 
-    private final String TransactionHistory = address + "/transaction/transactionhistory";
+    private final String TransactionHistory = address + "/transaction/history";
     private final String transactionCost = address + "/transaction/transactioncost";
     private final String createTransaction = address + "/transaction/createtransaction";
     private final String myassets = address + "/transaction/myassets";

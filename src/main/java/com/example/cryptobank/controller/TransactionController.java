@@ -87,7 +87,7 @@ public class TransactionController {
 //        return transactionService.getMostRecentBuyOrSell(userId, assetName);
 //    }
 
-    @GetMapping("/transactionhistory")
+    @GetMapping("/history")
     public List<TransactionHistory> transactionHistoryHandler(@RequestHeader(value = "Authorization") String token) throws IOException {
         User user = userService.getUserFromToken(token);
         return transactionService.getTransactionHistory((int) user.getId());
