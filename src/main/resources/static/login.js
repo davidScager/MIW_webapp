@@ -2,7 +2,7 @@ window.onload = checkForLogout()
 
 const urlAddress = "http://miw-team-2.nl";
 const doLogin = urlAddress + "/login";
-const homePage = urlAddress + "/HomeSchermIngelogd.html"
+const homePage = urlAddress + "/homeschermingelogd.html"
 
 let emailElement
 let email
