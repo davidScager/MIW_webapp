@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
-@RequestMapping
+@RequestMapping("/home") // Deze heb ik er stiekem even bij gezet -David
 public class HomeController {
 
     private UrlAdresses urlAdresses = new UrlAdresses();

@@ -98,8 +98,7 @@ public class AssetPortfolioController {
     }
 
     @PostMapping("/updatebuyasset")
-    @CrossOrigin
-    public ResponseEntity<String> updatebuyasset(@RequestHeader(value = "Authorization") String token,@RequestBody Map<String, String> requestParams) {
+    public ResponseEntity<Asset> updatebuyasset(@RequestHeader(value = "Authorization") String token,@RequestBody Map<String, String> requestParams) {
         //JSONObject jsonObject = new JSONObject();
 
         String symbol = requestParams.get("symbol");
@@ -114,21 +113,12 @@ public class AssetPortfolioController {
         System.out.println("userId "+userId);
         int portfolioIdBuyer = portfolioDao.getPortfolioIdByUserId((int) userId).getPortfolioId();
 
-        /* Probleem
-        user 108 koopt      x_coin tegen y_coins
-        user 107 verkoopt   x_coin  (ForSale maar wil geen y_coin)
-        1) We eerst y_coin verkopen aan de bank;
-        2) met het geld kopen we x_coin
-
-        Als niemand will verkopen dat verkoopt de bank
-        */
-        // Ik koop voor 1000 x_coin waard 500 usd amount in x_coin 1000/500 = 2
-
 
         Asset assetBuy = assetDao.getOneBySymbol(symbol);
         double amount = amountUsd / assetBuy.getValueInUsd();
         System.out.println(" amountUsd "+ amountUsd+ " / asset.getValueInUsd() "+ assetBuy.getValueInUsd() + " = "+amount);
 
+        /* Niet nodig
         if (!payWith.equals("USD")){
             // Als betalen met anders is dan USD Eerst verkopen aan bank
             // VB. Betaal met y_Coin usd Value 100 USD
@@ -146,14 +136,15 @@ public class AssetPortfolioController {
             transactionData.setUsername(user.getFullName().toString());
             transactionData.setTriggerValue(0); //?????
             transactionData.setTransactionCost(0); //?????
-            transactionService.setTransaction(transactionData);
+            transactionService.createNewTransaction(transactionData);
             // USD Asset niet updated
 
             //double amount = amountUsd / asset.getValueInUsd();
 
         }
-
+        */
         // List het volgorde DESC dus bank is als laatste
+        // Niet meer nodig lijkt te werken
         List<Map<String,Object>> forSaleList = jdbcAssetPortfolioDao.getAssetsForSale(symbol);
         double otherForSale = 0;
         for (Map<String,Object> map : forSaleList){
@@ -161,7 +152,7 @@ public class AssetPortfolioController {
 
             Double forSale = (Double) map.get("forSale");
             double transactieAmount = 0;
-            if (forSale > 0) {
+            if (Double.compare(forSale, 0) >0  ||  portfolioIdSeller == 101) {
 
                 // We hebben een verkoper
                 // We willen 100 maar hij heeft er maar 50
@@ -172,30 +163,37 @@ public class AssetPortfolioController {
                     // Restant in volgende transactie
                     amount -= forSale;
                 }
+
+                TransactionData transactionData = new TransactionData();
+                transactionData.setBuyer((int) userId);
+                // Get seller id
+                int sellerId = (int) portfolioDao.get(portfolioIdSeller).orElse(new Portfolio()).getActor().getUserId();
+                transactionData.setSeller(sellerId);
+                transactionData.setNumberOfAssets(transactieAmount);
+                transactionData.setAssetBought(symbol);
+                // betaal met USD
+                Asset assetPayWith = assetDao.getOneBySymbol(payWith);
+                transactionData.setAssetSold(assetPayWith.getAbbreviation());
+                transactionData.setUsername(user.getFullName().toString());
+                transactionData.setTriggerValue(0); //?????
+                transactionData.setTransactionCost(0); //???
+                Asset asset = assetDao.getOneBySymbol(symbol);
+                // Check of asset bestaat anders aan maken
+                assetPortfolioDao.checkExistElseCreate(asset,portfolioDao.getPortfolioIdByUserId((int) userId));
+                transactionService.createNewTransaction(transactionData);
+                // USD Asset niet updated
+                //assetPortfolioService.update(symbol,portfolioDao.getPortfolioIdByUserId((int) userId).getPortfolioId(),
+                //xs       transactieAmount);
             }
-            TransactionData transactionData = new TransactionData();
-            transactionData.setBuyer((int) userId);
-            // Get seller id
-            int sellerId = (int) portfolioDao.get(portfolioIdSeller).orElse(new Portfolio()).getActor().getUserId();
-            transactionData.setSeller(sellerId);
-            transactionData.setNumberOfAssets(transactieAmount);
-            transactionData.setAssetBought(symbol);
-            // betaal met USD
-            transactionData.setAssetSold("USD");
-            transactionData.setUsername(user.getFullName().toString());
-            transactionData.setTriggerValue(0); //?????
-            transactionData.setTransactionCost(0); //?????
-            transactionService.setTransaction(transactionData);
-            // USD Asset niet updated
-            //assetPortfolioService.update(symbol,portfolioDao.getPortfolioIdByUserId((int) userId).getPortfolioId(),
-            //        transactieAmount);
         }
 
         // TransactionData
 
         // Transactie???
-
-        return new ResponseEntity<String>("You are f....", HttpStatus.OK);
+        System.out.println("Transactie update assets");
+        return ResponseEntity.ok().body(assetBuy);
+        //return new ResponseEntity<String>("You are f....", HttpStatus.OK);
+        //return "You are f....";
     }
 
 }

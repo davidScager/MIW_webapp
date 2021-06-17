@@ -84,6 +84,13 @@ public class JdbcUserDao implements UserDao {
         jdbcTemplate.update("delete from user where bsn = ?",bsn);
     }
 
+    /**
+     * Check whether user already exists by looking for username and bsn
+     * @param username (String) user email
+     * @param bsn (int)
+     * @return (boolean)
+     * @author David_Scager
+     */
     @Override
     public boolean userExists(String username, int bsn){
         String sql = "select exists(select * from user where email = '" + username + "' or bsn = '" + bsn + "');";

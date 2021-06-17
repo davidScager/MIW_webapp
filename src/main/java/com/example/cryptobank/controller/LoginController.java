@@ -18,7 +18,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.util.Map;
 
 @RestController
-@RequestMapping("login")
+@RequestMapping("/login") //even '/' bijgezet, weet niet of het veel uitmaakt -David
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class LoginController {
     private Logger logger = LoggerFactory.getLogger(LoginController.class);
@@ -32,12 +32,6 @@ public class LoginController {
         logger.info("New LoginController");
         this.userService = userService;
         this.tokenService = tokenService;
-    }
-
-    // was nodig voor redirect vanuit registratie -David
-    @GetMapping("/redirect")
-    public RedirectView viewHtmlLoginHandler(){
-        return new RedirectView("http://localhost:8080/login.html");
     }
 
     @GetMapping
