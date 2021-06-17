@@ -7,7 +7,7 @@ public class UrlAdresses {
 
     private final String homeschermPage = address + "/homescherm.html";
     private final String homeschermingelogdPage = address + "/homeschermingelogd.html";
-    private final String contactPageUrl = address + "/contact.html";
+    private final String contactPageUrl = address + "/Contact.html";
 
     private final String registrationPage = address + "/register";
     private final String registrationPageUrl = address + "/registreren.html";
@@ -31,7 +31,7 @@ public class UrlAdresses {
     private final String loginPage = address + "/login.html";
     private final String login = address + "/login";
 
-    private final String portfolioPage = address + "/portofolio";
+    private final String portfolioPage = address + "/portfolio";
     private final String portfolioPageUrl = address + "/portfolio.html";
     private final String PortfolioReturnsPage = address + "/portfolio/returns";
     private final String PortfolioReturnsPageUrl = address + "/PortfolioReturns.html";

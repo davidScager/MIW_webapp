@@ -9,14 +9,16 @@ public class PortfolioReturnData {
 
     private Asset asset;
     private double amount;
+    private double historicRate;
     private double lastTradeRate;
     private Boolean aankoopVerkoop;
 
     private final Logger logger = LoggerFactory.getLogger(TransactionHistory.class);
 
-    public PortfolioReturnData(Asset asset, double amount, double lastTradeRate, Boolean aankoopVerkoop) {
+    public PortfolioReturnData(Asset asset, double amount, double historicRate, double lastTradeRate, Boolean aankoopVerkoop) {
         this.asset = asset;
         this.amount = amount;
+        this.historicRate = historicRate;
         this.lastTradeRate = lastTradeRate;
         this.aankoopVerkoop = aankoopVerkoop;
         logger.info("New PortfolioReturnData created");
@@ -42,6 +44,14 @@ public class PortfolioReturnData {
         this.amount = amount;
     }
 
+    public double getHistoricRate() {
+        return historicRate;
+    }
+
+    public void setHistoricRate(double historicRate) {
+        this.historicRate = historicRate;
+    }
+
     public double getLastTrade() {
         return lastTradeRate;
     }
@@ -63,6 +73,7 @@ public class PortfolioReturnData {
         return "PortfolioReturnData{" +
                 "Asset=" + asset.getAbbreviation() +
                 ", amount=" + amount +
+                ", historic rate=" + historicRate +
                 ", lastTradeRate='" + lastTradeRate + '\'' +
                 ", buy or sell='" + aankoopVerkoop +
                 '}';

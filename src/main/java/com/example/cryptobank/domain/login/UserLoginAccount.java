@@ -5,11 +5,15 @@ import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.domain.user.UserAddress;
 import com.example.cryptobank.service.security.HashService;
 import com.example.cryptobank.service.security.PepperService;
-import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class UserLoginAccount {
+    private List<Object> requiredUserData;
     private User user;
     private String password;
 
@@ -19,9 +23,14 @@ public class UserLoginAccount {
     public UserLoginAccount(int bsn, String firstName, String infix, String surname, String dateOfBirth,
                             String postalCode, int houseNr, String addition, String streetName,
                             String residence, String email, String password){
+        this.requiredUserData = Stream.of(bsn, firstName, surname, dateOfBirth, postalCode, houseNr, streetName, residence, email, password).collect(Collectors.toList());
         this.user = new User(bsn, new FullName(firstName, infix, surname), dateOfBirth,
                 new UserAddress(postalCode, houseNr, addition, streetName, residence), email);
         setPassword(password);
+    }
+
+    public boolean allRequiredData(){
+        return requiredUserData.stream().noneMatch(item -> item == "" || item == null);
     }
 
     @Override

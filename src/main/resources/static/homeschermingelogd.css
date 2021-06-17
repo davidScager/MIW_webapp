@@ -3,48 +3,48 @@ body {
     padding: 0;
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.wrapper {
+    min-height: 100%;
+    margin-bottom: -50px;
+}
+
+.footer, .push {
+    height: 50px;
+}
+
 .nijntje {
     background-image: url("images/nijntje_in_de_ruimte.jpg");
     border: 2px solid black;
-    padding: 25px;
-    background-repeat: no-repeat;
+    padding: 420px;
     background-size: cover;
+
 }
 
 h1 {
-    text-align: left;
+    position: absolute;
+    left: 200px;
     color: #ffffff;
-    font-size: 40px;
+    font-size: 50px;
 }
 
 h2 {
-    text-align: center;
+    position: absolute;
+    left: 700px;
     color: #ffffff;
-    font-size: 40px;
-}
+    font-size: 50px;
 
-a:visited {
-    color: #ffffff;
-    text-decoration: none;
-    text-decoration-line: none;
-}
-
-a:link {
-    color: #ffffff;
-    text-decoration: none;
-    text-decoration-line: none;
-}
-
-a:hover {
-    color: #FF9416;
-    text-decoration: none;
-    text-decoration-line: none;
 }
 
 h3 {
-    text-align: right;
+    position: absolute;
+    left: 1400px;
     color: #ffffff;
-    font-size: 30px;
+    font-size: 40px;
 }
 
 .flex-container {

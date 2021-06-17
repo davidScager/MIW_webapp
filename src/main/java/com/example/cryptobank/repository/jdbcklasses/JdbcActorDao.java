@@ -38,7 +38,11 @@ public class JdbcActorDao implements ActorDao {
             actor.setRole(Role.ADMINISTRATOR);
         } else if (rs.getString("role").equals("bank")) {
             actor.setRole(Role.BANK);
+        } else if (rs.getString("role").equals("BANK")) {
+            actor.setRole(Role.BANK);
         } else if (rs.getString("role").equals("client")) {
+            actor.setRole(Role.CLIENT);
+        } else if (rs.getString("role").equals("CLIENT")) {
             actor.setRole(Role.CLIENT);
         }
         return actor;

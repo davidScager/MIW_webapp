@@ -4,6 +4,7 @@ import com.example.cryptobank.domain.asset.Asset;
 import com.example.cryptobank.domain.asset.AssetPortfolio;
 import com.example.cryptobank.domain.portfolio.Portfolio;
 import com.example.cryptobank.domain.transaction.TransactionData;
+import com.example.cryptobank.domain.urls.UrlAdresses;
 import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.repository.daointerfaces.AssetDao;
 import com.example.cryptobank.repository.daointerfaces.AssetPortfolioDao;
@@ -22,12 +23,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/assetportfolio")
 public class AssetPortfolioController {
 
     private final Logger logger = LoggerFactory.getLogger(AssetController.class);
@@ -40,6 +43,7 @@ public class AssetPortfolioController {
     private final UserService userService;
     private final JdbcAssetPortfolioDao jdbcAssetPortfolioDao;
     private final TransactionService transactionService;
+    private UrlAdresses urlAdresses = new UrlAdresses();
 
     @Autowired
     public AssetPortfolioController(AssetService assetService, JdbcAssetDao jdbcAssetDao, AssetDao assetDao, PortfolioService portfolioService, AssetPortfolioService assetPortfolioService, PortfolioDao portfolioDao, AssetPortfolioDao assetPortfolioDao, UserService userService, JdbcAssetPortfolioDao jdbcAssetPortfolioDao, TransactionService transactionService) {
@@ -55,6 +59,12 @@ public class AssetPortfolioController {
         this.transactionService = transactionService;
         logger.info("New AssetPortofolioController");
     }
+
+    @GetMapping
+    public RedirectView showResetPage() {
+        return new RedirectView(urlAdresses.getPortfolioPage());
+    }
+
 
     @GetMapping("/createassetportfolio")
     public AssetPortfolio createAssetPortfolioHandler(@RequestParam String assetName, @RequestParam int portfolioId, double amount) throws IOException {

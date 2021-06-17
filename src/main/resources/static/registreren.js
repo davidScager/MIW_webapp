@@ -48,7 +48,7 @@ let residence;
 let email;
 let password;
 let repassword;
-let notEmptyFlag = true;
+let allFieldsFilledFlag = true;
 let emailFlag = false;
 let passwordFlag = false;
 let repasswordFlag = false;
@@ -112,8 +112,11 @@ function handleResponse(response) {
 function register(){
     console.log("method call register()");
     checkAnyEmpty();
+    console.log("allFieldsFilledFlag=" + allFieldsFilledFlag)
     checkPcApiResponse();
-    let flags = [notEmptyFlag, emailFlag, passwordFlag, repasswordFlag, addressFlag];
+    console.log("addressFlag=" + addressFlag)
+    let flags = [allFieldsFilledFlag, emailFlag, passwordFlag, repasswordFlag, addressFlag];
+    console.log(flags);
     if (flags.every(item =>{return item === true;})) {
         getFormData();
         setupFetch()
@@ -123,11 +126,14 @@ function register(){
                 alert("Registratie mislukt");
             });
     } else {
+        resetFlags();
+        console.log("flags reset" + flags)
         document.querySelector('#FieldEmptyError').style.visibility = "visible";
     }
 }
 
 function afterRegister() {
+    resetFlags();
     document.querySelector('#form').style.visibility = 'hidden';
     document.querySelector('#regButton').style.visibility = 'hidden';
     document.querySelector('#regInfo').innerHTML = 'Er is een bevestigingsmail naar het opgegeven email adres gestuurd. ' +
@@ -135,6 +141,14 @@ function afterRegister() {
     document.querySelector('#EmailError').style.visibility = "hidden";
     document.querySelector('#PasswordError').style.visibility = "hidden";
     document.querySelector('#FieldEmptyError').style.visibility = "hidden";
+}
+
+function resetFlags() {
+    notEmptyFlag = true;
+    emailFlag = false;
+    passwordFlag = false;
+    repasswordFlag = false;
+    addressFlag = false;
 }
 //end registration request
 
@@ -195,7 +209,10 @@ function checkRepassword() {
 function checkPcApiResponse(){
     let streetInput = document.querySelector('#streetName');
     let residenceInput = document.querySelector('#residence');
-    if (streetInput.value === 'undefined' || residenceInput.value === 'undefined') {
+    if (streetInput.value === 'undefined'
+        || residenceInput.value === 'undefined'
+        || streetInput.value === ''
+        || residenceInput.value === '') {
         addressFlag = false;
         streetInput.style.borderColor = "red";
         residenceInput.style.borderColor = "red";
@@ -222,7 +239,7 @@ function checkAnyEmpty(){
         ];
     data.forEach(item => {
         if (!item.value){
-            notEmptyFlag = false;
+            allFieldsFilledFlag = false;
             item.style.borderColor = "red";
         } else {
             item.style.borderColor = "";

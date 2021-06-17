@@ -31,7 +31,6 @@ function gatherInput() {
 function checkForLogout() {
     if (localStorage.getItem("token") !== null) {
         clearLocalStorage()
-        alert("U bent succesvol uitgelogd")
     }
 }
 
