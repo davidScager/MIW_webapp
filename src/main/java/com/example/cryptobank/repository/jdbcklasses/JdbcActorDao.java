@@ -36,6 +36,9 @@ public class JdbcActorDao implements ActorDao {
         actor.setCheckingAccount(rs.getString("checkingaccount"));
         switch (rs.getString("role")) {
             case "administrator" -> actor.setRole(Role.ADMINISTRATOR);
+            case "ADMINITRATOR" -> actor.setRole(Role.ADMINISTRATOR);
+            case "BANK" -> actor.setRole(Role.BANK);
+            case "CLIENT" -> actor.setRole(Role.CLIENT);
             case "bank" -> actor.setRole(Role.BANK);
             case "client" -> actor.setRole(Role.CLIENT);
         }
