@@ -32,7 +32,7 @@ public class UrlAdresses {
     private final String login = address + "/login";
 
     private final String portfolioPage = address + "/portofolio";
-    private final String portfolioPageUrl = address + "/portofolio.html";
+    private final String portfolioPageUrl = address + "/portfolio.html";
     private final String PortfolioReturnsPage = address + "/portfolio/returns";
     private final String PortfolioReturnsPageUrl = address + "/PortfolioReturns.html";
     private final String transactionPage = address + "/transaction";
