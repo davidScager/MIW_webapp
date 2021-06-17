@@ -129,6 +129,7 @@ public class AssetPortfolioController {
         double amount = amountUsd / assetBuy.getValueInUsd();
         System.out.println(" amountUsd "+ amountUsd+ " / asset.getValueInUsd() "+ assetBuy.getValueInUsd() + " = "+amount);
 
+        /* Niet nodig
         if (!payWith.equals("USD")){
             // Als betalen met anders is dan USD Eerst verkopen aan bank
             // VB. Betaal met y_Coin usd Value 100 USD
@@ -152,8 +153,9 @@ public class AssetPortfolioController {
             //double amount = amountUsd / asset.getValueInUsd();
 
         }
-
+        */
         // List het volgorde DESC dus bank is als laatste
+        // Niet meer nodig lijkt te werken
         List<Map<String,Object>> forSaleList = jdbcAssetPortfolioDao.getAssetsForSale(symbol);
         double otherForSale = 0;
         for (Map<String,Object> map : forSaleList){
@@ -181,7 +183,8 @@ public class AssetPortfolioController {
                 transactionData.setNumberOfAssets(transactieAmount);
                 transactionData.setAssetBought(symbol);
                 // betaal met USD
-                transactionData.setAssetSold("USD");
+                Asset assetPayWith = assetDao.getOneBySymbol(payWith);
+                transactionData.setAssetSold(assetPayWith.getAbbreviation());
                 transactionData.setUsername(user.getFullName().toString());
                 transactionData.setTriggerValue(0); //?????
                 transactionData.setTransactionCost(0); //???

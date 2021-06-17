@@ -25,7 +25,8 @@
            }
            //loadAssets();
            //alert("Ready")
-           loadAssetsV2("false")
+           loadAssetsV2("false");
+
 
        });
 
@@ -135,9 +136,17 @@
             })
             .then(response => response.text())
             .then(response => {
+                loadPortfolio(checkToken());
                 alert(response);
+                //loadPortfolio();
                 console.log(response);
             })
+            .catch((error) => {
+                loadPortfolio(checkToken());
+                alert('Foutje '+ error);
+                console.error('Foutje', error);
+            });
+
 
        }
 
@@ -270,37 +279,39 @@
                 $('#payWith').find('option').remove().end();
 
                 $.post("http://localhost:8080/listportfolio",
-                {
-                    extra: "hille"
-                },
-                function (data, status) {
-                    var json_str = JSON.stringify(data);
-                    console.log(JSON.stringify(data));
-                    var asset_row = '';
-                    var totalPortfolioValue =0;
-                    for (i in data) {
-                        console.log("json row");
-                        console.log(JSON.stringify(data[i]));
-                        totalPortfolioValue +=   Math.round((data[i].amountUSD * data[i].amount * 100)) / 100 ;
-                        // /stackoverflow.com/questions/7312468/javascript-round-to-a-number-of-decimal-places-but-strip-extra-zeros
-                        var amount = parseFloat( data[i].amount.toFixed(4));
-                        asset_row += '<tr onclick="assetForSale(\'' + data[i].assetName + '\',\'' + data[i].assetDescription + '\');" id="asset_row" class="ui-widget-content asset_row">';
-                        asset_row += '   <td class="col_1">' + data[i].assetName + '</td>';
-                        asset_row += '   <td class="col_2">' + data[i].assetDescription + '</td>';
-                        asset_row += '   <td class="col_3">' + amount + '</td>';
-                        asset_row += '   <td class="col_4">' + Math.round((data[i].amountUSD * data[i].amount * 100)) / 100 + '</td>';
-                        asset_row += '   <td class="col_5">' + data[i].forSale + '</td>';
-                        asset_row += '</tr>';
-                        //Append select available assets in portfolio to buy with
-                        // https://www.geeksforgeeks.org/how-to-add-options-to-a-select-element-using-jquery/
-                        $('#payWith').append(new Option(data[i].assetDescription, data[i].assetName));
+                    {
+                        extra: "hille"
+                    },
+                    function (data, status) {
+                        var json_str = JSON.stringify(data);
+                        console.log(JSON.stringify(data));
+                        var asset_row = '';
+                        var totalPortfolioValue =0;
+                        for (i in data) {
+                            console.log("json row");
+                            console.log(JSON.stringify(data[i]));
+                            totalPortfolioValue +=   Math.round((data[i].amountUSD * data[i].amount * 100)) / 100 ;
+                            // /stackoverflow.com/questions/7312468/javascript-round-to-a-number-of-decimal-places-but-strip-extra-zeros
+                            var amount = parseFloat( data[i].amount.toFixed(4));
+                            asset_row += '<tr onclick="assetForSale(\'' + data[i].assetName + '\',\'' + data[i].assetDescription + '\');" id="asset_row" class="ui-widget-content asset_row">';
+                            asset_row += '   <td class="col_1">' + data[i].assetName + '</td>';
+                            asset_row += '   <td class="col_2">' + data[i].assetDescription + '</td>';
+                            asset_row += '   <td class="col_3">' + amount + '</td>';
+                            asset_row += '   <td class="col_4">' + Math.round((data[i].amountUSD * data[i].amount * 100)) / 100 + '</td>';
+                            asset_row += '   <td class="col_5">' + data[i].forSale + '</td>';
+                            asset_row += '</tr>';
+                            //Append select available assets in portfolio to buy with
+                            // https://www.geeksforgeeks.org/how-to-add-options-to-a-select-element-using-jquery/
+                            $('#payWith').append(new Option(data[i].assetDescription, data[i].assetName));
 
-                    }
+                        }
 
-                    $('#selectable_portfolio > tbody').append(asset_row);
-                    $('#pingelinga').text("Portfolio Waarde: "+totalPortfolioValue);
-                    console.log(totalPortfolioValue);
-                     setHeightsWidths();
+                        $('#selectable_portfolio > tbody').append(asset_row);
+                        var totalPortfolioValue = parseFloat( totalPortfolioValue.toFixed(2));
+                        $('#pingelinga').text("Portfolio Waarde: "+totalPortfolioValue);
+                        console.log(totalPortfolioValue);
+                        setHeightsWidths();
+
                     }
                 );
             }
