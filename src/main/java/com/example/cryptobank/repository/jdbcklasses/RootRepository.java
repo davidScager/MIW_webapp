@@ -33,7 +33,7 @@ public class RootRepository {
     private final AssetPortfolioDao assetPortfolioDao;
     private final TransactionDao transactionDao;
     private final LogDao logDao;
-    private final int STARTKAPITAAL = 200;
+    private final int STARTKAPITAAL = 2000;
     private final String TRADING_CURRENCY = "USD";
     private final int BANK_PORTFOLIO_ID = 101;
 
@@ -49,6 +49,12 @@ public class RootRepository {
         this.logDao = logDao;
     }
 
+    /**
+     * Check in database whether user or login are already registered
+     * @param userLoginAccount (UserLoginAccount)
+     * @return (boolean)
+     * @author David_Scager
+     */
     public boolean alreadyRegistered(UserLoginAccount userLoginAccount){
         int bsn = userLoginAccount.getUser().getBSN();
         String username = userLoginAccount.getUser().getEmail();
@@ -56,7 +62,7 @@ public class RootRepository {
     }
 
     /**
-     * Register new login account
+     * Register new login account in database
      * @param user (User)
      * @param password (String)
      *
@@ -68,8 +74,9 @@ public class RootRepository {
     }
 
     /**
-     * Register new user if that user is not yet registered and does not
-     * already have a login account.
+     * Register new user to database
+     * by storing new actor, provided user, new portfolio
+     * and adding first assets
      * @param user (User)
      * @param role (Role)
      *
@@ -84,17 +91,20 @@ public class RootRepository {
         userDao.create(user);
         Portfolio portfolio = new Portfolio(newActor);
         portfolioDao.create(portfolio);
-        assetPortfolioDao.create(new AssetPortfolio("USD", portfolio.getPortfolioId(), STARTKAPITAAL));
+        startAssetsNewUsers(portfolio.getPortfolioId());
+        assetPortfolioDao.update(assetDao.getOneByName("USD"), portfolio, STARTKAPITAAL);
         logger.info("Portfolio registered");
         logger.info("User registered");
     }
 
-    public User getUserByUsername(String username) {
-        return userDao.get(username);
+    private void startAssetsNewUsers(int portfolioId){
+        assetDao.getAssetOverview().forEach(asset ->
+                assetPortfolioDao.create(new AssetPortfolio(asset.getAbbreviation(), portfolioId, 1, 0))
+        );
     }
 
-    public User getUserByBsn(int bsn){
-        return userDao.list().stream().filter(u -> u.getBSN() == bsn).findFirst().orElse(null);
+    public User getUserByUsername(String username) {
+        return userDao.get(username);
     }
 
     public LoginAccount getLoginByUsername(String username) {
@@ -163,6 +173,7 @@ public class RootRepository {
         return assetDao.getOneByName(assetName);
     }
 
+//    Is het beter de variablelen meteen in de update te stoppen?
     public void updateAssetPortfolioForTransaction(Transaction transaction) {
         Optional<Portfolio> tempPortfolioBuyer = portfolioDao.get(portfolioDao.getPortfolioIdByUserId(transaction.getBuyer()).getPortfolioId());
         Portfolio buyer = tempPortfolioBuyer.get();
@@ -213,6 +224,7 @@ public class RootRepository {
         Actor buyer = actorDao.get(buyerId).get();
         Actor seller = actorDao.get(sellerId).get();
         boolean buyFromBank = seller.getRole().equals(Role.BANK);
+        System.out.println(" buyer "+ buyer.getUserId());
         boolean sellToBank = buyer.getRole().equals(Role.BANK);
         if (!asset.getAbbreviation().equals("USD")) {
             assetDao.updateAdjustmentFactor(asset, dollarAmount, buyFromBank, sellToBank);
@@ -315,5 +327,13 @@ public class RootRepository {
         Map<Asset, Double> clientAssets = getAssetOverviewWithAmount(101);//portfolioId from bank
         clientAssets.forEach((asset, aDouble) -> assetList.add(new TransactionHTMLBank(asset.getName(), asset.getValueInUsd(), asset.getAbbreviation(), asset.getValueYesterday(), aDouble)));
         return assetList;
+    }
+
+    public List<AssetPortfolio> getAssetPortfolioByAbbrevation(String symbol){
+        return assetPortfolioDao.getAssetPortfolioByAbbrevation(symbol);
+    }
+
+    public int getUserIdByPortfolioId(int portfolioId){
+       return portfolioDao.getUserIdByPortfolioId(portfolioId);
     }
 }

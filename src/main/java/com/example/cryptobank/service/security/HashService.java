@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 import de.mkammerer.argon2.*;
 
 /**
- * Service that provides hashed passwords and generated salts, pepper included
- * Allows use of SHA-256 with key stretching or Argon2id for hashing
- * Use setters to update number of rounds or Argon2 arguments
+ * Service that hashes and verifies passwords using Argon2id algorithm
  * @author David_Scager (Argon2id implementation), Reyndert_Mehrer, Huib_van_Straten
  */
 @Service
@@ -31,7 +29,7 @@ public class HashService {
     }
 
     /**
-     * Hash peppered password using Argon2id
+     * Hash peppered password
      * Argon2id generates and embeds salt in hash
      * format: $argon2id$v=(version)$m=(allocated memory),t=(iterations), p=(degrees of parallelism)$(salt)$(hash)
      * @param password (String)
@@ -39,19 +37,21 @@ public class HashService {
      */
     public String argon2idHash(String password){
         String pepperedPw = pepperService.getPepper() + password;
-        //String passwwordHash = ... + logger.info
-        return argon2id.hash(DEFAULT_ITERATIONS, DEFAULT_MEM_SIZE * MB_KB_CONVERSION, DEFAULT_PARALLEL_DEG, pepperedPw);
+        String passwordHash = argon2id.hash(DEFAULT_ITERATIONS, DEFAULT_MEM_SIZE * MB_KB_CONVERSION, DEFAULT_PARALLEL_DEG, pepperedPw);
+        logger.info("password hashed");
+        return passwordHash;
     }
 
     /**
-     * Pepper password and verify using argon2.verify()
-     * @param hash (String) full Argon2 hash (containing args and embedded salt)
+     * Pepper password and verify
+     * @param hash (String)
      * @param password (String)
      * @return (boolean)
      */
     public boolean argon2idVerify(String hash, String password){
-        //boolean verified = ... + logger.info
-        return argon2id.verify(hash, pepperService.getPepper() + password);
+        boolean verified = argon2id.verify(hash, pepperService.getPepper() + password);
+        logger.info("passwordHash verified");
+        return verified;
     }
 
     public int getIterations() {

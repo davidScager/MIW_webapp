@@ -22,11 +22,17 @@ public interface AssetPortfolioDao {
 
     public void update(Asset asset, Portfolio portfolio, double amount);
 
+    public void checkExistElseCreate(Asset asset, Portfolio portfolio);
+
+    public AssetPortfolio getAssetPortfolioId(Asset asset, Portfolio portfolio);
+
     public void delete(int id);
 
     void updateAssetsForSale(String Symbol, int portfolioId, double forSale);
 
     public void create(AssetPortfolio assetPortfolio);
+
+    public List<AssetPortfolio> getAssetPortfolioByAbbrevation(String symbol);
 
     /*public void update(AssetPortfolio assetPortfolio);*/
 

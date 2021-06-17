@@ -2,31 +2,84 @@ package com.example.cryptobank.domain.urls;
 
 public class UrlAdresses {
 
-    private final String address = "http://miw-team-2.nl";
-    //private final String address = "http://localhost:8080";
+    //private final String address = "http://miw-team-2.nl";
+    private final String address = "http://localhost:8080";
+
+    private final String homeschermPage = address + "/homescherm.html";
+    private final String homeschermingelogdPage = address + "/homeschermingelogd.html";
+    private final String contactPageUrl = address + "/contact.html";
+
     private final String registrationPage = address + "/register";
     private final String registrationPageUrl = address + "/registreren.html";
     private final String registrationFailedPage = address + "/register/failed";
-    private final String registrationFailedPageUrl = address + "/registreren-mislukt.html";
+    private final String registrationFailedPageUrl = address + "/registreren_mislukt.html";
+
     private final String registrationRequest = address + "/register/request";
     private final String RegistrationFinalized = address + "/register/finalize";
 
-    private final String resetPassword = address + "/reset/resetpassword";
+    private final String resetPassword = address + "/reset/reset_password";
+    private final String resetPasswordPage = address + "/reset_password.html";
+    private final String resetConfirmedPage = address + "/confirmed.html";
+    private final String resetConfirmed = address + "/reset/confirmed";
+    private final String resetDenied = address + "/reset/denied";
+
+    private final String resetDeniedPage = address + "/resetdenied.html";
     private final String createNewPassword = address + "/reset/createnewpassword";
-    private final String setNewPassword = address + "/reset/setnewpassword";
-    private final String confirmed = address + "/confirmed.html";
-    private final String getCreateNewPasswordPage = address + "/create_new_password.html";
+    private final String newPassword = address + "/reset/setnewpassword";
+    private final String createNewPasswordPage = address + "/create_new_password.html";
 
     private final String loginPage = address + "/login.html";
     private final String login = address + "/login";
-    private final String loginRedirect = address + "/login/redirect";
 
-    private final String PortfolioReturnsPage = address + "/portfolioreturns";
-    private final String TransactionHistory = address + "/transaction/transactionhistory";
+    private final String portfolioPage = address + "/portofolio";
+    private final String portfolioPageUrl = address + "/portfolio.html";
+    private final String PortfolioReturnsPage = address + "/portfolio/returns";
+    private final String PortfolioReturnsPageUrl = address + "/PortfolioReturns.html";
+    private final String transactionPage = address + "/Transaction.html";
+
+    public String getContactPageUrl() {
+        return contactPageUrl;
+    }
+
+    public String getPortfolioPage() {
+        return portfolioPage;
+    }
+
+    public String getPortfolioPageUrl() {
+        return portfolioPageUrl;
+    }
+
+    public String getPortfolioReturnsPageUrl() {
+        return PortfolioReturnsPageUrl;
+    }
+
+    private final String TransactionHistory = address + "/transaction/history";
+    private final String TransactionHistoryPage = address + "/transaction/history";
+    private final String TransactionHistoryPageUrl = address + "/TransactionHistory.html";
     private final String transactionCost = address + "/transaction/transactioncost";
     private final String createTransaction = address + "/transaction/createtransaction";
-    private final String myAssets = address + "/transaction/myassets";
-    private final String bankAssets = address + "/transaction/bankassets";
+    private final String myassets = address + "/transaction/myassets";
+    private final String bankassets = address + "/transaction/bankassets";
+
+    public String getHomeschermPage() {
+        return homeschermPage;
+    }
+
+    public String getHomeschermingelogdPage() {
+        return homeschermingelogdPage;
+    }
+
+    public String getTransactionHistoryPage() {
+        return TransactionHistoryPage;
+    }
+
+    public String getTransactionHistoryPageUrl() {
+        return TransactionHistoryPageUrl;
+    }
+
+    public String getTransactionPage() {
+        return transactionPage;
+    }
 
     public String getAddress() {
         return address;
@@ -60,20 +113,20 @@ public class UrlAdresses {
         return resetPassword;
     }
 
+    public String getResetPasswordPage() {
+        return resetPasswordPage;
+    }
+
     public String getCreateNewPassword() {
         return createNewPassword;
     }
 
-    public String getSetNewPassword() {
-        return setNewPassword;
+    public String getNewPassword() {
+        return newPassword;
     }
 
-    public String getConfirmed() {
-        return confirmed;
-    }
-
-    public String getGetCreateNewPasswordPage() {
-        return getCreateNewPasswordPage;
+    public String getCreateNewPasswordPage() {
+        return createNewPasswordPage;
     }
 
     public String getLoginPage() {
@@ -82,10 +135,6 @@ public class UrlAdresses {
 
     public String getLogin() {
         return login;
-    }
-
-    public String getLoginRedirect() {
-        return loginRedirect;
     }
 
     public String getPortfolioReturnsPage() {
@@ -104,11 +153,28 @@ public class UrlAdresses {
         return createTransaction;
     }
 
-    public String getMyAssets() {
-        return myAssets;
+    public String getMyassets() {
+        return myassets;
     }
 
-    public String getBankAssets() {
-        return bankAssets;
+    public String getBankassets() {
+        return bankassets;
+    }
+
+    public String getResetConfirmedPage() {
+        return resetConfirmedPage;
+    }
+
+    public String getResetDeniedPage() {
+        return resetDeniedPage;
+    }
+
+    public String getResetConfirmed() {
+        return resetConfirmed;
+    }
+
+    public String getResetDenied() {
+        return resetDenied;
     }
 }
+

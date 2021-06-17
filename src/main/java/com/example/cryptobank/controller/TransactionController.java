@@ -1,7 +1,7 @@
 package com.example.cryptobank.controller;
 
-import com.example.cryptobank.domain.asset.Asset;
 import com.example.cryptobank.domain.transaction.*;
+import com.example.cryptobank.domain.urls.UrlAdresses;
 import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.service.assetenportfolio.PortfolioService;
 import com.example.cryptobank.service.login.UserService;
@@ -13,12 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import java.io.IOException;
 
@@ -32,6 +30,7 @@ public class TransactionController {
     private final TokenService tokenService;
     private final UserService userService;
     private final PortfolioService portfolioService;
+    private UrlAdresses urlAdresses = new UrlAdresses();
 
     @Autowired
     public TransactionController(TransactionService transactionService, TokenService tokenService, UserService userService, PortfolioService portfolioService) {
@@ -43,11 +42,21 @@ public class TransactionController {
         logger.info("New TransactionController");
     }
 
+    @GetMapping
+    public RedirectView showResetPage() {
+        return new RedirectView(urlAdresses.getTransactionPage());
+    }
+
+    @GetMapping("/historypage")
+    public RedirectView transactionHistoryHtmlHandler() {
+        return new RedirectView(urlAdresses.getTransactionHistoryPageUrl());
+    }
+
     @PostMapping("/myassets")
     public ResponseEntity<ArrayList<TransactionHTMLClient>> authorizeAndGetAssets(@RequestHeader("Authorization") String token) {
         ArrayList<TransactionHTMLClient> transactionHTMLClients = transactionService.authorizeAndGetAssets(token);
         if (transactionHTMLClients == null) {
-            URI uri = URI.create("http://localhost:8080/login");
+            URI uri = URI.create(urlAdresses.getLoginPage());
             ResponseEntity responseEntity = ResponseEntity.status(HttpStatus.UNAUTHORIZED).location(uri).build();
             logger.info(responseEntity.toString());
             return responseEntity;
@@ -81,16 +90,24 @@ public class TransactionController {
 //        return transactionService.getMostRecentBuyOrSell(userId, assetName);
 //    }
 
-    @GetMapping("/transactionhistory")
+    @GetMapping("/history")
     public List<TransactionHistory> transactionHistoryHandler(@RequestHeader(value = "Authorization") String token) throws IOException {
         User user = userService.getUserFromToken(token);
-        return transactionService.getTransactionHistory((int)user.getId());
+        return transactionService.getTransactionHistory((int) user.getId());
     }
 
     @PostMapping("/createtransaction")
     public void createTransaction(@RequestHeader(value = "Authorization") String token, @RequestBody TransactionData transactionData) throws IOException {
         transactionData.setUsername(tokenService.parseToken(token, "session"));
+        logger.debug(transactionData.toString());
         transactionData.setTransactionCost(transactionService.calculateTransactionCost(transactionData.getNumberOfAssets(), transactionData.getAssetBought()));
         transactionService.setTransaction(transactionData);
+    }
+
+    @GetMapping("/userid")
+    public ResponseEntity<?> getUserIdByUsername(@RequestHeader(value = "Authorization") String token) {
+        Map<String, Long> map = new HashMap<>();
+        map.put("UserId" ,userService.getUserFromToken(token).getId());
+        return ResponseEntity.ok().body(map);
     }
 }

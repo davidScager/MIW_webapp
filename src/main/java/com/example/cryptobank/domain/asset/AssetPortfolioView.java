@@ -4,6 +4,7 @@ public class AssetPortfolioView {
 
     private String assetName;
     private String assetDescription;
+    private String abbreviation;
     private int portfolioId;
     private double amount;
     private double forSale;

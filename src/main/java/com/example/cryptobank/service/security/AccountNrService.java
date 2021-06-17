@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Utility class for generating random new bank account numbers
+ * Utility class for generating random bank account numbers
  * @author David Scager
  */
 @Service

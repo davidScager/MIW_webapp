@@ -50,11 +50,25 @@ public class RegistrationService {
         this.removeAfter = durationValid * durationUnitMillis;
     }
 
+    /**
+     * Check against registrationCache and in database if user is already registered
+     * @param userLoginAccount (UserLoginAccount)
+     * @return (boolean)
+     */
     public boolean validate(UserLoginAccount userLoginAccount){
         logger.info("Validating registration information with database");
-        return !rootRepository.alreadyRegistered(userLoginAccount);
+        return !rootRepository.alreadyRegistered(userLoginAccount) && !registrationCache.containsValue(userLoginAccount);
     }
 
+    /**
+     * Generate Jwt token
+     * Cache user with token as key
+     * Set timer for clearing user from cache
+     * return Jwt token
+     *
+     * @param userLoginAccount (UserLoginAccount)
+     * @return (String) Jwt
+     */
     public String cacheNewUserWithToken(UserLoginAccount userLoginAccount){
         String token = tokenService.generateJwtToken(userLoginAccount.getUser().getEmail(), "Register", durationValid);
         registrationCache.put(token, userLoginAccount);
@@ -71,17 +85,27 @@ public class RegistrationService {
         return token;
     }
 
+    /**
+     * Send user an email with 30 min valid Jwt
+     * @param token (String) Jwt
+     * @param email (String)
+     */
     public void sendConfirmationEmail(String token, String email) {
         MailData registerMailData = new RegisterMailData(email, token);
         try {
             mailSenderFacade.sendMail(registerMailData);
             logger.info("Registration confirmation email sent");
-        } catch (MalformedURLException | MessagingException | FileNotFoundException error) {
+        } catch (MalformedURLException | MessagingException | FileNotFoundException error) {// add custom exception
             logger.info("Failed to send email.");
             logger.error("URL or Messaging error caught." + error.getMessage());
         }
     }
 
+    /**
+     * Retrieve user data from cache with token
+     * Store in database
+     * @param token (String) Jwt
+     */
     public void registerUser(String token){
         UserLoginAccount userLoginAccount = registrationCache.get(token) ;
         rootRepository.registerLogin(userLoginAccount.getUser(), userLoginAccount.getPassword());
@@ -90,6 +114,12 @@ public class RegistrationService {
         logger.info("New Client registered and cache cleared");
     }
 
+    /**
+     * Check validity of token
+     * @param token (String) Jwt
+     * @param subject (String)
+     * @return (boolean)
+     */
     public boolean validateToken(String token, String subject) {
         try {
             tokenService.parseToken(token, subject);

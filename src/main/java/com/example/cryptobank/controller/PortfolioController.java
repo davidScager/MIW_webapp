@@ -3,6 +3,7 @@ package com.example.cryptobank.controller;
 import com.example.cryptobank.domain.asset.Asset;
 import com.example.cryptobank.domain.asset.AssetPortfolioView;
 import com.example.cryptobank.domain.portfolio.PortfolioReturnData;
+import com.example.cryptobank.domain.urls.UrlAdresses;
 import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.repository.daointerfaces.AssetPortfolioDao;
 import com.example.cryptobank.repository.daointerfaces.PortfolioDao;
@@ -16,11 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
 //@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
+@RequestMapping("/portfolio")
 public class PortfolioController {
 
     private final Logger logger = LoggerFactory.getLogger(AssetController.class);
@@ -29,6 +32,7 @@ public class PortfolioController {
     private final PortfolioDao portfolioDao;
     private final AssetPortfolioDao assetPortfolioDao;
     private final UserService userService;
+    private UrlAdresses urlAdresses = new UrlAdresses();
 
     @Autowired
     public PortfolioController(PortfolioService portfolioService, PortfolioDao portfolioDao,
@@ -41,23 +45,33 @@ public class PortfolioController {
         logger.info("New PortfolioController");
     }
 
-    @GetMapping("/portfoliooverview")
+    @GetMapping
+    public RedirectView portfolioHtmlHandler() {
+        return new RedirectView(urlAdresses.getPortfolioPageUrl());
+    }
+
+    @GetMapping("/returnspage")
+    public RedirectView portfolioReturnsHtmlHandler() {
+        return new RedirectView(urlAdresses.getPortfolioReturnsPageUrl());
+    }
+
+    @GetMapping("/overview")
     public List<Asset> portfolioOverviewHandler(@RequestParam int userId) throws JsonProcessingException {
         return portfolioService.showAssetOverview(userId);
     }
 
-    @GetMapping("/portfoliovalue")
+    @GetMapping("/value")
     public String portfolioValueHandler(@RequestParam int userId) {
         return portfolioService.showValueOfPortfolio(userId);
     }
 
-    @GetMapping("/portfolioreturns")
+    @GetMapping("/returns")
     public List<PortfolioReturnData> portfolioReturnsHandler(@RequestHeader(value = "Authorization") String token) {
         User user = userService.getUserFromToken(token);
         return portfolioService.showListOfAssets((int)user.getId());
     }
 
-    @PostMapping("/listportfolio")
+    @PostMapping("/list")
     @CrossOrigin
     public ResponseEntity<List<AssetPortfolioView>> listPortFolio(@RequestHeader(value = "Authorization") String token) {
         //TODO get token

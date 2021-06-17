@@ -10,7 +10,9 @@ public abstract class MailData {
     private String receiver;
     private String token;
 
-    public abstract String getLinkUrl();
+    public String getLinkUrl() {
+        return linkUrl;
+    }
 
     public void setLinkUrl(String linkUrl) {
         this.linkUrl = linkUrl;

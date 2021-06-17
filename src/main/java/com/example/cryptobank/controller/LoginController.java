@@ -1,5 +1,6 @@
 package com.example.cryptobank.controller;
 
+import com.example.cryptobank.domain.urls.UrlAdresses;
 import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.service.security.TokenService;
 import com.example.cryptobank.service.login.UserService;
@@ -17,12 +18,14 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.util.Map;
 
 @RestController
-@RequestMapping("login")
+@RequestMapping("/login") //even '/' bijgezet, weet niet of het veel uitmaakt -David
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class LoginController {
     private Logger logger = LoggerFactory.getLogger(LoginController.class);
     private final UserService userService;
     private final TokenService tokenService;
+    UrlAdresses urlAdresses = new UrlAdresses();
+
 
     @Autowired
     public LoginController(UserService userService, TokenService tokenService) {
@@ -31,10 +34,9 @@ public class LoginController {
         this.tokenService = tokenService;
     }
 
-    // was nodig voor redirect vanuit registratie -David
-    @GetMapping("/redirect")
-    public RedirectView viewHtmlLoginHandler(){
-        return new RedirectView("http://localhost:8080/login.html");
+    @GetMapping
+    public RedirectView showLoginPage(){
+        return new RedirectView(urlAdresses.getLoginPage());
     }
 
     @PostMapping
@@ -53,3 +55,5 @@ public class LoginController {
         return new ResponseEntity(HttpStatus.UNAUTHORIZED);
     }
 }
+
+

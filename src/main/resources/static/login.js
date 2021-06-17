@@ -1,10 +1,14 @@
 window.onload = checkForLogout()
 
+const urlAddress = "http://localhost:8080";
+const doLogin = urlAddress + "/login";
+const homePage = urlAddress + "/HomeSchermIngelogd.html"
+
 let emailElement
 let email
 let passwordElement
 let password
-let errorMessage
+let loginInfoMessage
 let passwordEmpty
 
 function clearInput(){
@@ -13,7 +17,7 @@ function clearInput(){
     passwordElement.value=""
     emailElement.style.boxShadow = "none"
     passwordElement.style.boxShadow = "none"
-    errorMessage.style.visibility = "hidden"
+    loginInfoMessage.style.visibility = "hidden"
 }
 
 function gatherInput() {
@@ -21,7 +25,7 @@ function gatherInput() {
     email = emailElement.value
     passwordElement = document.querySelector("#password")
     password = passwordElement.value;
-    errorMessage = document.getElementById("loginError")
+    loginInfoMessage = document.getElementById("loginInfo")
 }
 
 function checkForLogout() {
@@ -36,12 +40,15 @@ function clearLocalStorage() {
 }
 
 function loadReset() {
+    gatherInput()
     console.log(localStorage.getItem("passwordreset"));
     if (localStorage.getItem("passwordreset") === "yes") {
-        document.getElementById("login_als_reset").style.visibility = "visible"
+        loginInfoMessage.innerText = "Uw wachtwoord is gereset. Log in om door te gaan."
+        loginInfoMessage.style.color = "lawngreen"
+        loginInfoMessage.style.visibility = "visible"
         localStorage.clear()
     } else {
-        document.getElementById("login_als_reset").style.visibility = "invisible"
+        loginInfoMessage.style.visibility = "invisible"
     }
 }
 
@@ -53,8 +60,8 @@ function checkFieldNotEmpty(field, element){
             passwordElement.style.boxShadow = "0 0 3px #CC0000"
             passwordEmpty = true
         }
-        errorMessage.innerText = "Velden mogen niet leeg zijn"
-        errorMessage.style.visibility = "visible"
+        loginInfoMessage.innerText = "Velden mogen niet leeg zijn"
+        loginInfoMessage.style.visibility = "visible"
     }
 }
 
@@ -65,7 +72,7 @@ function getEmailValidator() {
 }
 
 function setupFetchMethod() {
-    return fetch("http://localhost:8080/login", {
+    return fetch(doLogin, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -83,12 +90,12 @@ function handleResponse(response) {
         let token = response.headers.get("Authorization")
         console.log("Token na inlog: " + token)
         localStorage.setItem("token", token)
-        window.location.replace("http://localhost:8080/homeSchermIngelogd.html")
+        window.location.replace(homePage)
     } else if(!passwordEmpty){
         emailElement.style.boxShadow = "0 0 3px #CC0000"
         passwordElement.style.boxShadow = "0 0 3px #CC0000"
-        errorMessage.innerText = "Combinatie gebruikersnaam en wachtwoord klopt niet"
-        errorMessage.style.visibility = "visible"
+        loginInfoMessage.innerText = "Combinatie gebruikersnaam en wachtwoord klopt niet"
+        loginInfoMessage.style.visibility = "visible"
     }
     passwordEmpty = false
 }

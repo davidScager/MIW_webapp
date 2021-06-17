@@ -46,7 +46,6 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         String query = "SELECT * FROM assetportfolio WHERE portfolioId = ?";
         List<AssetPortfolio> tempList = jdbcTemplate.query(query, new AssetPortfolioAmountRowMapper(), portfolioId);
         tempList.forEach(assetPortfolio -> resultMap.put(jdbcAssetDao.getOneByName(assetPortfolio.getAssetName()), assetPortfolio.getAmount()));
-        System.out.println(resultMap);
         return resultMap;
     }
 
@@ -80,10 +79,10 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
 
     @Override
     public double getAmountByAssetName(String name, int portfolioId) {
-        String query = "SELECT amount FROM assetportfolio WHERE portfolioId = ? AND assetName = ?";
-
+        String query = "SELECT * FROM assetportfolio WHERE portfolioId = ? AND assetName = ?";
         return Objects.requireNonNull(jdbcTemplate.queryForObject(query, new Object[]{portfolioId, name}, new AssetPortfolioAmountRowMapper())).getAmount();
     }
+
 
     //Als dit weer wordt gebruikt, moet het worden aangepast aan het nieuwe ERD
     //tijdelijk uigecomment omdat er twijfel is of deze nog geburuikt kan worden
@@ -106,14 +105,47 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
         jdbcTemplate.update(sql, amount, portfolio.getPortfolioId(), asset.getAbbreviation());
     }
 
+
+    @Override
+    public void checkExistElseCreate(Asset asset, Portfolio portfolio) {
+        AssetPortfolio assetPortfolio = getAssetPortfolioId(asset, portfolio);
+        if (assetPortfolio == null){
+            assetPortfolio =new AssetPortfolio(asset.getAbbreviation(),portfolio.getPortfolioId(),0,0);
+            create(assetPortfolio);
+        }
+    }
+
+    @Override
+    public AssetPortfolio getAssetPortfolioId(Asset asset, Portfolio portfolio) {
+        String sql = "select * from assetportfolio where portfolioId = ? and assetName = ?";
+        AssetPortfolio assetPortfolio= null;
+        try {
+            assetPortfolio = jdbcTemplate.queryForObject( sql, new Object[] {portfolio.getPortfolioId(), asset.getAbbreviation() }, new AssetPortfolioAmountRowMapper());
+        } catch (Exception e){
+            // Niet gevonden
+            return null;
+        }
+        return assetPortfolio;
+    }
+
     @Override
     public void updateAssetsForSale(String Symbol, int portfolioId, double forSale) {
         String sql = "update assetportfolio set forSale = ? where portfolioId = ? and assetName = ?";
         jdbcTemplate.update(sql, forSale, portfolioId, Symbol);
     }
 
+    @Override
+    public List<AssetPortfolio> getAssetPortfolioByAbbrevation(String symbol) {
+        // Order by portfolio DESC bank als laatste nodig transactie
+        String sql = "select * from assetportfolio  where assetName = ? ORDER BY portfolioId DESC";
+        List<AssetPortfolio> overView = jdbcTemplate.query(sql, new AssetPortfolioAmountRowMapper(), symbol);
+        return overView;
+    }
+
+
     public List<Map<String,Object>> getAssetsForSale(String symbol) {
-        String sql = "select portfolioId,forSale from assetportfolio  where assetName = ?";
+        // Order by portfolio DESC bank als laatste nodig transactie
+        String sql = "select portfolioId,forSale from assetportfolio  where assetName = ? ORDER BY portfolioId DESC";
         List<Map<String,Object>> overView = jdbcTemplate.query(sql, new AssetsForSaleRowMapper(), symbol);
         return overView;
     }
@@ -142,7 +174,7 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
 
     @Override
     public List<AssetPortfolioView> getOverviewWithAmount(int portfolioId) {
-        String query = "SELECT AP.assetName, portfolioId, amount, forSale, description, valueInUsd FROM AssetPortfolio AP LEFT JOIN Asset A on AP.assetName = A.abbreviation WHERE portfolioId = ?";
+        String query = "SELECT AP.assetName, portfolioId, amount, forSale, abbreviation, valueInUsd FROM AssetPortfolio AP LEFT JOIN Asset A on AP.assetName = A.abbreviation WHERE portfolioId = ?";
         List<AssetPortfolioView> overView = jdbcTemplate.query(query, new AssetPortfolioViewRowMapper(), portfolioId);
         return overView;
     }
@@ -154,8 +186,8 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
             int portfolioId = rs.getInt("portfolioId");
             double amount = rs.getDouble("amount");
             double forSale = rs.getDouble("forSale");
-            double amountUSD = rs.getDouble("amount");
-            String assetDescription = rs.getString("description");
+            double amountUSD = rs.getDouble("valueInUsd");
+            String assetDescription = rs.getString("abbreviation");
             AssetPortfolioView assetPortfolio = new AssetPortfolioView(assetName, portfolioId, amount, forSale, amountUSD, assetDescription);
             return assetPortfolio;
         }

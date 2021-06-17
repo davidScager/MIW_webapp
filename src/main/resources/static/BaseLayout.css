@@ -7,11 +7,10 @@
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #2B2B2B;
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: stretch;
 }
-
+main{
+    min-height: calc(100vh - 140px);
+}
 header{
     background-color: #f7931a;
     margin: 0;
@@ -20,13 +19,13 @@ header{
     height: 90px;
 }
 
-table {
+.BaseLayOutMain table {
     display: block;
     min-height: 500px;
     margin: 10%;
 }
 
-form {
+.BaseLayOutMain form {
     display: block;
     min-height: 500px;
     margin: 20px;
@@ -38,7 +37,7 @@ footer {
     position: relative;
     width:100%;
     height:40px;
-    margin-top: 40px;
+    margin-top: 10px;
     background-color: #f7931a;
     justify-content: space-between;
 }
