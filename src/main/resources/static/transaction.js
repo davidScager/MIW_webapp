@@ -9,6 +9,7 @@ let userId
 
 function newTransaction(seller, buyer) {
     console.log(userId)
+    console.log(userId)
     let token = localStorage.getItem("token");
     let assetToSell = document.querySelector(`#assetToSell`).value
     let assetToBuy = document.querySelector(`#assetTobuy`).value
