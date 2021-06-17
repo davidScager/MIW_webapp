@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 @Service
@@ -23,7 +24,7 @@ public class SendMailServiceFacade implements MailSenderFacade {
     }
 
     @Override
-    public void sendMail(MailData mailData) throws MalformedURLException, MessagingException, FileNotFoundException {
+    public void sendMail(MailData mailData) throws IOException, MessagingException {
         this.mailSenderService.setSender();
         String resetLink = CreateURLHelper.generateToken(mailData);
         mailData.setMailContent(this.generateMailContent.setHtmlMail(mailData, resetLink));
