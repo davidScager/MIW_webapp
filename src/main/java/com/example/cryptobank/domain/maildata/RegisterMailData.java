@@ -12,7 +12,7 @@ public class RegisterMailData extends MailData {
 
     public RegisterMailData(String receiver, String token) {
         this.linkUrl = "http://miw-team-2.nl/register/finalize";
-        this.pageUrl = "/default_mail.html";
+        this.pageUrl = "/mail.html";
         this.sender = "BigBossNijntje@BitBank.com";
         this.mailSubject = "Registratie BitBank - Email bevestiging";
         this.mailText = "Je bent er bijna! <br> Klik a.u.b. binnen 30 minuten na ontvangst op de onderstaande knop om je registratie af te ronden.";

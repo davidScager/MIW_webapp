@@ -256,7 +256,7 @@ public class TransactionService {
         mailSenderFacade.sendMail(assetMailData);
     }
 
-    private void sendMailInsufficentAmount(TransactionData transactionData) throws MalformedURLException, MessagingException, FileNotFoundException {
+    private void sendMailInsufficentAmount(TransactionData transactionData) throws IOException, MessagingException {
         MailData assetMailData = new AssetMailData();
         assetMailData.setReceiver(transactionData.getUsername());
         assetMailData.setMailSubject("Succesvolle transactie in dollars");
@@ -267,7 +267,7 @@ public class TransactionService {
         mailSenderFacade.sendMail(assetMailData);
     }
 
-    private void sendMailWithExcuse(TransactionData transactionData) throws MalformedURLException, MessagingException, FileNotFoundException {
+    private void sendMailWithExcuse(TransactionData transactionData) throws IOException, MessagingException {
         MailData assetMailData = new AssetMailData();
         assetMailData.setReceiver(transactionData.getUsername());
         assetMailData.setMailSubject("Transactie geannuleerd");

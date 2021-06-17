@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -98,6 +99,8 @@ public class RegistrationService {
         } catch (MalformedURLException | MessagingException | FileNotFoundException error) {// add custom exception
             logger.info("Failed to send email.");
             logger.error("URL or Messaging error caught." + error.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
