@@ -73,7 +73,6 @@ public class PortfolioController {
     }
 
     @PostMapping("/list")
-    @CrossOrigin
     public ResponseEntity<List<AssetPortfolioView>> listPortFolio(@RequestHeader(value = "Authorization") String token) {
         //TODO get token
 //        System.out.println("fake token "+token);
