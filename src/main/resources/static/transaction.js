@@ -9,6 +9,7 @@ let userId
 
 function newTransaction(seller, buyer) {
     console.log(userId)
+    console.log(userId)
     let token = localStorage.getItem("token");
     let assetToSell = document.querySelector(`#assetToSell`).value
     let assetToBuy = document.querySelector(`#assetTobuy`).value
@@ -114,14 +115,14 @@ document.querySelector(`#sellbutton`).addEventListener(`click`,
     function () {
     let selectfotsale = document.querySelector(`#assetToSell`)
     let selectToBuy = document.querySelector(`#assetTobuy`)
-        Object.entries(bankAssets).forEach((asset) => {
+        Object.entries(myAssets).forEach((asset) => {
             let opt = document.createElement(`option`)
             opt.value = `${asset[1].abbreviation}`
             opt.innerHTML = `${asset[1].assetName}`
             selectToBuy.appendChild(opt)
         })
 
-        Object.entries(myAssets).forEach((asset) => {
+        Object.entries(bankAssets).forEach((asset) => {
             let opt = document.createElement(`option`)
             opt.value = `${asset[1].abbreviation}`
             opt.innerHTML = `${asset[1].assetName}`

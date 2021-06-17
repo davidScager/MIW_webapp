@@ -3,11 +3,24 @@ body {
     padding: 0;
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.wrapper {
+    min-height: 100%;
+    margin-bottom: -50px;
+}
+
+.footer, .push {
+    height: 50px;
+}
+
 .nijntje {
     background-image: url("images/nijntje_in_de_ruimte.jpg");
     border: 2px solid black;
-    padding: 25px;
-    background-repeat: no-repeat;
+    padding: 300px;
     background-size: cover;
 }
 
@@ -21,24 +34,6 @@ h2 {
     text-align: center;
     color: #ffffff;
     font-size: 40px;
-}
-
-a:visited {
-    color: #ffffff;
-    text-decoration: none;
-    text-decoration-line: none;
-}
-
-a:link {
-    color: #ffffff;
-    text-decoration: none;
-    text-decoration-line: none;
-}
-
-a:hover {
-    color: #FF9416;
-    text-decoration: none;
-    text-decoration-line: none;
 }
 
 h3 {
