@@ -1,6 +1,6 @@
 window.onload = checkForLogout()
 
-const urlAddress = "http://localhost:8080";
+const urlAddress = "http://miw-team-2.nl";
 const doLogin = urlAddress + "/login";
 const homePage = urlAddress + "/HomeSchermIngelogd.html"
 

@@ -1,5 +1,5 @@
-const urlAddress = "http://localhost:8080";
-//const urlAddress = "http://miw-team-2.nl";
+//const urlAddress = "http://localhost:8080";
+const urlAddress = "http://miw-team-2.nl";
 
 const resetPassword = urlAddress + "/reset/resetpassword";
 const setNewPassword = urlAddress + "/reset/setnewpassword";

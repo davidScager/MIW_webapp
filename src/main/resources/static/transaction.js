@@ -36,7 +36,7 @@ function newTransaction(seller, buyer) {
         transactioncost: 0
     }
 
-    fetch(`http://localhost:8080/transaction/createtransaction`, {
+    fetch(`/transaction/createtransaction`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ document.getElementById('transactioncost').addEventListener(`click`,
     function () {
         let assetToBuy = document.querySelector(`#assetTobuy`).value
         let amount = document.querySelector(`#numberOfAssets`).value
-        fetch(`http://localhost:8080/transaction/transactioncost?numberOfAssets=${amount}&assetBought=${assetToBuy}`)
+        fetch(`/transaction/transactioncost?numberOfAssets=${amount}&assetBought=${assetToBuy}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data)
@@ -143,7 +143,7 @@ function loadPage() {
 }
 
 function getUserID() {
-    fetch("http://localhost:8080/transaction/userid", {
+    fetch("/transaction/userid", {
         method: `GET`,
         headers: {
             'Content-Type': 'application/json',
@@ -159,7 +159,7 @@ function getUserID() {
 }
 
 function loadMyAssets() {
-    fetch("http://localhost:8080/transaction/myassets", {
+    fetch("/transaction/myassets", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -193,7 +193,7 @@ function loadMyAssets() {
 }
 
 function loadAssetsBank() {
-    fetch("http://localhost:8080/transaction/bankassets")
+    fetch("/transaction/bankassets")
         .then(response => response.json())
         .then(data => {
                 bankAssets = data

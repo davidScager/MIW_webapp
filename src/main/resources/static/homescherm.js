@@ -1,6 +1,6 @@
 let table = document.getElementById("LiveRate")
 let assets
-const url = "http://localhost:8080/transaction/bankassets";
+const url = "/transaction/bankassets";
 
 window.onload = loadLiveRate();
 
