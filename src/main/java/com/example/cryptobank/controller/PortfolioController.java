@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.IOException;
 import java.util.List;
 
 //@CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -66,9 +67,9 @@ public class PortfolioController {
     }
 
     @GetMapping("/returns")
-    public List<PortfolioReturnData> portfolioReturnsHandler(@RequestHeader(value = "Authorization") String token) {
+    public List<PortfolioReturnData> portfolioReturnsHandler(@RequestHeader(value = "Authorization") String token, @RequestParam String date) throws IOException {
         User user = userService.getUserFromToken(token);
-        return portfolioService.showListOfAssets((int)user.getId());
+        return portfolioService.showListOfAssets((int)user.getId(), date);
     }
 
     @PostMapping("/list")
