@@ -43,7 +43,7 @@ public class JdbcPortfolioDao implements PortfolioDao {
 
     //updated schema to auto_increment portfolioId and actor is now called actor in the database -David
     private PreparedStatement insertPortfolioStatement(Portfolio portfolio, Connection connection) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("Insert INTO Portfolio (actor) values (?)", Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement preparedStatement = connection.prepareStatement("Insert INTO portfolio (actor) values (?)", Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setLong(1, portfolio.getActor().getUserId());
         return preparedStatement;
     }
@@ -51,7 +51,7 @@ public class JdbcPortfolioDao implements PortfolioDao {
 
     @Override
     public List list() {
-        return jdbcTemplate.query("Select * from Portfolio", portfolioRowMapper);
+        return jdbcTemplate.query("Select * from portfolio", portfolioRowMapper);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class JdbcPortfolioDao implements PortfolioDao {
 
     @Override
     public Optional<Portfolio> get(int id) throws MissingResourceException {
-        List<Portfolio> portfolioList = jdbcTemplate.query("Select * from Portfolio where portfolioId = ?", portfolioRowMapper,id);
+        List<Portfolio> portfolioList = jdbcTemplate.query("Select * from portfolio where portfolioId = ?", portfolioRowMapper,id);
         if (portfolioList.size() == 1) {
             return Optional.of(portfolioList.get(0));
         }
@@ -73,7 +73,7 @@ public class JdbcPortfolioDao implements PortfolioDao {
 
     @Override
     public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM Portfolio WHERE PortfolioId = ?", id);
+        jdbcTemplate.update("DELETE FROM portfolio WHERE portfolioId = ?", id);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class JdbcPortfolioDao implements PortfolioDao {
 
     @Override
     public int getUserIdByPortfolioId(int portfolioId){
-        String sql ="Select * FROM portfolio WHERE PortfolioId = ?";
+        String sql ="Select * FROM portfolio WHERE portfolioId = ?";
         Actor actor = jdbcTemplate.query(sql, portfolioRowMapper, portfolioId).get(0).getActor();
         return (int) actor.getUserId();
     }
