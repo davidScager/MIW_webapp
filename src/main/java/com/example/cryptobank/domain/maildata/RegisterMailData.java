@@ -11,9 +11,9 @@ public class RegisterMailData extends MailData {
     private String mailContent;
     private String receiver;
     private String token;
-    private UrlAdresses urlAdresses = new UrlAdresses();
 
     public RegisterMailData(String receiver, String token) {
+        UrlAdresses urlAdresses = new UrlAdresses();
         this.linkUrl = urlAdresses.getRegistrationFinalized();
         this.pageUrl = "src/main/resources/static/default_mail.html";
         this.sender = "BigBossNijntje@BitBank.com";

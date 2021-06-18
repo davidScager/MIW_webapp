@@ -54,6 +54,23 @@ let repasswordFlag = false;
 let addressFlag = false;
 let allFieldsFilledFlag = true;
 
+function register(){
+    console.log("method call register()");
+    if (finalCheck()) {
+        getFormData();
+        setupFetch()
+            .then(response => handleResponse(response))
+            .catch((error) => {
+                console.error('Foutje', error.toString());
+                alert("Registratie mislukt");
+            });
+    } else {
+        resetFlags();
+        console.log("flags reset")
+        document.querySelector('#FieldEmptyError').style.visibility = "visible";
+    }
+}
+
 function getFormData(){
     bsn = document.querySelector('#bsn').value;
     firstName = document.querySelector('#firstName').value;
@@ -120,22 +137,6 @@ function afterRegister() {
     document.querySelector('#FieldEmptyError').style.visibility = "hidden";
 }
 
-function register(){
-    console.log("method call register()");
-    if (finalCheck()) {
-        getFormData();
-        setupFetch()
-            .then(response => handleResponse(response))
-            .catch((error) => {
-                console.error('Foutje', error.toString());
-                alert("Registratie mislukt");
-            });
-    } else {
-        resetFlags();
-        console.log("flags reset")
-        document.querySelector('#FieldEmptyError').style.visibility = "visible";
-    }
-}
 //end registration request
 
 //start register checks
