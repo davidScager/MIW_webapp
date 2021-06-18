@@ -52,6 +52,11 @@ public class ResetPasswordController {
         return new RedirectView(urlAdresses.getResetPasswordPage());
     }
 
+    @GetMapping
+    public RedirectView showNewPasswordPage() {
+        return new RedirectView(urlAdresses.getCreateNewPasswordPage());
+    }
+
     @GetMapping("/confirmed")
     public RedirectView showConfirmed() {
         return new RedirectView(urlAdresses.getResetConfirmedPage());
