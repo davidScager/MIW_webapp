@@ -11,7 +11,7 @@ public class ResetMailData extends MailData {
     private String token;
 
     public ResetMailData(String receiver, String token) {
-        this.linkUrl = "http://miw-team-2.nl/create_new_password.html";
+        this.linkUrl = "http://miw-team-2.nl/reset/createnewpassword";
         this.pageUrl = "/mail.html";
         this.sender = "BigBossNijntje@BitBank.com";
         this.mailSubject = "Reset uw account";
