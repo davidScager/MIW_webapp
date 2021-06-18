@@ -20,7 +20,7 @@ public class GenerateMailContent {
 
     public String setHtmlMail(MailData mailData, String resetLink) {
         try {
-            inputStream = getClass().getResourceAsStream ("src/main/resources/static/default_mail.html");
+            inputStream = getClass().getResourceAsStream ("/static/default_mail.html");
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             mailContent = reader.lines()
                     .collect(Collectors.joining(System.lineSeparator()));
