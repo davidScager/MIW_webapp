@@ -24,12 +24,13 @@ public class GenerateMailContent {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             mailContent = reader.lines()
                     .collect(Collectors.joining(System.lineSeparator()));
+            String correctText = mailContent.replace("TEKSTHIER", mailData.getMailText());
+            return correctText.replace("URLHIER", resetLink);
         } catch (Exception e) {
             e.printStackTrace();
         }
 //        readHtmlFile();
-        String correctText = mailContent.replace("TEKSTHIER", mailData.getMailText());
-        return correctText.replace("URLHIER", resetLink);
+        return  null;
     }
 
 //        private void readHtmlFile() {
