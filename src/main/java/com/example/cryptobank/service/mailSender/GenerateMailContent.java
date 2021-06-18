@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Component
 public class GenerateMailContent {
     private String mailContent;
-    private FileReader fileReader;
+    private InputStream inputStream;
     private final StringBuilder stringBuilder;
 
     public GenerateMailContent()  {
@@ -20,11 +20,11 @@ public class GenerateMailContent {
 
     public String setHtmlMail(MailData mailData, String resetLink) {
         try {
-            fileReader = new FileReader("src/main/resources/static/default_mail.html");
-            BufferedReader reader = new BufferedReader(fileReader);
+            inputStream = getClass().getResourceAsStream ("src/main/resources/static/default_mail.html");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             mailContent = reader.lines()
                     .collect(Collectors.joining(System.lineSeparator()));
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 //        readHtmlFile();
