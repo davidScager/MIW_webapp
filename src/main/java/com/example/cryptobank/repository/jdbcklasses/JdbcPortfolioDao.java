@@ -51,7 +51,7 @@ public class JdbcPortfolioDao implements PortfolioDao {
 
     @Override
     public List list() {
-        return jdbcTemplate.query("Select * from Portfolio", portfolioRowMapper);
+        return jdbcTemplate.query("Select * from portfolio", portfolioRowMapper);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class JdbcPortfolioDao implements PortfolioDao {
 
     @Override
     public Optional<Portfolio> get(int id) throws MissingResourceException {
-        List<Portfolio> portfolioList = jdbcTemplate.query("Select * from Portfolio where portfolioId = ?", portfolioRowMapper,id);
+        List<Portfolio> portfolioList = jdbcTemplate.query("Select * from portfolio where portfolioId = ?", portfolioRowMapper,id);
         if (portfolioList.size() == 1) {
             return Optional.of(portfolioList.get(0));
         }
@@ -73,7 +73,7 @@ public class JdbcPortfolioDao implements PortfolioDao {
 
     @Override
     public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM Portfolio WHERE PortfolioId = ?", id);
+        jdbcTemplate.update("DELETE FROM portfolio WHERE PortfolioId = ?", id);
     }
 
     @Override
