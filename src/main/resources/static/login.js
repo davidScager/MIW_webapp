@@ -21,9 +21,9 @@ function clearInput(){
 }
 
 function gatherInput() {
-    emailElement = document.querySelector("#email")
+    emailElement = document.querySelector("#emaillogin")
     email = emailElement.value
-    passwordElement = document.querySelector("#password")
+    passwordElement = document.querySelector("#passwordlogin")
     password = passwordElement.value;
     loginInfoMessage = document.getElementById("loginInfo")
 }
