@@ -1,5 +1,7 @@
 package com.example.cryptobank.domain.maildata;
 
+import com.example.cryptobank.domain.urls.UrlAdresses;
+
 public class RegisterMailData extends MailData {
     private String linkUrl;
     private String pageUrl;
@@ -9,9 +11,10 @@ public class RegisterMailData extends MailData {
     private String mailContent;
     private String receiver;
     private String token;
+    private UrlAdresses urlAdresses = new UrlAdresses();
 
     public RegisterMailData(String receiver, String token) {
-        this.linkUrl = "http://localhost:8080/register/finalize";
+        this.linkUrl = urlAdresses.getRegistrationFinalized();
         this.pageUrl = "src/main/resources/static/default_mail.html";
         this.sender = "BigBossNijntje@BitBank.com";
         this.mailSubject = "Registratie BitBank - Email bevestiging";

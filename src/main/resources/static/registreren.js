@@ -176,8 +176,8 @@ function hideErrorMessage(input, errorType) {
 function checkEmail(){
     let emailInput = document.querySelector('#email');
     let emailError = document.querySelector('#EmailError');
-    let regExp = new RegExp(/[.]+$/i);
-    if (emailInput.value != null && regExp.test(emailInput.value)) {
+    let regExp = new RegExp(/^[^ ]+@[^ ]+\.[a-z]{2,3}$/i);
+    if (emailInput.value != null && !regExp.test(emailInput.value)) {
         showErrorMessage(emailInput, emailError);
         emailFlag = false;
     } else {
