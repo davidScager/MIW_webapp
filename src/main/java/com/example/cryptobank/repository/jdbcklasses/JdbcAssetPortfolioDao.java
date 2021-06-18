@@ -174,7 +174,7 @@ public class JdbcAssetPortfolioDao implements AssetPortfolioDao {
 
     @Override
     public List<AssetPortfolioView> getOverviewWithAmount(int portfolioId) {
-        String query = "SELECT AP.assetName, portfolioId, amount, forSale, abbreviation, valueInUsd FROM AssetPortfolio AP LEFT JOIN Asset A on AP.assetName = A.abbreviation WHERE portfolioId = ?";
+        String query = "SELECT assetName, portfolioId, amount, forSale , name as assetDescription, valueInUsd as amountUSD FROM BitBankDB.AssetPortfolio LEFT JOIN BitBankDB.Asset on assetName=abbreviation  WHERE portfolioId = ?";
         List<AssetPortfolioView> overView = jdbcTemplate.query(query, new AssetPortfolioViewRowMapper(), portfolioId);
         return overView;
     }
