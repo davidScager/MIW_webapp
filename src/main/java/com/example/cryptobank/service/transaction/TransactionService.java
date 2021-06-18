@@ -182,14 +182,14 @@ public class TransactionService {
                         try {
                             if (transactionData.getBuyer() == 1) {
                                 Asset asset = rootRepository.getAsset(transactionData.getAssetSold());
-                                if (asset.getValueInUsd() >= transactionData.getTriggerValue()) {
+                                if (asset.getValueInUsd() <= transactionData.getTriggerValue()) {
                                     controlResourcesAndExecute(transactionData);
                                     timer.cancel();
                                     timer.purge();
                                 }
                             } else {
                                 Asset asset = rootRepository.getAsset(transactionData.getAssetBought());
-                                if (asset.getValueInUsd() <= transactionData.getTriggerValue()) {
+                                if (asset.getValueInUsd() >= transactionData.getTriggerValue()) {
                                     controlResourcesAndExecute(transactionData);
                                     timer.cancel();
                                     timer.purge();
