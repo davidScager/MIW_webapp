@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS Log(
 INSERT INTO asset VALUES ('ADA','Cardano','Cardano','Follows sience to improve its service',2,1,1,1.58,2.17),
                          ('BCH','Bitcoin Cash','bitcoin-cash','Branch from bitcoin',1002,1,1,597.97,1175.6),
                          ('BNB','Binance Coin','binancecoin','Has the most exchangeses of all cyptocoins',600,1,1,353.76,563.51),
-                         ('BTC','Bitcoin','Bitcoin','Most known cryptocoin',50000,1,1,3355.7,46780.7),
+                         ('BTC','Bitcoin','Bitcoin','Most known cryptocoin',50000,1,1,33355.7,46780.7),
                          ('DASH','Dash','Dash','Users are called masternodes',200.1,1,1,166.51,337.33),
                          ('DOGE','Dogecoin','Dogecoin','Created by software engineers',0.5,1,1,0.327442,0.506792),
                          ('DOT','Polkadot','Polkadot','Has the same founder as Ethereum',37.12,1,1,21.87,43.19),
