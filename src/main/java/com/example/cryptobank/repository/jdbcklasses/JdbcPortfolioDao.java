@@ -43,7 +43,7 @@ public class JdbcPortfolioDao implements PortfolioDao {
 
     //updated schema to auto_increment portfolioId and actor is now called actor in the database -David
     private PreparedStatement insertPortfolioStatement(Portfolio portfolio, Connection connection) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("Insert INTO portfolio (actor) values (?)", Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement preparedStatement = connection.prepareStatement("Insert INTO Portfolio (actor) values (?)", Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setLong(1, portfolio.getActor().getUserId());
         return preparedStatement;
     }
@@ -73,7 +73,7 @@ public class JdbcPortfolioDao implements PortfolioDao {
 
     @Override
     public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM portfolio WHERE portfolioId = ?", id);
+        jdbcTemplate.update("DELETE FROM portfolio WHERE PortfolioId = ?", id);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class JdbcPortfolioDao implements PortfolioDao {
 
     @Override
     public int getUserIdByPortfolioId(int portfolioId){
-        String sql ="Select * FROM portfolio WHERE portfolioId = ?";
+        String sql ="Select * FROM portfolio WHERE PortfolioId = ?";
         Actor actor = jdbcTemplate.query(sql, portfolioRowMapper, portfolioId).get(0).getActor();
         return (int) actor.getUserId();
     }
