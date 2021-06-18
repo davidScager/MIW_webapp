@@ -45,7 +45,8 @@ function newTransaction(seller, buyer) {
             "Authorization": token
         },
         body: JSON.stringify(transactiedata)
-    })}
+    })
+}
 
 document.getElementById(`executeBuyTransaction`).addEventListener(`click`,
     function (){

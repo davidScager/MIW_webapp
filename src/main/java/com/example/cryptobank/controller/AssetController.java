@@ -39,7 +39,7 @@ public class AssetController {
         logger.info("New AssetController");
     }
 
-    @GetMapping
+    @GetMapping()
     public RedirectView showResetPage() {
         return new RedirectView(urlAdresses.getPortfolioPage());
     }
