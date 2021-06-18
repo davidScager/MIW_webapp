@@ -52,7 +52,7 @@ public class ResetPasswordController {
         return new RedirectView(urlAdresses.getResetPasswordPage());
     }
 
-    @GetMapping
+    @GetMapping("/newpassword")
     public RedirectView showNewPasswordPage() {
         return new RedirectView(urlAdresses.getCreateNewPasswordPage());
     }
