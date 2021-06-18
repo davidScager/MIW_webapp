@@ -139,13 +139,8 @@ public class TransactionService {
 
         for (Transaction transaction:list) {
             tempTradeDate = transaction.getTimestamp();
-            System.out.println(assetName);
-            System.out.println(transaction.getAssetBought());
-            System.out.println(transaction.getAssetSold());
             if(transaction.getAssetBought().equals(assetName) || transaction.getAssetSold().equals(assetName)) {
-                System.out.println("Hooray!!");
                 if(tempTradeDate.compareTo(lastTrade) > 1) {
-                    System.out.println("Hoorah!");
                     lastTrade = tempTradeDate;
                     tempMostRecentTransaction = transaction;
                 }
