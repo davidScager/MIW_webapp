@@ -8,8 +8,6 @@ let userId
 
 
 function newTransaction(seller, buyer) {
-    console.log(userId)
-    console.log(userId)
     let token = localStorage.getItem("token");
     let assetToSell = document.querySelector(`#assetToSell`).value
     let assetToBuy = document.querySelector(`#assetTobuy`).value
@@ -19,7 +17,7 @@ function newTransaction(seller, buyer) {
         triggerValue = 0;
     } else if (triggerValue !== null){
         if (seller === 0){}
-        seller == 1
+        seller = 1
     }
     if (amount === null) {
         let amountfield = document.querySelector(`#numberOfAssets`)

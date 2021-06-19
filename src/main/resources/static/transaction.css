@@ -85,7 +85,9 @@ select{
     text-align: center;
     align-self: center;
 }
-
+td {
+    border: 1px solid #f7931a;
+}
 input, h3{
     text-align: center;
 }
