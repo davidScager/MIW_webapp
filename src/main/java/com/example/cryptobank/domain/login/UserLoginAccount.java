@@ -7,12 +7,14 @@ import com.example.cryptobank.service.security.HashService;
 import com.example.cryptobank.service.security.PepperService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class UserLoginAccount {
+    private static final int BSN_MIN_VALUE = 99999;
     private List<Object> requiredUserData;
     private User user;
     private String password;
@@ -23,14 +25,27 @@ public class UserLoginAccount {
     public UserLoginAccount(int bsn, String firstName, String infix, String surname, String dateOfBirth,
                             String postalCode, int houseNr, String addition, String streetName,
                             String residence, String email, String password){
-        this.requiredUserData = Stream.of(bsn, firstName, surname, dateOfBirth, postalCode, houseNr, streetName, residence, email, password).collect(Collectors.toList());
+        setPassword(password);
+        this.requiredUserData = new ArrayList<Object>();
         this.user = new User(bsn, new FullName(firstName, infix, surname), dateOfBirth,
                 new UserAddress(postalCode, houseNr, addition, streetName, residence), email);
-        setPassword(password);
+    }
+
+    public void addRequiredData(){
+        requiredUserData = Arrays.asList(user.getBSN(), user.getFullName().getFirstName(), user.getFullName().getSurname(),
+                user.getDateOfBirth(), user.getUserAddress().getPostalCode(), user.getUserAddress().getHouseNr(), user.getUserAddress().getStreetName(),
+                user.getUserAddress().getResidence(), user.getEmail(), password);
     }
 
     public boolean allRequiredData(){
-        return requiredUserData.stream().noneMatch(item -> item == "" || item == null);
+        boolean nonNull = requiredUserData.stream().noneMatch(item ->
+                (item instanceof Number) ? (int)item == 0 : item.toString().length() == 0);
+        boolean bsnOk = (int)requiredUserData.get(0) > BSN_MIN_VALUE;
+        return nonNull && bsnOk;
+    }
+
+    public void printData(){
+        System.out.println(requiredUserData);
     }
 
     @Override

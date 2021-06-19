@@ -61,7 +61,8 @@ public class RegistrationController {
     @PostMapping("/request")
     public ResponseEntity<?> registrationRequestHandler(@RequestBody UserLoginAccount userLoginAccount){
         logger.info(userLoginAccount.toString());
-        if(registrationService.validate(userLoginAccount)){
+        userLoginAccount.addRequiredData();
+        if(registrationService.validate(userLoginAccount) && userLoginAccount.allRequiredData()){
             logger.info("Registratie gevalideerd");
             String token = registrationService.cacheNewUserWithToken(userLoginAccount);
             if(registrationService.confirmationEmailSent(token, userLoginAccount.getUser().getEmail())){
