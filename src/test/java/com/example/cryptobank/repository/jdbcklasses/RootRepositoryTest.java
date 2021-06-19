@@ -8,16 +8,13 @@ import com.example.cryptobank.domain.user.*;
 import com.example.cryptobank.repository.daointerfaces.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -38,6 +35,7 @@ class RootRepositoryTest {
     private final ActorDao testActorDao;
     private static LoginAccount loginAccountExpected;
     private final AssetPortfolioDao testAssetPortfolioDao;
+    private final AssetDao assetDao;
 
     private static final long USER_ID = 7;
     private static final long NEW_USER_ID = 8;
@@ -52,7 +50,7 @@ class RootRepositoryTest {
 
 
     @Autowired
-    public RootRepositoryTest(RootRepository rootRepositoryTest, UserDao userTestDao, PortfolioDao portfolioTestDao, JdbcTemplate jdbcTemplate, ActorDao actorDao, LoginDao loginDao, AssetPortfolioDao assetPortfolioDao) {
+    public RootRepositoryTest(RootRepository rootRepositoryTest, UserDao userTestDao, PortfolioDao portfolioTestDao, JdbcTemplate jdbcTemplate, ActorDao actorDao, LoginDao loginDao, AssetPortfolioDao assetPortfolioDao, AssetDao assetDao) {
         this.rootRepositoryTest = rootRepositoryTest;
         this.userTestDao = userTestDao;
         this.testLoginDao = loginDao;
@@ -60,6 +58,7 @@ class RootRepositoryTest {
         this.jdbcTemplate = jdbcTemplate;
         this.testActorDao = actorDao;
         this.testAssetPortfolioDao = assetPortfolioDao;
+        this.assetDao = assetDao;
     }
 
     @BeforeAll
@@ -268,7 +267,17 @@ class RootRepositoryTest {
         assertThat(tokenAfterTest).isNotEqualTo(token);
     }
 
+    @Test
+    void getUserIdByPortfolioIdTest(){
+        int actual = portfolioTestDao.getUserIdByPortfolioId(101);
+        assertThat(actual).isEqualTo(1);
+    }
 
+    @Test
+    void getAssetByAbbreviation(){
+        Asset actual = assetDao.getOneByName("BTC");
+        assertThat(actual.getName()).isEqualTo("Bitcoin");
+    }
 
 
 }
