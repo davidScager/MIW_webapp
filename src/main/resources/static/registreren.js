@@ -105,7 +105,6 @@ function afterRegister() {
     document.querySelector('#PasswordError').style.visibility = "hidden";
     document.querySelector('#FieldEmptyError').style.visibility = "hidden";
 }
-
 //end registration request
 
 //start register checks
