@@ -87,33 +87,33 @@ function getFormData(){
     repassword = document.querySelector('#repassword').value;
 }
 
+let jsonBody = {
+    user: {
+        bsn: bsn,
+        fullName: {
+            firstName: firstName,
+            infix: infix,
+            surname: surname
+        },
+        dateOfBirth: dateOfBirth,
+        userAddress: {
+            postalCode: postalCode ,
+            houseNr: houseNr,
+            addition: addition,
+            streetName: streetName,
+            residence: residence
+        },
+        email: email
+    },
+    password: password
+};
+
 function setupFetch() {
     return fetch(regReqUrl,
         {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                user: {
-                    bsn: bsn,
-                    fullName: {
-                        firstName: firstName,
-                        infix: infix,
-                        surname: surname
-                    },
-                    dateOfBirth: dateOfBirth,
-                    userAddress: {
-                        postalCode: postalCode ,
-                        houseNr: houseNr,
-                        addition: addition,
-                        streetName: streetName,
-                        residence: residence
-                    },
-                    email: email
-                },
-                password: password
-            })
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(jsonBody)
         });
 }
 
@@ -150,15 +150,10 @@ function resetFlags() {
 
 function finalCheck() {
     checkEmail();
-    console.log("emailFlag=" + emailFlag)
     checkPassword();
-    console.log("passwordFlag=" + passwordFlag)
     checkRepassword();
-    console.log("repasswordFlag=" + repasswordFlag)
     checkPcApiResponse();
-    console.log("addressFlag=" + addressFlag)
     checkAnyEmpty();
-    console.log("allFieldsFilledFlag=" + allFieldsFilledFlag)
     let flags = [emailFlag, passwordFlag, repasswordFlag, addressFlag, allFieldsFilledFlag];
     console.log(flags);
     return flags.every(item =>{return item === true;});
@@ -206,7 +201,7 @@ function checkRepassword() {
     let password = passwordInput.value;
     let repasswordInput = document.querySelector('#repassword');
     let repassword = repasswordInput.value;
-    let passwordError = document.querySelector('#PasswordError')
+    let passwordError = document.querySelector('#PasswordError');
     if (repassword !== password) {
         passwordError.innerHTML = "Wachtwoorden zijn niet gelijk";
         showErrorMessage(repasswordInput, passwordError);
