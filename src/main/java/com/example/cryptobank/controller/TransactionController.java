@@ -6,6 +6,7 @@ import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.service.assetenportfolio.PortfolioService;
 import com.example.cryptobank.service.login.UserService;
 import com.example.cryptobank.service.security.TokenService;
+//import com.example.cryptobank.service.transaction.TransactionHelper;
 import com.example.cryptobank.service.transaction.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,7 @@ public class TransactionController {
     private final TokenService tokenService;
     private final UserService userService;
     private final PortfolioService portfolioService;
+//    private final TransactionHelper transactionHelper;
     private UrlAdresses urlAdresses = new UrlAdresses();
 
     @Autowired
@@ -39,6 +41,7 @@ public class TransactionController {
         this.tokenService = tokenService;
         this.userService = userService;
         this.portfolioService = portfolioService;
+//        this.transactionHelper = transactionHelper;
         logger.info("New TransactionController");
     }
 

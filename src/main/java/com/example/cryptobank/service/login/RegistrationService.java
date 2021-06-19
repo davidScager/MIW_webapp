@@ -3,7 +3,6 @@ package com.example.cryptobank.service.login;
 import com.example.cryptobank.domain.maildata.MailData;
 import com.example.cryptobank.domain.maildata.RegisterMailData;
 import com.example.cryptobank.domain.user.Role;
-import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.domain.login.UserLoginAccount;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import com.example.cryptobank.service.mailSender.mailsenderfacade.MailSenderFacade;
@@ -17,10 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * Service for registering new users
@@ -34,8 +30,7 @@ public class RegistrationService {
     private final MailSenderFacade mailSenderFacade;
     private final Map<String, UserLoginAccount> registrationCache;
     private final int durationValid;
-    private int durationUnitMillis;
-    private final int removeAfter;
+    private int removeAfter;
 
     @Autowired
     public RegistrationService(RootRepository rootRepository, TokenService tokenService,
@@ -46,7 +41,7 @@ public class RegistrationService {
         this.registrationCache = new HashMap<>();
         logger.info("RegistrationService active");
         this.durationValid = 30;
-        this.durationUnitMillis = 60000;
+        int durationUnitMillis = 60000;
         this.removeAfter = durationValid * durationUnitMillis;
     }
 
@@ -73,14 +68,16 @@ public class RegistrationService {
         String token = tokenService.generateJwtToken(userLoginAccount.getUser().getEmail(), "Register", durationValid);
         registrationCache.put(token, userLoginAccount);
         logger.info("Registration Cached");
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                registrationCache.remove(token);
-                logger.info("Cache cleared");
-            }
-        }, removeAfter);
+        final Timer timer = new Timer();
+        timer.schedule(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        registrationCache.remove(token);
+                        logger.info("Cache cleared");
+                    }
+                }, removeAfter
+        );
         logger.info(registrationCache.get(token).toString());
         return token;
     }
@@ -90,28 +87,17 @@ public class RegistrationService {
      * @param token (String) Jwt
      * @param email (String)
      */
-    public void sendConfirmationEmail(String token, String email) {
+    public boolean confirmationEmailSent(String token, String email)  {
         MailData registerMailData = new RegisterMailData(email, token);
         try {
             mailSenderFacade.sendMail(registerMailData);
             logger.info("Registration confirmation email sent");
-        } catch (MalformedURLException | MessagingException | FileNotFoundException error) {// add custom exception
+            return true;
+        } catch (MalformedURLException | MessagingException | FileNotFoundException error) {
             logger.info("Failed to send email.");
-            logger.error("URL or Messaging error caught." + error.getMessage());
+            logger.error(error.getMessage());
+            return false;
         }
-    }
-
-    /**
-     * Retrieve user data from cache with token
-     * Store in database
-     * @param token (String) Jwt
-     */
-    public void registerUser(String token){
-        UserLoginAccount userLoginAccount = registrationCache.get(token) ;
-        rootRepository.registerLogin(userLoginAccount.getUser(), userLoginAccount.getPassword());
-        rootRepository.registerUser(userLoginAccount.getUser(), Role.CLIENT);
-        registrationCache.remove(token);
-        logger.info("New Client registered and cache cleared");
     }
 
     /**
@@ -132,19 +118,27 @@ public class RegistrationService {
         }
     }
 
-    //Mainly for test purposes
-    //Every test of cacheNewUserWithToken would otherwise take 30 minutes!
-    public void setDurationUnitMillis(int durationUnitMillis) {
-        this.durationUnitMillis = durationUnitMillis;
+    /**
+     * Retrieve user data from cache with token
+     * Store in database
+     * @param token (String) Jwt
+     */
+    public void registerUser(String token){
+        UserLoginAccount userLoginAccount = registrationCache.get(token) ;
+        rootRepository.registerLogin(userLoginAccount.getUser(), userLoginAccount.getPassword());
+        rootRepository.registerUser(userLoginAccount.getUser(), Role.CLIENT);
+        registrationCache.remove(token);
+        logger.info("New Client registered and cache cleared");
     }
 
-    //todo: verwijder voor einde project
-    // momenteel alleen gebruikt in commandlineRunner om gebruikers voor uitproberen te registreren
-    public User register(UserLoginAccount userLoginAccount, Role role){
-        User user = userLoginAccount.getUser();
-        rootRepository.registerLogin(userLoginAccount.getUser(), userLoginAccount.getPassword());
-        rootRepository.registerUser(userLoginAccount.getUser(), role);
-        return user;
+    /**
+     * Set unit for duration of Jwt validity
+     * unit is multiplied by durationValid parameter
+     * set to 1 second by default (60,000 millis)
+     * @param durationUnitMillis (int)
+     */
+    public void setRemoveAfter(int durationUnitMillis) {
+        this.removeAfter = durationUnitMillis;
     }
 
 }

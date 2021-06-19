@@ -12,7 +12,7 @@ public class Actor {
     private String checkingAccount;
     private Role role;
 
-    private Actor(int userId, String checkingAccount, Role role) {
+    private Actor(long userId, String checkingAccount, Role role) {
         super();
         this.userId = userId;
         this.checkingAccount = checkingAccount;

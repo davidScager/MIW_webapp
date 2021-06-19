@@ -23,7 +23,7 @@ public class UrlAdresses {
     private final String resetConfirmed = address + "/reset/confirmed";
     private final String resetDenied = address + "/reset/denied";
 
-    private final String resetDeniedPage = address + "/resetdenied.html";
+    private final String resetDeniedPage = address + "/reset_denied.html";
     private final String createNewPassword = address + "/reset/createnewpassword";
     private final String newPassword = address + "/reset/setnewpassword";
     private final String createNewPasswordPage = address + "/create_new_password.html";
@@ -31,7 +31,7 @@ public class UrlAdresses {
     private final String loginPage = address + "/login.html";
     private final String login = address + "/login";
 
-    private final String portfolioPage = address + "/portofolio";
+    private final String portfolioPage = address + "/portfolio";
     private final String portfolioPageUrl = address + "/portfolio.html";
     private final String PortfolioReturnsPage = address + "/portfolio/returns";
     private final String PortfolioReturnsPageUrl = address + "/PortfolioReturns.html";

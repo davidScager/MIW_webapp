@@ -64,8 +64,9 @@ public class RegistrationController {
         if(registrationService.validate(userLoginAccount)){
             logger.info("Registratie gevalideerd");
             String token = registrationService.cacheNewUserWithToken(userLoginAccount);
-            registrationService.sendConfirmationEmail(token, userLoginAccount.getUser().getEmail());
-            return new ResponseEntity<>(HttpStatus.OK);
+            if(registrationService.confirmationEmailSent(token, userLoginAccount.getUser().getEmail())){
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
         }
         logger.info("Registratie geweigerd");
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

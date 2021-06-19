@@ -6,12 +6,14 @@ import com.example.cryptobank.domain.portfolio.PortfolioReturnData;
 import com.example.cryptobank.domain.transaction.Transaction;
 import com.example.cryptobank.repository.daointerfaces.PortfolioDao;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
+import com.example.cryptobank.service.currency.CurrencyHistory;
 import com.example.cryptobank.service.transaction.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -20,15 +22,17 @@ public class PortfolioService {
     private final RootRepository rootRepository;
     private final PortfolioDao portfolioDao;
     private final TransactionService transactionService;
+    private final CurrencyHistory currencyHistory;
 
     private final Logger logger = LoggerFactory.getLogger(AssetService.class);
 
     @Autowired
-    public PortfolioService(RootRepository rootReposistory, PortfolioDao portfolioDao, TransactionService transactionService) {
+    public PortfolioService(RootRepository rootReposistory, PortfolioDao portfolioDao, TransactionService transactionService, CurrencyHistory currencyHistory) {
         super();
         this.rootRepository = rootReposistory;
         this.portfolioDao = portfolioDao;
         this.transactionService = transactionService;
+        this.currencyHistory = currencyHistory;
         logger.info("New PortfolioService");
     }
 
@@ -44,7 +48,7 @@ public class PortfolioService {
     }
 
 //    Methode te lang. Extract iets? - MB
-    public List<PortfolioReturnData> showListOfAssets(int userId) {
+    public List<PortfolioReturnData> showListOfAssets(int userId, String date) throws IOException {
         Portfolio portfolio = rootRepository.getPortfolioIdByUserId(userId);
         List<PortfolioReturnData> tempList = new ArrayList<>();
         TreeMap<Asset, Double> sortedAssetMap = new TreeMap<>();
@@ -53,10 +57,11 @@ public class PortfolioService {
         for (Map.Entry<Asset, Double> entry: sortedAssetMap.entrySet() ) {
             if(transactionService.getMostRecentBuyOrSell(userId, entry.getKey().getAbbreviation()) != null) {
                 Transaction tempTransaction = transactionService.getMostRecentBuyOrSell(userId, entry.getKey().getAbbreviation());
+                double historicRate = currencyHistory.historyValuefrom(date, entry.getKey().getName());
                 Boolean koopVerkoop = transactionService.determineBuyOrSell(tempTransaction, entry.getKey().getAbbreviation());
                 if(koopVerkoop){ transactionRate = tempTransaction.getTransactionLog().getBoughtAssetTransactionRate();}
                 if(koopVerkoop=false) {transactionRate = tempTransaction.getTransactionLog().getSoldAssetTransactionRate();}
-                PortfolioReturnData tempPortfolioReturnData = new PortfolioReturnData(entry.getKey(), entry.getValue(), transactionRate, koopVerkoop);
+                PortfolioReturnData tempPortfolioReturnData = new PortfolioReturnData(entry.getKey(), entry.getValue(), historicRate, transactionRate, koopVerkoop);
                 tempList.add(tempPortfolioReturnData);
             }
         }
