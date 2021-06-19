@@ -1,19 +1,22 @@
 package com.example.cryptobank.repository.jdbcklasses;
 
 import com.example.cryptobank.domain.asset.Asset;
+import com.example.cryptobank.domain.login.LoginAccount;
 import com.example.cryptobank.domain.portfolio.Portfolio;
 import com.example.cryptobank.domain.user.*;
+import com.example.cryptobank.repository.daointerfaces.ActorDao;
 import com.example.cryptobank.repository.daointerfaces.PortfolioDao;
 import com.example.cryptobank.repository.daointerfaces.UserDao;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,17 +27,21 @@ class RootRepositoryTest {
     private final RootRepository rootRepositoryTest;
     private final UserDao userTestDao;
     private final PortfolioDao portfolioTestDao;
+    private final ActorDao actorTestDao;
     private final JdbcTemplate jdbcTemplate;
     private static User userExpected;
     private static Portfolio portFolioExpected;
     private static Actor actorExpected;
+    private static LoginAccount loginAccountExpected;
+
 
 
     @Autowired
-    public RootRepositoryTest(RootRepository rootRepositoryTest, UserDao userTestDao, PortfolioDao portfolioTestDao, JdbcTemplate jdbcTemplate) {
+    public RootRepositoryTest(RootRepository rootRepositoryTest, UserDao userTestDao, PortfolioDao portfolioTestDao, ActorDao actorDao, JdbcTemplate jdbcTemplate) {
         this.rootRepositoryTest = rootRepositoryTest;
         this.userTestDao = userTestDao;
         this.portfolioTestDao = portfolioTestDao;
+        this.actorTestDao = actorDao;
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -50,6 +57,8 @@ class RootRepositoryTest {
         actorExpected.setCheckingAccount("32187456");
         portFolioExpected = new Portfolio(actorExpected);
         portFolioExpected.setPortfolioId(107);
+        loginAccountExpected = new LoginAccount("test_testman@hotmail.com", "123", "321");
+
     }
 
     @Test
@@ -97,7 +106,38 @@ class RootRepositoryTest {
         assertThat(actualAssetMap).isNotEmpty();
     }
 
+    @Test
+    void actorIsReturned(){
+        Actor actor = rootRepositoryTest.getActor(1);
+        assertThat(actor).isNotNull();
+        assertThat(actor.getCheckingAccount()).isEqualTo("12345678");
+    }
 
+    @Test
+    void actorIsUpdated(){
+        Actor actor = rootRepositoryTest.getActor(1);
+        assertThat(actor.getUserId()).isEqualTo(1);
+        assertThat(actor.getCheckingAccount()).isNotEqualTo("54321");
+        actor.setCheckingAccount("54321");
+        rootRepositoryTest.updateActor(actor);
+        Actor actorAfterTest = rootRepositoryTest.getActor(1);
+        assertThat(actorAfterTest.getCheckingAccount()).isEqualTo("54321");
+        assertThat(actorAfterTest.getUserId()).isEqualTo(1);
+    }
+
+    @Test
+    void resetTokenIsStored(){
+        String username = "niekmol1994@gmail.com";
+        LoginAccount loginAccount = rootRepositoryTest.getLoginAccount(username);
+        String token = loginAccount.getToken();
+        assertThat(token).isNotEqualTo("12345");
+        rootRepositoryTest.storeResetToken(username, "12345");
+        LoginAccount loginAccountAfterTest = rootRepositoryTest.getLoginAccount(username);
+        assertThat(loginAccountAfterTest.getUsername()).isEqualTo(username);
+        String tokenAfterTest = loginAccountAfterTest.getToken();
+        assertThat(tokenAfterTest).isEqualTo("12345");
+        assertThat(tokenAfterTest).isNotEqualTo(token);
+    }
 
 
 
