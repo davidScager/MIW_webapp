@@ -7,11 +7,8 @@ import com.example.cryptobank.domain.portfolio.Portfolio;
 import com.example.cryptobank.domain.user.*;
 import com.example.cryptobank.repository.daointerfaces.*;
 import org.junit.jupiter.api.*;
-import com.example.cryptobank.repository.daointerfaces.AssetPortfolioDao;
-import com.example.cryptobank.repository.daointerfaces.PortfolioDao;
-import com.example.cryptobank.repository.daointerfaces.UserDao;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,6 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -34,7 +32,11 @@ class RootRepositoryTest {
     private final UserDao userTestDao;
     private final LoginDao testLoginDao;
     private final PortfolioDao portfolioTestDao;
+    private static User userExpected;
+    private static Portfolio portFolioExpected;
+    private static Actor actorExpected;
     private final ActorDao testActorDao;
+    private static LoginAccount loginAccountExpected;
     private final AssetPortfolioDao testAssetPortfolioDao;
 
     private static final long USER_ID = 7;
@@ -42,36 +44,28 @@ class RootRepositoryTest {
     private static final int PORTFOLIO_ID = 107;
     private static final int NEW_PORTFOLIO_ID = 108;
 
-    private static User userExpected;
-    private static Portfolio portFolioExpected;
-    private static Actor actorExpected;
     private static User newUserExpected;
     private static UserLoginAccount newUserLoginAccountExpected;
     private static Actor newActorExpected;
     private static LoginAccount newLoginAccountExpected;
     private static Portfolio newPortfolioExpected;
-    private final AssetPortfolioDao assetPortfolioDao;
 
 
     @Autowired
-    public RootRepositoryTest(RootRepository rootRepositoryTest, UserDao userTestDao, LoginDao loginDao, PortfolioDao portfolioTestDao,
-                              ActorDao actorDao, AssetPortfolioDao assetPortfolioDao, JdbcTemplate jdbcTemplate) {
+    public RootRepositoryTest(RootRepository rootRepositoryTest, UserDao userTestDao, PortfolioDao portfolioTestDao, JdbcTemplate jdbcTemplate, ActorDao actorDao, LoginDao loginDao, AssetPortfolioDao assetPortfolioDao) {
         this.rootRepositoryTest = rootRepositoryTest;
         this.userTestDao = userTestDao;
         this.testLoginDao = loginDao;
         this.portfolioTestDao = portfolioTestDao;
-        this.testActorDao = actorDao;
         this.jdbcTemplate = jdbcTemplate;
+        this.testActorDao = actorDao;
         this.testAssetPortfolioDao = assetPortfolioDao;
-        this.assetPortfolioDao = assetPortfolioDao;
     }
 
     @BeforeAll
     public static void setup() {
-        userExpected = new User(123456,
-                new FullName("Huib", "van", "Straten"),
-                "1982-01-29",
-                new UserAddress("2252BX", 8,  "b", "van Lierdreef", "Voorschoten"),
+        userExpected = new User(123456, new FullName("Huib", "van", "Straten"),
+                "1982-01-29", new UserAddress("2252BX", 8,  "b", "van Lierdreef", "Voorschoten"),
                 "huib@huib.com");
         userExpected.setId(USER_ID);
         actorExpected = new Actor();
@@ -81,6 +75,7 @@ class RootRepositoryTest {
         portFolioExpected = new Portfolio(actorExpected);
         portFolioExpected.setPortfolioId(PORTFOLIO_ID);
         registerUserSetup();
+        loginAccountExpected = new LoginAccount("test_testman@hotmail.com", "123", "321");
     }
 
     public static void registerUserSetup(){
@@ -241,9 +236,36 @@ class RootRepositoryTest {
     //eind tests Huib?
 
     @Test
-    void getUserIdByPortfolioId(){
-        int actual = portfolioTestDao.getUserIdByPortfolioId(101);
-        assertThat(actual).isEqualTo(1);
+    void actorIsReturned(){
+        Actor actor = rootRepositoryTest.getActor(1);
+        assertThat(actor).isNotNull();
+        assertThat(actor.getCheckingAccount()).isEqualTo("12345678");
+    }
+
+    @Test
+    void actorIsUpdated(){
+        Actor actor = rootRepositoryTest.getActor(1);
+        assertThat(actor.getUserId()).isEqualTo(1);
+        assertThat(actor.getCheckingAccount()).isNotEqualTo("54321");
+        actor.setCheckingAccount("54321");
+        rootRepositoryTest.updateActor(actor);
+        Actor actorAfterTest = rootRepositoryTest.getActor(1);
+        assertThat(actorAfterTest.getCheckingAccount()).isEqualTo("54321");
+        assertThat(actorAfterTest.getUserId()).isEqualTo(1);
+    }
+
+    @Test
+    void resetTokenIsStored(){
+        String username = "niekmol1994@gmail.com";
+        LoginAccount loginAccount = rootRepositoryTest.getLoginAccount(username);
+        String token = loginAccount.getToken();
+        assertThat(token).isNotEqualTo("12345");
+        rootRepositoryTest.storeResetToken(username, "12345");
+        LoginAccount loginAccountAfterTest = rootRepositoryTest.getLoginAccount(username);
+        assertThat(loginAccountAfterTest.getUsername()).isEqualTo(username);
+        String tokenAfterTest = loginAccountAfterTest.getToken();
+        assertThat(tokenAfterTest).isEqualTo("12345");
+        assertThat(tokenAfterTest).isNotEqualTo(token);
     }
 
 
