@@ -154,8 +154,8 @@ function finalCheck() {
     checkEmail();
     checkPassword();
     checkRepassword();
-    checkPcApiResponse();
     checkAnyEmpty();
+    checkPcApiResponse();
     let flags = [emailFlag, passwordFlag, repasswordFlag, addressFlag, allFieldsFilledFlag];
     console.log(flags);
     return flags.every(item =>{return item === true;});
