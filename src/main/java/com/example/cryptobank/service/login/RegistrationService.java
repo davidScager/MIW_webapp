@@ -3,7 +3,6 @@ package com.example.cryptobank.service.login;
 import com.example.cryptobank.domain.maildata.MailData;
 import com.example.cryptobank.domain.maildata.RegisterMailData;
 import com.example.cryptobank.domain.user.Role;
-import com.example.cryptobank.domain.user.User;
 import com.example.cryptobank.domain.login.UserLoginAccount;
 import com.example.cryptobank.repository.jdbcklasses.RootRepository;
 import com.example.cryptobank.service.mailSender.mailsenderfacade.MailSenderFacade;
@@ -17,9 +16,6 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.temporal.TemporalUnit;
 import java.util.*;
 
 /**
@@ -34,7 +30,6 @@ public class RegistrationService {
     private final MailSenderFacade mailSenderFacade;
     private final Map<String, UserLoginAccount> registrationCache;
     private final int durationValid;
-    private final int durationUnitMillis;
     private int removeAfter;
 
     @Autowired
@@ -46,7 +41,7 @@ public class RegistrationService {
         this.registrationCache = new HashMap<>();
         logger.info("RegistrationService active");
         this.durationValid = 30;
-        this.durationUnitMillis = 60000;
+        int durationUnitMillis = 60000;
         this.removeAfter = durationValid * durationUnitMillis;
     }
 
