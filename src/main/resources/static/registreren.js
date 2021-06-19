@@ -87,33 +87,35 @@ function getFormData(){
     repassword = document.querySelector('#repassword').value;
 }
 
-let jsonBody = {
-    user: {
-        bsn: bsn,
-        fullName: {
-            firstName: firstName,
-            infix: infix,
-            surname: surname
+function getJsonBody() {
+    return{
+        user: {
+            bsn: bsn,
+            fullName: {
+                firstName: firstName,
+                infix: infix,
+                surname: surname
+            },
+            dateOfBirth: dateOfBirth,
+            userAddress: {
+                postalCode: postalCode,
+                houseNr: houseNr,
+                addition: addition,
+                streetName: streetName,
+                residence: residence
+            },
+            email: email
         },
-        dateOfBirth: dateOfBirth,
-        userAddress: {
-            postalCode: postalCode ,
-            houseNr: houseNr,
-            addition: addition,
-            streetName: streetName,
-            residence: residence
-        },
-        email: email
-    },
-    password: password
-};
+        password: password
+    };
+}
 
 function setupFetch() {
     return fetch(regReqUrl,
         {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(jsonBody)
+            body: JSON.stringify(getJsonBody())
         });
 }
 
