@@ -122,6 +122,7 @@ class RootRepositoryTest {
     @Test @Order(6)
     void assetPortfolioDao_is_NotNull(){assertThat(testAssetPortfolioDao).isNotNull();}
 
+    //start tests David
     @Test @Order(7)
     void user_not_alreadyRegistered(){
         assertThat(rootRepositoryTest.alreadyRegistered(newUserLoginAccountExpected)).isFalse();
@@ -197,7 +198,9 @@ class RootRepositoryTest {
             assertThat(portfolioActual.getActor().getUserId()).isEqualTo(NEW_USER_ID);
         });
     }
+    //eind tests David
 
+    //Start tests Huib?
     @Test
     void userDAO_returns_id() {
         long id = userTestDao.get("huib@huib.com").getId();
@@ -228,6 +231,7 @@ class RootRepositoryTest {
         Map <String, Asset>actualAssetMap = actualList.get("bank");
         assertThat(actualAssetMap).isNotEmpty();
     }
+    //eind tests Huib?
 
 
 
