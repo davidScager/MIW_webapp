@@ -3,6 +3,7 @@ package com.example.cryptobank.repository.jdbcklasses;
 import com.example.cryptobank.domain.asset.Asset;
 import com.example.cryptobank.domain.portfolio.Portfolio;
 import com.example.cryptobank.domain.user.*;
+import com.example.cryptobank.repository.daointerfaces.AssetPortfolioDao;
 import com.example.cryptobank.repository.daointerfaces.PortfolioDao;
 import com.example.cryptobank.repository.daointerfaces.UserDao;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,14 +28,16 @@ class RootRepositoryTest {
     private static User userExpected;
     private static Portfolio portFolioExpected;
     private static Actor actorExpected;
+    private final AssetPortfolioDao assetPortfolioDao;
 
 
     @Autowired
-    public RootRepositoryTest(RootRepository rootRepositoryTest, UserDao userTestDao, PortfolioDao portfolioTestDao, JdbcTemplate jdbcTemplate) {
+    public RootRepositoryTest(RootRepository rootRepositoryTest, UserDao userTestDao, PortfolioDao portfolioTestDao, JdbcTemplate jdbcTemplate, AssetPortfolioDao assetPortfolioDao) {
         this.rootRepositoryTest = rootRepositoryTest;
         this.userTestDao = userTestDao;
         this.portfolioTestDao = portfolioTestDao;
         this.jdbcTemplate = jdbcTemplate;
+        this.assetPortfolioDao = assetPortfolioDao;
     }
 
     @BeforeAll
@@ -97,7 +99,11 @@ class RootRepositoryTest {
         assertThat(actualAssetMap).isNotEmpty();
     }
 
-
+    @Test
+    void getUserIdByPortfolioId(){
+        int actual = portfolioTestDao.getUserIdByPortfolioId(101);
+        assertThat(actual).isEqualTo(1);
+    }
 
 
 

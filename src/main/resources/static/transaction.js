@@ -6,7 +6,6 @@ let bankAssets
 let userId
 
 
-
 function newTransaction(seller, buyer) {
     let token = localStorage.getItem("token");
     let assetToSell = document.querySelector(`#assetToSell`).value
@@ -15,8 +14,9 @@ function newTransaction(seller, buyer) {
     let triggerValue = document.querySelector(`#valueToBuyOrSellAt`).value
     if (triggerValue === null) {
         triggerValue = 0;
-    } else if (triggerValue !== null){
-        if (seller === 0){}
+    } else if (triggerValue !== null) {
+        if (seller === 0) {
+        }
         seller = 1
     }
     if (amount === null) {
@@ -47,18 +47,18 @@ function newTransaction(seller, buyer) {
 }
 
 document.getElementById(`executeBuyTransaction`).addEventListener(`click`,
-    function (){
-    let sellerbox = document.querySelector(`#seller`)
+    function () {
+        let sellerbox = document.querySelector(`#seller`)
         let seller = sellerbox.options[sellerbox.selectedIndex].value
-    let buyer = userId;
-    newTransaction(seller, buyer)
+        let buyer = userId;
+        newTransaction(seller, buyer)
     })
 
 document.getElementById(`executeSellTransaction`).addEventListener(`click`,
-    function (){
-    let seller = userId;
-    let buyer = 1;
-    newTransaction(seller, buyer)
+    function () {
+        let seller = userId;
+        let buyer = 1;
+        newTransaction(seller, buyer)
     })
 
 document.getElementById('transactioncost').addEventListener(`click`,
@@ -80,29 +80,34 @@ document.querySelector('.close').addEventListener('click',
 
 document.querySelector(`#buybutton`).addEventListener(`click`,
     function () {
-        let selectToBuy = document.querySelector(`#assetTobuy`)
-        let selectfotsale = document.querySelector(`#assetToSell`)
-
-        Object.entries(myAssets).forEach((asset) => {
-            let opt = document.createElement(`option`)
-            opt.value = `${asset[1].abbreviation}`
-            opt.innerHTML = `${asset[1].assetName}`
-            selectToBuy.appendChild(opt)
-        })
-
-
-        Object.entries(bankAssets).forEach((asset) => {
-            let opt = document.createElement(`option`)
-            opt.value = `${asset[1].abbreviation}`
-            opt.innerHTML = `${asset[1].assetName}`
-            selectfotsale.appendChild(opt)
-        })
+        loadToBuy()
+        loadTosell()
         document.querySelector('.sell').style.display = 'block';
         document.querySelector('.buyTransaction').style.display = 'block';
         document.querySelector(`.sellTransaction`).style.display = 'none';
 
         buyorsell()
     })
+
+function loadToBuy() {
+    let selectToBuy = document.querySelector(`#assetTobuy`)
+    Object.entries(myAssets).forEach((asset) => {
+        let opt = document.createElement(`option`)
+        opt.value = `${asset[1].abbreviation}`
+        opt.innerHTML = `${asset[1].assetName}`
+        selectToBuy.appendChild(opt)
+    })
+}
+
+function loadTosell() {
+    let selectfotsale = document.querySelector(`#assetToSell`)
+    Object.entries(bankAssets).forEach((asset) => {
+        let opt = document.createElement(`option`)
+        opt.value = `${asset[1].abbreviation}`
+        opt.innerHTML = `${asset[1].assetName}`
+        selectfotsale.appendChild(opt)
+    })
+}
 
 function buyorsell() {
     document.querySelector('.buyOrSell').style.display = 'none';
@@ -112,22 +117,8 @@ function buyorsell() {
 
 document.querySelector(`#sellbutton`).addEventListener(`click`,
     function () {
-    let selectfotsale = document.querySelector(`#assetToSell`)
-    let selectToBuy = document.querySelector(`#assetTobuy`)
-        Object.entries(myAssets).forEach((asset) => {
-            let opt = document.createElement(`option`)
-            opt.value = `${asset[1].abbreviation}`
-            opt.innerHTML = `${asset[1].assetName}`
-            selectToBuy.appendChild(opt)
-        })
-
-        Object.entries(bankAssets).forEach((asset) => {
-            let opt = document.createElement(`option`)
-            opt.value = `${asset[1].abbreviation}`
-            opt.innerHTML = `${asset[1].assetName}`
-            console.log(opt.value)
-            selectfotsale.appendChild(opt)
-        })
+        loadToBuy()
+        loadTosell()
         document.querySelector('.triggerBuyOrSell').style.display = 'inline';
         document.querySelector(`#buyer`).value = 1;
         document.querySelector(`.sellTransaction`).style.display = 'block';
